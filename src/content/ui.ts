@@ -36,6 +36,8 @@ export const ui = {
   theme: { en: 'Toggle color theme', zh: '切换颜色主题', ja: 'カラーテーマを切替', ko: '색상 테마 전환' },
   menu: { en: 'Open lab navigation', zh: '打开实验导航', ja: 'ラボナビを開く', ko: '랩 탐색 열기' },
   close: { en: 'Close navigation', zh: '关闭导航', ja: 'ナビを閉じる', ko: '탐색 닫기' },
+  collapseSidebar: { en: 'Collapse sidebar', zh: '收起侧栏', ja: 'サイドバーを閉じる', ko: '사이드바 접기' },
+  expandSidebar: { en: 'Expand sidebar', zh: '展开侧栏', ja: 'サイドバーを開く', ko: '사이드바 펼치기' },
   maker: { en: 'Maker mode', zh: '创作者模式', ja: 'メーカー モード', ko: '메이커 모드' },
   makerUnlock: { en: 'Enter maker password', zh: '输入创作者密码', ja: 'メーカー パスワードを入力', ko: '메이커 암호 입력' },
   makerWrong: { en: 'Incorrect password', zh: '密码错误', ja: 'パスワードが違います', ko: '암호가 올바르지 않습니다' },

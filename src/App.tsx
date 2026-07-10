@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import {
   ArrowRight, BookOpenCheck, Check, ChevronDown, ChevronUp,
   Clipboard, Database, FileSpreadsheet, Languages, Lock, MailCheck, Menu, Mic2,
-  Moon, Network, PencilLine, Sparkles, Sun, X,
+  Moon, Network, PanelLeft, PanelLeftClose, PencilLine, Sparkles, Sun, X,
 } from 'lucide-react'
 import { defaultContent, loadLabs } from './content/store'
 import MakerEditor from './editor/MakerEditor'
@@ -113,6 +113,8 @@ function App() {
   const [askPassword, setAskPassword] = useState(false)
   const [passwordValue, setPasswordValue] = useState('')
   const [passwordError, setPasswordError] = useState(false)
+  const [collapsed, setCollapsed] = useState(() => localStorage.getItem('jumpstart-collapsed') === '1')
+  const [activeSection, setActiveSection] = useState(0)
   const [completed, setCompleted] = useState<Set<string>>(() => {
     try { return new Set(JSON.parse(localStorage.getItem('jumpstart-progress') || '[]')) }
     catch { return new Set() }
@@ -120,6 +122,10 @@ function App() {
   const lab = labs[labIndex] ?? labs[0]
   const totalSteps = labs.reduce((sum, item) => sum + item.steps.length, 0)
   const overallPercent = totalSteps ? Math.round((completed.size / totalSteps) * 100) : 0
+  const sections = [
+    { id: `${lab.id}-overview`, label: text(ui.overview, locale) },
+    ...lab.steps.map((item, index) => ({ id: `${lab.id}-${item.id}`, label: `${index + 1}. ${text(item.title, locale)}` })),
+  ]
 
   useEffect(() => { loadLabs().then(setLabs).catch(() => {}) }, [])
 
@@ -131,6 +137,26 @@ function App() {
     localStorage.setItem('jumpstart-locale', locale)
     document.documentElement.lang = locale === 'zh' ? 'zh-CN' : locale
   }, [locale])
+
+  useEffect(() => {
+    localStorage.setItem('jumpstart-collapsed', collapsed ? '1' : '0')
+  }, [collapsed])
+
+  // Track which lab section is in view so the breadcrumb stays in sync while scrolling.
+  useEffect(() => {
+    const ids = [`${lab.id}-overview`, ...lab.steps.map((item) => `${lab.id}-${item.id}`)]
+    const elements = ids.map((id) => document.getElementById(id)).filter((el): el is HTMLElement => !!el)
+    if (!elements.length) return
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries.filter((entry) => entry.isIntersecting)
+      if (!visible.length) return
+      const topMost = visible.reduce((a, b) => (a.boundingClientRect.top < b.boundingClientRect.top ? a : b))
+      const index = ids.indexOf(topMost.target.id)
+      if (index >= 0) setActiveSection(index)
+    }, { rootMargin: '-64px 0px -65% 0px', threshold: [0, 1] })
+    elements.forEach((el) => observer.observe(el))
+    return () => observer.disconnect()
+  }, [lab])
 
   const openMaker = () => {
     if (makerUnlocked) { setEditorOpen(true); return }
@@ -145,8 +171,15 @@ function App() {
 
   const selectLab = (index: number) => {
     setLabIndex(index)
+    setActiveSection(0)
     setMenuOpen(false)
     window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const goToSection = (index: number) => {
+    const clamped = Math.max(0, Math.min(index, sections.length - 1))
+    setActiveSection(clamped)
+    document.getElementById(sections[clamped].id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
   const toggleComplete = (step: LabStep) => {
@@ -163,11 +196,11 @@ function App() {
   }
   const LabIcon = iconMap[lab.icon]
 
-  return <div className="app-shell">
+  return <div className={collapsed ? 'app-shell sidebar-collapsed' : 'app-shell'}>
     <button className="mobile-menu" type="button" onClick={() => setMenuOpen(true)} title={text(ui.menu, locale)} aria-label={text(ui.menu, locale)}><Menu /></button>
     {menuOpen && <button className="nav-scrim" type="button" onClick={() => setMenuOpen(false)} aria-label={text(ui.close, locale)} />}
     <aside className={menuOpen ? 'sidebar open' : 'sidebar'}>
-      <div className="brand-lockup"><div className="brand-mark"><Sparkles size={22} /></div><div><span>{text(ui.kicker, locale)}</span><strong>{text(ui.program, locale)}</strong></div><button className="close-menu" type="button" onClick={() => setMenuOpen(false)} title={text(ui.close, locale)}><X /></button></div>
+      <div className="brand-lockup"><div className="brand-mark"><Sparkles size={22} /></div><div><span>{text(ui.kicker, locale)}</span><strong>{text(ui.program, locale)}</strong></div><button className="collapse-menu" type="button" onClick={() => setCollapsed(true)} title={text(ui.collapseSidebar, locale)} aria-label={text(ui.collapseSidebar, locale)}><PanelLeftClose size={18} /></button><button className="close-menu" type="button" onClick={() => setMenuOpen(false)} title={text(ui.close, locale)}><X /></button></div>
       <div className="overall-progress"><div><span>{text(ui.progress, locale)}</span><strong>{overallPercent}%</strong></div><div className="progress-track"><span style={{ width: `${overallPercent}%` }} /></div></div>
       <nav className="lab-nav" aria-label="Labs">
         {labs.map((item, index) => {
@@ -183,7 +216,22 @@ function App() {
 
     <main className="main-stage">
       <header className="topbar">
-        <div className="breadcrumbs"><span>{text(ui.lab, locale)} {lab.number}</span><ArrowRight size={14} /><strong>{text(ui.guide, locale)}</strong></div>
+        <div className="topbar-left">
+          {collapsed && <button className="icon-button rail-toggle" type="button" onClick={() => setCollapsed(false)} title={text(ui.expandSidebar, locale)} aria-label={text(ui.expandSidebar, locale)}><PanelLeft size={18} /></button>}
+          <div className="breadcrumbs">
+            <select className="crumb-select lab" value={labIndex} onChange={(event) => selectLab(Number(event.target.value))} aria-label={text(ui.lab, locale)}>
+              {labs.map((item, index) => <option value={index} key={item.id}>{text(ui.lab, locale)} {item.number}: {text(item.title, locale)}</option>)}
+            </select>
+            <ArrowRight size={14} />
+            <div className="crumb-steps">
+              <button className="crumb-nav" type="button" disabled={activeSection === 0} onClick={() => goToSection(activeSection - 1)} title={text(ui.previous, locale)} aria-label={text(ui.previous, locale)}><ChevronUp size={16} /></button>
+              <select className="crumb-select" value={activeSection} onChange={(event) => goToSection(Number(event.target.value))} aria-label={text(ui.guide, locale)}>
+                {sections.map((section, index) => <option value={index} key={section.id}>{section.label}</option>)}
+              </select>
+              <button className="crumb-nav" type="button" disabled={activeSection === sections.length - 1} onClick={() => goToSection(activeSection + 1)} title={text(ui.next, locale)} aria-label={text(ui.next, locale)}><ChevronDown size={16} /></button>
+            </div>
+          </div>
+        </div>
         <div className="top-actions"><label className="language-select"><Languages size={17} /><select value={locale} onChange={(event) => setLocale(event.target.value as Locale)} aria-label="Language">{locales.map((item) => <option value={item} key={item}>{localeNames[item]}</option>)}</select></label><button className="icon-button" type="button" onClick={openMaker} title={text(ui.maker, locale)} aria-label={text(ui.maker, locale)}>{makerUnlocked ? <PencilLine size={19} /> : <Lock size={18} />}</button><button className="icon-button" type="button" onClick={toggleTheme} title={text(ui.theme, locale)} aria-label={text(ui.theme, locale)}>{dark ? <Sun size={19} /> : <Moon size={19} />}</button></div>
       </header>
 
