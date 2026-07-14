@@ -837,6 +837,7 @@
                 }
               ],
               "imageKeys": [
+                "04-workflow-customer-enrichment-0.5",
                 "04-workflow-customer-enrichment-1",
                 "04-workflow-customer-enrichment-2"
               ]
@@ -858,7 +859,7 @@
                 }
               ],
               "markdown": {
-                "en": "1. Open your **agent** and select the **Build** tab.\n2. In the components panel, select **Tools**.\n3. In the **Add a tool** dialog, open the **Workflows** tab (or search) and locate **JumpStart - Get Customer Updates Workflow v2**.\n4. Select it to view its details, then select **Add**.\n5. Review the tool's **description** so it clearly states *when* to use it (e.g., \"gets external customer dynamics/updates for Customer 360 enrichment\") — the orchestrator relies on this to invoke the tool correctly.",
+                "en": "1. Open your **agent** and select the **Build** tab.\n2. In the components panel, select **Tools**.\n3. In the **Add a tool** dialog, open the **Workflows** tab (or search) and locate **JumpStart - Get Customer Updates Workflow v2**.\n4. Select it to view its details, then select **Add**.\n5. Review the tool's **description** so it clearly states *when* to use it (e.g., \"gets external customer dynamics/updates for Customer 360 enrichment\") �� the orchestrator relies on this to invoke the tool correctly.",
                 "zh": "",
                 "ja": "",
                 "ko": ""
@@ -904,7 +905,7 @@
             {
               "id": "page-89568ca0",
               "title": {
-                "en": "Test and oversea the result",
+                "en": "Test and oversee the output",
                 "zh": "",
                 "ja": "",
                 "ko": ""
@@ -917,6 +918,12 @@
                   "ko": ""
                 }
               ],
+              "markdown": {
+                "en": "1. Open the agent's **Preview** tab.\n2. Enter a prompt that should trigger the tool, for example:\n    \"**`Get the latest company news and updates for Microsoft (in last 12 months).`**\"\n3. Watch the agent **invoke JumpStart - Get Customer Updates Workflow v2**, which calls **Cowork** via the M365 Copilot node and returns the enrichment brief in the chat.\n4. To inspect node-level behavior, you can also open the workflow in the designer and use **Run flow test** (Play button) or **Test this node** on the M365 Copilot step — supply a sample customer name and review the raw output. *(Designer and test-chat runs don't consume flow capacity.)*\n5. Click **Save**, and then **Publish** to publish the agent.",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
               "highlight": {
                 "en": "## Quick checks if the result looks off\n\n- **Empty/generic brief** → re-open the M365 Copilot node and confirm **Agent = Cowork** and that the **`{inputCustomerResearchRequest}`** input is actually inserted in the Message.\n- **Agent didn't call the tool** → tighten the tool **name/description** so it clearly matches \"customer updates / dynamics / enrichment.\"",
                 "zh": "",
@@ -932,16 +939,13 @@
                     "ja": "",
                     "ko": ""
                   },
-                  "content": "Get the latest customer updates for Microsoft."
+                  "content": "Get the latest company news and updates for Microsoft (in last 12 months)"
                 }
               ],
-              "imageKeys": [],
-              "markdown": {
-                "en": "1. Open the agent's **Preview** tab.\n2. Enter a prompt that should trigger the tool, for example:\n   > *\"Get the latest customer updates for Microsoft.\"*\n3. Watch the agent **invoke JumpStart - Get Customer Updates Workflow v2**, which calls **Cowork** via the M365 Copilot node and returns the enrichment brief in the chat.\n4. To inspect node-level behavior, you can also open the workflow in the designer and use **Run flow test** (Play button) or **Test this node** on the M365 Copilot step — supply a sample customer name and review the raw output. *(Designer and test-chat runs don't consume flow capacity.)*",
-                "zh": "",
-                "ja": "",
-                "ko": ""
-              }
+              "imageKeys": [
+                "04-workflow-customer-enrichment-test-1",
+                "04-workflow-customer-enrichment-test-2"
+              ]
             }
           ]
         }
