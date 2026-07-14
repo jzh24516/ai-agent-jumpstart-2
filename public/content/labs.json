@@ -5,7 +5,7 @@
       "id": "lab-01",
       "number": 1,
       "icon": "sparkles",
-      "duration": 25,
+      "duration": 30,
       "title": {
         "en": "Meet the new Agent Maker Experience",
         "zh": "认识全新的 Copilot Studio Experience",
@@ -278,7 +278,7 @@
                 }
               ],
               "markdown": {
-                "en": "## Step by step guidance\n\n1. In the agent authoring experience, navigate to the **Tools** section.\n2. Click **+ Add tool**. \n3. In the search box, enter **Microsoft Learn Docs MCP**. \n4. Select **Microsoft Learn Docs MCP Server** from the search results.\n5. Click **Add and Configure**.\n\n## Configure Agent Instructions\n\n6. Navigate to the **Overview** page of the agent. \n7. In the **Instructions** section, enter the following instruction:\n\n   ```text\n   When users ask questions about Microsoft products, services, licensing,\n   architecture, APIs, or documentation, use the Microsoft Learn MCP Server\n   to search for answers and provide referenced responses.\n   ```\n\n## Create the MCP Connection\n\n8. Click **Open connection manager**. \n9. A new browser tab opens automatically.\n10. Click **Connect**.\n11. Review any permission prompts if presented.\n12. Click **Submit** to create the connection. \n13. Click **Save** before closing the connection manager tab. \n14. Return to Copilot Studio and click **Microsoft Learn Docs MCP Server**.\n15. Click **Maker** in Authentication Mode section.\n16. Click **Confirm** button to close the form.",
+                "en": "## Step by step guidance\n\n1. In the agent authoring experience, navigate to the **Tools** section.\n2. Click **+ Add tool**. \n3. In the search box, enter **Microsoft Learn Docs MCP**. \n4. Select **Microsoft Learn Docs MCP Server** from the search results.\n5. Click **Add and Configure**.\n\n## Configure Agent Instructions\n\n6. Navigate to the **Overview** page of the agent. \n7. In the **Instructions** section, append the following instruction to the end:\n\n   ```text\n   When users ask questions about Microsoft products, services, licensing,\n   architecture, APIs, or documentation, use the Microsoft Learn MCP Server\n   to search for answers and provide referenced responses.\n   ```\n\n## Create the MCP Connection\n\n8. Click **Open connection manager**. \n9. A new browser tab opens automatically.\n10. Click **Connect**.\n11. Review any permission prompts if presented.\n12. Click **Submit** to create the connection. \n13. Click **Save** before closing the connection manager tab. \n14. Return to Copilot Studio and click **Microsoft Learn Docs MCP Server**.\n15. Click **Maker** in Authentication Mode section.\n16. Click **Confirm** button to close the form.",
                 "zh": "",
                 "ja": "",
                 "ko": ""
@@ -293,7 +293,7 @@
                 {
                   "id": "prompt-9e732dd6",
                   "title": {
-                    "en": "New instruction to add in **Agent Instruction**",
+                    "en": "New instruction to append at the end of the **Agent Instruction**",
                     "zh": "",
                     "ja": "",
                     "ko": ""
@@ -376,7 +376,7 @@
       "id": "lab-02",
       "number": 2,
       "icon": "database",
-      "duration": 60,
+      "duration": 30,
       "title": {
         "en": "Bring in business context",
         "zh": "接入业务上下文",
@@ -403,7 +403,7 @@
           "ko": "사용자 범위 액세스로 Dataverse MCP를 연결합니다."
         },
         {
-          "en": "Create a reusable Account Planning skill.",
+          "en": "Create a reusable Skill for account planning.",
           "zh": "创建可复用的 Account Planning Skill。",
           "ja": "再利用可能な Account Planning Skill を作成する。",
           "ko": "재사용 가능한 Account Planning Skill을 만듭니다."
@@ -435,23 +435,93 @@
           "pages": [
             {
               "id": "main",
+              "title": {
+                "en": "",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
               "paragraphs": [
                 {
-                  "en": "In Tools, connect the facilitator-provided Dataverse MCP server with user authentication. Test: “Show my top 20 active accounts, ordered by the agreed account score.”",
+                  "en": "In Tools, connect the facilitator-provided Dataverse MCP server with user authentication.",
                   "zh": "在 Tools 中以用户身份验证连接讲师提供的 Dataverse MCP。测试：“按约定客户评分列出我的前 20 个活跃客户。”",
                   "ja": "Tools で Dataverse MCP にユーザー認証で接続し、「合意したスコア順に上位20のアクティブ アカウントを表示」とテストします。",
                   "ko": "Tools에서 사용자 인증으로 Dataverse MCP를 연결하고 “합의된 계정 점수순으로 내 상위 20개 활성 계정 표시”를 테스트합니다."
                 }
               ],
+              "markdown": {
+                "en": "## Add the Microsoft Dataverse MCP Tool\n\n1. Open your agent in the **new Copilot Studio Agent Experience**.\n2. Scroll to the **Tools** section.\n3. Click **+ Add tool**.\n4. Select **Model Context Protocol (MCP)**.\n5. Search for **Dataverse**.\n6. Select **Microsoft Dataverse MCP Server**.\n7. If prompted, create or select a **Dataverse connection**.\n8. Click **Add to agent**.\n\n## Configure Available MCP Tools (Optional)\n\n9. Next to **Microsoft Dataverse MCP Server**, click **⋯ → Edit**.\n10. Review the available tools exposed by the MCP Server.\n11. Disable any tools that should not be available to the agent.",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
               "highlight": {
-                "en": "Define “my,” “active,” and the ranking field with your facilitator; do not let the model guess the business definition.",
+                "en": "**Prerequisite:** The Dataverse MCP Server must be enabled for the Power Platform environment.",
                 "zh": "请与讲师明确“我的”“活跃”及排序字段，不要让模型猜测业务定义。",
                 "ja": "「自分の」「アクティブ」「順位フィールド」の定義を講師と確認し、モデルに推測させないでください。",
                 "ko": "“내”, “활성”, 순위 필드를 진행자와 정의하고 모델이 추측하지 않게 하세요."
               },
               "prompts": [],
               "imageKeys": [
-                "01-dataverse-mcp"
+                "01-dataverse-mcp-create-1",
+                "01-dataverse-mcp-create-2",
+                "01-dataverse-mcp-configure-1"
+              ]
+            },
+            {
+              "id": "page-1eea58dc",
+              "title": {
+                "en": "",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
+              "paragraphs": [
+                {
+                  "en": "Test the Dataverse MCP Server by asking account related questions.",
+                  "zh": "",
+                  "ja": "",
+                  "ko": ""
+                }
+              ],
+              "markdown": {
+                "en": "## Test the Dataverse MCP Tool\n\n1. Open the **Preview** tab.\n2. Ask the agent a Dataverse-related question, such as:\n\n   ```text\n   Show me the Top 20 my active accounts available.\n   ```\n\n   ```text\n   create new account with name \"New Account 123\", www.nameaccount123.com, \n   and it's located in Shanghai, China.\n   ```\n\n3. Verify that the agent invokes the **Microsoft Dataverse MCP Server** and returns results from Dataverse.\n\n## Expected Result\n\n4. The agent is now connected to the **Microsoft Dataverse MCP Server**.\n5. The agent can discover Dataverse tables, understand schemas, search records, query data, and perform Dataverse operations through MCP tools based on your permissions and environment settings.",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
+              "highlight": {
+                "en": "Click \"**Allow**\" button when you use the **Dataverse MCP Tool** the first time to answer your question in the **Preview** Tab to test the agent.",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
+              "prompts": [
+                {
+                  "id": "prompt-ab420c6f",
+                  "title": {
+                    "en": "Test Prompt 1",
+                    "zh": "",
+                    "ja": "",
+                    "ko": ""
+                  },
+                  "content": "Show me Top 20 my active accounts."
+                },
+                {
+                  "id": "prompt-894167f1",
+                  "title": {
+                    "en": "Test Prompt 2",
+                    "zh": "",
+                    "ja": "",
+                    "ko": ""
+                  },
+                  "content": "Create a new account with name \"New Account - <Your Alias> 123\", https://www.account-<your alias>-123.com, and located in Shanghai China."
+                }
+              ],
+              "imageKeys": [
+                "02-dataverse-mcp-test-1",
+                "02-dataverse-mcp-test-2",
+                "02-dataverse-mcp-test-3"
               ]
             }
           ]
@@ -459,7 +529,7 @@
         {
           "id": "skill",
           "title": {
-            "en": "Create the Account Planning skill",
+            "en": "Add **Account 360** Skill",
             "zh": "创建 Account Planning Skill",
             "ja": "Account Planning Skill を作成",
             "ko": "Account Planning Skill 만들기"
@@ -467,6 +537,12 @@
           "pages": [
             {
               "id": "main",
+              "title": {
+                "en": "Create a new Skill",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
               "paragraphs": [
                 {
                   "en": "Open Skills, create a skill named Account Planning, define when it should be selected, and use the instructions below. Bind the Dataverse MCP tools it needs.",
@@ -475,14 +551,86 @@
                   "ko": "Skills에서 Account Planning을 만들고 선택 조건과 아래 지침을 설정한 뒤 Dataverse MCP 도구를 연결합니다."
                 }
               ],
+              "markdown": {
+                "en": "Here are the brief step-by-step instructions to create a new **skill** in the modern (new experience) agent maker in Copilot Studio:\n\n1. Open your agent in **Copilot Studio** (or create one first if you don't have one yet).\n2. Select the **Build** tab.\n3. In the components panel, select **Skills**.\n4. In **Add skill**, click **Create from blank**. (Alternatively, choose **Upload a skill** to import a `.md` file or skill `.zip` package.)\n5. Enter a **Name** — use only lowercase letters, numbers, and hyphens, and don't start or end with a hyphen (e.g., `account-360-generator` or `customer-support-escalation`).\n6. Enter a **Description** of what the skill does and when it should activate. (This is what the orchestrator uses to decide when to invoke the skill — be specific.)\n7. Write the **Instructions** in **Markdown** — include the steps the agent should follow, response format, constraints, edge cases, and any tools it should use.\n8. Click **Create**. The skill now appears in the components panel for your agent.",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
+              "highlight": {
+                "en": "Skills live in the **Build** tab (not Tools) — they're reusable instruction sets, distinct from Tools/MCP servers, which connect to external services.",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
               "prompts": [
                 {
+                  "id": "prompt-72d84358",
+                  "title": {
+                    "en": "Skill name",
+                    "zh": "",
+                    "ja": "",
+                    "ko": ""
+                  },
+                  "content": "account-360-generator"
+                },
+                {
+                  "id": "prompt-186eaaac",
+                  "title": {
+                    "en": "Skill description",
+                    "zh": "",
+                    "ja": "",
+                    "ko": ""
+                  },
+                  "content": "Generates account briefings (aka. account planning, account 360) by aggregating account info, contacts, opportunities, cases, and activity history into structured prep documents with talking points and discovery questions. Use when user says \"prep me for account planning\", \"brief me on this account 360\", \"meeting prep\", \"I have a meeting with [company]\", \"account planning\", \"customer briefing\", or \"prepare for customer meeting\"."
+                },
+                {
                   "id": "prompt-43bef8b0",
+                  "title": {
+                    "en": "Skill instruction",
+                    "zh": "",
+                    "ja": "",
+                    "ko": ""
+                  },
                   "content": "# Skill: Build an account plan\nWhen the user asks to plan for an account:\n1. Resolve the account unambiguously with the Dataverse MCP server.\n2. Retrieve the account profile, open opportunities, recent activities, stakeholders, and risks available to the current user.\n3. Ask for the planning horizon and desired business outcome only if missing.\n4. Produce: executive snapshot, customer priorities, relationship map, opportunity plays, risks, and a 30/60/90-day action plan.\n5. Clearly label CRM facts, external research, and recommendations.\n6. Do not expose records the signed-in user is not authorized to access."
                 }
               ],
               "imageKeys": [
-                "02-account-skill"
+                "03-skill-creation"
+              ]
+            },
+            {
+              "id": "page-1d1391c9",
+              "title": {
+                "en": "Preview and Test the result",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
+              "paragraphs": [
+                {
+                  "en": "Open the **Preview** tab and test a matching request to confirm the skill activates and behaves as expected.",
+                  "zh": "",
+                  "ja": "",
+                  "ko": ""
+                }
+              ],
+              "prompts": [
+                {
+                  "id": "prompt-5291f3c6",
+                  "title": {
+                    "en": "Test Prompt",
+                    "zh": "",
+                    "ja": "",
+                    "ko": ""
+                  },
+                  "content": "Do an account planning for Fourth Coffee (sample)"
+                }
+              ],
+              "imageKeys": [
+                "03-skill-testing-1",
+                "03-skill-testing-2",
+                "03-skill-testing-3"
               ]
             }
           ]
@@ -490,7 +638,7 @@
         {
           "id": "memory",
           "title": {
-            "en": "Remember Big Bet accounts",
+            "en": "Remember my big bet account",
             "zh": "记忆 Big Bet 客户",
             "ja": "Big Bet アカウントを記憶",
             "ko": "Big Bet 계정 기억"
@@ -498,23 +646,149 @@
           "pages": [
             {
               "id": "main",
+              "title": {
+                "en": "",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
               "paragraphs": [
                 {
-                  "en": "Enable Memory and tell the agent which accounts you frequently treat as Big Bets. Start a new session and ask for “my Big Bets” to verify durable recall.",
+                  "en": "Enable Memory and tell the agent which accounts you frequently treat as Big Bets.",
                   "zh": "启用 Memory，并告诉 Agent 哪些客户是你常用的 Big Bet。开始新会话并询问“我的 Big Bet”来验证持久记忆。",
                   "ja": "Memory を有効にし、よく使う Big Bet アカウントを伝えます。新しいセッションで「my Big Bets」と質問して確認します。",
                   "ko": "Memory를 활성화하고 자주 사용하는 Big Bet 계정을 알려 줍니다. 새 세션에서 “my Big Bets”를 물어 지속 기억을 확인합니다."
                 }
               ],
+              "markdown": {
+                "en": "Open your agent in **Copilot Studio** and select the **Build** tab and locate the **Memory** component in the components panel — this is where the **Memory toggle** lives.\n\n---\n\n## Part A — Memory = Disabled (no recall across sessions)\n\n1. On the **Build** tab, set the **Memory toggle** to **Off**.\n2. Open the **Preview** tab (the test chat on the right).\n3. In the chat, type: **`My big bet account for this FY is Microsoft.`** and send. → The agent acknowledges it for the current conversation.\n4. Next, type: **`Account plan for my big bet account.`** → **Expected result:** The agent produces a brief **for Microsoft** — it still \"knows\" because Microsoft is sitting in the *current conversation's* short-term context.\n5. Now **start a new test**: click the **Refresh / restart conversation** icon at the top of the **Preview** pane (this begins a fresh session).\n6. In the new session, type again: **`Account plan for my big bet account.`** → **Expected result:** The agent **does not know** which account you mean. It asks you to name the account (or gives a generic answer), because with Memory off, nothing was saved once the previous conversation ended.",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
               "highlight": {
-                "en": "Store preferences and stable identifiers, not confidential notes, credentials, or rapidly changing CRM facts.",
+                "en": "**Takeaway:** Without Memory, the account preference lives only inside a single conversation and is lost the moment you start a new one.",
                 "zh": "只存储偏好和稳定标识，不要存储机密备注、凭据或快速变化的 CRM 事实。",
                 "ja": "設定や安定した識別子のみを保存し、機密情報や変化する CRM 事実は保存しません。",
                 "ko": "환경 설정과 안정적인 식별자만 저장하고 기밀 메모, 자격 증명, 자주 변하는 CRM 사실은 저장하지 마세요."
               },
+              "prompts": [
+                {
+                  "id": "prompt-4c253cfb",
+                  "title": {
+                    "en": "Prompt to set big bet account",
+                    "zh": "",
+                    "ja": "",
+                    "ko": ""
+                  },
+                  "content": "My big bet account for this FY is Microsoft"
+                },
+                {
+                  "id": "prompt-9e72cb98",
+                  "title": {
+                    "en": "Prompt to ask agent",
+                    "zh": "",
+                    "ja": "",
+                    "ko": ""
+                  },
+                  "content": "Account plan for my big bet account."
+                }
+              ],
+              "imageKeys": [
+                "03-memory-a1-1",
+                "03-memory-a1-2",
+                "03-memory-a1-3",
+                "03-memory-a1-4"
+              ]
+            },
+            {
+              "id": "page-d8f53666",
+              "title": {
+                "en": "",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
+              "paragraphs": [
+                {
+                  "en": "",
+                  "zh": "",
+                  "ja": "",
+                  "ko": ""
+                }
+              ],
+              "markdown": {
+                "en": "## Part B — Memory = Enabled (recall across sessions)\n\n1. Go back to the **Build** tab and set the **Memory toggle** to **On**.\n2. Open the **Preview** tab and type: **`My big bet account is Microsoft.`** and send. → With Memory on, the agent **captures and stores** this preference in your per-user memory store. *(The first response from a memory-enabled agent also includes a link to the memory portal, where you can confirm the stored memory.)*\n3. **Restart the testing**: click the **Refresh / restart conversation** icon at the top of the **Preview** pane to begin a brand-new session.\n4. In the fresh session, type: **`Account brief for my big bet account.`** → **Expected result:** The agent **recalls \"Microsoft\" from memory** — even though you never mentioned it in this new session — and returns the Microsoft account brief directly.\n",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
+              "highlight": {
+                "en": "**Takeaway:** With Memory on, the preference persists across conversations, so the agent applies it automatically on future sessions.",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
+              "prompts": [
+                {
+                  "id": "prompt-7e353668",
+                  "title": {
+                    "en": "Prompt to set big bet account",
+                    "zh": "",
+                    "ja": "",
+                    "ko": ""
+                  },
+                  "content": "My big bet account for this FY is Microsoft"
+                },
+                {
+                  "id": "prompt-a72f7ee7",
+                  "title": {
+                    "en": "Prompt to ask agent",
+                    "zh": "",
+                    "ja": "",
+                    "ko": ""
+                  },
+                  "content": "Account plan for my big bet account."
+                }
+              ],
+              "imageKeys": [
+                "03-memory-b-1",
+                "03-memory-b-2",
+                "03-memory-b-3",
+                "03-memory-b-4"
+              ]
+            },
+            {
+              "id": "page-622328d8",
+              "title": {
+                "en": "A quick wrap-up for Memory",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
+              "paragraphs": [
+                {
+                  "en": "",
+                  "zh": "",
+                  "ja": "",
+                  "ko": ""
+                }
+              ],
+              "markdown": {
+                "en": "## Side-by-side result\n\n| Test | Memory | New session? | \"Account brief for my big bet account\" → |\n|------|--------|--------------|-------------------------------------------|\n| A-1 | Off | No (same chat) | Returns Microsoft brief (from live context) |\n| A-2 | Off | Yes (new chat) | Doesn't remember — asks which account |\n| B | On | Yes (new chat) | Remembers Microsoft — returns brief |\n\n---\n\n## Notes & gotchas\n\n- The **Memory toggle** is on the **Build** tab, in the components panel — it's an **agent-level** setting the maker controls.\n- Memories are stored **per user, per agent** and are never shared with other users.\n- **Turning Memory off does *not* delete** existing memories — it only stops the agent from using them. To truly reset, delete them in the memory portal (or ask the agent in chat to \"forget my big bet account\").\n- If you don't interact with a memory-enabled agent for **28 days**, your memories for it are automatically cleared.\n- Memory is currently a **preview** feature in the new experience.\n- For a sharper brief, make sure your agent has the relevant **Knowledge / Microsoft IQ** connected so \"account brief\" draws on real account data rather than generic reasoning.",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
+              "highlight": {
+                "en": "Now it's time to save our agent with **Memory** On.   Click \"**Save**\" and then \"**Publish**\" to publish th agent.",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
               "prompts": [],
               "imageKeys": [
-                "03-big-bet-memory"
+                "03-memory-summary"
               ]
             }
           ]
@@ -620,7 +894,7 @@
                   "en": "In Tools, add the approved Work IQ, Word, and Excel MCP or connector tools. Review each tool’s permissions and keep user authentication enabled.",
                   "zh": "在 Tools 中添加已批准的 Work IQ、Word 和 Excel MCP 或连接器工具，检查每项权限并保持用户身份验证。",
                   "ja": "Tools で承認済み Work IQ、Word、Excel MCP/コネクタを追加し、権限を確認してユーザー認証を維持します。",
-                  "ko": "Tools에서 승인된 Work IQ, Word, Excel MCP 또는 커넥터 도구를 추가하고 권한과 사용자 인증을 확인합니다."
+                  "ko": "Tools에서 승인된 Work IQ, Word, Excel MCP 또는 커넥터 도구를 추가하고 권한��� 사용자 인증을 확인합니다."
                 }
               ],
               "prompts": [],
@@ -735,7 +1009,7 @@
       "summary": {
         "en": "Build a ServiceNow-backed specialist, connect it as an agent, and publish the multi-agent experience.",
         "zh": "构建由 ServiceNow 支持的专家 Agent，作为 Connected Agent 接入并发布多 Agent 体验。",
-        "ja": "ServiceNow 対応の専門 Agent を作り、Connected Agent として接続・公開します。",
+        "ja": "ServiceNow 対応の専門 Agent を作り、Connected Agent として��続・公開します。",
         "ko": "ServiceNow 기반 전문 Agent를 구축하고 Connected Agent로 연결해 다중 Agent 경험을 게시합니다."
       },
       "outcome": {
@@ -852,7 +1126,7 @@
                   "en": "Return to Ask Me Anything, add Ask IT Anything as a connected agent, and describe its delegation boundary. Test a Microsoft product question, an IT knowledge question, and a ticket-status question.",
                   "zh": "返回 Ask Me Anything，将 Ask IT Anything 添加为 Connected Agent 并描述委派边界；测试产品问题、IT 知识问题与工单状态问题。",
                   "ja": "Ask Me Anything に戻り、Ask IT Anything を Connected Agent として追加し、製品・IT・チケット質問をテストします。",
-                  "ko": "Ask Me Anything으로 돌아가 Ask IT Anything을 Connected Agent로 추가하고 제품, IT 지식, 티켓 상태 질문을 테스트합니다."
+                  "ko": "Ask Me Anything으로 돌아가 Ask IT Anything을 Connected Agent로 추가하고 제품, IT 지식, 티��� 상태 질문을 테스트합니다."
                 }
               ],
               "prompts": [],
