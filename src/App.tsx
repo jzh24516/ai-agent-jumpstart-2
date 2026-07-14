@@ -36,18 +36,18 @@ function stripMarkdown(value: string): string {
     .trim()
 }
 
-function PromptBlock({ prompt, locale }: { prompt: string; locale: Locale }) {
+function PromptBlock({ title, content, locale }: { title?: string; content: string; locale: Locale }) {
   const [expanded, setExpanded] = useState(false)
   const [copied, setCopied] = useState(false)
   const copyPrompt = async () => {
-    await navigator.clipboard.writeText(prompt)
+    await navigator.clipboard.writeText(content)
     setCopied(true)
     window.setTimeout(() => setCopied(false), 1800)
   }
   return (
-    <section className="prompt-panel" aria-label={text(ui.input, locale)}>
+    <section className="prompt-panel" aria-label={title || text(ui.input, locale)}>
       <div className="prompt-toolbar">
-        <div><span className="eyebrow">{text(ui.input, locale)}</span><strong>Instructions / Input</strong></div>
+        <div><span className="eyebrow">{text(ui.input, locale)}</span><strong>{title || text(ui.promptDefaultTitle, locale)}</strong></div>
         <div className="toolbar-actions">
           <button className="icon-text-button" type="button" onClick={() => setExpanded(!expanded)}>
             {expanded ? <ChevronUp size={17} /> : <ChevronDown size={17} />}{text(expanded ? ui.collapse : ui.expand, locale)}
@@ -57,7 +57,7 @@ function PromptBlock({ prompt, locale }: { prompt: string; locale: Locale }) {
           </button>
         </div>
       </div>
-      <pre className={expanded ? 'prompt expanded' : 'prompt'}><code>{prompt}</code></pre>
+      <pre className={expanded ? 'prompt expanded' : 'prompt'}><code>{content}</code></pre>
     </section>
   )
 }
@@ -97,7 +97,7 @@ function DocumentStep({
     id: 'main',
     paragraphs: step.body ? [step.body] : [],
     highlight: step.highlight,
-    prompt: step.prompt,
+    prompts: step.prompt ? [{ id: 'main-prompt', content: step.prompt }] : [],
     imageKeys: step.imageKey ? [step.imageKey] : [],
   }]
 
@@ -116,7 +116,7 @@ function DocumentStep({
             {page.markdown && <div className="markdown-content"><ReactMarkdown remarkPlugins={[remarkGfm]}>{text(page.markdown, locale)}</ReactMarkdown></div>}
           </div>
           {page.highlight && <aside className="highlight"><Sparkles size={20} /><div className="highlight-content"><strong className="highlight-label">{text(ui.highlight, locale)}</strong><ReactMarkdown remarkPlugins={[remarkGfm]}>{text(page.highlight, locale)}</ReactMarkdown></div></aside>}
-          {page.prompt && <PromptBlock prompt={page.prompt} locale={locale} />}
+          {page.prompts?.map((promptItem) => <PromptBlock key={promptItem.id} title={text(promptItem.title, locale)} content={promptItem.content} locale={locale} />)}
           {!!page.imageKeys?.filter(Boolean).length && <div className="embedded-figures">{page.imageKeys.filter(Boolean).map((imageKey) => <Screenshot lab={lab} imageKey={imageKey} locale={locale} key={imageKey} />)}</div>}
         </article>
       ))}

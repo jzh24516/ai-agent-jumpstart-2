@@ -71,7 +71,10 @@ export const ui = {
   stepTitle: { en: 'Step title (Markdown)', zh: '步骤标题（Markdown）', ja: 'ステップ タイトル（Markdown）', ko: '단계 제목(Markdown)' },
   pageTitle: { en: 'Page title (Markdown, optional)', zh: '页面标题（Markdown，可选）', ja: 'ページ タイトル（Markdown・任意）', ko: '페이지 제목(Markdown, 선택)' },
   fieldHighlight: { en: 'Highlight Markdown (optional)', zh: '重点提示 Markdown（可选）', ja: '重要ポイント Markdown（任意）', ko: '핵심 포인트 Markdown(선택)' },
-  fieldPrompt: { en: 'Input / prompt (optional, same for all languages)', zh: '输入/提示（可选，所有语言相同）', ja: '入力/プロンプト（任意・全言語共通）', ko: '입력/프롬프트(선택, 모든 언어 공통)' },
+  fieldPrompt: { en: 'Input / prompt content (same for all languages)', zh: '输入/提示内容（所有语言相同）', ja: '入力/プロンプト内容（全言語共通）', ko: '입력/프롬프트 내용(모든 언어 공통)' },
+  fieldPromptTitle: { en: 'Input title (e.g. Agent instruction, Skill)', zh: '输入标题（例如：Agent 指令、Skill）', ja: '入力タイトル（例：Agent 指示、Skill）', ko: '입력 제목(예: Agent 지침, Skill)' },
+  addPrompt: { en: 'Add input / prompt', zh: '添加输入/提示', ja: '入力/プロンプトを追加', ko: '입력/프롬프트 추가' },
+  promptDefaultTitle: { en: 'Instructions / Input', zh: '说明/输入', ja: '指示/入力', ko: '지침/입력' },
   publishHint: { en: 'Save writes labs.json locally; Publish commits and pushes it to GitHub.', zh: '保存会写入本地 labs.json；发布会提交并推送到 GitHub。', ja: '保存はローカルの labs.json に書き込み、公開は GitHub にコミット & プッシュします。', ko: '저장은 로컬 labs.json에 기록하고, 게시는 GitHub에 커밋 및 푸시합니다.' },
   fallbackNote: { en: 'Empty non-English fields fall back to English when learners view the lab.', zh: '非英文字段为空时，学员查看实验时将回退为英文。', ja: '英語以外が空の場合、受講者には英語が表示されます。', ko: '영어 외 필드가 비어 있으면 학습자에게 영어로 표시됩니다.' },
 } satisfies Record<string, LocalizedText>

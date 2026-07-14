@@ -1,5 +1,5 @@
 import { labs as defaultLabs } from './labs'
-import type { Lab, LabStep, LabStepPage, LocalizedText } from './types'
+import type { Lab, LabPrompt, LabStep, LabStepPage, LocalizedText } from './types'
 
 const CONTENT_URL = '/content/labs.json'
 export const CONTENT_VERSION = 2
@@ -17,15 +17,27 @@ const cloneText = (value?: LocalizedText): LocalizedText =>
   value ? { en: value.en, zh: value.zh, ja: value.ja, ko: value.ko } : emptyText()
 
 // Every step is normalized so the editor and reader only work with `pages`.
-const normalizePage = (page: LabStepPage): LabStepPage => ({
-  id: page.id || uid('page'),
-  title: page.title ? cloneText(page.title) : undefined,
-  paragraphs: (page.paragraphs ?? []).map(cloneText),
-  markdown: page.markdown ? cloneText(page.markdown) : undefined,
-  highlight: page.highlight ? cloneText(page.highlight) : undefined,
-  prompt: page.prompt || undefined,
-  imageKeys: page.imageKeys ? [...page.imageKeys] : [],
+const normalizePrompt = (prompt: LabPrompt): LabPrompt => ({
+  id: prompt.id || uid('prompt'),
+  title: prompt.title ? cloneText(prompt.title) : undefined,
+  content: prompt.content ?? '',
 })
+
+const normalizePage = (page: LabStepPage): LabStepPage => {
+  // Legacy single `prompt` string is converted to the `prompts` array.
+  const prompts = page.prompts?.length
+    ? page.prompts
+    : (page.prompt ? [{ id: uid('prompt'), content: page.prompt }] : [])
+  return {
+    id: page.id || uid('page'),
+    title: page.title ? cloneText(page.title) : undefined,
+    paragraphs: (page.paragraphs ?? []).map(cloneText),
+    markdown: page.markdown ? cloneText(page.markdown) : undefined,
+    highlight: page.highlight ? cloneText(page.highlight) : undefined,
+    prompts: prompts.map(normalizePrompt),
+    imageKeys: page.imageKeys ? [...page.imageKeys] : [],
+  }
+}
 
 const normalizeStep = (step: LabStep): LabStep => {
   const pages = step.pages?.length
@@ -115,8 +127,14 @@ export const newPage = (): LabStepPage => ({
   title: emptyText(),
   paragraphs: [emptyText()],
   highlight: undefined,
-  prompt: undefined,
+  prompts: [],
   imageKeys: [],
+})
+
+export const newPrompt = (): LabPrompt => ({
+  id: uid('prompt'),
+  title: emptyText(),
+  content: '',
 })
 
 export const newStep = (): LabStep => ({

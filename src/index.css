@@ -309,7 +309,7 @@ h1 { max-width: 850px; margin: 22px 0 20px; color: var(--cp-text); font-size: cl
 .editor-lab-tools button { width: 28px; height: 28px; display: grid; place-items: center; color: var(--cp-text-muted); background: transparent; border: 1px solid var(--cp-border); border-radius: 6px; cursor: pointer; }
 .editor-lab-tools button:hover { color: var(--cp-accent); border-color: var(--cp-accent); }
 .add-lab { margin-top: 8px; justify-content: center; }
-.editor-form { display: flex; flex-direction: column; gap: 16px; overflow-y: auto; padding: clamp(20px, 3vw, 40px); max-width: 920px; }
+.editor-form { display: flex; flex-direction: column; gap: 16px; overflow-y: auto; padding: clamp(20px, 3vw, 40px); width: 100%; max-width: 920px; margin-inline: auto; }
 .editor-row { display: flex; gap: 14px; flex-wrap: wrap; }
 .editor-field { display: flex; flex-direction: column; gap: 6px; }
 .editor-field.small { flex: 0 0 auto; width: 180px; }
@@ -327,11 +327,21 @@ h1 { max-width: 850px; margin: 22px 0 20px; color: var(--cp-text); font-size: cl
 .row-remove { width: 38px; height: 38px; flex: 0 0 auto; display: grid; place-items: center; color: var(--cp-text-muted); background: transparent; border: 1px solid var(--cp-border); border-radius: 8px; cursor: pointer; }
 .row-remove:hover { color: var(--cp-danger); border-color: var(--cp-danger); }
 .editor-section-title { margin: 8px 0 0; font-size: 16px; }
+.editor-section-toggle { display: flex; align-items: center; gap: 8px; width: 100%; margin-top: 8px; padding: 6px 0; background: transparent; border: 0; color: var(--cp-text); cursor: pointer; text-align: left; }
+.editor-section-toggle > svg { flex: 0 0 auto; color: var(--cp-text-muted); }
+.editor-section-toggle .editor-section-title { margin: 0; }
+.editor-section-count { padding: 2px 9px; color: var(--cp-text-muted); background: var(--cp-surface-soft); border: 1px solid var(--cp-border); border-radius: 20px; font-size: 12px; font-weight: 700; }
 .editor-step { display: flex; flex-direction: column; gap: 14px; padding: 18px; background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 12px; }
-.editor-step-head { display: flex; align-items: center; justify-content: space-between; }
-.editor-badge { padding: 4px 10px; color: var(--cp-accent); background: var(--cp-accent-soft); border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; }
+.editor-step.collapsed { gap: 0; padding: 12px 18px; }
+.editor-step-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.editor-collapse-toggle { display: flex; align-items: center; gap: 9px; min-width: 0; flex: 1; padding: 0; background: transparent; border: 0; color: var(--cp-text); cursor: pointer; text-align: left; }
+.editor-collapse-toggle > svg { flex: 0 0 auto; color: var(--cp-text-muted); }
+.editor-step-preview { min-width: 0; overflow: hidden; color: var(--cp-text-muted); font-size: 13px; white-space: nowrap; text-overflow: ellipsis; }
+.editor-badge { padding: 4px 10px; color: var(--cp-accent); background: var(--cp-accent-soft); border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; flex: 0 0 auto; }
 .editor-badge.subtle { color: var(--cp-text-muted); background: var(--cp-surface-soft); }
 .editor-page { display: flex; flex-direction: column; gap: 12px; padding: 16px; background: var(--cp-bg-elevated); border: 1px dashed var(--cp-border); border-radius: 10px; }
+.editor-prompts { display: flex; flex-direction: column; gap: 12px; }
+.editor-prompt { display: flex; flex-direction: column; gap: 10px; padding: 14px; background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 10px; }
 .editor-images { display: flex; flex-direction: column; gap: 8px; }
 .add-page, .add-step { align-self: flex-start; }
 

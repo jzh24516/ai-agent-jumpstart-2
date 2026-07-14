@@ -4,6 +4,12 @@ export type LocalizedText = Record<Locale, string>
 
 export type LabIconName = 'sparkles' | 'database' | 'file' | 'network' | 'mail' | 'mic'
 
+export interface LabPrompt {
+  id: string
+  title?: LocalizedText
+  content: string
+}
+
 export interface LabStepPage {
   id: string
   title?: LocalizedText
@@ -11,6 +17,7 @@ export interface LabStepPage {
   markdown?: LocalizedText
   highlight?: LocalizedText
   prompt?: string
+  prompts?: LabPrompt[]
   imageKeys?: string[]
 }
 

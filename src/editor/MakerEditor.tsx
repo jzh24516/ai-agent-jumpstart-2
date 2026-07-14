@@ -1,9 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
-  ArrowDown, ArrowUp, Copy, Plus, Save, Trash2, UploadCloud, X,
+  ArrowDown, ArrowUp, ChevronDown, ChevronRight, Copy, Plus, Save, Trash2, UploadCloud, X,
 } from 'lucide-react'
 import { localeNames, text, ui } from '../content/ui'
-import { applyNumbers, emptyText, newLab, newPage, newStep, publishLabs, saveLabs } from '../content/store'
+import { applyNumbers, emptyText, newLab, newPage, newPrompt, newStep, publishLabs, saveLabs } from '../content/store'
 import type { Lab, LabIconName, Locale, LocalizedText } from '../content/types'
 
 const editLocales = Object.keys(localeNames) as Locale[]
@@ -58,6 +58,25 @@ export default function MakerEditor({
   const [selected, setSelected] = useState(Math.min(initialLabIndex, labs.length - 1))
   const [status, setStatus] = useState<'idle' | 'saving' | 'saved' | 'publishing' | 'published' | 'error'>('idle')
   const [log, setLog] = useState('')
+  const [stepsCollapsed, setStepsCollapsed] = useState<boolean>(() => localStorage.getItem('jumpstart-editor-steps-collapsed') === '1')
+  const [collapsedSteps, setCollapsedSteps] = useState<Set<string>>(() => {
+    try { return new Set(JSON.parse(localStorage.getItem('jumpstart-editor-collapsed-steps') || '[]')) }
+    catch { return new Set() }
+  })
+
+  useEffect(() => {
+    localStorage.setItem('jumpstart-editor-steps-collapsed', stepsCollapsed ? '1' : '0')
+  }, [stepsCollapsed])
+
+  useEffect(() => {
+    localStorage.setItem('jumpstart-editor-collapsed-steps', JSON.stringify([...collapsedSteps]))
+  }, [collapsedSteps])
+
+  const toggleStep = (id: string) => setCollapsedSteps((current) => {
+    const next = new Set(current)
+    if (next.has(id)) next.delete(id); else next.add(id)
+    return next
+  })
 
   const update = (mutator: (draft: Lab[]) => void) => {
     const draft: Lab[] = structuredClone(labs)
@@ -174,17 +193,29 @@ export default function MakerEditor({
               onMove={(i, dir) => update((d) => moveItem(d[selected].prerequisites, i, dir))}
             />
 
-            <h3 className="editor-section-title">{text(ui.step, locale)}s</h3>
-            {lab.steps.map((step, stepIndex) => (
-              <div className="editor-step" key={step.id}>
+            <button type="button" className="editor-section-toggle" onClick={() => setStepsCollapsed((v) => !v)} aria-expanded={!stepsCollapsed}>
+              {stepsCollapsed ? <ChevronRight size={18} /> : <ChevronDown size={18} />}
+              <h3 className="editor-section-title">{text(ui.step, locale)}s</h3>
+              <span className="editor-section-count">{lab.steps.length}</span>
+            </button>
+            {!stepsCollapsed && <>
+            {lab.steps.map((step, stepIndex) => {
+              const stepCollapsed = collapsedSteps.has(step.id)
+              return (
+              <div className={stepCollapsed ? 'editor-step collapsed' : 'editor-step'} key={step.id}>
                 <div className="editor-step-head">
-                  <span className="editor-badge">{text(ui.step, locale)} {stepIndex + 1}</span>
+                  <button type="button" className="editor-collapse-toggle" onClick={() => toggleStep(step.id)} aria-expanded={!stepCollapsed}>
+                    {stepCollapsed ? <ChevronRight size={15} /> : <ChevronDown size={15} />}
+                    <span className="editor-badge">{text(ui.step, locale)} {stepIndex + 1}</span>
+                    <span className="editor-step-preview">{text(step.title, editLocale) || text(step.title, locale)}</span>
+                  </button>
                   <div className="editor-lab-tools">
                     <button type="button" title={text(ui.moveUp, locale)} onClick={() => update((d) => moveItem(d[selected].steps, stepIndex, -1))}><ArrowUp size={14} /></button>
                     <button type="button" title={text(ui.moveDown, locale)} onClick={() => update((d) => moveItem(d[selected].steps, stepIndex, 1))}><ArrowDown size={14} /></button>
                     <button type="button" title={text(ui.remove, locale)} onClick={() => update((d) => { if (d[selected].steps.length > 1) d[selected].steps.splice(stepIndex, 1) })}><Trash2 size={14} /></button>
                   </div>
                 </div>
+                {!stepCollapsed && <>
                 <LocalizedField label={text(ui.stepTitle, locale)} value={step.title} locale={editLocale} onChange={(next) => update((d) => { d[selected].steps[stepIndex].title = next })} />
 
                 {(step.pages ?? []).map((page, pageIndex) => (
@@ -211,10 +242,26 @@ export default function MakerEditor({
 
                     <LocalizedField label={text(ui.fieldHighlight, locale)} value={page.highlight ?? emptyText()} locale={editLocale} rows={2} onChange={(next) => update((d) => { d[selected].steps[stepIndex].pages![pageIndex].highlight = next })} />
 
-                    <label className="editor-field">
-                      <span className="editor-field-label">{text(ui.fieldPrompt, locale)}</span>
-                      <textarea rows={4} value={page.prompt ?? ''} onChange={(event) => update((d) => { d[selected].steps[stepIndex].pages![pageIndex].prompt = event.target.value || undefined })} />
-                    </label>
+                    <div className="editor-prompts">
+                      {(page.prompts ?? []).map((prompt, promptIndex) => (
+                        <div className="editor-prompt" key={prompt.id}>
+                          <div className="editor-step-head">
+                            <span className="editor-badge subtle">{text(ui.addPrompt, locale)} {promptIndex + 1}</span>
+                            <div className="editor-lab-tools">
+                              <button type="button" title={text(ui.moveUp, locale)} onClick={() => update((d) => moveItem(d[selected].steps[stepIndex].pages![pageIndex].prompts!, promptIndex, -1))}><ArrowUp size={14} /></button>
+                              <button type="button" title={text(ui.moveDown, locale)} onClick={() => update((d) => moveItem(d[selected].steps[stepIndex].pages![pageIndex].prompts!, promptIndex, 1))}><ArrowDown size={14} /></button>
+                              <button type="button" title={text(ui.remove, locale)} onClick={() => update((d) => { d[selected].steps[stepIndex].pages![pageIndex].prompts!.splice(promptIndex, 1) })}><Trash2 size={14} /></button>
+                            </div>
+                          </div>
+                          <LocalizedField label={text(ui.fieldPromptTitle, locale)} value={prompt.title ?? emptyText()} locale={editLocale} onChange={(next) => update((d) => { d[selected].steps[stepIndex].pages![pageIndex].prompts![promptIndex].title = next })} />
+                          <label className="editor-field">
+                            <span className="editor-field-label">{text(ui.fieldPrompt, locale)}</span>
+                            <textarea rows={4} value={prompt.content} onChange={(event) => update((d) => { d[selected].steps[stepIndex].pages![pageIndex].prompts![promptIndex].content = event.target.value })} />
+                          </label>
+                        </div>
+                      ))}
+                      <button type="button" className="ghost-button" onClick={() => update((d) => { const target = d[selected].steps[stepIndex].pages![pageIndex]; target.prompts = [...(target.prompts ?? []), newPrompt()] })}><Plus size={14} />{text(ui.addPrompt, locale)}</button>
+                    </div>
 
                     <div className="editor-images">
                       <span className="editor-field-label">{text(ui.screenshot, locale)}</span>
@@ -229,9 +276,12 @@ export default function MakerEditor({
                   </div>
                 ))}
                 <button type="button" className="ghost-button add-page" onClick={() => update((d) => { const pages = d[selected].steps[stepIndex].pages ??= []; pages.push(newPage()) })}><Plus size={15} />{text(ui.addPage, locale)}</button>
+                </>}
               </div>
-            ))}
+              )
+            })}
             <button type="button" className="ghost-button add-step" onClick={() => update((d) => d[selected].steps.push(newStep()))}><Plus size={15} />{text(ui.addStep, locale)}</button>
+            </>}
           </section>
         )}
       </div>
