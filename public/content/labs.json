@@ -485,7 +485,7 @@
                 }
               ],
               "markdown": {
-                "en": "## Test the Dataverse MCP Tool\n\n1. Open the **Preview** tab.\n2. Ask the agent a Dataverse-related question, such as:\n\n   ```text\n   Show me the Top 20 my active accounts available.\n   ```\n\n   ```text\n   create new account with name \"New Account 123\", www.nameaccount123.com, \n   and it's located in Shanghai, China.\n   ```\n\n3. Verify that the agent invokes the **Microsoft Dataverse MCP Server** and returns results from Dataverse.\n\n## Expected Result\n\n4. The agent is now connected to the **Microsoft Dataverse MCP Server**.\n5. The agent can discover Dataverse tables, understand schemas, search records, query data, and perform Dataverse operations through MCP tools based on your permissions and environment settings.",
+                "en": "## Test the Dataverse MCP Tool\n\n1. Open the **Preview** tab.\n2. Ask the agent a Dataverse-related question, such as:\n\n   ```text\n   Show me the Top 20 my active accounts.\n   ```\n\n   ```text\n   create new account with name \"New Account 123\", www.nameaccount123.com, \n   and it's located in Shanghai, China.\n   ```\n\n3. Verify that the agent invokes the **Microsoft Dataverse MCP Server** and returns results from Dataverse.\n\n## Expected Result\n\n4. The agent is now connected to the **Microsoft Dataverse MCP Server**.\n5. The agent can discover Dataverse tables, understand schemas, search records, query data, and perform Dataverse operations through MCP tools based on your permissions and environment settings.",
                 "zh": "",
                 "ja": "",
                 "ko": ""
@@ -529,7 +529,7 @@
         {
           "id": "skill",
           "title": {
-            "en": "Add **Account 360** Skill",
+            "en": "Get your **Account 360** using Skill",
             "zh": "创建 Account Planning Skill",
             "ja": "Account Planning Skill を作成",
             "ko": "Account Planning Skill 만들기"
@@ -796,7 +796,7 @@
         {
           "id": "cowork",
           "title": {
-            "en": "Build the CoWork customer 360 workflow",
+            "en": "Enrich Customer 360 with Cowork",
             "zh": "构建 CoWork 客户 360 工作流",
             "ja": "CoWork Customer 360 ワークフローを作成",
             "ko": "CoWork 고객 360 워크플로 만들기"
@@ -804,23 +804,144 @@
           "pages": [
             {
               "id": "main",
+              "title": {
+                "en": "Examine the existing Workflow",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
               "paragraphs": [
                 {
-                  "en": "Create a workflow tool that passes the selected CRM account to CoWork for public research. Return structured findings and sources to the agent, then compare them with CRM facts.",
+                  "en": "Create a workflow tool that passes the mentioned account name to Microsoft Cowork for public customer insights to enrich the account / customer 360.   Return structured findings and sources to the agent, then compare them with CRM facts.",
                   "zh": "创建工作流工具，将所选 CRM 客户传给 CoWork 进行公开信息调研，以结构化结果和来源返回 Agent，并与 CRM 事实比较。",
                   "ja": "選択した CRM アカウントを CoWork に渡して公開情報を調査し、構造化した結果と出典を Agent に返すワークフローを作成します。",
                   "ko": "선택한 CRM 계정을 CoWork에 전달해 공개 정보를 조사하고 구조화된 결과와 출처를 Agent에 반환하는 워크플로를 만듭니다."
                 }
               ],
+              "markdown": {
+                "en": "1. In **Copilot Studio**, select **Workflows** in the left navigation.\n2. Select **JumpStart - Get Customer Updates Workflow v2**, then open the **Build** tab to load the **designer canvas**.\n3. Use the bottom-left toolbar — **Fit view** and **Tidy up** — to lay out the full flow so you can read it end to end. (Click any node to open its **configuration panel** on the right.)\n\nWalk through each node:\n\n**① Trigger — \"When an agent calls the flow\"**\n- Confirm the input parameter the agent will pass in (e.g., **`Customer name`**, Text). This is what the calling agent fills with the customer, such as *Microsoft*.\n\n**② Microsoft 365 Copilot node — the Cowork call (examine closely)**\n- Open the node and verify the key settings:\n  - **Message** — check that the prompt asks for external customer dynamics/updates and that it references the **`{Customer name}`** token (inserted via the dynamic content picker), so the call reasons over the runtime value.\n  - **Advanced parameters → Agent** — confirm it's set to **Cowork**. This is what routes the step to M365 Cowork rather than general Microsoft 365 Copilot; Cowork's own instructions, knowledge, and tools apply.\n  - **Prefer Async** — should be **Off** so the workflow **waits** for Cowork's response before continuing.\n  - **Time Zone** — set to match the running user so relative dates resolve correctly.\n  - **Sign-in / connection** — confirm the node is connected to a valid Microsoft 365 account (it runs on that user's behalf).\n\n**③ \"Respond to the agent\" node**\n- Confirm the response output is mapped to the **M365 Copilot** node's **response** — this is what returns Cowork's customer-dynamics brief to the calling agent.\n- Check the canvas for any **red error** markers; a workflow with errors can't be used reliably.\n",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
               "prompts": [
                 {
                   "id": "prompt-aa365494",
-                  "content": "Research this account using public web sources and return an enhanced customer 360:\n\nAccount: {{Account.Name}}\nKnown domain: {{Account.Website}}\nCRM context: {{AccountSummary}}\n\nFind and summarize only verifiable information from the last 12 months:\n- company strategy and executive priorities\n- major announcements, acquisitions, and partnerships\n- technology signals relevant to Microsoft\n- material risks or market changes\n- suggested conversation starters\n\nReturn source URL, publication date, and confidence for every external claim."
+                  "title": {
+                    "en": "Workflow Name",
+                    "zh": "",
+                    "ja": "",
+                    "ko": ""
+                  },
+                  "content": "JumpStart - Get Customer Updates Workflow v2"
                 }
               ],
               "imageKeys": [
-                "04-cowork-workflow"
+                "04-workflow-customer-enrichment-1",
+                "04-workflow-customer-enrichment-2"
               ]
+            },
+            {
+              "id": "page-0d385fed",
+              "title": {
+                "en": "Add Workflow Flow to Agent",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
+              "paragraphs": [
+                {
+                  "en": "",
+                  "zh": "",
+                  "ja": "",
+                  "ko": ""
+                }
+              ],
+              "markdown": {
+                "en": "1. Open your **agent** and select the **Build** tab.\n2. In the components panel, select **Tools**.\n3. In the **Add a tool** dialog, open the **Workflows** tab (or search) and locate **JumpStart - Get Customer Updates Workflow v2**.\n4. Select it to view its details, then select **Add**.\n5. Review the tool's **description** so it clearly states *when* to use it (e.g., \"gets external customer dynamics/updates for Customer 360 enrichment\") — the orchestrator relies on this to invoke the tool correctly.",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
+              "prompts": [
+                {
+                  "id": "prompt-7d883bed",
+                  "title": {
+                    "en": "Workflow Tool Name",
+                    "zh": "",
+                    "ja": "",
+                    "ko": ""
+                  },
+                  "content": "Get Customer Insights Workflow"
+                },
+                {
+                  "id": "prompt-4e4895dc",
+                  "title": {
+                    "en": "Workflow Tool Description",
+                    "zh": "",
+                    "ja": "",
+                    "ko": ""
+                  },
+                  "content": "Get the market research of a given customer name on the latest updates from the websites or internal in the last 12 months, primarily includes:\n- investment relationship\n- key updates from stock market\n- merge and acquisition\n- key organization change\n- key stakeholders / CXO change for example.\n- other critical changes or updates not mentioned above."
+                },
+                {
+                  "id": "prompt-c645314a",
+                  "title": {
+                    "en": "Workflow Tool - Input",
+                    "zh": "",
+                    "ja": "",
+                    "ko": ""
+                  },
+                  "content": "Extract the marketing research or updates requirements from <account name / company> mentioned by the user's own words, happening in the last 12 months, includes not limited to:\n- investment relationship\n- key updates from stock market\n- merge and acquisition\n- key organization change\n- key stakeholders / CXO change for example."
+                }
+              ],
+              "imageKeys": [
+                "04-workflow-customer-enrichment-3",
+                "04-workflow-customer-enrichment-4",
+                "04-workflow-customer-enrichment-5"
+              ]
+            },
+            {
+              "id": "page-89568ca0",
+              "title": {
+                "en": "Test and oversea the result",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
+              "paragraphs": [
+                {
+                  "en": "",
+                  "zh": "",
+                  "ja": "",
+                  "ko": ""
+                }
+              ],
+              "highlight": {
+                "en": "## Quick checks if the result looks off\n\n- **Empty/generic brief** → re-open the M365 Copilot node and confirm **Agent = Cowork** and that the **`{inputCustomerResearchRequest}`** input is actually inserted in the Message.\n- **Agent didn't call the tool** → tighten the tool **name/description** so it clearly matches \"customer updates / dynamics / enrichment.\"",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
+              "prompts": [
+                {
+                  "id": "prompt-b183657b",
+                  "title": {
+                    "en": "Test Prompt",
+                    "zh": "",
+                    "ja": "",
+                    "ko": ""
+                  },
+                  "content": "Get the latest customer updates for Microsoft."
+                }
+              ],
+              "imageKeys": [],
+              "markdown": {
+                "en": "1. Open the agent's **Preview** tab.\n2. Enter a prompt that should trigger the tool, for example:\n   > *\"Get the latest customer updates for Microsoft.\"*\n3. Watch the agent **invoke JumpStart - Get Customer Updates Workflow v2**, which calls **Cowork** via the M365 Copilot node and returns the enrichment brief in the chat.\n4. To inspect node-level behavior, you can also open the workflow in the designer and use **Run flow test** (Play button) or **Test this node** on the M365 Copilot step — supply a sample customer name and review the raw output. *(Designer and test-chat runs don't consume flow capacity.)*",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              }
             }
           ]
         }
