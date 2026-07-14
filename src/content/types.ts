@@ -8,6 +8,7 @@ export interface LabStepPage {
   id: string
   title?: LocalizedText
   paragraphs: LocalizedText[]
+  markdown?: LocalizedText
   highlight?: LocalizedText
   prompt?: string
   imageKeys?: string[]

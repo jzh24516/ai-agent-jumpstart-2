@@ -1,4 +1,7 @@
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
+import type { ReactNode } from 'react'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import {
   ArrowRight, BookOpenCheck, Check, ChevronDown, ChevronUp,
   Clipboard, Database, FileSpreadsheet, Languages, Lock, MailCheck, Menu, Mic2,
@@ -11,6 +14,27 @@ import type { Lab, LabStep, Locale } from './content/types'
 
 const locales = Object.keys(localeNames) as Locale[]
 const iconMap = { sparkles: Sparkles, database: Database, file: FileSpreadsheet, network: Network, mail: MailCheck, mic: Mic2 }
+
+// Renders Markdown inline (no block <p> wrapper) so it can live inside headings like <h2>/<h3>.
+const inlineMarkdownComponents = { p: ({ children }: { children?: ReactNode }) => <Fragment>{children}</Fragment> }
+function InlineMarkdown({ children }: { children: string }) {
+  return <ReactMarkdown remarkPlugins={[remarkGfm]} components={inlineMarkdownComponents}>{children}</ReactMarkdown>
+}
+
+// Strips Markdown syntax to plain text for navigation labels, selects, and the table of contents.
+function stripMarkdown(value: string): string {
+  return value
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(/`([^`]*)`/g, '$1')
+    .replace(/(\*\*|__)(.*?)\1/g, '$2')
+    .replace(/(\*|_)(.*?)\1/g, '$2')
+    .replace(/~~(.*?)~~/g, '$1')
+    .replace(/^\s{0,3}#{1,6}\s+/gm, '')
+    .replace(/^\s{0,3}>\s?/gm, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
 
 function PromptBlock({ prompt, locale }: { prompt: string; locale: Locale }) {
   const [expanded, setExpanded] = useState(false)
@@ -81,16 +105,17 @@ function DocumentStep({
     <section className="document-step" id={`${lab.id}-${step.id}`}>
       <header className="document-step-heading">
         <span>{text(ui.step, locale)} {stepNumber}</span>
-        <h2>{text(step.title, locale)}</h2>
+        <h2><InlineMarkdown>{text(step.title, locale)}</InlineMarkdown></h2>
       </header>
       {pages.map((page, pageIndex) => (
         <article className="document-page step-page" key={page.id}>
           <div className="page-number">{text(ui.page, locale)} {pageIndex + 1} / {pages.length}</div>
-          {page.title && <h3>{text(page.title, locale)}</h3>}
+          {page.title && <h3><InlineMarkdown>{text(page.title, locale)}</InlineMarkdown></h3>}
           <div className="page-copy">
-            {page.paragraphs.map((paragraph, paragraphIndex) => <p key={paragraphIndex}>{text(paragraph, locale)}</p>)}
+            {page.paragraphs.map((paragraph, paragraphIndex) => <div className="markdown-content" key={paragraphIndex}><ReactMarkdown remarkPlugins={[remarkGfm]}>{text(paragraph, locale)}</ReactMarkdown></div>)}
+            {page.markdown && <div className="markdown-content"><ReactMarkdown remarkPlugins={[remarkGfm]}>{text(page.markdown, locale)}</ReactMarkdown></div>}
           </div>
-          {page.highlight && <aside className="highlight"><Sparkles size={20} /><div><strong>{text(ui.highlight, locale)}</strong><p>{text(page.highlight, locale)}</p></div></aside>}
+          {page.highlight && <aside className="highlight"><Sparkles size={20} /><div className="highlight-content"><strong className="highlight-label">{text(ui.highlight, locale)}</strong><ReactMarkdown remarkPlugins={[remarkGfm]}>{text(page.highlight, locale)}</ReactMarkdown></div></aside>}
           {page.prompt && <PromptBlock prompt={page.prompt} locale={locale} />}
           {!!page.imageKeys?.filter(Boolean).length && <div className="embedded-figures">{page.imageKeys.filter(Boolean).map((imageKey) => <Screenshot lab={lab} imageKey={imageKey} locale={locale} key={imageKey} />)}</div>}
         </article>
@@ -124,7 +149,7 @@ function App() {
   const overallPercent = totalSteps ? Math.round((completed.size / totalSteps) * 100) : 0
   const sections = [
     { id: `${lab.id}-overview`, label: text(ui.overview, locale) },
-    ...lab.steps.map((item, index) => ({ id: `${lab.id}-${item.id}`, label: `${index + 1}. ${text(item.title, locale)}` })),
+    ...lab.steps.map((item, index) => ({ id: `${lab.id}-${item.id}`, label: `${index + 1}. ${stripMarkdown(text(item.title, locale))}` })),
   ]
 
   useEffect(() => { loadLabs().then(setLabs).catch(() => {}) }, [])
@@ -247,7 +272,7 @@ function App() {
           <span className="eyebrow">{text(ui.guide, locale)}</span>
           <h2>{text(ui.contents, locale)}</h2>
           <nav className="document-toc" aria-label={text(ui.contents, locale)}>
-            {lab.steps.map((item, index) => <a href={`#${lab.id}-${item.id}`} key={item.id}><span>{String(index + 1).padStart(2, '0')}</span><strong>{text(item.title, locale)}</strong><ArrowRight size={18} /></a>)}
+            {lab.steps.map((item, index) => <a href={`#${lab.id}-${item.id}`} key={item.id}><span>{String(index + 1).padStart(2, '0')}</span><strong>{stripMarkdown(text(item.title, locale))}</strong><ArrowRight size={18} /></a>)}
           </nav>
         </section>
 

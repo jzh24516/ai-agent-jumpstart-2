@@ -2,7 +2,7 @@ import { labs as defaultLabs } from './labs'
 import type { Lab, LabStep, LabStepPage, LocalizedText } from './types'
 
 const CONTENT_URL = '/content/labs.json'
-export const CONTENT_VERSION = 1
+export const CONTENT_VERSION = 2
 
 const uid = (prefix: string) => {
   const random = typeof crypto !== 'undefined' && 'randomUUID' in crypto
@@ -21,6 +21,7 @@ const normalizePage = (page: LabStepPage): LabStepPage => ({
   id: page.id || uid('page'),
   title: page.title ? cloneText(page.title) : undefined,
   paragraphs: (page.paragraphs ?? []).map(cloneText),
+  markdown: page.markdown ? cloneText(page.markdown) : undefined,
   highlight: page.highlight ? cloneText(page.highlight) : undefined,
   prompt: page.prompt || undefined,
   imageKeys: page.imageKeys ? [...page.imageKeys] : [],
@@ -58,6 +59,20 @@ export const normalizeLab = (lab: Lab): Lab => ({
 
 const renumber = (labs: Lab[]): Lab[] => labs.map((lab, index) => ({ ...lab, number: index + 1 }))
 
+const migrateContent = (labs: Lab[], version: number): Lab[] => {
+  const normalized = labs.map(normalizeLab)
+  if (version < 2) {
+    const lab01 = normalized.find((lab) => lab.id === 'lab-01')
+    const setupStep = defaultLabs
+      .find((lab) => lab.id === 'lab-01')
+      ?.steps.find((step) => step.id === 'browser-profile-setup')
+    if (lab01 && setupStep && !lab01.steps.some((step) => step.id === setupStep.id)) {
+      lab01.steps.unshift(normalizeStep(setupStep))
+    }
+  }
+  return renumber(normalized)
+}
+
 export const defaultContent = (): Lab[] => renumber(defaultLabs.map(normalizeLab))
 
 export async function loadLabs(): Promise<Lab[]> {
@@ -66,7 +81,7 @@ export async function loadLabs(): Promise<Lab[]> {
     if (response.ok) {
       const data = await response.json()
       if (Array.isArray(data?.labs) && data.labs.length) {
-        return renumber((data.labs as Lab[]).map(normalizeLab))
+        return migrateContent(data.labs as Lab[], Number(data.version) || 0)
       }
     }
   } catch {

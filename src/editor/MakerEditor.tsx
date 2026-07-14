@@ -201,11 +201,13 @@ export default function MakerEditor({
 
                     {page.paragraphs.map((paragraph, paraIndex) => (
                       <div className="editor-inline" key={paraIndex}>
-                        <LocalizedField label={`${text(ui.page, locale)} ¶ ${paraIndex + 1}`} value={paragraph} locale={editLocale} rows={3} onChange={(next) => update((d) => { d[selected].steps[stepIndex].pages![pageIndex].paragraphs[paraIndex] = next })} />
+                        <LocalizedField label={`${text(ui.page, locale)} ¶ ${paraIndex + 1} (Markdown)`} value={paragraph} locale={editLocale} rows={3} onChange={(next) => update((d) => { d[selected].steps[stepIndex].pages![pageIndex].paragraphs[paraIndex] = next })} />
                         <button type="button" className="row-remove" title={text(ui.remove, locale)} onClick={() => update((d) => { const paras = d[selected].steps[stepIndex].pages![pageIndex].paragraphs; if (paras.length > 1) paras.splice(paraIndex, 1) })}><Trash2 size={14} /></button>
                       </div>
                     ))}
                     <button type="button" className="ghost-button" onClick={() => update((d) => d[selected].steps[stepIndex].pages![pageIndex].paragraphs.push(emptyText()))}><Plus size={14} />{text(ui.addParagraph, locale)}</button>
+
+                    <LocalizedField label="Markdown" value={page.markdown ?? emptyText()} locale={editLocale} rows={12} onChange={(next) => update((d) => { d[selected].steps[stepIndex].pages![pageIndex].markdown = next })} />
 
                     <LocalizedField label={text(ui.fieldHighlight, locale)} value={page.highlight ?? emptyText()} locale={editLocale} rows={2} onChange={(next) => update((d) => { d[selected].steps[stepIndex].pages![pageIndex].highlight = next })} />
 
