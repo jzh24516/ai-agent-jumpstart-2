@@ -1552,7 +1552,7 @@
                 "ko": ""
               },
               "highlight": {
-                "en": "- **Descriptions matter:** the tool description and the input description (with the ticket/case/service-request synonyms) are what the orchestrator uses to pick this tool and fill the number — keep them exactly as set.\n- **If the agent doesn't call the tool:** re-check the tool description wording and confirm the tool shows **Enabled: On**.\n- **Connection:** if prompted, authenticate the workflow's ServiceNow connection with an account that can read the Incident table, or the lookup returns nothing.\n- **Empty result:** for an unknown number, the tool should say \"no incident found for that number\" rather than returning blank.",
+                "en": "- **Descriptions matter:** the tool description and the input description (with the ticket/case/service-request synonyms) are what the orchestrator uses to pick this tool and fill the number — keep them exactly as set.\n- **If the agent doesn't call the tool:** re-check the tool description wording and confirm the tool shows **Enabled: On**.\n- **Empty result:** for an unknown number, the tool should say \"no incident found for that number\" rather than returning blank.",
                 "zh": "",
                 "ja": "",
                 "ko": ""
@@ -1588,7 +1588,7 @@
                 "ko": ""
               },
               "highlight": {
-                "en": "## Notes & gotchas\n- **Connected agents (new experience)** can only connect other **new-experience Copilot Studio agents in the same environment**, and the target must be **published** and owned by/shared with you.\n- **Routing quality** depends on the connected agent's **name + description** — keep it specific and non-overlapping with other connected agents.\n- **KB vs. Incident:** ServiceNow **Knowledge** is read-only Q&A; **incident status query + update** needs the **ServiceNow connector actions (Tool)** because updating a ticket is a write action.",
+                "en": "## Notes & gotchas\n- **Connected agents (new experience)** can only connect other **new-experience Copilot Studio agents in the same environment**, and the target must be **published** and owned by/shared with you.\n- **Routing quality** depends on the connected agent's **name + description** — keep it specific and non-overlapping with other connected agents.\n- **KB vs. Incident:** ServiceNow **Knowledge** is read-only Q&A; **incident status query** needs the **ServiceNow connector actions (Tool)**.",
                 "zh": "",
                 "ja": "",
                 "ko": ""
@@ -1636,15 +1636,61 @@
               "id": "main",
               "paragraphs": [
                 {
-                  "en": "Publish the latest version, add Microsoft 365 Copilot and Teams channels, install the agent, then run a joint test matrix for routing, identity, citations, ticket privacy, and file or link rendering.",
+                  "en": "## Before you start\n- **Ask Me Anything Agent** (primary) has **Ask IT Anything Agent v2 -MJ** connected, and both are tested in **Preview**.\n- You're in a **paid environment** (trial environments can't publish).\n- Keep **Authenticate with Microsoft** turned on so Teams and Microsoft 365 Copilot use Entra ID sign-in and the ServiceNow tools can run with user credentials. *(With \"No authentication,\" tools can't use user credentials.)*",
                   "zh": "发布最新版本，添加 Microsoft 365 Copilot 与 Teams 渠道，安装 Agent，并联合测试路由、身份、引用、工单隐私及文件/链接呈现。",
                   "ja": "最新版を公開し、Microsoft 365 Copilot と Teams チャネルを追加して、ルーティング、ID、引用、プライバシーを共同テストします。",
                   "ko": "최신 버전을 게시하고 Microsoft 365 Copilot 및 Teams 채널을 추가한 뒤 라우팅, ID, 인용, 티켓 개인정보 보호를 공동 테스트합니다."
                 }
               ],
-              "prompts": [],
+              "markdown": {
+                "en": "## Publish the latest version\n1. Open **Ask Me Anything Agent** and go to the **Build** tab.\n2. Select the **chevron next to Publish** (first publish) or **Publish** in the upper-right (updates).\n3. In the **Publish agent** dialog, review the details — make sure name, description, and instructions are complete.\n4. Select **Publish** and confirm; wait for it to finish.\n5. **Republish Ask IT Anything Agent v2 -MJ too** if you changed it — the connected agent must be on its latest published version.\n\n> Publishing applies to all channels. The latest content goes live for a user when a **new session** starts (type **start over** to force it; otherwise it can take up to an hour).\n\n---\n\n## Add Microsoft 365 Copilot and Teams channels\n1. In the **Publish** dialog (or the top-menu **Channels**), select **Teams + Microsoft 365 Copilot**.\n2. In the configuration panel, under **Turn on Microsoft 365**, select **Make agent available in Microsoft 365 Copilot chat** — this enables both **Teams** and **Microsoft 365 Copilot**.\n3. Set the **Availability options** (start with just yourself for testing).\n4. **Publish** again to apply the channel changes.\n\n---\n\n## Install the agent\n- **For yourself (fastest):** select **Open the agent in Teams** / **See agent in Teams** to install it in Teams; **pin** it for easy access.\n- **In Microsoft 365 Copilot:** open Microsoft 365 Copilot chat → **Get Agents** → search **Ask Me Anything Agent** → **Add**.\n- **Org-wide (optional):** on the Publish page, select **Make the agent available to others** → **Submit for admin approval**; an admin approves it in **Teams Admin Center → Manage apps**.\n\n---\n\n## Run the joint test matrix\nRun every row in **both channels** (Microsoft Teams **and** Microsoft 365 Copilot), signed in as a normal end user.\n\n| # | Area | Sample prompt | Pass criteria |\n|---|------|---------------|---------------|\n| 1 | Routing (KB) | \"Top 5 reason to select Copilot Studio?\" | handled by the **primary** agent; answer comes from the **Microsoft Website**  |\n| 2 | Routing (ticket) | \"What's the status of my ticket INC0010053?\" | Routes to the IT agent; **JumpStart - Get SNOW Incident Status and Description by Number** is called; status + description returned |\n| 3 | Routing (negative) | \"Customer insights for My Big Bet Account\" | Handled by the **primary** agent — **not** routed to the IT agent |\n\n**For each run, log:** the channel, whether routing was correct, the identity the ticket call resolved to, whether a citation appeared, and how links/cards rendered.",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
+              "highlight": {
+                "en": "## Notes & gotchas\n- **Republish after every change** — and republish the connected IT agent too; unpublished changes don't reach users.\n- **Latest content timing:** start a new session or type **start over**; otherwise propagation can take ~1 hour.\n- **Rendering differs by channel:** adaptive cards and markdown are only partially supported in Teams/M365 Copilot vs. the web demo — always test both surfaces (rows #5, #7).\n- **Don't go org-wide early:** keep availability limited to yourself until the full matrix passes in both channels.",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
+              "prompts": [
+                {
+                  "id": "prompt-42be359c",
+                  "title": {
+                    "en": "Test Prompt 1",
+                    "zh": "",
+                    "ja": "",
+                    "ko": ""
+                  },
+                  "content": "Top 5 reason to select Copilot Studio"
+                },
+                {
+                  "id": "prompt-d2ee611f",
+                  "title": {
+                    "en": "Test Prompt 2",
+                    "zh": "",
+                    "ja": "",
+                    "ko": ""
+                  },
+                  "content": "What's the status of my ticket INC0010053?"
+                },
+                {
+                  "id": "prompt-0503bfec",
+                  "title": {
+                    "en": "Test Prompt 3",
+                    "zh": "",
+                    "ja": "",
+                    "ko": ""
+                  },
+                  "content": "Customer insights for My Big Bet Account"
+                }
+              ],
               "imageKeys": [
-                "04-publish-channels"
+                "04-publish-teams-m365copilot-1",
+                "04-publish-teams-m365copilot-2",
+                "04-publish-teams-m365copilot-3",
+                "04-publish-teams-m365copilot-4"
               ]
             }
           ]
