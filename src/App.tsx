@@ -17,7 +17,9 @@ const locales = Object.keys(localeNames) as Locale[]
 const iconMap = { sparkles: Sparkles, database: Database, file: FileSpreadsheet, network: Network, mail: MailCheck, mic: Mic2 }
 
 // Renders Markdown inline (no block <p> wrapper) so it can live inside headings like <h2>/<h3>.
-const inlineMarkdownComponents = { p: ({ children }: { children?: ReactNode }) => <Fragment>{children}</Fragment> }
+// Headings are also flattened to inline so a stray "## " in a title never nests an <h2> inside an <h3>.
+const inlinePassThrough = ({ children }: { children?: ReactNode }) => <Fragment>{children}</Fragment>
+const inlineMarkdownComponents = { p: inlinePassThrough, h1: inlinePassThrough, h2: inlinePassThrough, h3: inlinePassThrough, h4: inlinePassThrough, h5: inlinePassThrough, h6: inlinePassThrough }
 function InlineMarkdown({ children }: { children: string }) {
   return <ReactMarkdown remarkPlugins={[remarkGfm]} components={inlineMarkdownComponents}>{children}</ReactMarkdown>
 }
