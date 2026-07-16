@@ -336,7 +336,7 @@
                 }
               ],
               "markdown": {
-                "en": "## Test the agent\n\n1. Open the agent's **Preview** tab in modern agent maker experience portal.\n2. Ask a Microsoft-related question, for example:\n\n   ```text\n   Share with me some customers using copilot studio in energy and utility industry\n   ```\n\n   ```text\n   The Copilot Studio New Feature Updates and Roadmap in Oct Release 2026\n   ```\n\n3. Verify that the agent uses the **Microsoft Learn MCP Server** or *Microsoft Website* and returns responses grounded in those documentation.\n\n## Expected Result\n\n4. The agent is now connected to the **Microsoft Website** and **Microsoft Learn MCP Server**. \n5. The agent can search documentation in real time and use Microsoft Website and Learn content to answer questions about Microsoft products and services.\n6. Click \"**Publish**\" button on the top right corner of agent maker UI page.",
+                "en": "## Test the agent\n\n1. Open the agent's **Preview** tab in modern agent maker experience portal.\n2. Ask a Microsoft-related question, for example:\n\n   ```text\n   Share with me some customers using copilot studio in energy and utility industry\n   ```\n\n   ```text\n   The Copilot Studio New Feature Updates and Roadmap in Oct Release 2026\n   ```\n\n3. Verify that the agent uses the **Microsoft Learn MCP Server** or *Microsoft Website* and returns responses grounded in those documentation.\n\n## Expected Result\n\n4. The agent is now connected to the **Microsoft Website** and **Microsoft Learn MCP Server**. \n5. The agent can search documentation in real time and use Microsoft Website and Learn content to answer questions about Microsoft products and services.\n6. Click \"**Save**\" and then the \"**Publish**\" button on the top right corner of agent maker UI page.",
                 "zh": "",
                 "ja": "",
                 "ko": ""
@@ -1241,7 +1241,13 @@
                 }
               ],
               "markdown": {
-                "en": "## Notes & gotchas\n\n- **License gate:** Work IQ MCP servers require a **Microsoft 365 Copilot license**; without it, the tools won't be addable.\n- **Preview behavior:** Work IQ MCP and Microsoft IQ are **preview** — occasional test-panel rendering glitches are expected; not for production-critical use yet.\n- **Work IQ toggle ≠ inbox/Teams access by itself:** the **Work IQ flag** primarily strengthens search/grounding over your connected knowledge. Deep, action-level access to mail/files/Word comes from the **Work IQ MCP tools** you added in Part 2.\n- **File size:** Work IQ OneDrive/SharePoint file operations are limited to about **5 MB** — large questionnaires may need trimming or splitting.\n- **Grounding quality:** keep the **Microsoft Learn Docs MCP** tool enabled and referenced in the skill so answers stay tied to official Copilot Studio / Power Platform docs rather than model memory.\n- **Connection identity:** authenticate every Work IQ tool as the **end-user demo account**, not an admin, so results resolve to the right person's data.",
+                "en": "## Notes & gotchas\n\n- **License gate:** Work IQ MCP servers require a **Microsoft 365 Copilot license**; without it, the tools won't be addable.\n- **Preview behavior:** Work IQ MCP and Microsoft IQ are **preview** — occasional test-panel rendering glitches are expected; not for production-critical use yet.\n- **Work IQ toggle ≠ inbox/Teams access by itself:** the **Work IQ flag** primarily strengthens search/grounding over your connected knowledge. Deep, action-level access to mail/files/Word comes from the **Work IQ MCP tools** you added in Part 2.\n- **Grounding quality:** keep the **Microsoft Learn Docs MCP** tool enabled and referenced in the skill so answers stay tied to official Copilot Studio / Power Platform docs rather than model memory.\n- **Connection identity:** authenticate every Work IQ tool as the **end-user demo account**, not an admin, so results resolve to the right person's data.",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
+              "highlight": {
+                "en": "Don't forget to **Save** and **Publish** the Agent at the end of this lab.   ",
                 "zh": "",
                 "ja": "",
                 "ko": ""
@@ -1313,7 +1319,7 @@
         {
           "id": "create-it",
           "title": {
-            "en": "Create the IT specialist",
+            "en": "Create the IT Specialist Agent",
             "zh": "创建 IT 专家 Agent",
             "ja": "IT 専門 Agent を作成",
             "ko": "IT 전문 Agent 만들기"
@@ -1323,20 +1329,59 @@
               "id": "main",
               "paragraphs": [
                 {
-                  "en": "Create a separate agent named Ask IT Anything. Add the instructions below and a clear description that helps orchestration recognize IT support, device, access, software, and incident-status intents.",
+                  "en": "Create a separate agent named **Ask IT Anything**. Add the instructions below and a clear description that helps orchestration recognize IT support, device, access, software, and incident-status intents.",
                   "zh": "创建独立的 Ask IT Anything Agent，添加下方指令和清晰描述，以便编排识别 IT 支持、设备、访问、软件和工单状态意图。",
                   "ja": "Ask IT Anything を別 Agent として作り、以下の指示と IT サポート意図を識別できる説明を追加します。",
                   "ko": "Ask IT Anything을 별도 Agent로 만들고 아래 지침과 IT 지원 의도를 식별할 수 있는 설명을 추가합니다."
                 }
               ],
+              "markdown": {
+                "en": "1. Open a **new browser tab** and navigate to **`copilotstudio.preview.microsoft.com`**. Sign in with your work account and confirm the correct **environment**.\n2. Verify you're in the **new experience** (Build / Preview / Evaluate / Monitor tabs).\n3. In the left navigation, select **Create**, then **New agent**.\n4. Enter the name **`Ask IT Anything Agent v2 - <Your Alias>`** and an instruction as below.",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
+              "highlight": {
+                "en": "## Before you start\n- You're using the **new/modern agent experience** (top nav shows **Build / Preview / Evaluate / Monitor**).\n- You have a **ServiceNow** instance plus its connection details to serve as IT Helpdesk knowledge and Service Ticket.\n- Both agents (**Ask Me Anything Agent** and **Ask IT Anything Agent**) live in the **\"Training\" environment** .\n- The specialist agent must be **published** before it can be connected.",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
               "prompts": [
                 {
+                  "id": "prompt-4bb91406",
+                  "title": {
+                    "en": "URL to open in the new tab",
+                    "zh": "",
+                    "ja": "",
+                    "ko": ""
+                  },
+                  "content": "https://copilotstudio.preview.microsoft.com"
+                },
+                {
+                  "id": "prompt-236f0ce5",
+                  "title": {
+                    "en": "Agent name",
+                    "zh": "",
+                    "ja": "",
+                    "ko": ""
+                  },
+                  "content": "Ask IT Anything Agent v2 - <Your Alias>"
+                },
+                {
                   "id": "prompt-cb3f718a",
-                  "content": "You are Ask IT Anything, an internal IT support specialist.\n- Search the approved ServiceNow knowledge base before answering procedural questions.\n- For ticket status, use the ServiceNow connection and require the incident number or help the user select from tickets they are authorized to view.\n- Return incident number, short description, state, priority, assigned group, last update, and next expected action.\n- Never expose another user's ticket, private work notes, credentials, or security-sensitive implementation details.\n- Do not claim a ticket was updated unless the ServiceNow tool confirms success.\n- Escalate urgent safety, identity compromise, and widespread outage signals according to the approved helpdesk process.\n- Respond in the user's language while preserving official ServiceNow field values where precision matters."
+                  "title": {
+                    "en": "Agent instruction",
+                    "zh": "",
+                    "ja": "",
+                    "ko": ""
+                  },
+                  "content": "You are Ask IT Anything, an internal IT support specialist, your role is to surface the answers to IT related questions, like ask for the update of a IT ticket, a query for the knowledge to a software, hardware usage, guidance and support.   You can help to:  \n- Search the approved ServiceNow knowledge base before answering procedural questions.\n- For ticket status, use the ServiceNow connection and require the incident number or help the user select from tickets they are authorized to view.\n- Return incident number, short description, state, priority, assigned group, last update, and next expected action.\n- Never expose another user's ticket, private work notes, credentials, or security-sensitive implementation details.\n- Do not claim a ticket was updated unless the ServiceNow tool confirms success.\n- Escalate urgent safety, identity compromise, and widespread outage signals according to the approved helpdesk process.\n\nYour behavior should reflect the following qualities:\n- Maintain a playful and joyful tone while being customer-focused and engaging with empathy.\n- Use emojis if needed, but maintain professionalism.\n- Use bullet points for illustration if needed, and always show the citation source if there is.\n- Return the response in well organized HTML format.\n- Avoid discussing topics related to religion, politics, sex, and violence.​‌\n\nLanguage Policy:\n- Always respond in the customer's desired language or detect the dominant language from what customer entered (referred to as the “current language”).\n- If mixed languages: prefer the language with most meaningful, complete sentences / parts that forms the request, and intent-carrying content as the \"current language\".\n- DO NOT switch language for short interjections like “yes/no/ok”, and ignore URLs/emails/emojis/numbers/punctuation/code/names.\n- Supported output styles: a female style voice with the right wordings for English, Chinese Simplified (Mandarin), Japanese and Korean.​​"
                 }
               ],
               "imageKeys": [
-                "01-create-it-agent"
+                "01-create-askit-agent-1",
+                "01-create-askit-agent-2"
               ]
             }
           ]
@@ -1344,7 +1389,7 @@
         {
           "id": "servicenow",
           "title": {
-            "en": "Add the ServiceNow connection",
+            "en": "Connect to ServiceNow",
             "zh": "添加 ServiceNow 连接",
             "ja": "ServiceNow 接続を追加",
             "ko": "ServiceNow 연결 추가"
@@ -1352,31 +1397,117 @@
           "pages": [
             {
               "id": "main",
+              "title": {
+                "en": "Add ServiceNow Knowledge",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
               "paragraphs": [
                 {
-                  "en": "In Tools, add the ServiceNow connection. Enable knowledge search and read-only incident lookup actions first, then test with a known incident owned by the signed-in user.",
+                  "en": "ServiceNow Knowledge (IT Helpdesk Q&A) as Knowledge using **Copilot Connection** as **Tool**",
                   "zh": "在 Tools 中添加 ServiceNow 连接；先启用知识搜索与只读工单查询，并使用当前用户拥有的已知工单进行测试。",
                   "ja": "Tools で ServiceNow 接続を追加し、ナレッジ検索と読み取り専用インシデント検索から有効化してテストします。",
                   "ko": "Tools에서 ServiceNow 연결을 추가하고 지식 검색 및 읽기 전용 인시던트 조회부터 활성화한 뒤 테스트합니다."
                 }
               ],
+              "markdown": {
+                "en": "1. On the **Build** tab, in the components panel, select **Knowledge** → **Add knowledge**.\n2. Choose **ServiceNow** (the ServiceNow Knowledge Copilot Connection) as the source.\n3. Select **mjCopilotSNOW27** from the connection list, and then clicked **Add**.\n4. Go to the **Preview** tab, to test using example prompt to check and result.\n > *How to setup the out of office auto reply in outlook?*\n5. Click **Save** in the top right toolbar.",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
               "highlight": {
-                "en": "Keep write actions out of scope until you have explicit confirmation, audit, and rollback requirements.",
+                "en": "",
                 "zh": "在具备明确确认、审计和回滚要求前，不要启用写入操作。",
                 "ja": "明示的な確認、監査、ロールバック要件が整うまでは書き込みを対象外にします。",
                 "ko": "명시적 확인, 감사 및 롤백 요구 사항이 마련될 때까지 쓰기 작업을 범위에서 제외하세요."
               },
-              "prompts": [],
+              "prompts": [
+                {
+                  "id": "prompt-162ee4c1",
+                  "title": {
+                    "en": "ServiceNow Knowledge Connection Name",
+                    "zh": "",
+                    "ja": "",
+                    "ko": ""
+                  },
+                  "content": "mjCopilotSNOW27"
+                },
+                {
+                  "id": "prompt-02c42e33",
+                  "title": {
+                    "en": "Test Prompt",
+                    "zh": "",
+                    "ja": "",
+                    "ko": ""
+                  },
+                  "content": "How to setup the out of office auto reply in outlook"
+                }
+              ],
               "imageKeys": [
-                "02-servicenow"
+                "02-snow-connection-kb-1",
+                "02-snow-connection-kb-2",
+                "02-snow-connection-kb-3",
+                "02-snow-connection-kb-4"
               ]
+            },
+            {
+              "id": "page-eeb99f20",
+              "title": {
+                "en": "Add ServiceNow Incidents",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
+              "paragraphs": [
+                {
+                  "en": "SNOW Incident (Ticket Status Query & Update) as a **Tool**",
+                  "zh": "",
+                  "ja": "",
+                  "ko": ""
+                }
+              ],
+              "markdown": {
+                "en": "1. On the **Build** tab, select **Tools** → **+ Add a tool** → **Connectors**, then search **ServiceNow**.\n2. Add the **Incident** actions you need — e.g., **List Records / Get Record** (query ticket status) and **Update Record** (update ticket) targeting the **Incident** table.\n3. When prompted, **create or select the ServiceNow connection** (same credentials), then **Add and configure**.\n4. Give each action a clear description (e.g., *\"Query ServiceNow incident/ticket status\"*, *\"Update ServiceNow incident status\"*) so the orchestrator knows when to call it.",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
+              "prompts": [],
+              "imageKeys": []
+            },
+            {
+              "id": "page-ba2352cd",
+              "title": {
+                "en": "Test in the Preview tab",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
+              "paragraphs": [
+                {
+                  "en": "",
+                  "zh": "",
+                  "ja": "",
+                  "ko": ""
+                }
+              ],
+              "markdown": {
+                "en": "1. Open the **Preview** tab.\n2. Ask an **IT Helpdesk** question (e.g., *\"How do I set up VPN?\"*) → should answer from the ServiceNow KB.\n3. Ask a **ticket status** query (e.g., *\"What's the status of INC0010023?\"*) and an **update** (e.g., *\"Set INC0010023 to In Progress\"*) → should invoke the incident actions.\n4. **Publish** *Ask IT Anything Agent v2 -MJ* so it becomes available to connect as a connected agent.\n",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
+              "prompts": [],
+              "imageKeys": []
             }
           ]
         },
         {
           "id": "connect",
           "title": {
-            "en": "Connect the specialist to Ask Me Anything",
+            "en": "Connect to Ask Me Anything Agent",
             "zh": "将专家接入 Ask Me Anything",
             "ja": "専門 Agent を Ask Me Anything に接続",
             "ko": "전문 Agent를 Ask Me Anything에 연결"
@@ -1392,6 +1523,18 @@
                   "ko": "Ask Me Anything으로 돌아가 Ask IT Anything을 Connected Agent로 추가하고 제품, IT 지식, 티��� 상태 질문을 테스트합니다."
                 }
               ],
+              "markdown": {
+                "en": "1. Open the **Ask Me Anything Agent** (your front-door/primary agent) in the new experience.\n2. On the **Build** tab, in the components panel, select **Connected agents** → **Add a connected agent**.\n3. Browse or search and select **Ask IT Anything Agent v2 -MJ**.\n4. Add a clear routing **description**, for example:\n   > *Use for all IT helpdesk questions and for ServiceNow service ticket/incident status queries and updates. Route any IT support or ticket-status request here.*\n5. Select **Connect** and confirm it appears in the components panel.\n6. **Test delegation** in the **Preview** tab:\n   - Ask an IT helpdesk question and a ticket-status/update request → confirm the primary agent **routes to Ask IT Anything Agent v2 -MJ**.\n   - Ask an unrelated question → confirm the **primary agent** handles it itself.",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
+              "highlight": {
+                "en": "## Notes & gotchas\n- **Connected agents (new experience)** can only connect other **new-experience Copilot Studio agents in the same environment**, and the target must be **published** and owned by/shared with you.\n- **Routing quality** depends on the connected agent's **name + description** — keep it specific and non-overlapping with other connected agents.\n- **KB vs. Incident:** ServiceNow **Knowledge** is read-only Q&A; **incident status query + update** needs the **ServiceNow connector actions (Tool)** because updating a ticket is a write action.",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
               "prompts": [],
               "imageKeys": [
                 "03-connected-agent"
