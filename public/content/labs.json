@@ -1455,32 +1455,84 @@
             {
               "id": "page-eeb99f20",
               "title": {
-                "en": "Add ServiceNow Incidents",
+                "en": "Query ServiceNow Incident",
                 "zh": "",
                 "ja": "",
                 "ko": ""
               },
               "paragraphs": [
                 {
-                  "en": "SNOW Incident (Ticket Status Query & Update) as a **Tool**",
+                  "en": "ServiceNow Incident (Ticket Status Query) as a **Tool**",
                   "zh": "",
                   "ja": "",
                   "ko": ""
                 }
               ],
               "markdown": {
-                "en": "1. On the **Build** tab, select **Tools** → **+ Add a tool** → **Connectors**, then search **ServiceNow**.\n2. Add the **Incident** actions you need — e.g., **List Records / Get Record** (query ticket status) and **Update Record** (update ticket) targeting the **Incident** table.\n3. When prompted, **create or select the ServiceNow connection** (same credentials), then **Add and configure**.\n4. Give each action a clear description (e.g., *\"Query ServiceNow incident/ticket status\"*, *\"Update ServiceNow incident status\"*) so the orchestrator knows when to call it.",
+                "en": "## Add the existing workflow as a tool\n1. On the **Build** tab, in the components panel, select **Tools**.\n2. In the **Add a tool** dialog, open the **Workflows** tab (or use the search box).\n3. Search for and select **JumpStart - Get SNOW Incident Status and Description by Number**.\n4. Review its details, then select **Add**. The workflow now appears as a **tool** on your agent's Build tab.\n\n---\n\n## Edit the tool description and input description\n1. On the **Build** tab, select the tool **JumpStart - Get SNOW Incident Status and Description by Number** to open its settings.\n2. Set the **Description** to:\n   > `Get Service Now Service Request / Ticket / Incident / Case Status and Description by Number`\n3. In the **Inputs** section, open the **first input parameter** (Incident Number) and set its **description** to:\n   > `The Service Now Incident Number, or mentioned by user as service request / Ticket / Case Number`\n4. **Save.** *(These descriptions drive orchestration — the \"service request / ticket / case\" synonyms help the agent map the user's words to this tool and its input.)*\n\n---\n\n## Test in the Preview tab\n1. Open the **Preview** tab.\n2. Enter the test prompt:\n   > *\"I want to check the current status of my ticket with number INC0010053\"*\n3. **Expected result:** the agent recognizes \"ticket … number,\" calls **JumpStart - Get SNOW Incident Status and Description by Number**, passes **INC0010053** into the Incident Number input, and returns the incident's **status and description** from ServiceNow.\n4. Click **Save** and then **Publish** the agent.",
                 "zh": "",
                 "ja": "",
                 "ko": ""
               },
-              "prompts": [],
-              "imageKeys": []
+              "highlight": {
+                "en": "",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
+              "prompts": [
+                {
+                  "id": "prompt-bb0ca08b",
+                  "title": {
+                    "en": "Workflow Name",
+                    "zh": "",
+                    "ja": "",
+                    "ko": ""
+                  },
+                  "content": "JumpStart - Get SNOW Incident Status and Description by Number"
+                },
+                {
+                  "id": "prompt-59d4d4c3",
+                  "title": {
+                    "en": "Tool Description",
+                    "zh": "",
+                    "ja": "",
+                    "ko": ""
+                  },
+                  "content": "Get Service Now Service Request / Ticket / Incident / Case Status and Description by Number"
+                },
+                {
+                  "id": "prompt-5650cb13",
+                  "title": {
+                    "en": "Tool's Input Description",
+                    "zh": "",
+                    "ja": "",
+                    "ko": ""
+                  },
+                  "content": "The Service Now Incident Number, or Number mentioned by user as service request / Ticket / Case Number"
+                },
+                {
+                  "id": "prompt-8dcd4829",
+                  "title": {
+                    "en": "Test Prompt",
+                    "zh": "",
+                    "ja": "",
+                    "ko": ""
+                  },
+                  "content": "I want to check the current status of my ticket with number INC0010053"
+                }
+              ],
+              "imageKeys": [
+                "03-snow-connection-incident-1",
+                "03-snow-connection-incident-2",
+                "03-snow-connection-incident-3",
+                "03-snow-connection-incident-4"
+              ]
             },
             {
               "id": "page-ba2352cd",
               "title": {
-                "en": "Test in the Preview tab",
+                "en": "## Notes & gotchas",
                 "zh": "",
                 "ja": "",
                 "ko": ""
@@ -1494,7 +1546,13 @@
                 }
               ],
               "markdown": {
-                "en": "1. Open the **Preview** tab.\n2. Ask an **IT Helpdesk** question (e.g., *\"How do I set up VPN?\"*) → should answer from the ServiceNow KB.\n3. Ask a **ticket status** query (e.g., *\"What's the status of INC0010023?\"*) and an **update** (e.g., *\"Set INC0010023 to In Progress\"*) → should invoke the incident actions.\n4. **Publish** *Ask IT Anything Agent v2 -MJ* so it becomes available to connect as a connected agent.\n",
+                "en": "",
+                "zh": "",
+                "ja": "",
+                "ko": ""
+              },
+              "highlight": {
+                "en": "- **Descriptions matter:** the tool description and the input description (with the ticket/case/service-request synonyms) are what the orchestrator uses to pick this tool and fill the number — keep them exactly as set.\n- **If the agent doesn't call the tool:** re-check the tool description wording and confirm the tool shows **Enabled: On**.\n- **Connection:** if prompted, authenticate the workflow's ServiceNow connection with an account that can read the Incident table, or the lookup returns nothing.\n- **Empty result:** for an unknown number, the tool should say \"no incident found for that number\" rather than returning blank.",
                 "zh": "",
                 "ja": "",
                 "ko": ""
@@ -1524,7 +1582,7 @@
                 }
               ],
               "markdown": {
-                "en": "1. Open the **Ask Me Anything Agent** (your front-door/primary agent) in the new experience.\n2. On the **Build** tab, in the components panel, select **Connected agents** → **Add a connected agent**.\n3. Browse or search and select **Ask IT Anything Agent v2 -MJ**.\n4. Add a clear routing **description**, for example:\n   > *Use for all IT helpdesk questions and for ServiceNow service ticket/incident status queries and updates. Route any IT support or ticket-status request here.*\n5. Select **Connect** and confirm it appears in the components panel.\n6. **Test delegation** in the **Preview** tab:\n   - Ask an IT helpdesk question and a ticket-status/update request → confirm the primary agent **routes to Ask IT Anything Agent v2 -MJ**.\n   - Ask an unrelated question → confirm the **primary agent** handles it itself.",
+                "en": "1. Open the **Ask Me Anything Agent** (your front-door/primary agent) in the new experience.\n2. On the **Build** tab, in the components panel, select **Connected agents** → **Add a connected agent**.\n3. Browse or search and select **Ask IT Anything Agent v2 - <Your Alias>**.\n4. Add a clear routing **description**, for example:\n   **`Use for all IT helpdesk questions and for ServiceNow service ticket/incident status queries and updates. Route any IT support or ticket-status request here.`**\n5. Select **Connect** and confirm it appears in the components panel.\n6. **Test delegation** in the **Preview** tab:\n   - Ask an IT helpdesk question and a ticket-status/update request → confirm the primary agent **routes to Ask IT Anything Agent v2 - <Your Alias>**.\n   - Ask an unrelated question → confirm the **primary agent** handles it itself.",
                 "zh": "",
                 "ja": "",
                 "ko": ""
@@ -1535,9 +1593,32 @@
                 "ja": "",
                 "ko": ""
               },
-              "prompts": [],
+              "prompts": [
+                {
+                  "id": "prompt-7d06c58c",
+                  "title": {
+                    "en": "Connected Agent Description",
+                    "zh": "",
+                    "ja": "",
+                    "ko": ""
+                  },
+                  "content": "Use for all IT helpdesk questions and for ServiceNow service ticket/incident status queries and updates. Route any IT support or ticket-status request here."
+                },
+                {
+                  "id": "prompt-a5b76bb7",
+                  "title": {
+                    "en": "Test Prompt",
+                    "zh": "",
+                    "ja": "",
+                    "ko": ""
+                  },
+                  "content": "I want to check the current status of my ticket with number INC0010053"
+                }
+              ],
               "imageKeys": [
-                "03-connected-agent"
+                "03-connected-agent-1",
+                "03-connected-agent-2",
+                "03-connected-agent-3"
               ]
             }
           ]
