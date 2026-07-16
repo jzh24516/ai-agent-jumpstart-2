@@ -8,7 +8,7 @@
       "duration": 30,
       "title": {
         "en": "Meet the new Agent Maker Experience",
-        "zh": "认识全新的 Copilot Studio Experience",
+        "zh": "认识全新的 Copilot Studio 创新者体验",
         "ja": "新しい Agent Experience",
         "ko": "새로운 Agent Experience"
       },
@@ -79,9 +79,9 @@
               "paragraphs": [],
               "markdown": {
                 "en": "Your organization may block sign-in to tenants other than your work tenant. To access the training environment, you **must** use a browser profile that is **not signed into your work account**. Follow the steps below.\n\n---\n\n## Option 1: Create a New Edge Profile *(Recommended)*\n\nA separate profile keeps your training session alive across browser restarts and won't interfere with your work profile.\n\n### Step 1: Create the profile\n\n1. Open **Microsoft Edge**.\n2. Click your **profile icon** in the top-right corner of the browser.\n3. Click **Set up a new profile** (at the bottom of the profile flyout).\n4. When prompted to choose a profile type, click **Work or school**. (Do **not** choose Personal — the training tenant is an organizational account.)\n5. Click **Start without your data**.\n6. Click **Confirm and start browsing**.\n7. **Do NOT sign in** with any account. Skip or dismiss any sign-in prompts.\n\n> 📖 **Official docs:** [Sign in and create multiple profiles in Microsoft Edge](https://support.microsoft.com/en-us/topic/sign-in-and-create-multiple-profiles-in-microsoft-edge-df94e622-2061-49ae-ad1d-6f0e43ce6435)\n\n### Step 2: Confirm you are NOT signed in\n\nBefore navigating to the jumpstart workshop tenant, verify the profile is clean:\n\n1. In your **new profile window**, click the **profile icon** in the top-right corner.\n2. It should show **\"Sign in to sync data\"** or a generic person silhouette — **not** your name or work email.\n3. Navigate to `edge://settings/profiles` and confirm no account is listed under **\"Microsoft account\"** or **\"Work or school account\"**.\n4. As a final check, go to [**portal.microsoft.com**](https://portal.microsoft.com/). You should see a generic sign-in page — **not** be auto-signed-in to your work tenant.\n\nIf you see your work identity anywhere, you are in the wrong profile. Switch to the new profile you just created.\n\n### Step 3: Get your training account and access the labs\n\n1. Use the **user name and password provided by your instructor** when prompted.\n2. The instructor will provide you with training credentials (username and password).\n3. Go to [**portal.microsoft.com**](https://portal.microsoft.com/) and log in using the credentials provided by the agent.\n4. Go to the [**AI Agent Jumpstart — Microsoft Copilot Agents Labs**](https://aka.ms/AgentJumpStart/) to access the labs. **Make sure you are in the labs specific to your workshop.**\n\n---\n\n## Option 2: InPrivate Browsing in Edge *(Fallback)*\n\n> ⚠️ **Warning:** InPrivate sessions do not persist. If you **close the InPrivate window**, you will be **immediately signed out** of the training tenant and will need to sign in again. All tabs, session state, and unsaved work in the browser will be lost. Use this only if you cannot create a new profile.\n\n1. Open **Microsoft Edge**.\n2. Press **Ctrl + Shift + N**, or click **Settings and more (⋯)** → **New InPrivate window**.\n3. A dark-themed window opens with the **\"InPrivate\"** label visible in the top-left corner.\n4. Navigate to the training tenant URL and sign in with your **training credentials**.\n5. **Do not close this window** for the duration of the training session.\n\n> 📖 **Official docs:** [Browse InPrivate in Microsoft Edge](https://support.microsoft.com/en-us/microsoft-edge/browse-inprivate-in-microsoft-edge-e6f47704-340c-7d4f-b00d-d0cf35aa1fcc)\n\n---\n\n## Other Browsers — Profile Setup Guides\n\nIf you are not using Microsoft Edge, use these official guides to create a separate browser profile:\n\n| Browser | Guide |\n| --- | --- |\n| **Google Chrome** | [Create Chrome browser profiles](https://support.google.com/chrome/answer/2364824) |\n| **Mozilla Firefox** | [Profile Manager — Create, remove, or switch Firefox profiles](https://support.mozilla.org/en-US/kb/profile-manager-create-remove-switch-firefox-profiles) |",
-                "zh": "Your organization may block sign-in to tenants other than your work tenant. To access the training environment, you **must** use a browser profile that is **not signed into your work account**. Follow the steps below.\n\n---\n\n## Option 1: Create a New Edge Profile *(Recommended)*\n\nA separate profile keeps your training session alive across browser restarts and won't interfere with your work profile.\n\n### Step 1: Create the profile\n\n1. Open **Microsoft Edge**.\n2. Click your **profile icon** in the top-right corner of the browser.\n3. Click **Set up a new profile** (at the bottom of the profile flyout).\n4. When prompted to choose a profile type, click **Work or school**. (Do **not** choose Personal — the training tenant is an organizational account.)\n5. Click **Start without your data**.\n6. Click **Confirm and start browsing**.\n7. **Do NOT sign in** with any account. Skip or dismiss any sign-in prompts.\n\n> 📖 **Official docs:** [Sign in and create multiple profiles in Microsoft Edge](https://support.microsoft.com/en-us/topic/sign-in-and-create-multiple-profiles-in-microsoft-edge-df94e622-2061-49ae-ad1d-6f0e43ce6435)\n\n### Step 2: Confirm you are NOT signed in\n\nBefore navigating to the training tenant, verify the profile is clean:\n\n1. In your **new profile window**, click the **profile icon** in the top-right corner.\n2. It should show **\"Sign in to sync data\"** or a generic person silhouette — **not** your name or work email.\n3. Navigate to `edge://settings/profiles` and confirm no account is listed under **\"Microsoft account\"** or **\"Work or school account\"**.\n4. As a final check, go to [**portal.microsoft.com**](https://portal.microsoft.com/). You should see a generic sign-in page — **not** be auto-signed-in to your work tenant.\n\nIf you see your work identity anywhere, you are in the wrong profile. Switch to the new profile you just created.\n\n### Step 3: Get your training account and access the labs\n\n1. In your **new, unsigned-in profile**, go to [**Microsoft Copilot Studio Training**](https://aka.ms/MCSWorkshopAgent/) and chat with the training agent to get an account.\n2. Use the **code provided by your instructor** when prompted.\n3. The agent will provide you with training credentials (username and password).\n4. Go to [**portal.microsoft.com**](https://portal.microsoft.com/) and log in using the credentials provided by the agent.\n5. Go to the [**Architecture Bootcamp — Microsoft Copilot Agents Labs**](https://aka.ms/MCSWorkshopAgent/) to access the labs. **Make sure you are in the labs specific to your bootcamp.**\n\n---\n\n## Option 2: InPrivate Browsing in Edge *(Fallback)*\n\n> ⚠️ **Warning:** InPrivate sessions do not persist. If you **close the InPrivate window**, you will be **immediately signed out** of the training tenant and will need to sign in again. All tabs, session state, and unsaved work in the browser will be lost. Use this only if you cannot create a new profile.\n\n1. Open **Microsoft Edge**.\n2. Press **Ctrl + Shift + N**, or click **Settings and more (⋯)** → **New InPrivate window**.\n3. A dark-themed window opens with the **\"InPrivate\"** label visible in the top-left corner.\n4. Navigate to the training tenant URL and sign in with your **training credentials**.\n5. **Do not close this window** for the duration of the training session.\n\n> 📖 **Official docs:** [Browse InPrivate in Microsoft Edge](https://support.microsoft.com/en-us/microsoft-edge/browse-inprivate-in-microsoft-edge-e6f47704-340c-7d4f-b00d-d0cf35aa1fcc)\n\n---\n\n## Other Browsers — Profile Setup Guides\n\nIf you are not using Microsoft Edge, use these official guides to create a separate browser profile:\n\n| Browser | Guide |\n| --- | --- |\n| **Google Chrome** | [Create Chrome browser profiles](https://support.google.com/chrome/answer/2364824) |\n| **Mozilla Firefox** | [Profile Manager — Create, remove, or switch Firefox profiles](https://support.mozilla.org/en-US/kb/profile-manager-create-remove-switch-firefox-profiles) |\n\nThe same principle applies: create a new profile, **do not sign in** with your work account, then navigate to the training tenant URL.",
-                "ja": "Your organization may block sign-in to tenants other than your work tenant. To access the training environment, you **must** use a browser profile that is **not signed into your work account**. Follow the steps below.\n\n---\n\n## Option 1: Create a New Edge Profile *(Recommended)*\n\nA separate profile keeps your training session alive across browser restarts and won't interfere with your work profile.\n\n### Step 1: Create the profile\n\n1. Open **Microsoft Edge**.\n2. Click your **profile icon** in the top-right corner of the browser.\n3. Click **Set up a new profile** (at the bottom of the profile flyout).\n4. When prompted to choose a profile type, click **Work or school**. (Do **not** choose Personal — the training tenant is an organizational account.)\n5. Click **Start without your data**.\n6. Click **Confirm and start browsing**.\n7. **Do NOT sign in** with any account. Skip or dismiss any sign-in prompts.\n\n> 📖 **Official docs:** [Sign in and create multiple profiles in Microsoft Edge](https://support.microsoft.com/en-us/topic/sign-in-and-create-multiple-profiles-in-microsoft-edge-df94e622-2061-49ae-ad1d-6f0e43ce6435)\n\n### Step 2: Confirm you are NOT signed in\n\nBefore navigating to the training tenant, verify the profile is clean:\n\n1. In your **new profile window**, click the **profile icon** in the top-right corner.\n2. It should show **\"Sign in to sync data\"** or a generic person silhouette — **not** your name or work email.\n3. Navigate to `edge://settings/profiles` and confirm no account is listed under **\"Microsoft account\"** or **\"Work or school account\"**.\n4. As a final check, go to [**portal.microsoft.com**](https://portal.microsoft.com/). You should see a generic sign-in page — **not** be auto-signed-in to your work tenant.\n\nIf you see your work identity anywhere, you are in the wrong profile. Switch to the new profile you just created.\n\n### Step 3: Get your training account and access the labs\n\n1. In your **new, unsigned-in profile**, go to [**Microsoft Copilot Studio Training**](https://aka.ms/MCSWorkshopAgent/) and chat with the training agent to get an account.\n2. Use the **code provided by your instructor** when prompted.\n3. The agent will provide you with training credentials (username and password).\n4. Go to [**portal.microsoft.com**](https://portal.microsoft.com/) and log in using the credentials provided by the agent.\n5. Go to the [**Architecture Bootcamp — Microsoft Copilot Agents Labs**](https://aka.ms/MCSWorkshopAgent/) to access the labs. **Make sure you are in the labs specific to your bootcamp.**\n\n---\n\n## Option 2: InPrivate Browsing in Edge *(Fallback)*\n\n> ⚠️ **Warning:** InPrivate sessions do not persist. If you **close the InPrivate window**, you will be **immediately signed out** of the training tenant and will need to sign in again. All tabs, session state, and unsaved work in the browser will be lost. Use this only if you cannot create a new profile.\n\n1. Open **Microsoft Edge**.\n2. Press **Ctrl + Shift + N**, or click **Settings and more (⋯)** → **New InPrivate window**.\n3. A dark-themed window opens with the **\"InPrivate\"** label visible in the top-left corner.\n4. Navigate to the training tenant URL and sign in with your **training credentials**.\n5. **Do not close this window** for the duration of the training session.\n\n> 📖 **Official docs:** [Browse InPrivate in Microsoft Edge](https://support.microsoft.com/en-us/microsoft-edge/browse-inprivate-in-microsoft-edge-e6f47704-340c-7d4f-b00d-d0cf35aa1fcc)\n\n---\n\n## Other Browsers — Profile Setup Guides\n\nIf you are not using Microsoft Edge, use these official guides to create a separate browser profile:\n\n| Browser | Guide |\n| --- | --- |\n| **Google Chrome** | [Create Chrome browser profiles](https://support.google.com/chrome/answer/2364824) |\n| **Mozilla Firefox** | [Profile Manager — Create, remove, or switch Firefox profiles](https://support.mozilla.org/en-US/kb/profile-manager-create-remove-switch-firefox-profiles) |\n\nThe same principle applies: create a new profile, **do not sign in** with your work account, then navigate to the training tenant URL.",
-                "ko": "Your organization may block sign-in to tenants other than your work tenant. To access the training environment, you **must** use a browser profile that is **not signed into your work account**. Follow the steps below.\n\n---\n\n## Option 1: Create a New Edge Profile *(Recommended)*\n\nA separate profile keeps your training session alive across browser restarts and won't interfere with your work profile.\n\n### Step 1: Create the profile\n\n1. Open **Microsoft Edge**.\n2. Click your **profile icon** in the top-right corner of the browser.\n3. Click **Set up a new profile** (at the bottom of the profile flyout).\n4. When prompted to choose a profile type, click **Work or school**. (Do **not** choose Personal — the training tenant is an organizational account.)\n5. Click **Start without your data**.\n6. Click **Confirm and start browsing**.\n7. **Do NOT sign in** with any account. Skip or dismiss any sign-in prompts.\n\n> 📖 **Official docs:** [Sign in and create multiple profiles in Microsoft Edge](https://support.microsoft.com/en-us/topic/sign-in-and-create-multiple-profiles-in-microsoft-edge-df94e622-2061-49ae-ad1d-6f0e43ce6435)\n\n### Step 2: Confirm you are NOT signed in\n\nBefore navigating to the training tenant, verify the profile is clean:\n\n1. In your **new profile window**, click the **profile icon** in the top-right corner.\n2. It should show **\"Sign in to sync data\"** or a generic person silhouette — **not** your name or work email.\n3. Navigate to `edge://settings/profiles` and confirm no account is listed under **\"Microsoft account\"** or **\"Work or school account\"**.\n4. As a final check, go to [**portal.microsoft.com**](https://portal.microsoft.com/). You should see a generic sign-in page — **not** be auto-signed-in to your work tenant.\n\nIf you see your work identity anywhere, you are in the wrong profile. Switch to the new profile you just created.\n\n### Step 3: Get your training account and access the labs\n\n1. In your **new, unsigned-in profile**, go to [**Microsoft Copilot Studio Training**](https://aka.ms/MCSWorkshopAgent/) and chat with the training agent to get an account.\n2. Use the **code provided by your instructor** when prompted.\n3. The agent will provide you with training credentials (username and password).\n4. Go to [**portal.microsoft.com**](https://portal.microsoft.com/) and log in using the credentials provided by the agent.\n5. Go to the [**Architecture Bootcamp — Microsoft Copilot Agents Labs**](https://aka.ms/MCSWorkshopAgent/) to access the labs. **Make sure you are in the labs specific to your bootcamp.**\n\n---\n\n## Option 2: InPrivate Browsing in Edge *(Fallback)*\n\n> ⚠️ **Warning:** InPrivate sessions do not persist. If you **close the InPrivate window**, you will be **immediately signed out** of the training tenant and will need to sign in again. All tabs, session state, and unsaved work in the browser will be lost. Use this only if you cannot create a new profile.\n\n1. Open **Microsoft Edge**.\n2. Press **Ctrl + Shift + N**, or click **Settings and more (⋯)** → **New InPrivate window**.\n3. A dark-themed window opens with the **\"InPrivate\"** label visible in the top-left corner.\n4. Navigate to the training tenant URL and sign in with your **training credentials**.\n5. **Do not close this window** for the duration of the training session.\n\n> 📖 **Official docs:** [Browse InPrivate in Microsoft Edge](https://support.microsoft.com/en-us/microsoft-edge/browse-inprivate-in-microsoft-edge-e6f47704-340c-7d4f-b00d-d0cf35aa1fcc)\n\n---\n\n## Other Browsers — Profile Setup Guides\n\nIf you are not using Microsoft Edge, use these official guides to create a separate browser profile:\n\n| Browser | Guide |\n| --- | --- |\n| **Google Chrome** | [Create Chrome browser profiles](https://support.google.com/chrome/answer/2364824) |\n| **Mozilla Firefox** | [Profile Manager — Create, remove, or switch Firefox profiles](https://support.mozilla.org/en-US/kb/profile-manager-create-remove-switch-firefox-profiles) |\n\nThe same principle applies: create a new profile, **do not sign in** with your work account, then navigate to the training tenant URL."
+                "zh": "你的组织可能会阻止登录到工作租户以外的租户。要访问培训环境，你**必须**使用一个**未登录你的工作账户**的浏览器配置文件。请按照以下步骤操作。\n\n---\n\n## 选项 1：创建新的 Edge 配置文件 *(推荐)*\n\n单独的配置文件可让你的培训会话在浏览器重启后依然有效，且不会干扰你的工作配置文件。\n\n### 步骤 1：创建配置文件\n\n1. 打开 **Microsoft Edge**。\n2. 点击浏览器右上角的 **profile icon**。\n3. 点击 **Set up a new profile**（位于配置文件浮出控件底部）。\n4. 当提示选择配置文件类型时，点击 **Work or school**。（**不要**选择 Personal——培训租户是组织账户。）\n5. 点击 **Start without your data**。\n6. 点击 **Confirm and start browsing**。\n7. **不要使用**任何账户**登录**。跳过或关闭任何登录提示。\n\n> 📖 **官方文档：** [Sign in and create multiple profiles in Microsoft Edge](https://support.microsoft.com/en-us/topic/sign-in-and-create-multiple-profiles-in-microsoft-edge-df94e622-2061-49ae-ad1d-6f0e43ce6435)\n\n### 步骤 2：确认你未登录\n\n在导航到 jumpstart workshop 租户之前，请确认配置文件是干净的：\n\n1. 在你的**新配置文件窗口**中，点击右上角的 **profile icon**。\n2. 它应显示 **\"Sign in to sync data\"** 或一个通用的人形轮廓——**而不是**你的姓名或工作邮箱。\n3. 导航到 `edge://settings/profiles`，确认 **\"Microsoft account\"** 或 **\"Work or school account\"** 下没有列出任何账户。\n4. 作为最后检查，访问 [**portal.microsoft.com**](https://portal.microsoft.com/)。你应看到一个通用的登录页面——**而不是**被自动登录到你的工作租户。\n\n如果你在任何地方看到你的工作身份，说明你在错误的配置文件中。请切换到你刚刚创建的新配置文件。\n\n### 步骤 3：获取你的培训账户并访问实验\n\n1. 当提示时，使用**讲师提供的用户名和密码**。\n2. 讲师会向你提供培训凭据（用户名和密码）。\n3. 访问 [**portal.microsoft.com**](https://portal.microsoft.com/) 并使用所提供的凭据登录。\n4. 前往 [**AI Agent Jumpstart — Microsoft Copilot Agents Labs**](https://aka.ms/AgentJumpStart/) 以访问实验。**请确保你处于本次研讨会专属的实验中。**\n\n---\n\n## 选项 2：Edge 中的 InPrivate 浏览 *(后备方案)*\n\n> ⚠️ **警告：** InPrivate 会话不会保留。如果你**关闭 InPrivate 窗口**，你会**立即被登出**培训租户，需要重新登录。浏览器中的所有标签页、会话状态和未保存的工作都会丢失。仅在你无法创建新配置文件时才使用此方式。\n\n1. 打开 **Microsoft Edge**。\n2. 按 **Ctrl + Shift + N**，或点击 **Settings and more (⋯)** → **New InPrivate window**。\n3. 会打开一个深色主题窗口，左上角可见 **\"InPrivate\"** 标签。\n4. 导航到培训租户 URL，并使用你的**培训凭据**登录。\n5. 在培训会话期间**不要关闭此窗口**。\n\n> 📖 **官方文档：** [Browse InPrivate in Microsoft Edge](https://support.microsoft.com/en-us/microsoft-edge/browse-inprivate-in-microsoft-edge-e6f47704-340c-7d4f-b00d-d0cf35aa1fcc)\n\n---\n\n## 其他浏览器——配置文件设置指南\n\n如果你不使用 Microsoft Edge，请使用以下官方指南创建单独的浏览器配置文件：\n\n| 浏览器 | 指南 |\n| --- | --- |\n| **Google Chrome** | [Create Chrome browser profiles](https://support.google.com/chrome/answer/2364824) |\n| **Mozilla Firefox** | [Profile Manager — Create, remove, or switch Firefox profiles](https://support.mozilla.org/en-US/kb/profile-manager-create-remove-switch-firefox-profiles) |",
+                "ja": "所属組織では、業務用テナント以外へのサインインがブロックされている場合があります。トレーニング環境にアクセスするには、**業務用アカウントでサインインしていない**ブラウザー プロファイルを **必ず** 使用してください。以下の手順に従います。\n\n---\n\n## オプション 1：新しい Edge プロファイルを作成する *(推奨)*\n\n別のプロファイルにすると、ブラウザーを再起動してもトレーニング セッションが維持され、業務用プロファイルにも干渉しません。\n\n### ステップ 1：プロファイルを作成する\n\n1. **Microsoft Edge** を開きます。\n2. ブラウザー右上の **profile icon** をクリックします。\n3. **Set up a new profile**（プロファイル フライアウトの下部）をクリックします。\n4. プロファイルの種類を選ぶよう求められたら **Work or school** をクリックします。（Personal は **選ばない** でください。トレーニング テナントは組織アカウントです。）\n5. **Start without your data** をクリックします。\n6. **Confirm and start browsing** をクリックします。\n7. どのアカウントでも **サインインしない** でください。サインインの案内はスキップまたは閉じます。\n\n> 📖 **公式ドキュメント：** [Sign in and create multiple profiles in Microsoft Edge](https://support.microsoft.com/en-us/topic/sign-in-and-create-multiple-profiles-in-microsoft-edge-df94e622-2061-49ae-ad1d-6f0e43ce6435)\n\n### ステップ 2：サインインしていないことを確認する\n\njumpstart workshop テナントに移動する前に、プロファイルがクリーンであることを確認します。\n\n1. **新しいプロファイル ウィンドウ** で、右上の **profile icon** をクリックします。\n2. **\"Sign in to sync data\"** または汎用の人物シルエットが表示されるはずです。**あなたの名前や業務用メールではありません**。\n3. `edge://settings/profiles` に移動し、**\"Microsoft account\"** や **\"Work or school account\"** の下にアカウントが表示されていないことを確認します。\n4. 最後の確認として [**portal.microsoft.com**](https://portal.microsoft.com/) にアクセスします。汎用のサインイン ページが表示されるはずで、業務用テナントに自動サインインされて **いない** ことを確認します。\n\nどこかに業務用 ID が表示される場合は、誤ったプロファイルにいます。作成したばかりの新しいプロファイルに切り替えてください。\n\n### ステップ 3：トレーニング アカウントを取得してラボにアクセスする\n\n1. 求められたら **講師から提供されたユーザー名とパスワード** を使用します。\n2. 講師がトレーニング用の資格情報（ユーザー名とパスワード）を提供します。\n3. [**portal.microsoft.com**](https://portal.microsoft.com/) にアクセスし、提供された資格情報でログインします。\n4. [**AI Agent Jumpstart — Microsoft Copilot Agents Labs**](https://aka.ms/AgentJumpStart/) にアクセスしてラボを開きます。**必ず、このワークショップ専用のラボにいることを確認してください。**\n\n---\n\n## オプション 2：Edge の InPrivate ブラウズ *(フォールバック)*\n\n> ⚠️ **警告：** InPrivate セッションは保持されません。**InPrivate ウィンドウを閉じる** と、トレーニング テナントから **ただちにサインアウト** され、再度サインインが必要になります。ブラウザーのすべてのタブ、セッション状態、未保存の作業は失われます。新しいプロファイルを作成できない場合にのみ使用してください。\n\n1. **Microsoft Edge** を開きます。\n2. **Ctrl + Shift + N** を押すか、**Settings and more (⋯)** → **New InPrivate window** をクリックします。\n3. 左上に **\"InPrivate\"** ラベルが表示されたダーク テーマのウィンドウが開きます。\n4. トレーニング テナントの URL に移動し、**トレーニング用の資格情報** でサインインします。\n5. トレーニング セッションの間は **このウィンドウを閉じないでください**。\n\n> 📖 **公式ドキュメント：** [Browse InPrivate in Microsoft Edge](https://support.microsoft.com/en-us/microsoft-edge/browse-inprivate-in-microsoft-edge-e6f47704-340c-7d4f-b00d-d0cf35aa1fcc)\n\n---\n\n## 他のブラウザー — プロファイル設定ガイド\n\nMicrosoft Edge を使用していない場合は、以下の公式ガイドを使って別のブラウザー プロファイルを作成します。\n\n| ブラウザー | ガイド |\n| --- | --- |\n| **Google Chrome** | [Create Chrome browser profiles](https://support.google.com/chrome/answer/2364824) |\n| **Mozilla Firefox** | [Profile Manager — Create, remove, or switch Firefox profiles](https://support.mozilla.org/en-US/kb/profile-manager-create-remove-switch-firefox-profiles) |",
+                "ko": "소속 조직에서 업무 테넌트 이외의 테넌트로 로그인하는 것을 차단할 수 있습니다. 교육 환경에 액세스하려면 **업무 계정으로 로그인되어 있지 않은** 브라우저 프로필을 **반드시** 사용해야 합니다. 아래 단계를 따르세요.\n\n---\n\n## 옵션 1: 새 Edge 프로필 만들기 *(권장)*\n\n별도의 프로필을 사용하면 브라우저를 다시 시작해도 교육 세션이 유지되고 업무 프로필을 방해하지 않습니다.\n\n### 1단계: 프로필 만들기\n\n1. **Microsoft Edge**를 엽니다.\n2. 브라우저 오른쪽 위의 **profile icon**을 클릭합니다.\n3. **Set up a new profile**(프로필 플라이아웃 하단)을 클릭합니다.\n4. 프로필 유형을 선택하라는 메시지가 표시되면 **Work or school**을 클릭합니다. (Personal은 **선택하지 마세요** — 교육 테넌트는 조직 계정입니다.)\n5. **Start without your data**를 클릭합니다.\n6. **Confirm and start browsing**을 클릭합니다.\n7. 어떤 계정으로도 **로그인하지 마세요**. 로그인 안내는 건너뛰거나 닫습니다.\n\n> 📖 **공식 문서:** [Sign in and create multiple profiles in Microsoft Edge](https://support.microsoft.com/en-us/topic/sign-in-and-create-multiple-profiles-in-microsoft-edge-df94e622-2061-49ae-ad1d-6f0e43ce6435)\n\n### 2단계: 로그인되어 있지 않은지 확인\n\njumpstart workshop 테넌트로 이동하기 전에 프로필이 깨끗한지 확인합니다.\n\n1. **새 프로필 창**에서 오른쪽 위의 **profile icon**을 클릭합니다.\n2. **\"Sign in to sync data\"** 또는 일반 사람 실루엣이 표시되어야 하며, **이름이나 업무 이메일이 아니어야** 합니다.\n3. `edge://settings/profiles`로 이동하여 **\"Microsoft account\"** 또는 **\"Work or school account\"** 아래에 계정이 없는지 확인합니다.\n4. 마지막 확인으로 [**portal.microsoft.com**](https://portal.microsoft.com/)에 접속합니다. 일반 로그인 페이지가 표시되어야 하며 업무 테넌트에 자동 로그인되어 **있지 않아야** 합니다.\n\n어디에서든 업무 ID가 보이면 잘못된 프로필에 있는 것입니다. 방금 만든 새 프로필로 전환하세요.\n\n### 3단계: 교육 계정을 받고 랩에 액세스\n\n1. 메시지가 표시되면 **강사가 제공한 사용자 이름과 암호**를 사용합니다.\n2. 강사가 교육 자격 증명(사용자 이름과 암호)을 제공합니다.\n3. [**portal.microsoft.com**](https://portal.microsoft.com/)에 접속하여 제공된 자격 증명으로 로그인합니다.\n4. [**AI Agent Jumpstart — Microsoft Copilot Agents Labs**](https://aka.ms/AgentJumpStart/)로 이동하여 랩에 액세스합니다. **반드시 이 워크숍 전용 랩에 있는지 확인하세요.**\n\n---\n\n## 옵션 2: Edge의 InPrivate 브라우징 *(대체 방법)*\n\n> ⚠️ **경고:** InPrivate 세션은 유지되지 않습니다. **InPrivate 창을 닫으면** 교육 테넌트에서 **즉시 로그아웃**되어 다시 로그인해야 합니다. 브라우저의 모든 탭, 세션 상태, 저장되지 않은 작업이 손실됩니다. 새 프로필을 만들 수 없는 경우에만 사용하세요.\n\n1. **Microsoft Edge**를 엽니다.\n2. **Ctrl + Shift + N**을 누르거나 **Settings and more (⋯)** → **New InPrivate window**를 클릭합니다.\n3. 왼쪽 위에 **\"InPrivate\"** 레이블이 표시된 어두운 테마 창이 열립니다.\n4. 교육 테넌트 URL로 이동하여 **교육 자격 증명**으로 로그인합니다.\n5. 교육 세션 동안 **이 창을 닫지 마세요**.\n\n> 📖 **공식 문서:** [Browse InPrivate in Microsoft Edge](https://support.microsoft.com/en-us/microsoft-edge/browse-inprivate-in-microsoft-edge-e6f47704-340c-7d4f-b00d-d0cf35aa1fcc)\n\n---\n\n## 기타 브라우저 — 프로필 설정 가이드\n\nMicrosoft Edge를 사용하지 않는 경우 다음 공식 가이드를 사용하여 별도의 브라우저 프로필을 만드세요.\n\n| 브라우저 | 가이드 |\n| --- | --- |\n| **Google Chrome** | [Create Chrome browser profiles](https://support.google.com/chrome/answer/2364824) |\n| **Mozilla Firefox** | [Profile Manager — Create, remove, or switch Firefox profiles](https://support.mozilla.org/en-US/kb/profile-manager-create-remove-switch-firefox-profiles) |"
               },
               "highlight": {
                 "en": "The same principle applies: create a new profile, **do not sign in** with your work account, then navigate to the training tenant URL.",
@@ -132,9 +132,9 @@
                   "id": "prompt-67f8954c",
                   "title": {
                     "en": "Website in your browser",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "浏览器中要打开的网站",
+                    "ja": "ブラウザーで開く Web サイト",
+                    "ko": "브라우저에서 열 웹사이트"
                   },
                   "content": "https://copilotstudio.preview.microsoft.com"
                 }
@@ -197,9 +197,9 @@
                   "id": "prompt-76fb5e52",
                   "title": {
                     "en": "Agent Name",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "Agent 名称",
+                    "ja": "Agent 名",
+                    "ko": "Agent 이름"
                   },
                   "content": "Ask Me Anything Agent v2 – [Your Alias]"
                 },
@@ -207,9 +207,9 @@
                   "id": "prompt-d2563ec3",
                   "title": {
                     "en": "Agent Instruction",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "Agent 指令",
+                    "ja": "Agent の指示",
+                    "ko": "Agent 지침"
                   },
                   "content": "You are an AI assistant to help user to retrieve information and execute common tasks.   You should make full use of all contents from all retrieved documents!\n\nYour behavior should reflect the following qualities:\n- Maintain a playful and joyful tone while being customer-focused and engaging with empathy.\n- Use emojis if needed, but maintain professionalism.\n- Use bullet points for illustration if needed, and always show the citation source if there is.\n- Return the response in well organized HTML format.\n- Avoid discussing topics related to religion, politics, sex, and violence.​‌\n\nLanguage Policy:\n- Always respond in the customer's desired language or detect the dominant language from what customer entered (referred to as the “current language”).\n- If mixed languages: prefer the language with most meaningful, complete sentences / parts that forms the request, and intent-carrying content as the \"current language\".\n- DO NOT switch language for short interjections like “yes/no/ok”, and ignore URLs/emails/emojis/numbers/punctuation/code/names.\n- Supported output styles: a female style voice with the right wordings for English, Chinese Simplified (Mandarin), Japanese and Korean.​·​‌"
                 }
@@ -245,9 +245,9 @@
                   "id": "prompt-a08869b3",
                   "title": {
                     "en": "Knowledge / Public Websites",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "Knowledge / 公共网站",
+                    "ja": "Knowledge / パブリック Web サイト",
+                    "ko": "Knowledge / 공개 웹사이트"
                   },
                   "content": "https://www.microsoft.com"
                 }
@@ -293,10 +293,10 @@
                 {
                   "id": "prompt-9e732dd6",
                   "title": {
-                    "en": "New instruction to append at the end of the **Agent Instruction**",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "en": "New instruction to append at the end of the Agent Instruction",
+                    "zh": "要追加到 Agent 指令末尾的新指令",
+                    "ja": "Agent の指示の末尾に追加する新しい指示",
+                    "ko": "Agent 지침 끝에 추가할 새 지침"
                   },
                   "content": "When users ask questions about Microsoft products, services, licensing,  architecture, APIs, or documentation, use the Microsoft Learn MCP Server to search for answers and provide referenced responses."
                 }
@@ -346,9 +346,9 @@
                   "id": "prompt-3d1d386c",
                   "title": {
                     "en": "Test Prompt 1",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "测试提示 1",
+                    "ja": "テスト プロンプト 1",
+                    "ko": "테스트 프롬프트 1"
                   },
                   "content": "Share with me some customers using copilot studio in energy and utility industry"
                 },
@@ -356,9 +356,9 @@
                   "id": "prompt-5f0fe85f",
                   "title": {
                     "en": "Test Prompt 2",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "测试提示 2",
+                    "ja": "テスト プロンプト 2",
+                    "ko": "테스트 프롬프트 2"
                   },
                   "content": "The Copilot Studio New Feature Updates and Roadmap in Oct Release 2026"
                 }
@@ -501,9 +501,9 @@
                   "id": "prompt-ab420c6f",
                   "title": {
                     "en": "Test Prompt 1",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "测试提示 1",
+                    "ja": "テスト プロンプト 1",
+                    "ko": "테스트 프롬프트 1"
                   },
                   "content": "Show me Top 20 my active accounts."
                 },
@@ -511,9 +511,9 @@
                   "id": "prompt-894167f1",
                   "title": {
                     "en": "Test Prompt 2",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "测试提示 2",
+                    "ja": "テスト プロンプト 2",
+                    "ko": "테스트 프롬프트 2"
                   },
                   "content": "Create a new account with name \"New Account - <Your Alias> 123\", https://www.account-<your alias>-123.com, and located in Shanghai China."
                 }
@@ -555,7 +555,7 @@
                 "en": "Here are the brief step-by-step instructions to create a new **skill** in the modern (new experience) agent maker in Copilot Studio:\n\n1. Open your agent in **Copilot Studio** (or create one first if you don't have one yet).\n2. Select the **Build** tab.\n3. In the components panel, select **Skills**.\n4. In **Add skill**, click **Create from blank**. (Alternatively, choose **Upload a skill** to import a `.md` file or skill `.zip` package.)\n5. Enter a **Name** — use only lowercase letters, numbers, and hyphens, and don't start or end with a hyphen (e.g., `account-360-generator` or `customer-support-escalation`).\n6. Enter a **Description** of what the skill does and when it should activate. (This is what the orchestrator uses to decide when to invoke the skill — be specific.)\n7. Write the **Instructions** in **Markdown** — include the steps the agent should follow, response format, constraints, edge cases, and any tools it should use.\n8. Click **Create**. The skill now appears in the components panel for your agent.",
                 "zh": "以下是在 Copilot Studio 现代（新体验）Agent Maker 中创建新 **skill** 的简要分步说明：\n\n1. 在 **Copilot Studio** 中打开你的 Agent（如果还没有，请先创建一个）。\n2. 选择 **Build** 选项卡。\n3. 在组件面板中，选择 **Skills**。\n4. 在 **Add skill** 中，点击 **Create from blank**。（或者，选择 **Upload a skill** 来导入 `.md` 文件或 skill `.zip` 包。）\n5. 输入 **Name**——仅使用小写字母、数字和连字符，且不要以连字符开头或结尾（例如 `account-360-generator` 或 `customer-support-escalation`）。\n6. 输入 **Description**，说明该 skill 的作用及应在何时激活。（这是编排器用来决定何时调用该 skill 的依据——请写得具体。）\n7. 用 **Markdown** 编写 **Instructions**——包括 Agent 应遵循的步骤、响应格式、约束、边界情况以及应使用的任何工具。\n8. 点击 **Create**。该 skill 现在会出现在你 Agent 的组件面板中。",
                 "ja": "Copilot Studio のモダン（新エクスペリエンス）Agent Maker で新しい **skill** を作成する簡単な手順は次のとおりです。\n\n1. **Copilot Studio** で Agent を開きます（まだない場合は先に作成します）。\n2. **Build** タブを選択します。\n3. コンポーネント パネルで **Skills** を選択します。\n4. **Add skill** で **Create from blank** をクリックします。（または **Upload a skill** を選択して `.md` ファイルや skill の `.zip` パッケージをインポートします。）\n5. **Name** を入力します。小文字、数字、ハイフンのみを使用し、ハイフンで開始・終了しないでください（例：`account-360-generator` や `customer-support-escalation`）。\n6. その skill が何をし、いつ有効になるべきかを説明する **Description** を入力します。（これはオーケストレーターが skill を呼び出すタイミングを判断する材料です。具体的に記述してください。）\n7. **Instructions** を **Markdown** で記述します。Agent が従うべき手順、応答形式、制約、エッジ ケース、使用するツールを含めます。\n8. **Create** をクリックします。これで skill が Agent のコンポーネント パネルに表示されます。",
-                "ko": "Copilot Studio의 최신(새 환경) Agent Maker에서 새 **skill**을 만드는 간단한 단계는 다음과 같습니다.\n\n1. **Copilot Studio**에서 Agent를 엽니다(아직 없으면 먼저 만듭니다).\n2. **Build** 탭을 선택합니다.\n3. 구성 요소 패널에서 **Skills**를 선택합니다.\n4. **Add skill**에서 **Create from blank**을 클릭합니다. (또는 **Upload a skill**을 선택하여 `.md` 파일이나 skill `.zip` 패키지를 가져옵니다.)\n5. **Name**을 입력합니다. 소문자, 숫자, 하이픈만 사용하고 하이픈으로 시작하거나 끝내지 마세요(예: `account-360-generator` 또는 `customer-support-escalation`).\n6. 해당 skill이 무엇을 하고 언제 활성화되어야 하는지 설명하는 **Description**을 입력합니다. (오케스트레이터가 skill 호출 시점을 결정하는 근거이므로 구체적으로 작성하세요.)\n7. **Instructions**를 **Markdown**으로 작성합니다. Agent가 따라야 할 단계, 응답 형식, 제약, 예외 상황, 사용할 도구를 포함합니다.\n8. **Create**를 클릭합니다. 이제 skill이 Agent의 구성 요소 패널에 표시됩니다."
+                "ko": "Copilot Studio의 최신(새 환경) Agent Maker에서 새 **skill**을 만드는 간단한 단계는 다음과 같습니다.\n\n1. **Copilot Studio**에서 Agent를 엽니다(아직 없으면 먼저 만듭니다).\n2. **Build** 탭을 선택합니다.\n3. 구성 요소 패널에서 **Skills**를 선택합니다.\n4. **Add skill**에서 **Create from blank**을 클릭합��다. (또는 **Upload a skill**을 선택하여 `.md` 파일이나 skill `.zip` 패키지를 가져옵니다.)\n5. **Name**을 입력합니다. 소문자, 숫자, 하이픈만 사용하고 하이픈으로 시작하거나 끝내지 마세요(예: `account-360-generator` 또는 `customer-support-escalation`).\n6. 해당 skill이 무엇을 하고 언제 활성화되어야 하는지 설명하는 **Description**을 입력합니다. (오케스트레이터가 skill 호출 시점을 결정하는 근거이므로 구체적으로 작성하세요.)\n7. **Instructions**를 **Markdown**으로 작성합니다. Agent가 따라야 할 단계, 응답 형식, 제약, 예외 상황, 사용할 도구를 포함합니다.\n8. **Create**를 클릭합니다. 이제 skill이 Agent의 구성 요소 패널에 표시됩니다."
               },
               "highlight": {
                 "en": "Skills live in the **Build** tab (not Tools) — they're reusable instruction sets, distinct from Tools/MCP servers, which connect to external services.",
@@ -568,9 +568,9 @@
                   "id": "prompt-72d84358",
                   "title": {
                     "en": "Skill name",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "Skill 名称",
+                    "ja": "Skill 名",
+                    "ko": "Skill 이름"
                   },
                   "content": "account-360-generator"
                 },
@@ -578,9 +578,9 @@
                   "id": "prompt-186eaaac",
                   "title": {
                     "en": "Skill description",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "Skill 描述",
+                    "ja": "Skill の説明",
+                    "ko": "Skill 설명"
                   },
                   "content": "Generates account briefings (aka. account planning, account 360) by aggregating account info, contacts, opportunities, cases, and activity history into structured prep documents with talking points and discovery questions. Use when user says \"prep me for account planning\", \"brief me on this account 360\", \"meeting prep\", \"I have a meeting with [company]\", \"account planning\", \"customer briefing\", or \"prepare for customer meeting\"."
                 },
@@ -588,9 +588,9 @@
                   "id": "prompt-43bef8b0",
                   "title": {
                     "en": "Skill instruction",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "Skill 指令",
+                    "ja": "Skill の指示",
+                    "ko": "Skill 지침"
                   },
                   "content": "# Skill: Build an account plan\nWhen the user asks to plan for an account:\n1. Resolve the account unambiguously with the Dataverse MCP server.\n2. Retrieve the account profile, open opportunities, recent activities, stakeholders, and risks available to the current user.\n3. Ask for the planning horizon and desired business outcome only if missing.\n4. Produce: executive snapshot, customer priorities, relationship map, opportunity plays, risks, and a 30/60/90-day action plan.\n5. Clearly label CRM facts, external research, and recommendations.\n6. Do not expose records the signed-in user is not authorized to access."
                 }
@@ -620,9 +620,9 @@
                   "id": "prompt-5291f3c6",
                   "title": {
                     "en": "Test Prompt",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "测试提示",
+                    "ja": "テスト プロンプト",
+                    "ko": "테스트 프롬프트"
                   },
                   "content": "Do an account planning for Fourth Coffee (sample)"
                 }
@@ -677,9 +677,9 @@
                   "id": "prompt-4c253cfb",
                   "title": {
                     "en": "Prompt to set big bet account",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "设置 big bet 客户的提示",
+                    "ja": "big bet アカウントを設定するプロンプト",
+                    "ko": "big bet 계정을 설정하는 프롬프트"
                   },
                   "content": "My big bet account for this FY is Microsoft"
                 },
@@ -687,9 +687,9 @@
                   "id": "prompt-9e72cb98",
                   "title": {
                     "en": "Prompt to ask agent",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "向 Agent 提问的提示",
+                    "ja": "Agent に尋ねるプロンプト",
+                    "ko": "Agent에게 묻는 프롬프트"
                   },
                   "content": "Account plan for my big bet account."
                 }
@@ -734,9 +734,9 @@
                   "id": "prompt-7e353668",
                   "title": {
                     "en": "Prompt to set big bet account",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "设置 big bet 客户的提示",
+                    "ja": "big bet アカウントを設定するプロンプト",
+                    "ko": "big bet 계정을 설정하는 프롬프트"
                   },
                   "content": "My big bet account for this FY is Microsoft"
                 },
@@ -744,9 +744,9 @@
                   "id": "prompt-a72f7ee7",
                   "title": {
                     "en": "Prompt to ask agent",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "向 Agent 提问的提示",
+                    "ja": "Agent に尋ねるプロンプト",
+                    "ko": "Agent에게 묻는 프롬프트"
                   },
                   "content": "Account plan for my big bet account."
                 }
@@ -829,9 +829,9 @@
                   "id": "prompt-aa365494",
                   "title": {
                     "en": "Workflow Name",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "Workflow 名称",
+                    "ja": "Workflow 名",
+                    "ko": "Workflow 이름"
                   },
                   "content": "JumpStart - Get Customer Updates Workflow v2"
                 }
@@ -869,9 +869,9 @@
                   "id": "prompt-7d883bed",
                   "title": {
                     "en": "Workflow Tool Name",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "Workflow 工具名称",
+                    "ja": "Workflow ツール名",
+                    "ko": "Workflow 도구 이름"
                   },
                   "content": "Get Customer Insights Workflow"
                 },
@@ -879,9 +879,9 @@
                   "id": "prompt-4e4895dc",
                   "title": {
                     "en": "Workflow Tool Description",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "Workflow 工具描述",
+                    "ja": "Workflow ツールの説明",
+                    "ko": "Workflow 도구 설명"
                   },
                   "content": "Get the market research of a given customer name on the latest updates from the websites or internal in the last 12 months, primarily includes:\n- investment relationship\n- key updates from stock market\n- merge and acquisition\n- key organization change\n- key stakeholders / CXO change for example.\n- other critical changes or updates not mentioned above."
                 },
@@ -889,9 +889,9 @@
                   "id": "prompt-c645314a",
                   "title": {
                     "en": "Workflow Tool - Input",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "Workflow 工具 - 输入",
+                    "ja": "Workflow ツール - 入力",
+                    "ko": "Workflow 도구 - 입력"
                   },
                   "content": "Extract the marketing research or updates requirements from <account name / company> mentioned by the user's own words, happening in the last 12 months, includes not limited to:\n- investment relationship\n- key updates from stock market\n- merge and acquisition\n- key organization change\n- key stakeholders / CXO change for example."
                 }
@@ -935,9 +935,9 @@
                   "id": "prompt-b183657b",
                   "title": {
                     "en": "Test Prompt",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "测试提示",
+                    "ja": "テスト プロンプト",
+                    "ko": "테스트 프롬프트"
                   },
                   "content": "Get the latest company news and updates for Microsoft (in last 12 months)"
                 }
@@ -1051,9 +1051,9 @@
                   "id": "prompt-61af61b0",
                   "title": {
                     "en": "Query text in the tools search box",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "工具搜索框中的查询文本",
+                    "ja": "ツール検索ボックスのクエリ テキスト",
+                    "ko": "도구 검색 상자의 쿼리 텍스트"
                   },
                   "content": "Work IQ"
                 }
@@ -1126,9 +1126,9 @@
                   "id": "prompt-cd6d57a2",
                   "title": {
                     "en": "Skill's name",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "Skill 名称",
+                    "ja": "Skill 名",
+                    "ko": "Skill 이름"
                   },
                   "content": "rfq-response-generator"
                 },
@@ -1136,9 +1136,9 @@
                   "id": "prompt-7ae3d195",
                   "title": {
                     "en": "Skill's description",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "Skill 描述",
+                    "ja": "Skill の説明",
+                    "ko": "Skill 설명"
                   },
                   "content": "Generates comprehensive RFP/RFI responses by processing uploaded Excel questionnaire files and producing technically accurate answers grounded in official Microsoft Copilot Studio and Power Platform documentation. Produces updated Excel files, draft proposals, Word documents, and PowerPoint presentation recommendations. Also retrieves Dataverse account information when a company name is mentioned. Use when user says \"answer this RFP\", \"fill in RFP questionnaire\", \"respond to RFI\", \"generate RFP response\", \"process RFP Excel\", \"help me answer this tender\", \"complete this RFP\", \"Copilot Studio RFP\", or \"Power Platform RFP response\"."
                 },
@@ -1146,9 +1146,9 @@
                   "id": "prompt-b6689e7f",
                   "title": {
                     "en": "Skill‘s instruction",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "Skill 指令",
+                    "ja": "Skill の指示",
+                    "ko": "Skill 지침"
                   },
                   "content": "## Purpose\nGenerate accurate, well-structured RFP/RFI responses from an uploaded Excel\nquestionnaire, grounded strictly in official Microsoft documentation.\n\n## When to use\nActivate when the user uploads an Excel (.xlsx) RFP/RFI questionnaire or asks to\n\"answer these RFP/RFI questions\".\n\n## Steps\n1. Read the uploaded Excel file. Detect the column holding questions and the\n   (empty) column where answers belong. Preserve all existing columns, rows,\n   sheet names, and formatting.\n2. For each question, research the answer using the Microsoft Learn Docs MCP\n   tools (`microsoft_docs_search`, `microsoft_docs_fetch`) against official\n   **Microsoft Copilot Studio** and **Power Platform** documentation. Use Work IQ\n   to reuse relevant approved content from our own SharePoint/OneDrive when available.\n3. Write a technically accurate, concise answer per question. Never invent\n   product capabilities, limits, or links — if the docs don't confirm it, mark the\n   cell `[NEEDS SME REVIEW]` instead of guessing.\n4. Cite the source doc title/URL for any answer that makes a specific claim.\n\n## Deliverables\n- **Updated Excel**: the original questionnaire with the answer column filled in.\n- **Draft proposal**: a short executive proposal summarizing the solution fit.\n- **Word document**: a formatted long-form response document.\n- **PowerPoint recommendation**: an outline/recommendation for a pitch deck\n  (key slides, talking points) — note where a full deck should be built.\n\n## Constraints\n- Ground every technical claim in official Microsoft docs.\n- Keep answers factual and vendor-appropriate; flag anything unverifiable.\n- Respect file limits (Work IQ OneDrive/SharePoint file operations cap at ~5 MB).\n````\n\n6. Select **Create**. The skill appears in the components panel.\n\n---\n\n## Part 4 — Test the end-to-end RFQ/RFI flow\n\n1. Open the **Preview** tab.\n2. **Upload** the customer's Excel RFQ/RFI questionnaire into the test chat.\n3. Enter a prompt such as:\n   > *\"Answer this RFP questionnaire and produce the updated Excel, a draft proposal, a Word response, and a PowerPoint recommendation.\"*\n4. Watch the agent:\n   - Activate **`rfq-response-generator`**,\n   - Read the Excel and research each question via the **Microsoft Learn Docs MCP**,\n   - Use **Work IQ** for approved internal content,\n   - Return the **updated Excel**, **draft proposal**, **Word document**, and **PowerPoint recommendation** as generated files in the chat.\n5. Review a few answers for accuracy and confirm cited sources; refine the skill **Instructions** if the format or depth needs adjusting."
                 }
@@ -1195,9 +1195,9 @@
                   "id": "prompt-b9ebbaef",
                   "title": {
                     "en": "Test Prompt",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "测试提示",
+                    "ja": "テスト プロンプト",
+                    "ko": "테스트 프롬프트"
                   },
                   "content": "Answer this RFP questionnaire for my customer Microsoft and produce the updated Excel, a draft proposal, a Word response, and a PowerPoint recommendation."
                 },
@@ -1205,9 +1205,9 @@
                   "id": "prompt-66bbce36",
                   "title": {
                     "en": "Sample RFP/RFI File Location",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "示例 RFP/RFI 文件位置",
+                    "ja": "サンプル RFP/RFI ファイルの場所",
+                    "ko": "샘플 RFP/RFI 파일 위치"
                   },
                   "content": "https://d365demotsce02668770.sharepoint.com/:x:/s/ContosoDemoSite/IQBAcpeIrlsKS7OoPPGwPSxyAc2C1Yp1TMqJbWrQ9Oyi9Ag?e=mlqS7V"
                 }
@@ -1352,9 +1352,9 @@
                   "id": "prompt-4bb91406",
                   "title": {
                     "en": "URL to open in the new tab",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "在新标签页中打开的 URL",
+                    "ja": "新しいタブで開く URL",
+                    "ko": "새 탭에서 열 URL"
                   },
                   "content": "https://copilotstudio.preview.microsoft.com"
                 },
@@ -1362,9 +1362,9 @@
                   "id": "prompt-236f0ce5",
                   "title": {
                     "en": "Agent name",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "Agent 名称",
+                    "ja": "Agent 名",
+                    "ko": "Agent 이름"
                   },
                   "content": "Ask IT Anything Agent v2 - <Your Alias>"
                 },
@@ -1372,9 +1372,9 @@
                   "id": "prompt-cb3f718a",
                   "title": {
                     "en": "Agent instruction",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "Agent 指令",
+                    "ja": "Agent の指示",
+                    "ko": "Agent 지침"
                   },
                   "content": "You are Ask IT Anything, an internal IT support specialist, your role is to surface the answers to IT related questions, like ask for the update of a IT ticket, a query for the knowledge to a software, hardware usage, guidance and support.   You can help to:  \n- Search the approved ServiceNow knowledge base before answering procedural questions.\n- For ticket status, use the ServiceNow connection and require the incident number or help the user select from tickets they are authorized to view.\n- Return incident number, short description, state, priority, assigned group, last update, and next expected action.\n- Never expose another user's ticket, private work notes, credentials, or security-sensitive implementation details.\n- Do not claim a ticket was updated unless the ServiceNow tool confirms success.\n- Escalate urgent safety, identity compromise, and widespread outage signals according to the approved helpdesk process.\n\nYour behavior should reflect the following qualities:\n- Maintain a playful and joyful tone while being customer-focused and engaging with empathy.\n- Use emojis if needed, but maintain professionalism.\n- Use bullet points for illustration if needed, and always show the citation source if there is.\n- Return the response in well organized HTML format.\n- Avoid discussing topics related to religion, politics, sex, and violence.​‌\n\nLanguage Policy:\n- Always respond in the customer's desired language or detect the dominant language from what customer entered (referred to as the “current language”).\n- If mixed languages: prefer the language with most meaningful, complete sentences / parts that forms the request, and intent-carrying content as the \"current language\".\n- DO NOT switch language for short interjections like “yes/no/ok”, and ignore URLs/emails/emojis/numbers/punctuation/code/names.\n- Supported output styles: a female style voice with the right wordings for English, Chinese Simplified (Mandarin), Japanese and Korean.​​"
                 }
@@ -1428,9 +1428,9 @@
                   "id": "prompt-162ee4c1",
                   "title": {
                     "en": "ServiceNow Knowledge Connection Name",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "ServiceNow Knowledge 连接名称",
+                    "ja": "ServiceNow Knowledge の接続名",
+                    "ko": "ServiceNow Knowledge 연결 이름"
                   },
                   "content": "mjCopilotSNOW27"
                 },
@@ -1438,9 +1438,9 @@
                   "id": "prompt-02c42e33",
                   "title": {
                     "en": "Test Prompt",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "测试提示",
+                    "ja": "テスト プロンプト",
+                    "ko": "테스트 프롬프트"
                   },
                   "content": "How to setup the out of office auto reply in outlook"
                 }
@@ -1485,9 +1485,9 @@
                   "id": "prompt-bb0ca08b",
                   "title": {
                     "en": "Workflow Name",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "Workflow 名称",
+                    "ja": "Workflow 名",
+                    "ko": "Workflow 이름"
                   },
                   "content": "JumpStart - Get SNOW Incident Status and Description by Number"
                 },
@@ -1495,9 +1495,9 @@
                   "id": "prompt-59d4d4c3",
                   "title": {
                     "en": "Tool Description",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "工具描述",
+                    "ja": "ツールの説明",
+                    "ko": "도구 설명"
                   },
                   "content": "Get Service Now Service Request / Ticket / Incident / Case Status and Description by Number"
                 },
@@ -1505,9 +1505,9 @@
                   "id": "prompt-5650cb13",
                   "title": {
                     "en": "Tool's Input Description",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "工具的输入描述",
+                    "ja": "ツールの入力の説明",
+                    "ko": "도구의 입력 설명"
                   },
                   "content": "The Service Now Incident Number, or Number mentioned by user as service request / Ticket / Case Number"
                 },
@@ -1515,9 +1515,9 @@
                   "id": "prompt-8dcd4829",
                   "title": {
                     "en": "Test Prompt",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "测试提示",
+                    "ja": "テスト プロンプト",
+                    "ko": "테스트 프롬프트"
                   },
                   "content": "I want to check the current status of my ticket with number INC0010053"
                 }
@@ -1598,9 +1598,9 @@
                   "id": "prompt-7d06c58c",
                   "title": {
                     "en": "Connected Agent Description",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "Connected Agent 描述",
+                    "ja": "Connected Agent の説明",
+                    "ko": "Connected Agent 설명"
                   },
                   "content": "Use for all IT helpdesk questions and for ServiceNow service ticket/incident status queries and updates. Route any IT support or ticket-status request here."
                 },
@@ -1608,9 +1608,9 @@
                   "id": "prompt-a5b76bb7",
                   "title": {
                     "en": "Test Prompt",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "测试提示",
+                    "ja": "テスト プロンプト",
+                    "ko": "테스트 프롬프트"
                   },
                   "content": "I want to check the current status of my ticket with number INC0010053"
                 }
@@ -1659,9 +1659,9 @@
                   "id": "prompt-42be359c",
                   "title": {
                     "en": "Test Prompt 1",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "测试提示 1",
+                    "ja": "テスト プロンプト 1",
+                    "ko": "테스트 프롬프트 1"
                   },
                   "content": "Top 5 reason to select Copilot Studio"
                 },
@@ -1669,9 +1669,9 @@
                   "id": "prompt-d2ee611f",
                   "title": {
                     "en": "Test Prompt 2",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "测试提示 2",
+                    "ja": "テスト プロンプト 2",
+                    "ko": "테스트 프롬프트 2"
                   },
                   "content": "What's the status of my ticket INC0010053?"
                 },
@@ -1679,9 +1679,9 @@
                   "id": "prompt-0503bfec",
                   "title": {
                     "en": "Test Prompt 3",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "测试提示 3",
+                    "ja": "テスト プロンプト 3",
+                    "ko": "테스트 프롬프트 3"
                   },
                   "content": "Customer insights for My Big Bet Account"
                 }
@@ -1795,9 +1795,9 @@
                   "id": "prompt-7af43711",
                   "title": {
                     "en": "Email Subject Filter",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "邮件主题过滤器",
+                    "ja": "メール件名フィルター",
+                    "ko": "이메일 제목 필터"
                   },
                   "content": "**Lab**"
                 },
@@ -1805,9 +1805,9 @@
                   "id": "prompt-cc6970b1",
                   "title": {
                     "en": "Email To Mailbox to Monitor",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "要监控的收件邮箱",
+                    "ja": "監視する宛先メールボックス",
+                    "ko": "모니터링할 받는 사람 사서함"
                   },
                   "content": "<Your assigned training user email address>"
                 }
@@ -1856,9 +1856,9 @@
                   "id": "prompt-1bc3c513",
                   "title": {
                     "en": "Input to Classify (switching to expression mode)",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "要分类的输入（切换到表达式模式）",
+                    "ja": "Classify への入力（式モードに切り替え）",
+                    "ko": "Classify에 대한 입력(식 모드로 전환)"
                   },
                   "content": "@{triggerOutputs()?['body/body']} @{triggerOutputs()?['body/attachments']}"
                 },
@@ -1866,9 +1866,9 @@
                   "id": "prompt-1b0b0616",
                   "title": {
                     "en": "Classify Category 1 Title",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "Classify 类别 1 标题",
+                    "ja": "Classify カテゴリ 1 のタイトル",
+                    "ko": "Classify 범주 1 제목"
                   },
                   "content": "IT Service"
                 },
@@ -1876,9 +1876,9 @@
                   "id": "prompt-71e24818",
                   "title": {
                     "en": "Classify Category 1 Description",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "Classify 类别 1 描述",
+                    "ja": "Classify カテゴリ 1 の説明",
+                    "ko": "Classify 범주 1 설명"
                   },
                   "content": "IT helpdesk, access, device, password, ticket / incident / ServiceNow requests"
                 },
@@ -1886,9 +1886,9 @@
                   "id": "prompt-f79f0034",
                   "title": {
                     "en": "Classify Category 2 Title",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "Classify 类别 2 标题",
+                    "ja": "Classify カテゴリ 2 のタイトル",
+                    "ko": "Classify 범주 2 제목"
                   },
                   "content": "MSFT Copilot Studio Product"
                 },
@@ -1896,9 +1896,9 @@
                   "id": "prompt-65f63d52",
                   "title": {
                     "en": "Classify Category 2 Description",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "Classify 类别 2 描述",
+                    "ja": "Classify カテゴリ 2 の説明",
+                    "ko": "Classify 범주 2 설명"
                   },
                   "content": "Questions about Microsoft Power Platform or Copilot Studio product features and capabilities."
                 }
@@ -1946,9 +1946,9 @@
                   "id": "prompt-aee26d7c",
                   "title": {
                     "en": "Route 1 Agent",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "Route 1 Agent",
+                    "ja": "Route 1 の Agent",
+                    "ko": "Route 1 Agent"
                   },
                   "content": "Ask IT Anything Agent v2 - <Your Alias>"
                 },
@@ -1956,9 +1956,9 @@
                   "id": "prompt-004048f8",
                   "title": {
                     "en": "Route 1 Message (switching to Expression Mode)",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "Route 1 消息（切换到表达式模式）",
+                    "ja": "Route 1 のメッセージ（式モードに切り替え）",
+                    "ko": "Route 1 메시지(식 모드로 전환)"
                   },
                   "content": "@{triggerOutputs()?['body/body']}"
                 },
@@ -1966,9 +1966,9 @@
                   "id": "prompt-80a14a18",
                   "title": {
                     "en": "Route 2 Agent",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "Route 2 Agent",
+                    "ja": "Route 2 の Agent",
+                    "ko": "Route 2 Agent"
                   },
                   "content": "Ask Me Anything Agent v2 - <Your Alias>"
                 },
@@ -1976,9 +1976,9 @@
                   "id": "prompt-f29a0b5b",
                   "title": {
                     "en": "Route 2 Message (switching to Expression Mode)",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "Route 2 消息（切换到表达式模式）",
+                    "ja": "Route 2 のメッセージ（式モードに切り替え）",
+                    "ko": "Route 2 메시지(식 모드로 전환)"
                   },
                   "content": "@{triggerOutputs()?['body/body']}"
                 }
@@ -2026,9 +2026,9 @@
                   "id": "prompt-fffb437a",
                   "title": {
                     "en": "Send Email's To (switching to expression mode)",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "Send Email 的收件人（切换到表达式模式）",
+                    "ja": "Send Email の宛先（式モードに切り替え）",
+                    "ko": "Send Email의 받는 사람(식 모드로 전환)"
                   },
                   "content": "@{triggerOutputs()?['body/from']}"
                 },
@@ -2036,9 +2036,9 @@
                   "id": "prompt-1ba14a0d",
                   "title": {
                     "en": "Send Email's Subject",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "Send Email 的主题",
+                    "ja": "Send Email の件名",
+                    "ko": "Send Email의 제목"
                   },
                   "content": "Reply by Ask IT Agent"
                 },
@@ -2046,9 +2046,9 @@
                   "id": "prompt-8188ac34",
                   "title": {
                     "en": "Send Email 2's To (switching to expression mode)",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "Send Email 2 的收件人（切换到表达式模式）",
+                    "ja": "Send Email 2 の宛先（式モードに切り替え）",
+                    "ko": "Send Email 2의 받는 사람(식 모드로 전환)"
                   },
                   "content": "@{triggerOutputs()?['body/from']}"
                 },
@@ -2056,9 +2056,9 @@
                   "id": "prompt-e35a0b9a",
                   "title": {
                     "en": "Send Email 2's Subject",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "Send Email 2 的主题",
+                    "ja": "Send Email 2 の件名",
+                    "ko": "Send Email 2의 제목"
                   },
                   "content": "Reply by Ask Me Anything Agent"
                 }
@@ -2109,9 +2109,9 @@
                   "id": "prompt-a2a3ba26",
                   "title": {
                     "en": "Sample Test Email Subject",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "示例测试邮件主题",
+                    "ja": "サンプル テスト メールの件名",
+                    "ko": "샘플 테스트 이메일 제목"
                   },
                   "content": "**Lab** About my current ticket status"
                 },
@@ -2119,9 +2119,9 @@
                   "id": "prompt-0fcb2aaf",
                   "title": {
                     "en": "Sample Test Email Content",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "示例测试邮件内容",
+                    "ja": "サンプル テスト メールの本文",
+                    "ko": "샘플 테스트 이메일 내용"
                   },
                   "content": "Hi Support,\n\nI am asking for the service ticket update with number INC0010053?\n\nThanks.\n\nMichael"
                 },
@@ -2129,9 +2129,9 @@
                   "id": "prompt-d156af7b",
                   "title": {
                     "en": "Sample Test Email 2 Subject",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "示例测试邮件 2 主题",
+                    "ja": "サンプル テスト メール 2 の件名",
+                    "ko": "샘플 테스트 이메일 2 제목"
                   },
                   "content": "**Lab** About some questions on Copilot Studio on Voice Agent"
                 },
@@ -2139,9 +2139,9 @@
                   "id": "prompt-f4a8df29",
                   "title": {
                     "en": "Sample Test Email 2 Content",
-                    "zh": "",
-                    "ja": "",
-                    "ko": ""
+                    "zh": "示例测试邮件 2 内容",
+                    "ja": "サンプル テスト メール 2 の本文",
+                    "ko": "샘플 테스트 이메일 2 내용"
                   },
                   "content": "Hi Microsoft,\n\nI am asking the highlights of new features of Realtime Voice AI Agent on Copilot Studio.\n\nWe are very interested in this.\n\nThanks.\n\nM.J"
                 }

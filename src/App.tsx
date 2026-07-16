@@ -5,13 +5,13 @@ import remarkGfm from 'remark-gfm'
 import {
   ArrowRight, BookOpenCheck, CalendarDays, Check, ChevronDown, ChevronUp,
   Clipboard, Database, FileSpreadsheet, Languages, Lock, Mail, MailCheck, Menu, Mic2,
-  Moon, Network, PanelLeft, PanelLeftClose, PencilLine, Sparkles, Sun, Users, X,
+  Moon, Network, PanelLeft, PanelLeftClose, PencilLine, Settings, Sparkles, Sun, Users, X,
 } from 'lucide-react'
 import { defaultContent, loadLabs } from './content/store'
 import MakerEditor from './editor/MakerEditor'
 import Fireworks from './Fireworks'
 import { localeNames, text, ui } from './content/ui'
-import type { Lab, LabStep, Locale } from './content/types'
+import type { Lab, LabStep, Locale, LocalizedText } from './content/types'
 
 const locales = Object.keys(localeNames) as Locale[]
 const iconMap = { sparkles: Sparkles, database: Database, file: FileSpreadsheet, network: Network, mail: MailCheck, mic: Mic2 }
@@ -136,23 +136,93 @@ function DocumentStep({
   )
 }
 
-function CoverPage({ onEnter, dark, onToggleTheme }: { onEnter: () => void; dark: boolean; onToggleTheme: () => void }) {
+type Branding = { hostName: string; hostLogo: string; customerName: string; customerLogo: string }
+const defaultBranding: Branding = { hostName: 'Microsoft', hostLogo: '', customerName: '', customerLogo: '' }
+
+const cover: Record<string, LocalizedText> = {
+  tagline: {
+    en: 'A hands-on learning path exploring the full breadth of custom agent innovation in Microsoft Copilot Studio.',
+    zh: '一条动手实践的学习路径，全面探索 Microsoft Copilot Studio 中自定义 Agent 创新的方方面面。',
+    ja: 'Microsoft Copilot Studio におけるカスタム Agent イノベーションの全体像を探る、ハンズオンの学習パスです。',
+    ko: 'Microsoft Copilot Studio의 사용자 지정 Agent 혁신의 모든 영역을 탐구하는 실습 학습 경로입니다.',
+  },
+  preparedBy: { en: 'Prepared by', zh: '准备者', ja: '作成者', ko: '작성자' },
+  preparedIn: { en: 'Prepared in', zh: '编写时间', ja: '作成日', ko: '작성일' },
+  date: { en: 'July 16, 2026', zh: '2026年7月16日', ja: '2026年7月16日', ko: '2026년 7월 16일' },
+  contact: { en: 'Need help? Contact', zh: '需要帮助？请联系', ja: 'お困りですか？ お問い合わせ', ko: '도움이 필요하신가요? 문의' },
+  cta: { en: 'Enter workshop', zh: '进入研讨会', ja: 'ワークショップを開く', ko: '워크숍 시작' },
+}
+const dedicatedText = (locale: Locale, name: string): string => {
+  const n = name.trim()
+  if (n) return ({ en: `A dedicated JumpStart workshop for ${n}.`, zh: `专为 ${n} 定制的 JumpStart 研讨会。`, ja: `${n} 向けの専用 JumpStart ワークショップ。`, ko: `${n}를 위한 전용 JumpStart 워크숍.` } as Record<Locale, string>)[locale]
+  return ({ en: 'A dedicated JumpStart workshop.', zh: '定制的 JumpStart 研讨会。', ja: '専用の JumpStart ワークショップ。', ko: '전용 JumpStart 워크숍.' } as Record<Locale, string>)[locale]
+}
+
+function BrandLogo({ name, logo }: { name: string; logo: string }) {
+  if (logo) return <img className="cover-brand-logo" src={logo} alt={name || 'logo'} />
+  return <span className="cover-brand-name">{name || 'Microsoft'}</span>
+}
+
+function BrandingSettings({ value, onSave, onClose }: { value: Branding; onSave: (b: Branding) => void; onClose: () => void }) {
+  const [draft, setDraft] = useState<Branding>(value)
+  const readFile = (file: File | undefined, key: 'hostLogo' | 'customerLogo') => {
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = () => setDraft((d) => ({ ...d, [key]: String(reader.result) }))
+    reader.readAsDataURL(file)
+  }
+  return (
+    <div className="settings-scrim" role="dialog" aria-label="Workshop branding">
+      <div className="settings-card">
+        <div className="settings-head"><strong>Workshop branding</strong><button className="icon-button" type="button" onClick={onClose} aria-label="Close"><X size={18} /></button></div>
+        <p className="settings-hint">Set a customer name or logo to co-brand this JumpStart for a dedicated workshop. Leave the customer empty to show Microsoft only.</p>
+        <div className="settings-grid">
+          <label>Host name<input type="text" value={draft.hostName} onChange={(e) => setDraft({ ...draft, hostName: e.target.value })} placeholder="Microsoft" /></label>
+          <label>Host logo URL<input type="text" value={draft.hostLogo.startsWith('data:') ? '' : draft.hostLogo} onChange={(e) => setDraft({ ...draft, hostLogo: e.target.value })} placeholder="https:// … (or upload below)" /></label>
+          <label className="settings-file">Upload host logo<input type="file" accept="image/*" onChange={(e) => readFile(e.target.files?.[0], 'hostLogo')} /></label>
+          {draft.hostLogo && <div className="settings-preview"><img src={draft.hostLogo} alt="host logo preview" /><button type="button" onClick={() => setDraft({ ...draft, hostLogo: '' })}>Remove</button></div>}
+          <label>Customer name<input type="text" value={draft.customerName} onChange={(e) => setDraft({ ...draft, customerName: e.target.value })} placeholder="e.g. Contoso" /></label>
+          <label>Customer logo URL<input type="text" value={draft.customerLogo.startsWith('data:') ? '' : draft.customerLogo} onChange={(e) => setDraft({ ...draft, customerLogo: e.target.value })} placeholder="https:// … (or upload below)" /></label>
+          <label className="settings-file">Upload customer logo<input type="file" accept="image/*" onChange={(e) => readFile(e.target.files?.[0], 'customerLogo')} /></label>
+          {draft.customerLogo && <div className="settings-preview"><img src={draft.customerLogo} alt="customer logo preview" /><button type="button" onClick={() => setDraft({ ...draft, customerLogo: '' })}>Remove</button></div>}
+        </div>
+        <div className="settings-actions">
+          <button className="ghost" type="button" onClick={() => setDraft(defaultBranding)}>Reset</button>
+          <button className="primary" type="button" onClick={() => onSave(draft)}>Save</button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function CoverPage({ onEnter, dark, onToggleTheme, locale, onLocaleChange, branding, onOpenSettings }: {
+  onEnter: () => void; dark: boolean; onToggleTheme: () => void;
+  locale: Locale; onLocaleChange: (l: Locale) => void; branding: Branding; onOpenSettings: () => void;
+}) {
+  const hasCustomer = !!(branding.customerName.trim() || branding.customerLogo.trim())
   return (
     <div className="cover-hero">
-      <button className="icon-button cover-theme" type="button" onClick={onToggleTheme} title="Toggle color theme" aria-label="Toggle color theme">{dark ? <Sun size={19} /> : <Moon size={19} />}</button>
+      <div className="cover-controls">
+        <label className="language-select cover-lang"><Languages size={17} /><select value={locale} onChange={(e) => onLocaleChange(e.target.value as Locale)} aria-label="Language">{locales.map((item) => <option key={item} value={item}>{localeNames[item]}</option>)}</select></label>
+        <button className="icon-button" type="button" onClick={onOpenSettings} title="Workshop branding" aria-label="Workshop branding"><Settings size={18} /></button>
+        <button className="icon-button" type="button" onClick={onToggleTheme} title="Toggle color theme" aria-label="Toggle color theme">{dark ? <Sun size={19} /> : <Moon size={19} />}</button>
+      </div>
       <span className="cover-orb one" aria-hidden="true" />
       <span className="cover-orb two" aria-hidden="true" />
       <span className="cover-orb three" aria-hidden="true" />
       <div className="cover-card">
-        <div className="cover-badge"><Sparkles size={16} /><span>Microsoft Copilot Studio</span></div>
+        {hasCustomer
+          ? <div className="cover-cobrand"><BrandLogo name={branding.hostName} logo={branding.hostLogo} /><span className="cover-cobrand-x" aria-hidden="true">×</span><BrandLogo name={branding.customerName} logo={branding.customerLogo} /></div>
+          : <div className="cover-badge"><Sparkles size={16} /><span>Microsoft Copilot Studio</span></div>}
         <h1 className="cover-title">Jumpstart v2<br />AI Agent Workshop</h1>
-        <p className="cover-tagline">A hands-on learning path exploring the full breadth of custom agent innovation in Microsoft Copilot Studio.</p>
+        <p className="cover-tagline">{text(cover.tagline, locale)}</p>
+        {hasCustomer && <p className="cover-dedicated">{dedicatedText(locale, branding.customerName)}</p>}
         <div className="cover-meta">
-          <div className="cover-meta-row"><span className="cover-meta-icon"><Users size={18} /></span><div><small>Prepared by</small><strong>Microsoft MCAPS Core — Agent Asia Team</strong></div></div>
-          <div className="cover-meta-row"><span className="cover-meta-icon"><CalendarDays size={18} /></span><div><small>Prepared in</small><strong>Sep 16, 2026</strong></div></div>
-          <div className="cover-meta-row"><span className="cover-meta-icon"><Mail size={18} /></span><div><small>Need help? Contact</small><strong className="cover-contacts"><a href="mailto:nshukla@microsoft.com">Nalin Shukla &middot; nshukla@microsoft.com</a><a href="mailto:zhijian@microsoft.com">Michael Jiang &middot; zhijian@microsoft.com</a></strong></div></div>
+          <div className="cover-meta-row"><span className="cover-meta-icon"><Users size={18} /></span><div><small>{text(cover.preparedBy, locale)}</small><strong>Microsoft MCAPS Core — Agent Asia Team</strong></div></div>
+          <div className="cover-meta-row"><span className="cover-meta-icon"><CalendarDays size={18} /></span><div><small>{text(cover.preparedIn, locale)}</small><strong>{text(cover.date, locale)}</strong></div></div>
+          <div className="cover-meta-row"><span className="cover-meta-icon"><Mail size={18} /></span><div><small>{text(cover.contact, locale)}</small><strong className="cover-contacts"><a href="mailto:nshukla@microsoft.com">Nalin Shukla &middot; nshukla@microsoft.com</a><a href="mailto:zhijian@microsoft.com">Michael Jiang &middot; zhijian@microsoft.com</a></strong></div></div>
         </div>
-        <button className="cover-cta" type="button" onClick={onEnter}>Enter workshop <ArrowRight size={18} /></button>
+        <button className="cover-cta" type="button" onClick={onEnter}>{text(cover.cta, locale)} <ArrowRight size={18} /></button>
       </div>
       <div className="cover-footer">&copy; Microsoft &middot; MCAPS Core — Agent Asia Team</div>
     </div>
@@ -178,6 +248,12 @@ function App() {
   })
   const [celebrate, setCelebrate] = useState(0)
   const [showCover, setShowCover] = useState(true)
+  const [settingsOpen, setSettingsOpen] = useState(false)
+  const [pendingUnlock, setPendingUnlock] = useState<'editor' | 'settings' | null>(null)
+  const [branding, setBranding] = useState<Branding>(() => {
+    try { return { ...defaultBranding, ...JSON.parse(localStorage.getItem('jumpstart-branding') || '{}') } }
+    catch { return defaultBranding }
+  })
   const lab = labs[labIndex] ?? labs[0]
   const totalSteps = labs.reduce((sum, item) => sum + item.steps.length, 0)
   const overallPercent = totalSteps ? Math.round((completed.size / totalSteps) * 100) : 0
@@ -201,6 +277,10 @@ function App() {
     localStorage.setItem('jumpstart-collapsed', collapsed ? '1' : '0')
   }, [collapsed])
 
+  useEffect(() => {
+    localStorage.setItem('jumpstart-branding', JSON.stringify(branding))
+  }, [branding])
+
   // Track which lab section is in view so the breadcrumb stays in sync while scrolling.
   useEffect(() => {
     const ids = [`${lab.id}-overview`, ...lab.steps.map((item) => `${lab.id}-${item.id}`)]
@@ -219,12 +299,19 @@ function App() {
 
   const openMaker = () => {
     if (makerUnlocked) { setEditorOpen(true); return }
-    setAskPassword(true); setPasswordValue(''); setPasswordError(false)
+    setPendingUnlock('editor'); setAskPassword(true); setPasswordValue(''); setPasswordError(false)
+  }
+  const openSettings = () => {
+    if (makerUnlocked) { setSettingsOpen(true); return }
+    setPendingUnlock('settings'); setAskPassword(true); setPasswordValue(''); setPasswordError(false)
   }
   const submitPassword = () => {
     if (passwordValue === 'copilotstudio123') {
       sessionStorage.setItem('jumpstart-maker', '1')
-      setMakerUnlocked(true); setAskPassword(false); setEditorOpen(true)
+      setMakerUnlocked(true); setAskPassword(false)
+      if (pendingUnlock === 'settings') setSettingsOpen(true)
+      else setEditorOpen(true)
+      setPendingUnlock(null)
     } else setPasswordError(true)
   }
 
@@ -263,7 +350,8 @@ function App() {
 
   return <div className={collapsed ? 'app-shell sidebar-collapsed' : 'app-shell'}>
     <Fireworks trigger={celebrate} />
-    {showCover && <CoverPage onEnter={() => setShowCover(false)} dark={dark} onToggleTheme={toggleTheme} />}
+    {showCover && <CoverPage onEnter={() => setShowCover(false)} dark={dark} onToggleTheme={toggleTheme} locale={locale} onLocaleChange={setLocale} branding={branding} onOpenSettings={openSettings} />}
+    {settingsOpen && <BrandingSettings value={branding} onSave={(next) => { setBranding(next); setSettingsOpen(false) }} onClose={() => setSettingsOpen(false)} />}
     <button className="mobile-menu" type="button" onClick={() => setMenuOpen(true)} title={text(ui.menu, locale)} aria-label={text(ui.menu, locale)}><Menu /></button>
     {menuOpen && <button className="nav-scrim" type="button" onClick={() => setMenuOpen(false)} aria-label={text(ui.close, locale)} />}
     <aside className={menuOpen ? 'sidebar open' : 'sidebar'}>

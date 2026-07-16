@@ -282,7 +282,7 @@ h1 { max-width: 850px; margin: 22px 0 20px; color: var(--cp-text); font-size: cl
 }
 
 /* --- Maker password gate --- */
-.password-scrim { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; padding: 20px; background: var(--cp-panel); backdrop-filter: blur(6px); }
+.password-scrim { position: fixed; inset: 0; z-index: 220; display: grid; place-items: center; padding: 20px; background: var(--cp-panel); backdrop-filter: blur(6px); }
 .password-card { width: min(380px, 100%); display: flex; flex-direction: column; gap: 12px; padding: 28px; text-align: center; background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 14px; box-shadow: var(--cp-shadow); }
 .password-icon { width: 48px; height: 48px; display: grid; place-items: center; margin: 0 auto; color: var(--cp-accent); background: var(--cp-accent-soft); border-radius: 50%; }
 .password-card strong { font-size: 16px; }
@@ -423,6 +423,13 @@ h1 { max-width: 850px; margin: 22px 0 20px; color: var(--cp-text); font-size: cl
 /* Cover / home hero page */
 .cover-hero { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; padding: 24px; overflow: hidden; background: var(--cp-bg); animation: coverFade .4s ease both; }
 .cover-theme { position: absolute; top: 20px; right: 20px; z-index: 3; }
+.cover-controls { position: absolute; top: 20px; right: 20px; z-index: 3; display: flex; align-items: center; gap: 8px; }
+.cover-lang { height: 38px; }
+.cover-cobrand { display: inline-flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 18px; margin-bottom: 22px; }
+.cover-brand-logo { height: 46px; max-width: 220px; object-fit: contain; }
+.cover-brand-name { font-size: 22px; font-weight: 700; color: var(--cp-text); }
+.cover-cobrand-x { color: var(--cp-text-muted); font-size: 22px; font-weight: 300; }
+.cover-dedicated { margin: -16px auto 28px; color: var(--cp-accent); font-size: 15px; font-weight: 650; }
 .cover-orb { position: absolute; z-index: 0; border-radius: 50%; filter: blur(64px); opacity: .5; animation: coverFloat 16s ease-in-out infinite; }
 .cover-orb.one { width: 42vmax; height: 42vmax; top: -12vmax; left: -8vmax; background: #7c3aed; }
 .cover-orb.two { width: 36vmax; height: 36vmax; right: -8vmax; bottom: -14vmax; background: #ec4899; animation-duration: 20s; }
@@ -448,3 +455,22 @@ h1 { max-width: 850px; margin: 22px 0 20px; color: var(--cp-text); font-size: cl
 @keyframes coverRise { from { opacity: 0; transform: translateY(26px) scale(.98); } to { opacity: 1; transform: none; } }
 @keyframes coverFloat { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(2vmax, -2vmax); } }
 @media (max-width: 600px) { .cover-meta-row strong { font-size: 14px; } }
+
+/* Workshop branding settings */
+.settings-scrim { position: fixed; inset: 0; z-index: 210; display: grid; place-items: center; padding: 20px; background: var(--cp-panel); backdrop-filter: blur(6px); animation: coverFade .25s ease both; }
+.settings-card { width: min(560px, 100%); max-height: 90vh; overflow-y: auto; padding: 24px; background: var(--glass-strong); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur); border: 1px solid var(--glass-border); border-radius: 20px; box-shadow: var(--glass-shadow); }
+.settings-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.settings-head strong { font-size: 18px; }
+.settings-hint { margin: 0 0 18px; color: var(--cp-text-muted); font-size: 13px; line-height: 1.55; }
+.settings-grid { display: flex; flex-direction: column; gap: 14px; }
+.settings-grid label { display: flex; flex-direction: column; gap: 6px; color: var(--cp-text-muted); font-size: 12px; font-weight: 700; }
+.settings-grid input[type="text"] { height: 38px; padding: 0 11px; color: var(--cp-text); background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 8px; font-size: 14px; }
+.settings-grid input[type="text"]:focus { outline: none; border-color: var(--cp-accent); }
+.settings-file input { font-size: 12px; color: var(--cp-text-muted); }
+.settings-preview { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 12px; background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 10px; }
+.settings-preview img { height: 40px; max-width: 180px; object-fit: contain; }
+.settings-preview button { color: var(--cp-danger); background: transparent; border: 0; cursor: pointer; font-size: 13px; font-weight: 600; }
+.settings-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 22px; }
+.settings-actions button { height: 40px; padding: 0 22px; border-radius: 10px; cursor: pointer; font-size: 14px; font-weight: 650; }
+.settings-actions .ghost { color: var(--cp-text); background: transparent; border: 1px solid var(--cp-border); }
+.settings-actions .primary { color: #fff; background: var(--grad-btn); border: 0; box-shadow: var(--glow); }
