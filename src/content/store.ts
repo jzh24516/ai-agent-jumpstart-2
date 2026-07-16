@@ -1,7 +1,7 @@
 import { labs as defaultLabs } from './labs'
 import type { Lab, LabPrompt, LabStep, LabStepPage, LocalizedText } from './types'
 
-const CONTENT_URL = '/content/labs.json'
+const CONTENT_URL = `${import.meta.env.BASE_URL}content/labs.json`
 export const CONTENT_VERSION = 2
 
 const uid = (prefix: string) => {

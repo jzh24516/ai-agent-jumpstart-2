@@ -66,8 +66,8 @@ function PromptBlock({ title, content, locale }: { title?: string; content: stri
 }
 
 function Screenshot({ lab, imageKey, locale }: { lab: Lab; imageKey: string; locale: Locale }) {
-  const localeSource = `/labs/${lab.id}/images/${locale}/${imageKey}.png`
-  const enSource = `/labs/${lab.id}/images/en/${imageKey}.png`
+  const localeSource = `${import.meta.env.BASE_URL}labs/${lab.id}/images/${locale}/${imageKey}.png`
+  const enSource = `${import.meta.env.BASE_URL}labs/${lab.id}/images/en/${imageKey}.png`
   const [source, setSource] = useState(localeSource)
   const [missing, setMissing] = useState(false)
   // Reset to the locale image whenever the language or image changes.
@@ -145,7 +145,7 @@ const defaultBranding: Branding = { hostName: 'Microsoft', hostLogo: '', custome
 // of the hosted app sees the same cover. Falls back to the built-in default when absent.
 async function loadPublishedBranding(): Promise<Branding | null> {
   try {
-    const res = await fetch('/content/branding.json', { cache: 'no-store' })
+    const res = await fetch(`${import.meta.env.BASE_URL}content/branding.json`, { cache: 'no-store' })
     if (res.ok) return { ...defaultBranding, ...(await res.json()) }
   } catch { /* no published branding yet */ }
   return null

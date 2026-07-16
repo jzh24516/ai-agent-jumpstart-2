@@ -82,6 +82,9 @@ function makerContentApi(): Plugin {
 }
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ command }) => ({
+  // Served at the repo subpath on GitHub Pages; root during local dev so the maker
+  // API middleware and the 127.0.0.1:5173 workflow keep working.
+  base: command === 'build' ? '/ai-agent-jumpstart-2/' : '/',
   plugins: [react(), makerContentApi()],
-})
+}))
