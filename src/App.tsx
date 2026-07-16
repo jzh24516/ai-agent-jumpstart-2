@@ -115,7 +115,7 @@ function DocumentStep({
             {page.paragraphs.map((paragraph, paragraphIndex) => <div className="markdown-content" key={paragraphIndex}><ReactMarkdown remarkPlugins={[remarkGfm]}>{text(paragraph, locale)}</ReactMarkdown></div>)}
             {page.markdown && <div className="markdown-content"><ReactMarkdown remarkPlugins={[remarkGfm]}>{text(page.markdown, locale)}</ReactMarkdown></div>}
           </div>
-          {page.highlight && <aside className="highlight"><Sparkles size={20} /><div className="highlight-content"><strong className="highlight-label">{text(ui.highlight, locale)}</strong><ReactMarkdown remarkPlugins={[remarkGfm]}>{text(page.highlight, locale)}</ReactMarkdown></div></aside>}
+          {page.highlight && text(page.highlight, locale).trim() && <aside className="highlight"><Sparkles size={20} /><div className="highlight-content"><strong className="highlight-label">{text(ui.highlight, locale)}</strong><ReactMarkdown remarkPlugins={[remarkGfm]}>{text(page.highlight, locale)}</ReactMarkdown></div></aside>}
           {page.prompts?.map((promptItem) => <PromptBlock key={promptItem.id} title={text(promptItem.title, locale)} content={promptItem.content} locale={locale} />)}
           {!!page.imageKeys?.filter(Boolean).length && <div className="embedded-figures">{page.imageKeys.filter(Boolean).map((imageKey) => <Screenshot lab={lab} imageKey={imageKey} locale={locale} key={imageKey} />)}</div>}
         </article>
