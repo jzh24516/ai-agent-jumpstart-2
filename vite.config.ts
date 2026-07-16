@@ -8,6 +8,7 @@ import type { IncomingMessage, ServerResponse } from 'node:http'
 
 const rootDir = dirname(fileURLToPath(import.meta.url))
 const contentFile = resolve(rootDir, 'public/content/labs.json')
+const brandingFile = resolve(rootDir, 'public/content/branding.json')
 
 const readBody = (req: IncomingMessage) =>
   new Promise<string>((res, rej) => {
@@ -50,9 +51,24 @@ function makerContentApi(): Plugin {
         }
       })
 
+      // Persists the applied workshop branding to public/content/branding.json so it
+      // ships with the site and is visible to every visitor once committed + pushed.
+      server.middlewares.use('/api/branding', async (req, res, next) => {
+        if (req.method !== 'POST') return next()
+        try {
+          const body = await readBody(req)
+          JSON.parse(body) // validate before writing
+          await mkdir(dirname(brandingFile), { recursive: true })
+          await writeFile(brandingFile, body, 'utf8')
+          json(res, 200, 'saved')
+        } catch (error) {
+          json(res, 400, `Invalid branding: ${(error as Error).message}`)
+        }
+      })
+
       server.middlewares.use('/api/publish', async (req, res, next) => {
         if (req.method !== 'POST') return next()
-        const add = await run('git', ['add', 'public/content/labs.json'])
+        const add = await run('git', ['add', 'public/content/labs.json', 'public/content/branding.json'])
         const commit = await run('git', ['commit', '-m', 'Update lab content via maker editor'])
         const alreadyCommitted = /nothing to commit/i.test(commit)
         const push = await run('git', ['push'])

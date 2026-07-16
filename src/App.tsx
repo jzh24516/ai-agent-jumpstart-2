@@ -5,7 +5,7 @@ import remarkGfm from 'remark-gfm'
 import {
   ArrowRight, BookOpenCheck, CalendarDays, Check, ChevronDown, ChevronUp,
   Clipboard, Database, FileSpreadsheet, Languages, Lock, Mail, MailCheck, Menu, Mic2,
-  Moon, Network, PanelLeft, PanelLeftClose, PencilLine, Settings, Sparkles, Sun, Users, X,
+  Moon, Network, PanelLeft, PanelLeftClose, PencilLine, Save, Search, Settings, Sparkles, Sun, Trash2, Users, X,
 } from 'lucide-react'
 import { defaultContent, loadLabs } from './content/store'
 import MakerEditor from './editor/MakerEditor'
@@ -141,6 +141,23 @@ function DocumentStep({
 type Branding = { hostName: string; hostLogo: string; customerName: string; customerLogo: string }
 const defaultBranding: Branding = { hostName: 'Microsoft', hostLogo: '', customerName: '', customerLogo: '' }
 
+// Published branding ships with the site (public/content/branding.json) so every visitor
+// of the hosted app sees the same cover. Falls back to the built-in default when absent.
+async function loadPublishedBranding(): Promise<Branding | null> {
+  try {
+    const res = await fetch('/content/branding.json', { cache: 'no-store' })
+    if (res.ok) return { ...defaultBranding, ...(await res.json()) }
+  } catch { /* no published branding yet */ }
+  return null
+}
+// Dev-only: writes the applied branding to the published file so it can be committed + pushed.
+async function saveBrandingToFile(b: Branding): Promise<'published' | 'offline'> {
+  try {
+    const res = await fetch('/api/branding', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(b, null, 2) })
+    return res.ok ? 'published' : 'offline'
+  } catch { return 'offline' }
+}
+
 const cover: Record<string, LocalizedText> = {
   tagline: {
     en: 'A hands-on learning path exploring the full breadth of custom agent innovation in Microsoft Copilot Studio.',
@@ -165,19 +182,42 @@ function BrandLogo({ name, logo }: { name: string; logo: string }) {
   return <span className="cover-brand-name">{name || 'Microsoft'}</span>
 }
 
-function BrandingSettings({ value, onSave, onClose }: { value: Branding; onSave: (b: Branding) => void; onClose: () => void }) {
+type Workshop = { id: string; name: string; hostName: string; hostLogo: string; customerName: string; customerLogo: string; savedAt: number }
+const loadWorkshops = (): Workshop[] => {
+  try { const v = JSON.parse(localStorage.getItem('jumpstart-workshops') || '[]'); return Array.isArray(v) ? v : [] }
+  catch { return [] }
+}
+const newWorkshopId = () => (typeof crypto !== 'undefined' && 'randomUUID' in crypto ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(36).slice(2, 8))
+
+function BrandingSettings({ value, onApply, onClose }: { value: Branding; onApply: (b: Branding) => Promise<'published' | 'offline'>; onClose: () => void }) {
   const [draft, setDraft] = useState<Branding>(value)
+  const [history, setHistory] = useState<Workshop[]>(() => loadWorkshops())
+  const [query, setQuery] = useState('')
+  const [flash, setFlash] = useState('')
   const readFile = (file: File | undefined, key: 'hostLogo' | 'customerLogo') => {
     if (!file) return
     const reader = new FileReader()
     reader.onload = () => setDraft((d) => ({ ...d, [key]: String(reader.result) }))
     reader.readAsDataURL(file)
   }
+  const persist = (next: Workshop[]) => { setHistory(next); localStorage.setItem('jumpstart-workshops', JSON.stringify(next)) }
+  const saveToHistory = () => {
+    const name = draft.customerName.trim() || draft.hostName.trim() || 'Untitled workshop'
+    const existing = history.find((w) => w.name.toLowerCase() === name.toLowerCase())
+    const entry: Workshop = { id: existing?.id || newWorkshopId(), name, hostName: draft.hostName, hostLogo: draft.hostLogo, customerName: draft.customerName, customerLogo: draft.customerLogo, savedAt: Date.now() }
+    persist(existing ? history.map((w) => (w.id === existing.id ? entry : w)) : [entry, ...history])
+    setFlash(existing ? `Updated “${name}”` : `Saved “${name}”`)
+    window.setTimeout(() => setFlash(''), 2200)
+  }
+  const loadWorkshop = (w: Workshop) => { setDraft({ hostName: w.hostName, hostLogo: w.hostLogo, customerName: w.customerName, customerLogo: w.customerLogo }); setFlash(`Loaded “${w.name}” — select Apply to use it`); window.setTimeout(() => setFlash(''), 2600) }
+  const removeWorkshop = (id: string) => persist(history.filter((w) => w.id !== id))
+  const q = query.trim().toLowerCase()
+  const filtered = [...history].sort((a, b) => b.savedAt - a.savedAt).filter((w) => !q || w.name.toLowerCase().includes(q) || w.customerName.toLowerCase().includes(q) || w.hostName.toLowerCase().includes(q))
   return (
     <div className="settings-scrim" role="dialog" aria-label="Workshop branding">
       <div className="settings-card">
         <div className="settings-head"><strong>Workshop branding</strong><button className="icon-button" type="button" onClick={onClose} aria-label="Close"><X size={18} /></button></div>
-        <p className="settings-hint">Set a customer name or logo to co-brand this JumpStart for a dedicated workshop. Leave the customer empty to show Microsoft only.</p>
+        <p className="settings-hint">Set a customer name or logo to co-brand this JumpStart. Save named workshops to reuse them anytime.</p>
         <div className="settings-grid">
           <label>Host name<input type="text" value={draft.hostName} onChange={(e) => setDraft({ ...draft, hostName: e.target.value })} placeholder="Microsoft" /></label>
           <label>Host logo URL<input type="text" value={draft.hostLogo.startsWith('data:') ? '' : draft.hostLogo} onChange={(e) => setDraft({ ...draft, hostLogo: e.target.value })} placeholder="https:// … (or upload below)" /></label>
@@ -190,7 +230,25 @@ function BrandingSettings({ value, onSave, onClose }: { value: Branding; onSave:
         </div>
         <div className="settings-actions">
           <button className="ghost" type="button" onClick={() => setDraft(defaultBranding)}>Reset</button>
-          <button className="primary" type="button" onClick={() => onSave(draft)}>Save</button>
+          <button className="ghost" type="button" onClick={saveToHistory}><Save size={15} /> Save to history</button>
+          <button className="primary" type="button" onClick={async () => { setFlash('Applying…'); const s = await onApply(draft); setFlash(s === 'published' ? 'Applied & published to branding.json — commit & push so everyone sees it.' : 'Applied locally. Run the app in dev and commit branding.json to share it.') }}>Apply</button>
+        </div>
+        {flash && <div className="settings-flash" role="status">{flash}</div>}
+        <div className="history-section">
+          <div className="history-head"><strong>Workshop history</strong><span className="history-count">{history.length}</span></div>
+          <div className="history-search"><Search size={15} /><input type="text" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Quick search saved workshops…" /></div>
+          <div className="history-list">
+            {filtered.length === 0 && <div className="history-empty">{history.length === 0 ? 'No saved workshops yet. Configure branding above, then select “Save to history.”' : 'No workshops match your search.'}</div>}
+            {filtered.map((w) => (
+              <div className="history-row" key={w.id}>
+                <button className="history-item" type="button" onClick={() => loadWorkshop(w)} title="Load into the form">
+                  <span className="history-logo">{(w.customerLogo || w.hostLogo) ? <img src={w.customerLogo || w.hostLogo} alt="" /> : <span className="history-initial">{(w.name[0] || '?').toUpperCase()}</span>}</span>
+                  <span className="history-info"><strong>{w.name}</strong><small>{w.customerName ? `${w.hostName || 'Microsoft'} × ${w.customerName}` : (w.hostName || 'Microsoft')} · {new Date(w.savedAt).toLocaleDateString()}</small></span>
+                </button>
+                <button className="history-del" type="button" onClick={() => removeWorkshop(w.id)} aria-label={`Delete ${w.name}`} title="Delete"><Trash2 size={15} /></button>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -265,6 +323,8 @@ function App() {
   ]
 
   useEffect(() => { loadLabs().then(setLabs).catch(() => {}) }, [])
+
+  useEffect(() => { loadPublishedBranding().then((published) => { if (published) setBranding(published) }) }, [])
 
   useEffect(() => {
     if (labIndex > labs.length - 1) setLabIndex(Math.max(0, labs.length - 1))
@@ -348,12 +408,16 @@ function App() {
     setDark(next)
     document.documentElement.dataset.theme = next ? 'dark' : 'light'
   }
+  const applyBranding = async (next: Branding): Promise<'published' | 'offline'> => {
+    setBranding(next)
+    return saveBrandingToFile(next)
+  }
   const LabIcon = iconMap[lab.icon]
 
   return <div className={collapsed ? 'app-shell sidebar-collapsed' : 'app-shell'}>
     <Fireworks trigger={celebrate} />
     {showCover && <CoverPage onEnter={() => setShowCover(false)} dark={dark} onToggleTheme={toggleTheme} locale={locale} onLocaleChange={setLocale} branding={branding} onOpenSettings={openSettings} />}
-    {settingsOpen && <BrandingSettings value={branding} onSave={(next) => { setBranding(next); setSettingsOpen(false) }} onClose={() => setSettingsOpen(false)} />}
+    {settingsOpen && <BrandingSettings value={branding} onApply={applyBranding} onClose={() => setSettingsOpen(false)} />}
     <button className="mobile-menu" type="button" onClick={() => setMenuOpen(true)} title={text(ui.menu, locale)} aria-label={text(ui.menu, locale)}><Menu /></button>
     {menuOpen && <button className="nav-scrim" type="button" onClick={() => setMenuOpen(false)} aria-label={text(ui.close, locale)} />}
     <aside className={menuOpen ? 'sidebar open' : 'sidebar'}>
