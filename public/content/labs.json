@@ -53,15 +53,15 @@
         },
         {
           "en": "Bring a personal laptop, or company laptop (make sure using another AAD demo account is not forbidden by your company policy. ",
-          "zh": "",
-          "ja": "",
-          "ko": ""
+          "zh": "请携带个人笔记本电脑或公司笔记本电脑（请确保使用另一个 AAD 演示账户不违反贵公司的政策）。",
+          "ja": "個人用ノート PC または会社のノート PC をご持参ください（別の AAD デモ アカウントの使用が会社のポリシーで禁止されていないことをご確認ください）。",
+          "ko": "개인 노트북 또는 회사 노트북을 준비하세요(다른 AAD 데모 계정 사용이 회사 정책으로 금지되어 있지 않은지 확인하세요)."
         },
         {
           "en": "Open Microsoft Edge in new private window or Chrome browser in a new Incognito mode.   (Alternatively you can also create a new work/school browser user profile instead).",
-          "zh": "",
-          "ja": "",
-          "ko": ""
+          "zh": "在新的 InPrivate 窗口中打开 Microsoft Edge，或在新的无痕模式中打开 Chrome 浏览器。（或者，你也可以创建一个新的工作/学校浏览器用户配置文件。）",
+          "ja": "Microsoft Edge を新しい InPrivate ウィンドウで、または Chrome を新しいシークレット モードで開きます。（代わりに新しい職場／学校用のブラウザー プロファイルを作成しても構いません。）",
+          "ko": "Microsoft Edge를 새 InPrivate 창에서 열거나 Chrome을 새 시크릿 모드로 엽니다. (또는 새 회사/학교 브라우저 사용자 프로필을 만들어도 됩니다.)"
         }
       ],
       "steps": [
@@ -69,9 +69,9 @@
           "id": "browser-profile-setup",
           "title": {
             "en": "Browser Profile Setup",
-            "zh": "Browser Profile Setup",
-            "ja": "Browser Profile Setup",
-            "ko": "Browser Profile Setup"
+            "zh": "浏览器配置文件设置",
+            "ja": "ブラウザー プロファイルのセットアップ",
+            "ko": "브라우저 프로필 설정"
           },
           "pages": [
             {
@@ -85,9 +85,9 @@
               },
               "highlight": {
                 "en": "The same principle applies: create a new profile, **do not sign in** with your work account, then navigate to the training tenant URL.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "同样的原则：创建一个新的配置文件，**不要使用**你的工作账户**登录**，然后导航到培训租户 URL。",
+                "ja": "同じ原則が適用されます。新しいプロファイルを作成し、業務用アカウントで**サインインせず**に、トレーニング テナントの URL に移動します。",
+                "ko": "동일한 원칙이 적용됩니다. 새 프로필을 만들고 업무 계정으로 **로그인하지 말고** 교육 테넌트 URL로 이동하세요."
               },
               "prompts": [],
               "imageKeys": [
@@ -147,16 +147,16 @@
               "id": "page-a1e8e855",
               "title": {
                 "en": "Create a new Agent",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "创建新 Agent",
+                "ja": "新しい Agent を作成",
+                "ko": "새 Agent 만들기"
               },
               "paragraphs": [
                 {
                   "en": "The new creation experience begins with a natural-language description. Use it to establish the agent purpose before editing detailed settings.",
-                  "zh": "",
-                  "ja": "",
-                  "ko": ""
+                  "zh": "全新的创建体验从自然语言描述开始。在编辑详细设置之前，先用它来确立 Agent 的用途。",
+                  "ja": "新しい作成エクスペリエンスは自然言語による説明から始まります。詳細設定を編集する前に、これを使って Agent の目的を定めましょう。",
+                  "ko": "새 만들기 환경은 자연어 설명으로 시작합니다. 세부 설정을 편집하기 전에 이를 사용해 Agent의 목적을 정하세요."
                 }
               ],
               "prompts": [],
@@ -188,9 +188,9 @@
               ],
               "highlight": {
                 "en": "Make sure you pick a unique name for your custom copilot.   Like the following naming pattern:  \"**Ask Me Anything Agent v2 – [Your Alias]**\", examine the following agent instruction, and copy and paste as the new agent's instruction.   Then click \"**Save**\" to save the agent.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "请确保为你的自定义 copilot 取一个唯一的名称。例如采用以下命名模式：“**Ask Me Anything Agent v2 – [Your Alias]**”。查看下面的 Agent 指令，将其复制并粘贴为新 Agent 的指令。然后点击“**Save**”保存 Agent。",
+                "ja": "カスタム copilot には必ず一意の名前を付けてください。例えば次の命名パターンです：「**Ask Me Anything Agent v2 – [Your Alias]**」。以下の Agent の指示を確認し、コピーして新しい Agent の指示として貼り付けます。その後「**Save**」をクリックして Agent を保存します。",
+                "ko": "사용자 지정 copilot에는 반드시 고유한 이름을 지정하세요. 예를 들어 다음 명명 패턴을 사용합니다: \"**Ask Me Anything Agent v2 – [Your Alias]**\". 아래 Agent 지침을 살펴보고 복사하여 새 Agent의 지침으로 붙여넣으세요. 그런 다음 \"**Save**\"를 클릭하여 Agent를 저장합니다."
               },
               "prompts": [
                 {
@@ -279,9 +279,9 @@
               ],
               "markdown": {
                 "en": "## Step by step guidance\n\n1. In the agent authoring experience, navigate to the **Tools** section.\n2. Click **+ Add tool**. \n3. In the search box, enter **Microsoft Learn Docs MCP**. \n4. Select **Microsoft Learn Docs MCP Server** from the search results.\n5. Click **Add and Configure**.\n\n## Configure Agent Instructions\n\n6. Navigate to the **Overview** page of the agent. \n7. In the **Instructions** section, append the following instruction to the end:\n\n   ```text\n   When users ask questions about Microsoft products, services, licensing,\n   architecture, APIs, or documentation, use the Microsoft Learn MCP Server\n   to search for answers and provide referenced responses.\n   ```\n\n## Create the MCP Connection\n\n8. Click **Open connection manager**. \n9. A new browser tab opens automatically.\n10. Click **Connect**.\n11. Review any permission prompts if presented.\n12. Click **Submit** to create the connection. \n13. Click **Save** before closing the connection manager tab. \n14. Return to Copilot Studio and click **Microsoft Learn Docs MCP Server**.\n15. Click **Maker** in Authentication Mode section.\n16. Click **Confirm** button to close the form.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "## 分步指南\n\n1. 在 Agent 创作体验中，导航到 **Tools** 部分。\n2. 点击 **+ Add tool**。\n3. 在搜索框中输入 **Microsoft Learn Docs MCP**。\n4. 从搜索结果中选择 **Microsoft Learn Docs MCP Server**。\n5. 点击 **Add and Configure**。\n\n## 配置 Agent 指令\n\n6. 导航到 Agent 的 **Overview** 页面。\n7. 在 **Instructions** 部分，将以下指令追加到末尾：\n\n   ```text\n   When users ask questions about Microsoft products, services, licensing,\n   architecture, APIs, or documentation, use the Microsoft Learn MCP Server\n   to search for answers and provide referenced responses.\n   ```\n\n## 创建 MCP 连接\n\n8. 点击 **Open connection manager**。\n9. 会自动打开一个新的浏览器标签页。\n10. 点击 **Connect**。\n11. 如出现权限提示，请予以查看。\n12. 点击 **Submit** 以创建连接。\n13. 关闭连接管理器标签页之前，先点击 **Save**。\n14. 返回 Copilot Studio 并点击 **Microsoft Learn Docs MCP Server**。\n15. 在 Authentication Mode 部分点击 **Maker**。\n16. 点击 **Confirm** 按钮关闭表单。",
+                "ja": "## ステップ バイ ステップ ガイド\n\n1. Agent オーサリング エクスペリエンスで **Tools** セクションに移動します。\n2. **+ Add tool** をクリックします。\n3. 検索ボックスに **Microsoft Learn Docs MCP** と入力します。\n4. 検索結果から **Microsoft Learn Docs MCP Server** を選択します。\n5. **Add and Configure** をクリックします。\n\n## Agent の指示を構成する\n\n6. Agent の **Overview** ページに移動します。\n7. **Instructions** セクションの末尾に、次の指示を追加します。\n\n   ```text\n   When users ask questions about Microsoft products, services, licensing,\n   architecture, APIs, or documentation, use the Microsoft Learn MCP Server\n   to search for answers and provide referenced responses.\n   ```\n\n## MCP 接続を作成する\n\n8. **Open connection manager** をクリックします。\n9. 新しいブラウザー タブが自動的に開きます。\n10. **Connect** をクリックします。\n11. アクセス許可の確認が表示された場合は確認します。\n12. **Submit** をクリックして接続を作成します。\n13. 接続マネージャーのタブを閉じる前に **Save** をクリックします。\n14. Copilot Studio に戻り、**Microsoft Learn Docs MCP Server** をクリックします。\n15. Authentication Mode セクションで **Maker** をクリックします。\n16. **Confirm** ボタンをクリックしてフォームを閉じます。",
+                "ko": "## 단계별 안내\n\n1. Agent 작성 환경에서 **Tools** 섹션으로 이동합니다.\n2. **+ Add tool**을 클릭합니다.\n3. 검색 상자에 **Microsoft Learn Docs MCP**를 입력합니다.\n4. 검색 결과에서 **Microsoft Learn Docs MCP Server**를 선택합니다.\n5. **Add and Configure**를 클릭합니다.\n\n## Agent 지침 구성\n\n6. Agent의 **Overview** 페이지로 이동합니다.\n7. **Instructions** 섹션 끝에 다음 지침을 추가합니다.\n\n   ```text\n   When users ask questions about Microsoft products, services, licensing,\n   architecture, APIs, or documentation, use the Microsoft Learn MCP Server\n   to search for answers and provide referenced responses.\n   ```\n\n## MCP 연결 만들기\n\n8. **Open connection manager**를 클릭합니다.\n9. 새 브라우저 탭이 자동으로 열립니다.\n10. **Connect**를 클릭합니다.\n11. 권한 프롬프트가 표시되면 검토합니다.\n12. **Submit**을 클릭하여 연결을 만듭니다.\n13. 연결 관리자 탭을 닫기 전에 **Save**를 클릭합니다.\n14. Copilot Studio로 돌아가 **Microsoft Learn Docs MCP Server**를 클릭합니다.\n15. Authentication Mode 섹션에서 **Maker**를 클릭합니다.\n16. **Confirm** 버튼을 클릭하여 양식을 닫습니다."
               },
               "highlight": {
                 "en": "Tenant policy can restrict remote MCP servers. Use the facilitator-approved endpoint and authentication method.",
@@ -337,9 +337,9 @@
               ],
               "markdown": {
                 "en": "## Test the agent\n\n1. Open the agent's **Preview** tab in modern agent maker experience portal.\n2. Ask a Microsoft-related question, for example:\n\n   ```text\n   Share with me some customers using copilot studio in energy and utility industry\n   ```\n\n   ```text\n   The Copilot Studio New Feature Updates and Roadmap in Oct Release 2026\n   ```\n\n3. Verify that the agent uses the **Microsoft Learn MCP Server** or *Microsoft Website* and returns responses grounded in those documentation.\n\n## Expected Result\n\n4. The agent is now connected to the **Microsoft Website** and **Microsoft Learn MCP Server**. \n5. The agent can search documentation in real time and use Microsoft Website and Learn content to answer questions about Microsoft products and services.\n6. Click \"**Save**\" and then the \"**Publish**\" button on the top right corner of agent maker UI page.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "## 测试 Agent\n\n1. 在现代 Agent Maker 体验门户中打开 Agent 的 **Preview** 选项卡。\n2. 提出一个与 Microsoft 相关的问题，例如：\n\n   ```text\n   Share with me some customers using copilot studio in energy and utility industry\n   ```\n\n   ```text\n   The Copilot Studio New Feature Updates and Roadmap in Oct Release 2026\n   ```\n\n3. 验证 Agent 使用了 **Microsoft Learn MCP Server** 或 *Microsoft Website*，并返回以这些文档为依据的回答。\n\n## 预期结果\n\n4. 现在 Agent 已连接到 **Microsoft Website** 和 **Microsoft Learn MCP Server**。\n5. Agent 可以实时搜索文档，并使用 Microsoft Website 和 Learn 内容来回答有关 Microsoft 产品与服务的问题。\n6. 点击“**Save**”，然后点击 Agent Maker UI 页面右上角的“**Publish**”按钮。",
+                "ja": "## Agent をテストする\n\n1. モダンな Agent Maker エクスペリエンス ポータルで Agent の **Preview** タブを開きます。\n2. Microsoft に関する質問を入力します。例：\n\n   ```text\n   Share with me some customers using copilot studio in energy and utility industry\n   ```\n\n   ```text\n   The Copilot Studio New Feature Updates and Roadmap in Oct Release 2026\n   ```\n\n3. Agent が **Microsoft Learn MCP Server** または *Microsoft Website* を使用し、それらのドキュメントに基づく回答を返すことを確認します。\n\n## 期待される結果\n\n4. これで Agent は **Microsoft Website** と **Microsoft Learn MCP Server** に接続されました。\n5. Agent はドキュメントをリアルタイムで検索し、Microsoft Website と Learn のコンテンツを使って Microsoft 製品・サービスに関する質問に回答できます。\n6. 「**Save**」をクリックし、続いて Agent Maker UI ページ右上の「**Publish**」ボタンをクリックします。",
+                "ko": "## Agent 테스트\n\n1. 최신 Agent Maker 환경 포털에서 Agent의 **Preview** 탭을 엽니다.\n2. Microsoft 관련 질문을 입력합니다. 예:\n\n   ```text\n   Share with me some customers using copilot studio in energy and utility industry\n   ```\n\n   ```text\n   The Copilot Studio New Feature Updates and Roadmap in Oct Release 2026\n   ```\n\n3. Agent가 **Microsoft Learn MCP Server** 또는 *Microsoft Website*를 사용하여 해당 문서에 근거한 응답을 반환하는지 확인합니다.\n\n## 예상 결과\n\n4. 이제 Agent가 **Microsoft Website** 및 **Microsoft Learn MCP Server**에 연결되었습니다.\n5. Agent는 문서를 실시간으로 검색하고 Microsoft Website와 Learn 콘텐츠를 사용하여 Microsoft 제품 및 서비스에 대한 질문에 답할 수 있습니다.\n6. \"**Save**\"를 클릭한 다음 Agent Maker UI 페이지 오른쪽 상단의 \"**Publish**\" 버튼을 클릭합니다."
               },
               "prompts": [
                 {
@@ -451,9 +451,9 @@
               ],
               "markdown": {
                 "en": "## Add the Microsoft Dataverse MCP Tool\n\n1. Open your agent in the **new Copilot Studio Agent Experience**.\n2. Scroll to the **Tools** section.\n3. Click **+ Add tool**.\n4. Select **Model Context Protocol (MCP)**.\n5. Search for **Dataverse**.\n6. Select **Microsoft Dataverse MCP Server**.\n7. If prompted, create or select a **Dataverse connection**.\n8. Click **Add to agent**.\n\n## Configure Available MCP Tools (Optional)\n\n9. Next to **Microsoft Dataverse MCP Server**, click **⋯ → Edit**.\n10. Review the available tools exposed by the MCP Server.\n11. Disable any tools that should not be available to the agent.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "## 添加 Microsoft Dataverse MCP 工具\n\n1. 在 **new Copilot Studio Agent Experience** 中打开你的 Agent。\n2. 滚动到 **Tools** 部分。\n3. 点击 **+ Add tool**。\n4. 选择 **Model Context Protocol (MCP)**。\n5. 搜索 **Dataverse**。\n6. 选择 **Microsoft Dataverse MCP Server**。\n7. 如出现提示，创建或选择一个 **Dataverse connection**。\n8. 点击 **Add to agent**。\n\n## 配置可用的 MCP 工具（可选）\n\n9. 在 **Microsoft Dataverse MCP Server** 旁边，点击 **⋯ → Edit**。\n10. 查看 MCP Server 公开的可用工具。\n11. 禁用任何不应提供给 Agent 的工具。",
+                "ja": "## Microsoft Dataverse MCP ツールを追加する\n\n1. **new Copilot Studio Agent Experience** で Agent を開きます。\n2. **Tools** セクションまでスクロールします。\n3. **+ Add tool** をクリックします。\n4. **Model Context Protocol (MCP)** を選択します。\n5. **Dataverse** を検索します。\n6. **Microsoft Dataverse MCP Server** を選択します。\n7. 求められた場合は **Dataverse connection** を作成または選択します。\n8. **Add to agent** をクリックします。\n\n## 利用可能な MCP ツールを構成する（任意）\n\n9. **Microsoft Dataverse MCP Server** の横で **⋯ → Edit** をクリックします。\n10. MCP Server が公開する利用可能なツールを確認します。\n11. Agent に提供すべきでないツールを無効にします。",
+                "ko": "## Microsoft Dataverse MCP 도구 추가\n\n1. **new Copilot Studio Agent Experience**에서 Agent를 엽니다.\n2. **Tools** 섹션으로 스크롤합니다.\n3. **+ Add tool**을 클릭합니다.\n4. **Model Context Protocol (MCP)**을 선택합니다.\n5. **Dataverse**를 검색합니다.\n6. **Microsoft Dataverse MCP Server**를 선택합니다.\n7. 메시지가 표시되면 **Dataverse connection**을 만들거나 선택합니다.\n8. **Add to agent**를 클릭합니다.\n\n## 사용 가능한 MCP 도구 구성(선택)\n\n9. **Microsoft Dataverse MCP Server** 옆에서 **⋯ → Edit**을 클릭합니다.\n10. MCP Server가 노출하는 사용 가능한 도구를 검토합니다.\n11. Agent에 제공되지 않아야 하는 도구를 사용 안 함으로 설정합니다."
               },
               "highlight": {
                 "en": "**Prerequisite:** The Dataverse MCP Server must be enabled for the Power Platform environment.",
@@ -479,22 +479,22 @@
               "paragraphs": [
                 {
                   "en": "Test the Dataverse MCP Server by asking account related questions.",
-                  "zh": "",
-                  "ja": "",
-                  "ko": ""
+                  "zh": "通过询问与客户相关的问题来测试 Dataverse MCP Server。",
+                  "ja": "アカウントに関する質問をして Dataverse MCP Server をテストします。",
+                  "ko": "계정 관련 질문을 하여 Dataverse MCP Server를 테스트합니다."
                 }
               ],
               "markdown": {
                 "en": "## Test the Dataverse MCP Tool\n\n1. Open the **Preview** tab.\n2. Ask the agent a Dataverse-related question, such as:\n\n   ```text\n   Show me the Top 20 my active accounts.\n   ```\n\n   ```text\n   create new account with name \"New Account 123\", www.nameaccount123.com, \n   and it's located in Shanghai, China.\n   ```\n\n3. Verify that the agent invokes the **Microsoft Dataverse MCP Server** and returns results from Dataverse.\n\n## Expected Result\n\n4. The agent is now connected to the **Microsoft Dataverse MCP Server**.\n5. The agent can discover Dataverse tables, understand schemas, search records, query data, and perform Dataverse operations through MCP tools based on your permissions and environment settings.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "## 测试 Dataverse MCP 工具\n\n1. 打开 **Preview** 选项卡。\n2. 向 Agent 提出与 Dataverse 相关的问题，例如：\n\n   ```text\n   Show me the Top 20 my active accounts.\n   ```\n\n   ```text\n   create new account with name \"New Account 123\", www.nameaccount123.com, \n   and it's located in Shanghai, China.\n   ```\n\n3. 验证 Agent 调用了 **Microsoft Dataverse MCP Server** 并返回来自 Dataverse 的结果。\n\n## 预期结果\n\n4. 现在 Agent 已连接到 **Microsoft Dataverse MCP Server**。\n5. Agent 可以根据你的权限和环境设置，通过 MCP 工具发现 Dataverse 表、理解架构、搜索记录、查询数据并执行 Dataverse 操作。",
+                "ja": "## Dataverse MCP ツールをテストする\n\n1. **Preview** タブを開きます。\n2. Dataverse に関する質問を Agent に入力します。例：\n\n   ```text\n   Show me the Top 20 my active accounts.\n   ```\n\n   ```text\n   create new account with name \"New Account 123\", www.nameaccount123.com, \n   and it's located in Shanghai, China.\n   ```\n\n3. Agent が **Microsoft Dataverse MCP Server** を呼び出し、Dataverse からの結果を返すことを確認します。\n\n## 期待される結果\n\n4. これで Agent は **Microsoft Dataverse MCP Server** に接続されました。\n5. Agent は権限と環境設定に基づき、MCP ツールを通じて Dataverse テーブルの検出、スキーマの理解、レコードの検索、データのクエリ、Dataverse 操作の実行ができます。",
+                "ko": "## Dataverse MCP 도구 테스트\n\n1. **Preview** 탭을 엽니다.\n2. Dataverse 관련 질문을 Agent에 입력합니다. 예:\n\n   ```text\n   Show me the Top 20 my active accounts.\n   ```\n\n   ```text\n   create new account with name \"New Account 123\", www.nameaccount123.com, \n   and it's located in Shanghai, China.\n   ```\n\n3. Agent가 **Microsoft Dataverse MCP Server**를 호출하고 Dataverse의 결과를 반환하는지 확인합니다.\n\n## 예상 결과\n\n4. 이제 Agent가 **Microsoft Dataverse MCP Server**에 연결되었습니다.\n5. Agent는 권한과 환경 설정에 따라 MCP 도구를 통해 Dataverse 테이블을 검색하고 스키마를 이해하며 레코드를 검색하고 데이터를 쿼리하며 Dataverse 작업을 수행할 수 있습니다."
               },
               "highlight": {
                 "en": "Click \"**Allow**\" button when you use the **Dataverse MCP Tool** the first time to answer your question in the **Preview** Tab to test the agent.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "在 **Preview** 选项卡中首次使用 **Dataverse MCP Tool** 来回答问题以测试 Agent 时，请点击“**Allow**”按钮。",
+                "ja": "**Preview** タブで Agent をテストするために **Dataverse MCP Tool** を初めて使用して質問に回答する際は、「**Allow**」ボタンをクリックします。",
+                "ko": "**Preview** 탭에서 Agent를 테스트하기 위해 **Dataverse MCP Tool**을 처음 사용하여 질문에 답할 때 \"**Allow**\" 버튼을 클릭하세요."
               },
               "prompts": [
                 {
@@ -539,9 +539,9 @@
               "id": "main",
               "title": {
                 "en": "Create a new Skill",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "创建新 Skill",
+                "ja": "新しい Skill を作成",
+                "ko": "새 Skill 만들기"
               },
               "paragraphs": [
                 {
@@ -553,15 +553,15 @@
               ],
               "markdown": {
                 "en": "Here are the brief step-by-step instructions to create a new **skill** in the modern (new experience) agent maker in Copilot Studio:\n\n1. Open your agent in **Copilot Studio** (or create one first if you don't have one yet).\n2. Select the **Build** tab.\n3. In the components panel, select **Skills**.\n4. In **Add skill**, click **Create from blank**. (Alternatively, choose **Upload a skill** to import a `.md` file or skill `.zip` package.)\n5. Enter a **Name** — use only lowercase letters, numbers, and hyphens, and don't start or end with a hyphen (e.g., `account-360-generator` or `customer-support-escalation`).\n6. Enter a **Description** of what the skill does and when it should activate. (This is what the orchestrator uses to decide when to invoke the skill — be specific.)\n7. Write the **Instructions** in **Markdown** — include the steps the agent should follow, response format, constraints, edge cases, and any tools it should use.\n8. Click **Create**. The skill now appears in the components panel for your agent.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "以下是在 Copilot Studio 现代（新体验）Agent Maker 中创建新 **skill** 的简要分步说明：\n\n1. 在 **Copilot Studio** 中打开你的 Agent（如果还没有，请先创建一个）。\n2. 选择 **Build** 选项卡。\n3. 在组件面板中，选择 **Skills**。\n4. 在 **Add skill** 中，点击 **Create from blank**。（或者，选择 **Upload a skill** 来导入 `.md` 文件或 skill `.zip` 包。）\n5. 输入 **Name**——仅使用小写字母、数字和连字符，且不要以连字符开头或结尾（例如 `account-360-generator` 或 `customer-support-escalation`）。\n6. 输入 **Description**，说明该 skill 的作用及应在何时激活。（这是编排器用来决定何时调用该 skill 的依据——请写得具体。）\n7. 用 **Markdown** 编写 **Instructions**——包括 Agent 应遵循的步骤、响应格式、约束、边界情况以及应使用的任何工具。\n8. 点击 **Create**。该 skill 现在会出现在你 Agent 的组件面板中。",
+                "ja": "Copilot Studio のモダン（新エクスペリエンス）Agent Maker で新しい **skill** を作成する簡単な手順は次のとおりです。\n\n1. **Copilot Studio** で Agent を開きます（まだない場合は先に作成します）。\n2. **Build** タブを選択します。\n3. コンポーネント パネルで **Skills** を選択します。\n4. **Add skill** で **Create from blank** をクリックします。（または **Upload a skill** を選択して `.md` ファイルや skill の `.zip` パッケージをインポートします。）\n5. **Name** を入力します。小文字、数字、ハイフンのみを使用し、ハイフンで開始・終了しないでください（例：`account-360-generator` や `customer-support-escalation`）。\n6. その skill が何をし、いつ有効になるべきかを説明する **Description** を入力します。（これはオーケストレーターが skill を呼び出すタイミングを判断する材料です。具体的に記述してください。）\n7. **Instructions** を **Markdown** で記述します。Agent が従うべき手順、応答形式、制約、エッジ ケース、使用するツールを含めます。\n8. **Create** をクリックします。これで skill が Agent のコンポーネント パネルに表示されます。",
+                "ko": "Copilot Studio의 최신(새 환경) Agent Maker에서 새 **skill**을 만드는 간단한 단계는 다음과 같습니다.\n\n1. **Copilot Studio**에서 Agent를 엽니다(아직 없으면 먼저 만듭니다).\n2. **Build** 탭을 선택합니다.\n3. 구성 요소 패널에서 **Skills**를 선택합니다.\n4. **Add skill**에서 **Create from blank**을 클릭합니다. (또는 **Upload a skill**을 선택하여 `.md` 파일이나 skill `.zip` 패키지를 가져옵니다.)\n5. **Name**을 입력합니다. 소문자, 숫자, 하이픈만 사용하고 하이픈으로 시작하거나 끝내지 마세요(예: `account-360-generator` 또는 `customer-support-escalation`).\n6. 해당 skill이 무엇을 하고 언제 활성화되어야 하는지 설명하는 **Description**을 입력합니다. (오케스트레이터가 skill 호출 시점을 결정하는 근거이므로 구체적으로 작성하세요.)\n7. **Instructions**를 **Markdown**으로 작성합니다. Agent가 따라야 할 단계, 응답 형식, 제약, 예외 상황, 사용할 도구를 포함합니다.\n8. **Create**를 클릭합니다. 이제 skill이 Agent의 구성 요소 패널에 표시됩니다."
               },
               "highlight": {
                 "en": "Skills live in the **Build** tab (not Tools) — they're reusable instruction sets, distinct from Tools/MCP servers, which connect to external services.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "Skills 位于 **Build** 选项卡（而非 Tools）——它们是可复用的指令集，与连接外部服务的 Tools/MCP 服务器不同。",
+                "ja": "Skills は **Build** タブ（Tools ではなく）にあります。これは再利用可能な指示セットであり、外部サービスに接続する Tools/MCP サーバーとは異なります。",
+                "ko": "Skills는 **Build** 탭(Tools 아님)에 있습니다. 재사용 가능한 지침 집합으로, 외부 서비스에 연결하는 Tools/MCP 서버와는 다릅니다."
               },
               "prompts": [
                 {
@@ -603,16 +603,16 @@
               "id": "page-1d1391c9",
               "title": {
                 "en": "Preview and Test the result",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "预览并测试结果",
+                "ja": "結果をプレビューしてテスト",
+                "ko": "결과 미리 보기 및 테스트"
               },
               "paragraphs": [
                 {
                   "en": "Open the **Preview** tab and test a matching request to confirm the skill activates and behaves as expected.",
-                  "zh": "",
-                  "ja": "",
-                  "ko": ""
+                  "zh": "打开 **Preview** 选项卡，测试一个匹配的请求，以确认 skill 会激活并按预期运行。",
+                  "ja": "**Preview** タブを開き、一致するリクエストをテストして、skill が有効になり期待どおりに動作することを確認します。",
+                  "ko": "**Preview** 탭을 열고 일치하는 요청을 테스트하여 skill이 활성화되고 예상대로 동작하는지 확인합니다."
                 }
               ],
               "prompts": [
@@ -662,9 +662,9 @@
               ],
               "markdown": {
                 "en": "Open your agent in **Copilot Studio** and select the **Build** tab and locate the **Memory** component in the components panel — this is where the **Memory toggle** lives.\n\n---\n\n## Part A — Memory = Disabled (no recall across sessions)\n\n1. On the **Build** tab, set the **Memory toggle** to **Off**.\n2. Open the **Preview** tab (the test chat on the right).\n3. In the chat, type: **`My big bet account for this FY is Microsoft.`** and send. → The agent acknowledges it for the current conversation.\n4. Next, type: **`Account plan for my big bet account.`** → **Expected result:** The agent produces a brief **for Microsoft** — it still \"knows\" because Microsoft is sitting in the *current conversation's* short-term context.\n5. Now **start a new test**: click the **Refresh / restart conversation** icon at the top of the **Preview** pane (this begins a fresh session).\n6. In the new session, type again: **`Account plan for my big bet account.`** → **Expected result:** The agent **does not know** which account you mean. It asks you to name the account (or gives a generic answer), because with Memory off, nothing was saved once the previous conversation ended.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "在 **Copilot Studio** 中打开你的 Agent，选择 **Build** 选项卡，并在组件面板中找到 **Memory** 组件——这里就是 **Memory toggle** 所在的位置。\n\n---\n\n## 第 A 部分 — Memory = 禁用（会话间不记忆）\n\n1. 在 **Build** 选项卡上，将 **Memory toggle** 设置为 **Off**。\n2. 打开 **Preview** 选项卡（右侧的测试聊天）。\n3. 在聊天中输入：**`My big bet account for this FY is Microsoft.`** 并发送。→ Agent 会在当前对话中予以确认。\n4. 接着输入：**`Account plan for my big bet account.`** → **预期结果：** Agent 会为 **Microsoft** 生成一份简报——因为 Microsoft 仍位于 *当前对话* 的短期上下文中，它“知道”。\n5. 现在 **开始一次新测试**：点击 **Preview** 窗格顶部的 **Refresh / restart conversation** 图标（这会开始一个全新会话）。\n6. 在新会话中再次输入：**`Account plan for my big bet account.`** → **预期结果：** Agent **不知道** 你指的是哪个客户。它会请你指明客户（或给出通用回答），因为在 Memory 关闭时，上一次对话结束后没有保存任何内容。",
+                "ja": "**Copilot Studio** で Agent を開き、**Build** タブを選択し、コンポーネント パネルで **Memory** コンポーネントを見つけます。ここに **Memory toggle** があります。\n\n---\n\n## パート A — Memory = 無効（セッション間で記憶しない）\n\n1. **Build** タブで **Memory toggle** を **Off** にします。\n2. **Preview** タブ（右側のテスト チャット）を開きます。\n3. チャットに **`My big bet account for this FY is Microsoft.`** と入力して送信します。→ Agent は現在の会話でそれを認識します。\n4. 次に **`Account plan for my big bet account.`** と入力します。→ **期待される結果：** Agent は **Microsoft** 向けの簡単な内容を生成します。Microsoft が *現在の会話* の短期コンテキストにあるため、まだ「わかっている」からです。\n5. ここで **新しいテストを開始** します。**Preview** ペイン上部の **Refresh / restart conversation** アイコンをクリックします（新しいセッションが始まります）。\n6. 新しいセッションでもう一度 **`Account plan for my big bet account.`** と入力します。→ **期待される結果：** Agent はどのアカウントを指すのか **わかりません**。Memory がオフだと前の会話終了時に何も保存されないため、アカウント名を尋ねる（または一般的な回答を返す）ようになります。",
+                "ko": "**Copilot Studio**에서 Agent를 열고 **Build** 탭을 선택한 다음 구성 요소 패널에서 **Memory** 구성 요소를 찾습니다. 여기에 **Memory toggle**이 있습니다.\n\n---\n\n## 파트 A — Memory = 사용 안 함(세션 간 기억 없음)\n\n1. **Build** 탭에서 **Memory toggle**을 **Off**로 설정합니다.\n2. **Preview** 탭(오른쪽 테스트 채팅)을 엽니다.\n3. 채팅에 **`My big bet account for this FY is Microsoft.`**를 입력하고 보냅니다. → Agent가 현재 대화에서 이를 인식합니다.\n4. 다음으로 **`Account plan for my big bet account.`**를 입력합니다. → **예상 결과:** Agent가 **Microsoft**에 대한 간단한 내용을 생성합니다. Microsoft가 *현재 대화*의 단기 컨텍스트에 있으므로 여전히 \"알고\" 있기 때문입니다.\n5. 이제 **새 테스트를 시작**합니다. **Preview** 창 상단의 **Refresh / restart conversation** 아이콘을 클릭합니다(새 세션이 시작됩니다).\n6. 새 세션에서 다시 **`Account plan for my big bet account.`**를 입력합니다. → **예상 결과:** Agent는 어떤 계정을 의미하는지 **알지 못합니다**. Memory가 꺼져 있으면 이전 대화가 끝날 때 아무것도 저장되지 않으므로 계정 이름을 묻거나 일반적인 답변을 제공합니다."
               },
               "highlight": {
                 "en": "**Takeaway:** Without Memory, the account preference lives only inside a single conversation and is lost the moment you start a new one.",
@@ -719,15 +719,15 @@
               ],
               "markdown": {
                 "en": "## Part B — Memory = Enabled (recall across sessions)\n\n1. Go back to the **Build** tab and set the **Memory toggle** to **On**.\n2. Open the **Preview** tab and type: **`My big bet account is Microsoft.`** and send. → With Memory on, the agent **captures and stores** this preference in your per-user memory store. *(The first response from a memory-enabled agent also includes a link to the memory portal, where you can confirm the stored memory.)*\n3. **Restart the testing**: click the **Refresh / restart conversation** icon at the top of the **Preview** pane to begin a brand-new session.\n4. In the fresh session, type: **`Account brief for my big bet account.`** → **Expected result:** The agent **recalls \"Microsoft\" from memory** — even though you never mentioned it in this new session — and returns the Microsoft account brief directly.\n",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "## 第 B 部分 — Memory = 启用（会话间可记忆）\n\n1. 返回 **Build** 选项卡，将 **Memory toggle** 设置为 **On**。\n2. 打开 **Preview** 选项卡并输入：**`My big bet account is Microsoft.`** 并发送。→ 在 Memory 开启时，Agent 会 **捕获并存储** 该偏好到你的个人记忆库中。*（启用记忆的 Agent 的首次响应还会包含一个指向记忆门户的链接，你可以在其中确认已存储的记忆。）*\n3. **重新开始测试**：点击 **Preview** 窗格顶部的 **Refresh / restart conversation** 图标，开始一个全新会话。\n4. 在全新会话中输入：**`Account brief for my big bet account.`** → **预期结果：** Agent **从记忆中回忆起“Microsoft”**——即使你在这个新会话中从未提及——并直接返回 Microsoft 客户简报。",
+                "ja": "## パート B — Memory = 有効（セッション間で記憶する）\n\n1. **Build** タブに戻り、**Memory toggle** を **On** にします。\n2. **Preview** タブを開いて **`My big bet account is Microsoft.`** と入力し送信します。→ Memory がオンだと、Agent はこの設定をユーザーごとのメモリ ストアに **取得して保存** します。*（メモリ対応 Agent の最初の応答には、保存されたメモリを確認できるメモリ ポータルへのリンクも含まれます。）*\n3. **テストをやり直し** ます。**Preview** ペイン上部の **Refresh / restart conversation** アイコンをクリックして、まったく新しいセッションを開始します。\n4. 新しいセッションで **`Account brief for my big bet account.`** と入力します。→ **期待される結果：** Agent は、この新しいセッションで一度も触れていないにもかかわらず、**メモリから「Microsoft」を思い出し**、Microsoft のアカウント ブリーフを直接返します。",
+                "ko": "## 파트 B — Memory = 사용(세션 간 기억)\n\n1. **Build** 탭으로 돌아가 **Memory toggle**을 **On**으로 설정합니다.\n2. **Preview** 탭을 열고 **`My big bet account is Microsoft.`**를 입력하고 보냅니다. → Memory가 켜져 있으면 Agent가 이 기본 설정을 사용자별 메모리 저장소에 **캡처하여 저장**합니다. *(메모리 사용 Agent의 첫 응답에는 저장된 메모리를 확인할 수 있는 메모리 포털 링크도 포함됩니다.)*\n3. **테스트를 다시 시작**합니다. **Preview** 창 상단의 **Refresh / restart conversation** 아이콘을 클릭하여 완전히 새로운 세션을 시작합니다.\n4. 새 세션에서 **`Account brief for my big bet account.`**를 입력합니다. → **예상 결과:** Agent가 이 새 세션에서 한 번도 언급하지 않았는데도 **메모리에서 \"Microsoft\"를 기억**하여 Microsoft 계정 브리프를 바로 반환합니다."
               },
               "highlight": {
                 "en": "**Takeaway:** With Memory on, the preference persists across conversations, so the agent applies it automatically on future sessions.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "**要点：** 开启 Memory 后，该偏好会在多次对话间保持，因此 Agent 会在未来的会话中自动应用它。",
+                "ja": "**ポイント：** Memory をオンにすると、その設定は会話をまたいで保持されるため、Agent は今後のセッションで自動的に適用します。",
+                "ko": "**핵심:** Memory를 켜면 해당 기본 설정이 여러 대화에 걸쳐 유지되므로 Agent가 이후 세션에서 자동으로 적용합니다."
               },
               "prompts": [
                 {
@@ -762,9 +762,9 @@
               "id": "page-622328d8",
               "title": {
                 "en": "A quick wrap-up for Memory",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "Memory 快速小结",
+                "ja": "Memory の簡単なまとめ",
+                "ko": "Memory 간단 요약"
               },
               "paragraphs": [
                 {
@@ -776,15 +776,15 @@
               ],
               "markdown": {
                 "en": "## Side-by-side result\n\n| Test | Memory | New session? | \"Account brief for my big bet account\" → |\n|------|--------|--------------|-------------------------------------------|\n| A-1 | Off | No (same chat) | Returns Microsoft brief (from live context) |\n| A-2 | Off | Yes (new chat) | Doesn't remember — asks which account |\n| B | On | Yes (new chat) | Remembers Microsoft — returns brief |\n\n---\n\n## Notes & gotchas\n\n- The **Memory toggle** is on the **Build** tab, in the components panel — it's an **agent-level** setting the maker controls.\n- Memories are stored **per user, per agent** and are never shared with other users.\n- **Turning Memory off does *not* delete** existing memories — it only stops the agent from using them. To truly reset, delete them in the memory portal (or ask the agent in chat to \"forget my big bet account\").\n- If you don't interact with a memory-enabled agent for **28 days**, your memories for it are automatically cleared.\n- Memory is currently a **preview** feature in the new experience.\n- For a sharper brief, make sure your agent has the relevant **Knowledge / Microsoft IQ** connected so \"account brief\" draws on real account data rather than generic reasoning.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "## 对照结果\n\n| 测试 | Memory | 新会话？ | “Account brief for my big bet account” → |\n|------|--------|--------------|-------------------------------------------|\n| A-1 | Off | 否（同一对话） | 返回 Microsoft 简报（来自实时上下文） |\n| A-2 | Off | 是（新对话） | 不记得——询问是哪个客户 |\n| B | On | 是（新对话） | 记得 Microsoft——返回简报 |\n\n---\n\n## 注意事项与坑\n\n- **Memory toggle** 位于 **Build** 选项卡的组件面板中——这是一个由制作者控制的 **Agent 级** 设置。\n- 记忆是 **按用户、按 Agent** 存储的，绝不会与其他用户共享。\n- **关闭 Memory *不会* 删除** 已有记忆——它只是让 Agent 停止使用这些记忆。若要彻底重置，请在记忆门户中删除（或在聊天中让 Agent “forget my big bet account”）。\n- 如果你 **28 天** 未与启用记忆的 Agent 交互，针对它的记忆会被自动清除。\n- 在新体验中，Memory 目前是 **preview** 功能。\n- 若要获得更精准的简报，请确保为 Agent 连接了相关的 **Knowledge / Microsoft IQ**，以便“account brief”基于真实客户数据而非泛泛推理。",
+                "ja": "## 並べて比較した結果\n\n| テスト | Memory | 新しいセッション？ | 「Account brief for my big bet account」→ |\n|------|--------|--------------|-------------------------------------------|\n| A-1 | Off | いいえ（同じチャット） | Microsoft のブリーフを返す（ライブ コンテキストから） |\n| A-2 | Off | はい（新しいチャット） | 覚えていない — どのアカウントか尋ねる |\n| B | On | はい（新しいチャット） | Microsoft を覚えている — ブリーフを返す |\n\n---\n\n## 注意点と落とし穴\n\n- **Memory toggle** は **Build** タブのコンポーネント パネルにあり、メーカーが制御する **Agent レベル** の設定です。\n- メモリは **ユーザーごと・Agent ごと** に保存され、他のユーザーと共有されることはありません。\n- **Memory をオフにしても既存のメモリは *削除されません***。Agent がそれらを使用しなくなるだけです。完全にリセットするには、メモリ ポータルで削除します（またはチャットで Agent に「forget my big bet account」と依頼します）。\n- メモリ対応 Agent と **28 日間** やり取りしないと、その Agent のメモリは自動的にクリアされます。\n- 新エクスペリエンスでは、Memory は現在 **preview** 機能です。\n- より的確なブリーフのために、関連する **Knowledge / Microsoft IQ** を Agent に接続し、「account brief」が一般的な推論ではなく実際のアカウント データに基づくようにしてください。",
+                "ko": "## 나란히 비교한 결과\n\n| 테스트 | Memory | 새 세션? | \"Account brief for my big bet account\" → |\n|------|--------|--------------|-------------------------------------------|\n| A-1 | Off | 아니요(같은 채팅) | Microsoft 브리프 반환(라이브 컨텍스트에서) |\n| A-2 | Off | 예(새 채팅) | 기억하지 못함 — 어떤 계정인지 물음 |\n| B | On | 예(새 채팅) | Microsoft를 기억함 — 브리프 반환 |\n\n---\n\n## 참고 및 주의 사항\n\n- **Memory toggle**은 **Build** 탭의 구성 요소 패널에 있으며, 메이커가 제어하는 **Agent 수준** 설정입니다.\n- 메모리는 **사용자별, Agent별**로 저장되며 다른 사용자와 공유되지 않습니다.\n- **Memory를 꺼도 기존 메모리는 *삭제되지 않습니다***. Agent가 이를 사용하지 않게 될 뿐입니다. 완전히 초기화하려면 메모리 포털에서 삭제하세요(또는 채팅에서 Agent에게 \"forget my big bet account\"라고 요청).\n- 메모리 사용 Agent와 **28일** 동안 상호 작용하지 않으면 해당 Agent의 메모리가 자동으로 지워집니다.\n- 새 환경에서 Memory는 현재 **preview** 기능입니다.\n- 더 정확한 브리프를 위해 관련 **Knowledge / Microsoft IQ**를 Agent에 연결하여 \"account brief\"가 일반적인 추론이 아닌 실제 계정 데이터를 활용하도록 하세요."
               },
               "highlight": {
                 "en": "Now it's time to save our agent with **Memory** On.   Click \"**Save**\" and then \"**Publish**\" to publish th agent.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "现在该保存我们开启了 **Memory** 的 Agent 了。点击“**Save**”，然后点击“**Publish**”发布该 Agent。",
+                "ja": "ここで **Memory** をオンにした Agent を保存しましょう。「**Save**」をクリックし、続いて「**Publish**」をクリックして Agent を発行します。",
+                "ko": "이제 **Memory**를 켠 Agent를 저장할 차례입니다. \"**Save**\"를 클릭한 다음 \"**Publish**\"를 클릭하여 Agent를 게시하세요."
               },
               "prompts": [],
               "imageKeys": [
@@ -806,9 +806,9 @@
               "id": "main",
               "title": {
                 "en": "Examine the existing Workflow",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "查看现有 Workflow",
+                "ja": "既存の Workflow を確認",
+                "ko": "기존 Workflow 검토"
               },
               "paragraphs": [
                 {
@@ -820,9 +820,9 @@
               ],
               "markdown": {
                 "en": "1. In **Copilot Studio**, select **Workflows** in the left navigation.\n2. Select **JumpStart - Get Customer Updates Workflow v2**, then open the **Build** tab to load the **designer canvas**.\n3. Use the bottom-left toolbar — **Fit view** and **Tidy up** — to lay out the full flow so you can read it end to end. (Click any node to open its **configuration panel** on the right.)\n\nWalk through each node:\n\n**① Trigger — \"When an agent calls the flow\"**\n- Confirm the input parameter the agent will pass in (e.g., **`Customer name`**, Text). This is what the calling agent fills with the customer, such as *Microsoft*.\n\n**② Microsoft 365 Copilot node — the Cowork call (examine closely)**\n- Open the node and verify the key settings:\n  - **Message** — check that the prompt asks for external customer dynamics/updates and that it references the **`{Customer name}`** token (inserted via the dynamic content picker), so the call reasons over the runtime value.\n  - **Advanced parameters → Agent** — confirm it's set to **Cowork**. This is what routes the step to M365 Cowork rather than general Microsoft 365 Copilot; Cowork's own instructions, knowledge, and tools apply.\n  - **Prefer Async** — should be **Off** so the workflow **waits** for Cowork's response before continuing.\n  - **Time Zone** — set to match the running user so relative dates resolve correctly.\n  - **Sign-in / connection** — confirm the node is connected to a valid Microsoft 365 account (it runs on that user's behalf).\n\n**③ \"Respond to the agent\" node**\n- Confirm the response output is mapped to the **M365 Copilot** node's **response** — this is what returns Cowork's customer-dynamics brief to the calling agent.\n- Check the canvas for any **red error** markers; a workflow with errors can't be used reliably.\n",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "1. 在 **Copilot Studio** 中，选择左侧导航中的 **Workflows**。\n2. 选择 **JumpStart - Get Customer Updates Workflow v2**，然后打开 **Build** 选项卡以加载 **designer canvas**。\n3. 使用左下角的工具栏——**Fit view** 和 **Tidy up**——来排布整个流程，以便从头到尾阅读。（点击任意节点可在右侧打开其 **configuration panel**。）\n\n逐一查看每个节点：\n\n**① Trigger — “When an agent calls the flow”**\n- 确认 Agent 将传入的输入参数（例如 **`Customer name`**，Text）。这是调用方 Agent 填入客户（如 *Microsoft*）的地方。\n\n**② Microsoft 365 Copilot node — Cowork 调用（请仔细查看）**\n- 打开该节点并验证关键设置：\n  - **Message** — 检查提示是否请求外部客户动态/更新，并引用了 **`{Customer name}`** 令牌（通过动态内容选择器插入），以便调用基于运行时值进行推理。\n  - **Advanced parameters → Agent** — 确认设置为 **Cowork**。这会将该步骤路由到 M365 Cowork 而非通用的 Microsoft 365 Copilot；Cowork 自身的指令、知识和工具将生效。\n  - **Prefer Async** — 应为 **Off**，以便 Workflow 在继续之前 **等待** Cowork 的响应。\n  - **Time Zone** — 设置为与运行用户匹配，以便相对日期正确解析。\n  - **Sign-in / connection** — 确认该节点已连接到有效的 Microsoft 365 账户（它以该用户的身份运行）。\n\n**③ “Respond to the agent” 节点**\n- 确认响应输出映射到 **M365 Copilot** 节点的 **response**——这会将 Cowork 的客户动态简报返回给调用方 Agent。\n- 检查画布上是否有任何 **red error** 标记；存在错误的 Workflow 无法可靠使用。",
+                "ja": "1. **Copilot Studio** で、左側のナビゲーションの **Workflows** を選択します。\n2. **JumpStart - Get Customer Updates Workflow v2** を選択し、**Build** タブを開いて **designer canvas** を読み込みます。\n3. 左下のツールバー（**Fit view** と **Tidy up**）を使ってフロー全体を配置し、最初から最後まで読めるようにします。（任意のノードをクリックすると、右側に **configuration panel** が開きます。）\n\n各ノードを順に確認します。\n\n**① Trigger — 「When an agent calls the flow」**\n- Agent が渡す入力パラメーター（例：**`Customer name`**、Text）を確認します。ここに呼び出し側の Agent が顧客（*Microsoft* など）を入力します。\n\n**② Microsoft 365 Copilot ノード — Cowork の呼び出し（よく確認）**\n- ノードを開いて主要な設定を確認します。\n  - **Message** — プロンプトが外部の顧客動向／更新を求めており、**`{Customer name}`** トークン（動的コンテンツ ピッカーで挿入）を参照していることを確認します。これにより呼び出しが実行時の値に基づいて推論します。\n  - **Advanced parameters → Agent** — **Cowork** に設定されていることを確認します。これにより、このステップが汎用の Microsoft 365 Copilot ではなく M365 Cowork にルーティングされ、Cowork 独自の指示・知識・ツールが適用されます。\n  - **Prefer Async** — **Off** にして、Workflow が続行する前に Cowork の応答を **待機** するようにします。\n  - **Time Zone** — 実行ユーザーに合わせて設定し、相対日付が正しく解決されるようにします。\n  - **Sign-in / connection** — このノードが有効な Microsoft 365 アカウントに接続されていることを確認します（そのユーザーとして実行されます）。\n\n**③ 「Respond to the agent」ノード**\n- 応答出力が **M365 Copilot** ノードの **response** にマップされていることを確認します。これにより Cowork の顧客動向ブリーフが呼び出し側の Agent に返されます。\n- キャンバスに **red error** マーカーがないか確認します。エラーのある Workflow は確実には使用できません。",
+                "ko": "1. **Copilot Studio**에서 왼쪽 탐색의 **Workflows**를 선택합니다.\n2. **JumpStart - Get Customer Updates Workflow v2**를 선택한 다음 **Build** 탭을 열어 **designer canvas**를 로드합니다.\n3. 왼쪽 하단 도구 모음(**Fit view** 및 **Tidy up**)을 사용하여 전체 흐름을 배치해 처음부터 끝까지 읽을 수 있게 합니다. (노드를 클릭하면 오른쪽에 **configuration panel**이 열립니다.)\n\n각 노드를 차례로 살펴봅니다.\n\n**① Trigger — \"When an agent calls the flow\"**\n- Agent가 전달할 입력 매개 변수(예: **`Customer name`**, Text)를 확인합니다. 호출하는 Agent가 *Microsoft* 같은 고객을 여기에 채웁니다.\n\n**② Microsoft 365 Copilot 노드 — Cowork 호출(자세히 확인)**\n- 노드를 열어 주요 설정을 확인합니다.\n  - **Message** — 프롬프트가 외부 고객 동향/업데이트를 요청하고 **`{Customer name}`** 토큰(동적 콘텐츠 선택기로 삽입)을 참조하는지 확인하여 호출이 런타임 값을 기준으로 추론하도록 합니다.\n  - **Advanced parameters → Agent** — **Cowork**로 설정되어 있는지 확인합니다. 이렇게 하면 이 단계가 일반 Microsoft 365 Copilot이 아닌 M365 Cowork로 라우팅되어 Cowork 고유의 지침, 지식, 도구가 적용됩니다.\n  - **Prefer Async** — **Off**여야 Workflow가 계속하기 전에 Cowork의 응답을 **기다립니다**.\n  - **Time Zone** — 실행 사용자와 일치하도록 설정하여 상대 날짜가 올바르게 확인되도록 합니다.\n  - **Sign-in / connection** — 이 노드가 유효한 Microsoft 365 계정에 연결되어 있는지 확인합니다(해당 사용자로 실행됩니다).\n\n**③ \"Respond to the agent\" 노드**\n- 응답 출력이 **M365 Copilot** 노드의 **response**에 매핑되어 있는지 확인합니다. 이것이 Cowork의 고객 동향 브리프를 호출하는 Agent에 반환합니다.\n- 캔버스에 **red error** 표시가 있는지 확인합니다. 오류가 있는 Workflow는 안정적으로 사용할 수 없습니다."
               },
               "prompts": [
                 {
@@ -846,9 +846,9 @@
               "id": "page-0d385fed",
               "title": {
                 "en": "Add Workflow Flow to Agent",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "将 Workflow 流添加到 Agent",
+                "ja": "Workflow フローを Agent に追加",
+                "ko": "Workflow 흐름을 Agent에 추가"
               },
               "paragraphs": [
                 {
@@ -860,9 +860,9 @@
               ],
               "markdown": {
                 "en": "1. Open your **agent** and select the **Build** tab.\n2. In the components panel, select **Tools**.\n3. In the **Add a tool** dialog, open the **Workflows** tab (or search) and locate **JumpStart - Get Customer Updates Workflow v2**.\n4. Select it to view its details, then select **Add**.\n5. Review the tool's **description** so it clearly states *when* to use it (e.g., \"gets external customer dynamics/updates for Customer 360 enrichment\") ���� the orchestrator relies on this to invoke the tool correctly.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "1. 打开你的 **agent** 并选择 **Build** 选项卡。\n2. 在组件面板中，选择 **Tools**。\n3. 在 **Add a tool** 对话框中，打开 **Workflows** 选项卡（或搜索），找到 **JumpStart - Get Customer Updates Workflow v2**。\n4. 选择它以查看详情，然后选择 **Add**。\n5. 查看该工具的 **description**，确保它清楚说明 *何时* 使用它（例如，“gets external customer dynamics/updates for Customer 360 enrichment”）——编排器依赖此描述来正确调用该工具。",
+                "ja": "1. **agent** を開き、**Build** タブを選択します。\n2. コンポーネント パネルで **Tools** を選択します。\n3. **Add a tool** ダイアログで **Workflows** タブを開き（または検索し）、**JumpStart - Get Customer Updates Workflow v2** を見つけます。\n4. それを選択して詳細を表示し、**Add** を選択します。\n5. ツールの **description** を確認し、*いつ* 使用すべきかが明確になっているようにします（例：「gets external customer dynamics/updates for Customer 360 enrichment」）。オーケストレーターはこの説明に基づいてツールを正しく呼び出します。",
+                "ko": "1. **agent**를 열고 **Build** 탭을 선택합니다.\n2. 구성 요소 패널에서 **Tools**를 선택합니다.\n3. **Add a tool** 대화 상자에서 **Workflows** 탭을 열거나 검색하여 **JumpStart - Get Customer Updates Workflow v2**를 찾습니다.\n4. 선택하여 세부 정보를 확인한 다음 **Add**를 선택합니다.\n5. 도구의 **description**을 검토하여 *언제* 사용할지 명확히 나타내는지 확인합니다(예: \"gets external customer dynamics/updates for Customer 360 enrichment\"). 오케스트레이터는 이 설명에 의존하여 도구를 올바르게 호출합니다."
               },
               "prompts": [
                 {
@@ -906,9 +906,9 @@
               "id": "page-89568ca0",
               "title": {
                 "en": "Test and oversee the output",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "测试并监督输出",
+                "ja": "出力をテストして監督",
+                "ko": "출력 테스트 및 감독"
               },
               "paragraphs": [
                 {
@@ -920,15 +920,15 @@
               ],
               "markdown": {
                 "en": "1. Open the agent's **Preview** tab.\n2. Enter a prompt that should trigger the tool, for example:\n    \"**`Get the latest company news and updates for Microsoft (in last 12 months).`**\"\n3. Watch the agent **invoke JumpStart - Get Customer Updates Workflow v2**, which calls **Cowork** via the M365 Copilot node and returns the enrichment brief in the chat.\n4. To inspect node-level behavior, you can also open the workflow in the designer and use **Run flow test** (Play button) or **Test this node** on the M365 Copilot step — supply a sample customer name and review the raw output. *(Designer and test-chat runs don't consume flow capacity.)*\n5. Click **Save**, and then **Publish** to publish the agent.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "1. 打开 Agent 的 **Preview** 选项卡。\n2. 输入一个应触发该工具的提示，例如：\n    “**`Get the latest company news and updates for Microsoft (in last 12 months).`**”\n3. 观察 Agent **调用 JumpStart - Get Customer Updates Workflow v2**，它通过 M365 Copilot 节点调用 **Cowork** 并在聊天中返回丰富化简报。\n4. 若要检查节点级行为，你也可以在设计器中打开该 Workflow，并对 M365 Copilot 步骤使用 **Run flow test**（播放按钮）或 **Test this node**——提供一个示例客户名称并查看原始输出。*（设计器和测试聊天运行不会消耗流量容量。）*\n5. 点击 **Save**，然后点击 **Publish** 发布该 Agent。",
+                "ja": "1. Agent の **Preview** タブを開きます。\n2. ツールをトリガーするはずのプロンプトを入力します。例：\n    「**`Get the latest company news and updates for Microsoft (in last 12 months).`**」\n3. Agent が **JumpStart - Get Customer Updates Workflow v2 を呼び出し**、M365 Copilot ノード経由で **Cowork** を呼び出して、エンリッチメント ブリーフをチャットに返す様子を確認します。\n4. ノード レベルの動作を確認するには、デザイナーで Workflow を開き、M365 Copilot ステップで **Run flow test**（再生ボタン）または **Test this node** を使用し、サンプルの顧客名を指定して生の出力を確認することもできます。*（デザイナーとテスト チャットの実行はフロー容量を消費しません。）*\n5. **Save** をクリックし、続いて **Publish** をクリックして Agent を発行します。",
+                "ko": "1. Agent의 **Preview** 탭을 엽니다.\n2. 도구를 트리거해야 하는 프롬프트를 입력합니다. 예:\n    \"**`Get the latest company news and updates for Microsoft (in last 12 months).`**\"\n3. Agent가 **JumpStart - Get Customer Updates Workflow v2를 호출**하고, M365 Copilot 노드를 통해 **Cowork**를 호출하여 보강 브리프를 채팅에 반환하는지 확인합니다.\n4. 노드 수준 동작을 검사하려면 디자이너에서 Workflow를 열고 M365 Copilot 단계에서 **Run flow test**(재생 버튼) 또는 **Test this node**를 사용하여 샘플 고객 이름을 제공하고 원시 출력을 확인할 수도 있습니다. *(디자이너 및 테스트 채팅 실행은 흐름 용량을 소비하지 않습니다.)*\n5. **Save**를 클릭한 다음 **Publish**를 클릭하여 Agent를 게시합니다."
               },
               "highlight": {
                 "en": "## Quick checks if the result looks off\n\n- **Empty/generic brief** → re-open the M365 Copilot node and confirm **Agent = Cowork** and that the **`{inputCustomerResearchRequest}`** input is actually inserted in the Message.\n- **Agent didn't call the tool** → tighten the tool **name/description** so it clearly matches \"customer updates / dynamics / enrichment.\"",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "## 如果结果看起来不对，快速检查\n\n- **简报为空/太泛** → 重新打开 M365 Copilot 节点，确认 **Agent = Cowork**，并且 **`{inputCustomerResearchRequest}`** 输入确实已插入到 Message 中。\n- **Agent 未调用该工具** → 收紧工具的 **name/description**，使其清楚匹配“customer updates / dynamics / enrichment”。",
+                "ja": "## 結果がおかしい場合のクイック チェック\n\n- **ブリーフが空／一般的すぎる** → M365 Copilot ノードを開き直し、**Agent = Cowork** であること、そして **`{inputCustomerResearchRequest}`** 入力が実際に Message に挿入されていることを確認します。\n- **Agent がツールを呼び出さない** → ツールの **name/description** を「customer updates / dynamics / enrichment」に明確に一致するよう調整します。",
+                "ko": "## 결과가 이상해 보이면 빠른 점검\n\n- **브리프가 비어 있거나 너무 일반적임** → M365 Copilot 노드를 다시 열어 **Agent = Cowork**인지, 그리고 **`{inputCustomerResearchRequest}`** 입력이 실제로 Message에 삽입되었는지 확인합니다.\n- **Agent가 도구를 호출하지 않음** → 도구의 **name/description**을 \"customer updates / dynamics / enrichment\"에 명확히 일치하도록 다듬습니다."
               },
               "prompts": [
                 {
@@ -1003,15 +1003,15 @@
         },
         {
           "en": "Confirm you have a Microsoft 365 Copilot license — it's required to add Work IQ MCP servers.",
-          "zh": "",
-          "ja": "",
-          "ko": ""
+          "zh": "确认你拥有 Microsoft 365 Copilot 许可证——添加 Work IQ MCP 服务器需要它。",
+          "ja": "Microsoft 365 Copilot ライセンスを持っていることを確認してください。Work IQ MCP サーバーの追加に必要です。",
+          "ko": "Microsoft 365 Copilot 라이선스가 있는지 확인하세요. Work IQ MCP 서버를 추가하려면 필요합니다."
         },
         {
           "en": "Confirm Microsoft IQ is available in your environment (ask your admin if you don't see it).",
-          "zh": "",
-          "ja": "",
-          "ko": ""
+          "zh": "确认你的环境中提供 Microsoft IQ（如果看不到，请询问管理员）。",
+          "ja": "環境で Microsoft IQ が利用可能であることを確認してください（表示されない場合は管理者に確認してください）。",
+          "ko": "환경에서 Microsoft IQ를 사용할 수 있는지 확인하세요(보이지 않으면 관리자에게 문의)."
         }
       ],
       "steps": [
@@ -1028,9 +1028,9 @@
               "id": "main",
               "title": {
                 "en": "Enable the Work IQ flag (Microsoft IQ)",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "启用 Work IQ 标志 (Microsoft IQ)",
+                "ja": "Work IQ フラグ (Microsoft IQ) を有効化",
+                "ko": "Work IQ 플래그 (Microsoft IQ) 사용"
               },
               "paragraphs": [
                 {
@@ -1042,9 +1042,9 @@
               ],
               "markdown": {
                 "en": "1. On the **Build** tab, in the components panel, select the **Microsoft IQ** button. → The **Add Microsoft IQ** dialog opens with three categories: **Work IQ**, **Fabric IQ**, **Foundry IQ**.\n2. Toggle **Work IQ** **On** — this connects the agent to your organization's emails, chats, files, and activity.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "1. 在 **Build** 选项卡的组件面板中，选择 **Microsoft IQ** 按钮。→ **Add Microsoft IQ** 对话框会打开，其中有三个类别：**Work IQ**、**Fabric IQ**、**Foundry IQ**。\n2. 将 **Work IQ** 切换为 **On**——这会将 Agent 连接到你组织的电子邮件、聊天、文件和活动。",
+                "ja": "1. **Build** タブのコンポーネント パネルで **Microsoft IQ** ボタンを選択します。→ **Add Microsoft IQ** ダイアログが開き、**Work IQ**、**Fabric IQ**、**Foundry IQ** の 3 つのカテゴリが表示されます。\n2. **Work IQ** を **On** に切り替えます。これにより Agent が組織のメール、チャット、ファイル、アクティビティに接続されます。",
+                "ko": "1. **Build** 탭의 구성 요소 패널에서 **Microsoft IQ** 버튼을 선택합니다. → **Add Microsoft IQ** 대화 상자가 열리며 **Work IQ**, **Fabric IQ**, **Foundry IQ** 세 가지 범주가 표시됩니다.\n2. **Work IQ**를 **On**으로 전환합니다. 이렇게 하면 Agent가 조직의 이메일, 채팅, 파일, 활동에 연결됩니다."
               },
               "prompts": [
                 {
@@ -1067,9 +1067,9 @@
               "id": "page-a1654fef",
               "title": {
                 "en": "Add Work IQ MCP (Preview) tools",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "添加 Work IQ MCP (Preview) 工具",
+                "ja": "Work IQ MCP (Preview) ツールを追加",
+                "ko": "Work IQ MCP (Preview) 도구 추가"
               },
               "paragraphs": [
                 {
@@ -1081,9 +1081,9 @@
               ],
               "markdown": {
                 "en": "1. On the **Build** tab, in the components panel, select **Tools**.\n2. In the **Add a tool** dialog, select **Model Context Protocol**.\n3. Search for **Work IQ** and add the servers relevant to this scenario:\n   - **Work IQ Word** — creates/reads Word documents (for the draft proposal / Word output).\n   - **Work IQ OneDrive** — retrieve source files and store outputs.\n4. For each tool, when prompted for a connection, select **Create new connection** and **authenticate with the same account** the end user will run as. *(If you authenticate as an admin but demo as another user, the tools silently resolve to the wrong mailbox/files.)*\n5. Select **Add and configure**. Confirm each tool shows **Enabled: On**.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "1. 在 **Build** 选项卡的组件面板中，选择 **Tools**。\n2. 在 **Add a tool** 对话框中，选择 **Model Context Protocol**。\n3. 搜索 **Work IQ** 并添加与本场景相关的服务器：\n   - **Work IQ Word** — 创建/读取 Word 文档（用于草拟提案 / Word 输出）。\n   - **Work IQ OneDrive** — 检索源文件并存储输出。\n4. 对于每个工具，当提示连接时，选择 **Create new connection** 并 **使用最终用户将要运行的同一账户进行身份验证**。*（如果你以管理员身份验证但以另一个用户身份演示，这些工具会悄悄解析到错误的邮箱/文件。）*\n5. 选择 **Add and configure**。确认每个工具显示 **Enabled: On**。",
+                "ja": "1. **Build** タブのコンポーネント パネルで **Tools** を選択します。\n2. **Add a tool** ダイアログで **Model Context Protocol** を選択します。\n3. **Work IQ** を検索し、このシナリオに関連するサーバーを追加します。\n   - **Work IQ Word** — Word ドキュメントの作成／読み取り（ドラフト提案 / Word 出力用）。\n   - **Work IQ OneDrive** — ソース ファイルの取得と出力の保存。\n4. 各ツールで接続を求められたら、**Create new connection** を選択し、**エンド ユーザーが実行するのと同じアカウントで認証** します。*（管理者として認証しつつ別のユーザーとしてデモすると、ツールは誤ったメールボックス／ファイルに解決されてしまいます。）*\n5. **Add and configure** を選択します。各ツールが **Enabled: On** と表示されることを確認します。",
+                "ko": "1. **Build** 탭의 구성 요소 패널에서 **Tools**를 선택합니다.\n2. **Add a tool** 대화 상자에서 **Model Context Protocol**을 선택합니다.\n3. **Work IQ**를 검색하고 이 시나리오와 관련된 서버를 추가합니다.\n   - **Work IQ Word** — Word 문서 생성/읽기(초안 제안 / Word 출력용).\n   - **Work IQ OneDrive** — 원본 파일 검색 및 출력 저장.\n4. 각 도구에서 연결을 요청하면 **Create new connection**을 선택하고 **최종 사용자가 실행할 것과 동일한 계정으로 인증**합니다. *(관리자로 인증하고 다른 사용자로 데모하면 도구가 잘못된 사서함/파일로 조용히 확인됩니다.)*\n5. **Add and configure**를 선택합니다. 각 도구가 **Enabled: On**으로 표시되는지 확인합니다."
               },
               "prompts": [],
               "imageKeys": [
@@ -1117,9 +1117,9 @@
               ],
               "markdown": {
                 "en": "1. On the **Build** tab, in the components panel, select **Skills**.\n2. In **Add skill**, select **Create from blank**.\n3. **Name:** `rfq-response-generator` (lowercase letters, numbers, hyphens only).\n4. **Description** (this drives when the orchestrator activates the skill):\n   > `Generates comprehensive RFP/RFI responses by processing uploaded Excel questionnaire files and producing technically accurate answers grounded in official Microsoft Copilot Studio and Power Platform documentation. Produces updated Excel files, draft proposals, Word documents, and PowerPoint presentation recommendations.`\n5. **Instructions** (paste the Markdown below, then adjust to your house style)。\n6. Click \"**Save**\" button to save the agent with this new skill created.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "1. 在 **Build** 选项卡的组件面板中，选择 **Skills**。\n2. 在 **Add skill** 中，选择 **Create from blank**。\n3. **Name：** `rfq-response-generator`（仅小写字母、数字、连字符）。\n4. **Description**（这决定编排器何时激活该 skill）：\n   > `Generates comprehensive RFP/RFI responses by processing uploaded Excel questionnaire files and producing technically accurate answers grounded in official Microsoft Copilot Studio and Power Platform documentation. Produces updated Excel files, draft proposals, Word documents, and PowerPoint presentation recommendations.`\n5. **Instructions**（粘贴下面的 Markdown，然后根据你的风格进行调整）。\n6. 点击“**Save**”按钮保存已创建此新 skill 的 Agent。",
+                "ja": "1. **Build** タブのコンポーネント パネルで **Skills** を選択します。\n2. **Add skill** で **Create from blank** を選択します。\n3. **Name：** `rfq-response-generator`（小文字、数字、ハイフンのみ）。\n4. **Description**（オーケストレーターが skill を有効化するタイミングを左右します）：\n   > `Generates comprehensive RFP/RFI responses by processing uploaded Excel questionnaire files and producing technically accurate answers grounded in official Microsoft Copilot Studio and Power Platform documentation. Produces updated Excel files, draft proposals, Word documents, and PowerPoint presentation recommendations.`\n5. **Instructions**（下の Markdown を貼り付け、自社のスタイルに合わせて調整します）。\n6. 「**Save**」ボタンをクリックして、この新しい skill を作成した Agent を保存します。",
+                "ko": "1. **Build** 탭의 구성 요소 패널에서 **Skills**를 선택합니다.\n2. **Add skill**에서 **Create from blank**을 선택합니다.\n3. **Name:** `rfq-response-generator`(소문자, 숫자, 하이픈만).\n4. **Description**(오케스트레이터가 skill을 활성화하는 시점을 좌우합니다):\n   > `Generates comprehensive RFP/RFI responses by processing uploaded Excel questionnaire files and producing technically accurate answers grounded in official Microsoft Copilot Studio and Power Platform documentation. Produces updated Excel files, draft proposals, Word documents, and PowerPoint presentation recommendations.`\n5. **Instructions**(아래 Markdown을 붙여넣은 다음 자체 스타일에 맞게 조정합니다).\n6. \"**Save**\" 버튼을 클릭하여 이 새 skill이 만들어진 Agent를 저장합니다."
               },
               "prompts": [
                 {
@@ -1180,9 +1180,9 @@
               ],
               "markdown": {
                 "en": "1. Open the **Preview** tab.\n2. **Upload** the customer's Excel RFQ/RFI questionnaire into the test chat.\n3. Enter a prompt such as:\n   **`Answer this RFP questionnaire for my customer Microsoft and produce the updated Excel, a draft proposal, a Word response, and a PowerPoint recommendation.`**\n4. Watch the agent:\n   - Activate **`rfq-response-generator`**,\n   - Read the Excel and research each question via the **Microsoft Learn Docs MCP**,\n   - Use **Work IQ** for approved internal content,\n   - Return the **updated Excel**, **draft proposal**, **Word document**, and **PowerPoint recommendation** as generated files in the chat.\n5. Review a few answers for accuracy and confirm cited sources; refine the skill **Instructions** if the format or depth needs adjusting.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "1. 打开 **Preview** 选项卡。\n2. 将客户的 Excel RFQ/RFI 问卷 **上传** 到测试聊天中。\n3. 输入类似以下的提示：\n   **`Answer this RFP questionnaire for my customer Microsoft and produce the updated Excel, a draft proposal, a Word response, and a PowerPoint recommendation.`**\n4. 观察 Agent：\n   - 激活 **`rfq-response-generator`**，\n   - 读取 Excel 并通过 **Microsoft Learn Docs MCP** 研究每个问题，\n   - 使用 **Work IQ** 获取已批准的内部内容，\n   - 在聊天中以生成文件的形式返回 **updated Excel**、**draft proposal**、**Word document** 和 **PowerPoint recommendation**。\n5. 检查几个答案的准确性并确认引用来源；如果格式或深度需要调整，请优化该 skill 的 **Instructions**。",
+                "ja": "1. **Preview** タブを開きます。\n2. 顧客の Excel RFQ/RFI アンケートをテスト チャットに **アップロード** します。\n3. 次のようなプロンプトを入力します。\n   **`Answer this RFP questionnaire for my customer Microsoft and produce the updated Excel, a draft proposal, a Word response, and a PowerPoint recommendation.`**\n4. Agent の動作を確認します。\n   - **`rfq-response-generator`** を有効化し、\n   - Excel を読み取り、**Microsoft Learn Docs MCP** で各質問を調査し、\n   - 承認済みの社内コンテンツに **Work IQ** を使用し、\n   - **updated Excel**、**draft proposal**、**Word document**、**PowerPoint recommendation** を生成ファイルとしてチャットに返します。\n5. いくつかの回答の正確さを確認し、引用元を確認します。形式や深さの調整が必要なら skill の **Instructions** を改善します。",
+                "ko": "1. **Preview** 탭을 엽니다.\n2. 고객의 Excel RFQ/RFI 설문지를 테스트 채팅에 **업로드**합니다.\n3. 다음과 같은 프롬프트를 입력합니다.\n   **`Answer this RFP questionnaire for my customer Microsoft and produce the updated Excel, a draft proposal, a Word response, and a PowerPoint recommendation.`**\n4. Agent를 관찰합니다.\n   - **`rfq-response-generator`**를 활성화하고,\n   - Excel을 읽고 **Microsoft Learn Docs MCP**를 통해 각 질문을 조사하고,\n   - 승인된 내부 콘텐츠에 **Work IQ**를 사용하고,\n   - **updated Excel**, **draft proposal**, **Word document**, **PowerPoint recommendation**을 생성된 파일로 채팅에 반환합니다.\n5. 몇 가지 답변의 정확성을 검토하고 인용된 출처를 확인합니다. 형식이나 깊이를 조정해야 하면 skill의 **Instructions**를 다듬습니다."
               },
               "highlight": {
                 "en": "File upload availability varies by channel. Complete authoring tests in Copilot Studio before testing Teams or M365 Copilot.",
@@ -1242,15 +1242,15 @@
               ],
               "markdown": {
                 "en": "## Notes & gotchas\n\n- **License gate:** Work IQ MCP servers require a **Microsoft 365 Copilot license**; without it, the tools won't be addable.\n- **Preview behavior:** Work IQ MCP and Microsoft IQ are **preview** — occasional test-panel rendering glitches are expected; not for production-critical use yet.\n- **Work IQ toggle ≠ inbox/Teams access by itself:** the **Work IQ flag** primarily strengthens search/grounding over your connected knowledge. Deep, action-level access to mail/files/Word comes from the **Work IQ MCP tools** you added in Part 2.\n- **Grounding quality:** keep the **Microsoft Learn Docs MCP** tool enabled and referenced in the skill so answers stay tied to official Copilot Studio / Power Platform docs rather than model memory.\n- **Connection identity:** authenticate every Work IQ tool as the **end-user demo account**, not an admin, so results resolve to the right person's data.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "## 注意事项与坑\n\n- **许可证前提：** Work IQ MCP 服务器需要 **Microsoft 365 Copilot license**；没有它则无法添加这些工具。\n- **Preview 行为：** Work IQ MCP 和 Microsoft IQ 处于 **preview**——偶尔出现测试面板渲染故障是正常的；尚不适用于生产关键用途。\n- **Work IQ 开关 ≠ 本身即可访问收件箱/Teams：** **Work IQ flag** 主要增强对你已连接知识的搜索/依据能力。对邮件/文件/Word 的深度、动作级访问来自你在第 2 部分添加的 **Work IQ MCP tools**。\n- **依据质量：** 保持 **Microsoft Learn Docs MCP** 工具在 skill 中启用并被引用，使答案紧扣官方 Copilot Studio / Power Platform 文档，而非模型记忆。\n- **连接身份：** 将每个 Work IQ 工具都以 **最终用户演示账户** 身份验证，而非管理员，以便结果解析到正确的人员数据。",
+                "ja": "## 注意点と落とし穴\n\n- **ライセンス要件：** Work IQ MCP サーバーには **Microsoft 365 Copilot license** が必要です。ない場合はツールを追加できません。\n- **Preview の動作：** Work IQ MCP と Microsoft IQ は **preview** です。テスト パネルの表示の乱れが時々発生しますが想定内で、まだ本番の重要用途には向きません。\n- **Work IQ トグル ≠ それ単体で受信トレイ/Teams にアクセス：** **Work IQ flag** は主に、接続済みナレッジに対する検索／グラウンディングを強化します。メール/ファイル/Word への深いアクション レベルのアクセスは、パート 2 で追加した **Work IQ MCP tools** から得られます。\n- **グラウンディング品質：** **Microsoft Learn Docs MCP** ツールを skill で有効化・参照し続け、回答がモデルの記憶ではなく公式の Copilot Studio / Power Platform ドキュメントに結び付くようにします。\n- **接続 ID：** すべての Work IQ ツールを管理者ではなく **エンド ユーザーのデモ アカウント** として認証し、結果が正しい人物のデータに解決されるようにします。",
+                "ko": "## 참고 및 주의 사항\n\n- **라이선스 요건:** Work IQ MCP 서버에는 **Microsoft 365 Copilot license**가 필요합니다. 없으면 도구를 추가할 수 없습니다.\n- **Preview 동작:** Work IQ MCP와 Microsoft IQ는 **preview**입니다. 테스트 패널의 간헐적 렌더링 결함은 예상된 것이며 아직 프로덕션 중요 용도에는 적합하지 않습니다.\n- **Work IQ 토글 ≠ 그 자체로 받은 편지함/Teams 액세스:** **Work IQ flag**는 주로 연결된 지식에 대한 검색/그라운딩을 강화합니다. 메일/파일/Word에 대한 심층적인 작업 수준 액세스는 파트 2에서 추가한 **Work IQ MCP tools**에서 제공됩니다.\n- **그라운딩 품질:** **Microsoft Learn Docs MCP** 도구를 skill에서 계속 사용하도록 설정하고 참조하여 답변이 모델 기억이 아닌 공식 Copilot Studio / Power Platform 문서에 연결되도록 합니다.\n- **연결 ID:** 모든 Work IQ 도구를 관리자가 아닌 **최종 사용자 데모 계정**으로 인증하여 결과가 올바른 사람의 데이터로 확인되도록 합니다."
               },
               "highlight": {
                 "en": "Don't forget to **Save** and **Publish** the Agent at the end of this lab.   ",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "别忘了在本实验结束时 **Save** 并 **Publish** 该 Agent。",
+                "ja": "このラボの最後に Agent を **Save** して **Publish** することを忘れないでください。",
+                "ko": "이 랩이 끝나면 Agent를 **Save**하고 **Publish**하는 것을 잊지 마세요."
               },
               "prompts": [],
               "imageKeys": [
@@ -1337,15 +1337,15 @@
               ],
               "markdown": {
                 "en": "1. Open a **new browser tab** and navigate to **`copilotstudio.preview.microsoft.com`**. Sign in with your work account and confirm the correct **environment**.\n2. Verify you're in the **new experience** (Build / Preview / Evaluate / Monitor tabs).\n3. In the left navigation, select **Create**, then **New agent**.\n4. Enter the name **`Ask IT Anything Agent v2 - <Your Alias>`** and an instruction as below.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "1. 打开 **new browser tab** 并导航到 **`copilotstudio.preview.microsoft.com`**。用你的工作账户登录并确认正确的 **environment**。\n2. 确认你处于 **new experience**（Build / Preview / Evaluate / Monitor 选项卡）。\n3. 在左侧导航中，选择 **Create**，然后选择 **New agent**。\n4. 输入名称 **`Ask IT Anything Agent v2 - <Your Alias>`** 及如下的指令。",
+                "ja": "1. **new browser tab** を開き、**`copilotstudio.preview.microsoft.com`** に移動します。業務用アカウントでサインインし、正しい **environment** を確認します。\n2. **new experience**（Build / Preview / Evaluate / Monitor タブ）であることを確認します。\n3. 左側のナビゲーションで **Create**、続いて **New agent** を選択します。\n4. 名前 **`Ask IT Anything Agent v2 - <Your Alias>`** と以下の指示を入力します。",
+                "ko": "1. **new browser tab**을 열고 **`copilotstudio.preview.microsoft.com`**으로 이동합니다. 업무 계정으로 로그인하고 올바른 **environment**를 확인합니다.\n2. **new experience**(Build / Preview / Evaluate / Monitor 탭)인지 확인합니다.\n3. 왼쪽 탐색에서 **Create**를 선택한 다음 **New agent**를 선택합니다.\n4. 이름 **`Ask IT Anything Agent v2 - <Your Alias>`**와 아래 지침을 입력합니다."
               },
               "highlight": {
                 "en": "## Before you start\n- You're using the **new/modern agent experience** (top nav shows **Build / Preview / Evaluate / Monitor**).\n- You have a **ServiceNow** instance plus its connection details to serve as IT Helpdesk knowledge and Service Ticket.\n- Both agents (**Ask Me Anything Agent** and **Ask IT Anything Agent**) live in the **\"Training\" environment** .\n- The specialist agent must be **published** before it can be connected.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "## 开始之前\n- 你正在使用 **new/modern agent experience**（顶部导航显示 **Build / Preview / Evaluate / Monitor**）。\n- 你拥有一个 **ServiceNow** 实例及其连接详情，用作 IT Helpdesk 知识和 Service Ticket。\n- 两个 Agent（**Ask Me Anything Agent** 和 **Ask IT Anything Agent**）都位于 **“Training” environment** 中。\n- 专家 Agent 必须先 **published** 才能被连接。",
+                "ja": "## 始める前に\n- **new/modern agent experience** を使用しています（上部ナビに **Build / Preview / Evaluate / Monitor** が表示されます）。\n- IT Helpdesk のナレッジと Service Ticket として使う **ServiceNow** インスタンスとその接続情報があります。\n- 両方の Agent（**Ask Me Anything Agent** と **Ask IT Anything Agent**）は **「Training」environment** にあります。\n- スペシャリスト Agent は、接続する前に **published** されている必要があります。",
+                "ko": "## 시작하기 전에\n- **new/modern agent experience**를 사용하고 있습니다(상단 탐색에 **Build / Preview / Evaluate / Monitor**가 표시됨).\n- IT Helpdesk 지식 및 Service Ticket으로 사용할 **ServiceNow** 인스턴스와 연결 정보가 있습니다.\n- 두 Agent(**Ask Me Anything Agent** 및 **Ask IT Anything Agent**)는 모두 **\"Training\" environment**에 있습니다.\n- 전문가 Agent는 연결하기 전에 **published**되어야 합니다."
               },
               "prompts": [
                 {
@@ -1399,9 +1399,9 @@
               "id": "main",
               "title": {
                 "en": "Add ServiceNow Knowledge",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "添加 ServiceNow Knowledge",
+                "ja": "ServiceNow Knowledge を追加",
+                "ko": "ServiceNow Knowledge 추가"
               },
               "paragraphs": [
                 {
@@ -1413,9 +1413,9 @@
               ],
               "markdown": {
                 "en": "1. On the **Build** tab, in the components panel, select **Knowledge** → **Add knowledge**.\n2. Choose **ServiceNow** (the ServiceNow Knowledge Copilot Connection) as the source.\n3. Select **mjCopilotSNOW27** from the connection list, and then clicked **Add**.\n4. Go to the **Preview** tab, to test using example prompt to check and result.\n > *How to setup the out of office auto reply in outlook?*\n5. Click **Save** in the top right toolbar.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "1. 在 **Build** 选项卡的组件面板中，选择 **Knowledge** → **Add knowledge**。\n2. 选择 **ServiceNow**（ServiceNow Knowledge Copilot Connection）作为来源。\n3. 从连接列表中选择 **mjCopilotSNOW27**，然后点击 **Add**。\n4. 转到 **Preview** 选项卡，使用示例提示来测试并查看结果。\n > *How to setup the out of office auto reply in outlook?*\n5. 点击右上角工具栏中的 **Save**。",
+                "ja": "1. **Build** タブのコンポーネント パネルで **Knowledge** → **Add knowledge** を選択します。\n2. ソースとして **ServiceNow**（ServiceNow Knowledge Copilot Connection）を選びます。\n3. 接続一覧から **mjCopilotSNOW27** を選択し、**Add** をクリックします。\n4. **Preview** タブに移動し、例のプロンプトでテストして結果を確認します。\n > *How to setup the out of office auto reply in outlook?*\n5. 右上のツールバーで **Save** をクリックします。",
+                "ko": "1. **Build** 탭의 구성 요소 패널에서 **Knowledge** → **Add knowledge**를 선택합니다.\n2. 소스로 **ServiceNow**(ServiceNow Knowledge Copilot Connection)를 선택합니다.\n3. 연결 목록에서 **mjCopilotSNOW27**을 선택한 다음 **Add**를 클릭합니다.\n4. **Preview** 탭으로 이동하여 예제 프롬프트로 테스트하고 결과를 확인합니다.\n > *How to setup the out of office auto reply in outlook?*\n5. 오른쪽 상단 도구 모음에서 **Save**를 클릭합니다."
               },
               "highlight": {
                 "en": "",
@@ -1456,23 +1456,23 @@
               "id": "page-eeb99f20",
               "title": {
                 "en": "Query ServiceNow Incident",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "查询 ServiceNow Incident",
+                "ja": "ServiceNow Incident を照会",
+                "ko": "ServiceNow Incident 조회"
               },
               "paragraphs": [
                 {
                   "en": "ServiceNow Incident (Ticket Status Query) as a **Tool**",
-                  "zh": "",
-                  "ja": "",
-                  "ko": ""
+                  "zh": "ServiceNow Incident（工单状态查询）作为 **Tool**",
+                  "ja": "ServiceNow Incident（チケット状態の照会）を **Tool** として",
+                  "ko": "ServiceNow Incident(티켓 상태 조회)를 **Tool**로"
                 }
               ],
               "markdown": {
                 "en": "## Add the existing workflow as a tool\n1. On the **Build** tab, in the components panel, select **Tools**.\n2. In the **Add a tool** dialog, open the **Workflows** tab (or use the search box).\n3. Search for and select **JumpStart - Get SNOW Incident Status and Description by Number**.\n4. Review its details, then select **Add**. The workflow now appears as a **tool** on your agent's Build tab.\n\n---\n\n## Edit the tool description and input description\n1. On the **Build** tab, select the tool **JumpStart - Get SNOW Incident Status and Description by Number** to open its settings.\n2. Set the **Description** to:\n   > `Get Service Now Service Request / Ticket / Incident / Case Status and Description by Number`\n3. In the **Inputs** section, open the **first input parameter** (Incident Number) and set its **description** to:\n   > `The Service Now Incident Number, or mentioned by user as service request / Ticket / Case Number`\n4. **Save.** *(These descriptions drive orchestration — the \"service request / ticket / case\" synonyms help the agent map the user's words to this tool and its input.)*\n\n---\n\n## Test in the Preview tab\n1. Open the **Preview** tab.\n2. Enter the test prompt:\n   > *\"I want to check the current status of my ticket with number INC0010053\"*\n3. **Expected result:** the agent recognizes \"ticket … number,\" calls **JumpStart - Get SNOW Incident Status and Description by Number**, passes **INC0010053** into the Incident Number input, and returns the incident's **status and description** from ServiceNow.\n4. Click **Save** and then **Publish** the agent.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "## 将现有工作流添加为工具\n1. 在 **Build** 选项卡的组件面板中，选择 **Tools**。\n2. 在 **Add a tool** 对话框中，打开 **Workflows** 选项卡（或使用搜索框）。\n3. 搜索并选择 **JumpStart - Get SNOW Incident Status and Description by Number**。\n4. 查看其详情，然后选择 **Add**。该工作流现在会作为 **tool** 出现在你 Agent 的 Build 选项卡上。\n\n---\n\n## 编辑工具描述和输入描述\n1. 在 **Build** 选项卡上，选择工具 **JumpStart - Get SNOW Incident Status and Description by Number** 以打开其设置。\n2. 将 **Description** 设置为：\n   > `Get Service Now Service Request / Ticket / Incident / Case Status and Description by Number`\n3. 在 **Inputs** 部分，打开 **first input parameter**（Incident Number）并将其 **description** 设置为：\n   > `The Service Now Incident Number, or mentioned by user as service request / Ticket / Case Number`\n4. **Save。** *（这些描述驱动编排——“service request / ticket / case”这些同义词帮助 Agent 将用户的措辞映射到此工具及其输入。）*\n\n---\n\n## 在 Preview 选项卡中测试\n1. 打开 **Preview** 选项卡。\n2. 输入测试提示：\n   > *\"I want to check the current status of my ticket with number INC0010053\"*\n3. **预期结果：** Agent 识别出“ticket … number”，调用 **JumpStart - Get SNOW Incident Status and Description by Number**，将 **INC0010053** 传入 Incident Number 输入，并从 ServiceNow 返回该事件的 **status and description**。\n4. 点击 **Save**，然后 **Publish** 该 Agent。",
+                "ja": "## 既存のワークフローをツールとして追加する\n1. **Build** タブのコンポーネント パネルで **Tools** を選択します。\n2. **Add a tool** ダイアログで **Workflows** タブを開きます（または検索ボックスを使用）。\n3. **JumpStart - Get SNOW Incident Status and Description by Number** を検索して選択します。\n4. 詳細を確認し、**Add** を選択します。これでワークフローが Agent の Build タブに **tool** として表示されます。\n\n---\n\n## ツールの説明と入力の説明を編集する\n1. **Build** タブで、ツール **JumpStart - Get SNOW Incident Status and Description by Number** を選択して設定を開きます。\n2. **Description** を次のように設定します。\n   > `Get Service Now Service Request / Ticket / Incident / Case Status and Description by Number`\n3. **Inputs** セクションで **first input parameter**（Incident Number）を開き、その **description** を次のように設定します。\n   > `The Service Now Incident Number, or mentioned by user as service request / Ticket / Case Number`\n4. **Save。** *（これらの説明がオーケストレーションを左右します。「service request / ticket / case」という同義語は、ユーザーの言い回しをこのツールとその入力に対応付けるのに役立ちます。）*\n\n---\n\n## Preview タブでテストする\n1. **Preview** タブを開きます。\n2. テスト プロンプトを入力します。\n   > *\"I want to check the current status of my ticket with number INC0010053\"*\n3. **期待される結果：** Agent が「ticket … number」を認識し、**JumpStart - Get SNOW Incident Status and Description by Number** を呼び出して **INC0010053** を Incident Number 入力に渡し、ServiceNow からその incident の **status and description** を返します。\n4. **Save** をクリックし、続いて Agent を **Publish** します。",
+                "ko": "## 기존 워크플로를 도구로 추가\n1. **Build** 탭의 구성 요소 패널에서 **Tools**를 선택합니다.\n2. **Add a tool** 대화 상자에서 **Workflows** 탭을 열거나 검색 상자를 사용합니다.\n3. **JumpStart - Get SNOW Incident Status and Description by Number**를 검색하여 선택합니다.\n4. 세부 정보를 검토한 다음 **Add**를 선택합니다. 이제 워크플로가 Agent의 Build 탭에 **tool**로 표시됩니다.\n\n---\n\n## 도구 설명 및 입력 설명 편집\n1. **Build** 탭에서 도구 **JumpStart - Get SNOW Incident Status and Description by Number**를 선택하여 설정을 엽니다.\n2. **Description**을 다음과 같이 설정합니다.\n   > `Get Service Now Service Request / Ticket / Incident / Case Status and Description by Number`\n3. **Inputs** 섹션에서 **first input parameter**(Incident Number)를 열고 **description**을 다음과 같이 설정합니다.\n   > `The Service Now Incident Number, or mentioned by user as service request / Ticket / Case Number`\n4. **Save.** *(이러한 설명이 오케스트레이션을 좌우합니다. \"service request / ticket / case\" 동의어는 Agent가 사용자의 표현을 이 도구와 입력에 매핑하는 데 도움이 됩니다.)*\n\n---\n\n## Preview 탭에서 테스트\n1. **Preview** 탭을 엽니다.\n2. 테스트 프롬프트를 입력합니다.\n   > *\"I want to check the current status of my ticket with number INC0010053\"*\n3. **예상 결과:** Agent가 \"ticket … number\"를 인식하고 **JumpStart - Get SNOW Incident Status and Description by Number**를 호출하여 **INC0010053**을 Incident Number 입력으로 전달하고 ServiceNow에서 해당 incident의 **status and description**을 반환합니다.\n4. **Save**를 클릭한 다음 Agent를 **Publish**합니다."
               },
               "highlight": {
                 "en": "",
@@ -1533,9 +1533,9 @@
               "id": "page-ba2352cd",
               "title": {
                 "en": "## Notes & gotchas",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "## 注意事项与坑",
+                "ja": "## 注意点と落とし穴",
+                "ko": "## 참고 및 주의 사항"
               },
               "paragraphs": [
                 {
@@ -1553,9 +1553,9 @@
               },
               "highlight": {
                 "en": "- **Descriptions matter:** the tool description and the input description (with the ticket/case/service-request synonyms) are what the orchestrator uses to pick this tool and fill the number — keep them exactly as set.\n- **If the agent doesn't call the tool:** re-check the tool description wording and confirm the tool shows **Enabled: On**.\n- **Empty result:** for an unknown number, the tool should say \"no incident found for that number\" rather than returning blank.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "- **描述很重要：** 工具描述和输入描述（带有 ticket/case/service-request 同义词）是编排器用来挑选此工具并填入编号的依据——请保持它们与设置完全一致。\n- **如果 Agent 未调用该工具：** 重新检查工具描述的措辞，并确认该工具显示 **Enabled: On**。\n- **结果为空：** 对于未知编号，该工具应回答“no incident found for that number”，而不是返回空白。",
+                "ja": "- **説明が重要：** ツールの説明と入力の説明（ticket/case/service-request の同義語付き）は、オーケストレーターがこのツールを選び番号を入力する際の判断材料です。設定どおりに正確に保ってください。\n- **Agent がツールを呼び出さない場合：** ツールの説明の文言を再確認し、ツールが **Enabled: On** と表示されていることを確認します。\n- **結果が空の場合：** 不明な番号に対しては、空白を返すのではなく「no incident found for that number」と回答するはずです。",
+                "ko": "- **설명이 중요:** 도구 설명과 입력 설명(ticket/case/service-request 동의어 포함)은 오케스트레이터가 이 도구를 선택하고 번호를 채우는 근거입니다. 설정한 그대로 정확히 유지하세요.\n- **Agent가 도구를 호출하지 않으면:** 도구 설명 문구를 다시 확인하고 도구가 **Enabled: On**으로 표시되는지 확인합니다.\n- **결과가 비어 있으면:** 알 수 없는 번호에 대해서는 빈 값을 반환하지 말고 \"no incident found for that number\"라고 답해야 합니다."
               },
               "prompts": [],
               "imageKeys": []
@@ -1583,15 +1583,15 @@
               ],
               "markdown": {
                 "en": "1. Open the **Ask Me Anything Agent** (your front-door/primary agent) in the new experience.\n2. On the **Build** tab, in the components panel, select **Connected agents** → **Add a connected agent**.\n3. Browse or search and select **Ask IT Anything Agent v2 - <Your Alias>**.\n4. Add a clear routing **description**, for example:\n   **`Use for all IT helpdesk questions and for ServiceNow service ticket/incident status queries and updates. Route any IT support or ticket-status request here.`**\n5. Select **Connect** and confirm it appears in the components panel.\n6. **Test delegation** in the **Preview** tab:\n   - Ask an IT helpdesk question and a ticket-status/update request → confirm the primary agent **routes to Ask IT Anything Agent v2 - <Your Alias>**.\n   - Ask an unrelated question → confirm the **primary agent** handles it itself.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "1. 在新体验中打开 **Ask Me Anything Agent**（你的门户/主 Agent）。\n2. 在 **Build** 选项卡的组件面板中，选择 **Connected agents** → **Add a connected agent**。\n3. 浏览或搜索并选择 **Ask IT Anything Agent v2 - <Your Alias>**。\n4. 添加清晰的路由 **description**，例如：\n   **`Use for all IT helpdesk questions and for ServiceNow service ticket/incident status queries and updates. Route any IT support or ticket-status request here.`**\n5. 选择 **Connect** 并确认它出现在组件面板中。\n6. 在 **Preview** 选项卡中 **测试委派**：\n   - 提出一个 IT Helpdesk 问题和一个工单状态/更新请求 → 确认主 Agent **路由到 Ask IT Anything Agent v2 - <Your Alias>**。\n   - 提出一个无关的问题 → 确认 **主 Agent** 自行处理它。",
+                "ja": "1. 新エクスペリエンスで **Ask Me Anything Agent**（フロントドア/プライマリ Agent）を開きます。\n2. **Build** タブのコンポーネント パネルで **Connected agents** → **Add a connected agent** を選択します。\n3. 参照または検索して **Ask IT Anything Agent v2 - <Your Alias>** を選択します。\n4. 明確なルーティング用 **description** を追加します。例：\n   **`Use for all IT helpdesk questions and for ServiceNow service ticket/incident status queries and updates. Route any IT support or ticket-status request here.`**\n5. **Connect** を選択し、コンポーネント パネルに表示されることを確認します。\n6. **Preview** タブで **委任をテスト** します。\n   - IT Helpdesk の質問とチケット状態／更新のリクエストを入力 → プライマリ Agent が **Ask IT Anything Agent v2 - <Your Alias> にルーティング** することを確認します。\n   - 無関係な質問を入力 → **プライマリ Agent** が自分で処理することを確認します。",
+                "ko": "1. 새 환경에서 **Ask Me Anything Agent**(현관/기본 Agent)를 엽니다.\n2. **Build** 탭의 구성 요소 패널에서 **Connected agents** → **Add a connected agent**를 선택합니다.\n3. 찾아보거나 검색하여 **Ask IT Anything Agent v2 - <Your Alias>**를 선택합니다.\n4. 명확한 라우팅 **description**을 추가합니다. 예:\n   **`Use for all IT helpdesk questions and for ServiceNow service ticket/incident status queries and updates. Route any IT support or ticket-status request here.`**\n5. **Connect**를 선택하고 구성 요소 패널에 표시되는지 확인합니다.\n6. **Preview** 탭에서 **위임을 테스트**합니다.\n   - IT Helpdesk 질문과 티켓 상태/업데이트 요청을 입력 → 기본 Agent가 **Ask IT Anything Agent v2 - <Your Alias>로 라우팅**하는지 확인합니다.\n   - 관련 없는 질문을 입력 → **기본 Agent**가 직접 처리하는지 확인합니다."
               },
               "highlight": {
                 "en": "## Notes & gotchas\n- **Connected agents (new experience)** can only connect other **new-experience Copilot Studio agents in the same environment**, and the target must be **published** and owned by/shared with you.\n- **Routing quality** depends on the connected agent's **name + description** — keep it specific and non-overlapping with other connected agents.\n- **KB vs. Incident:** ServiceNow **Knowledge** is read-only Q&A; **incident status query** needs the **ServiceNow connector actions (Tool)**.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "## 注意事项与坑\n- **Connected agents（新体验）** 只能连接 **同一环境中其他新体验的 Copilot Studio agents**，且目标必须已 **published** 并归你所有或已与你共享。\n- **路由质量** 取决于所连接 Agent 的 **name + description**——请保持其具体，且不与其他已连接 Agent 重叠。\n- **KB 与 Incident：** ServiceNow **Knowledge** 是只读问答；**incident status query** 需要 **ServiceNow connector actions (Tool)**。",
+                "ja": "## 注意点と落とし穴\n- **Connected agents（新エクスペリエンス）** は **同じ環境内の他の新エクスペリエンス Copilot Studio agents** のみ接続でき、対象は **published** 済みで、あなたが所有または共有されている必要があります。\n- **ルーティング品質** は、接続する Agent の **name + description** に依存します。具体的に保ち、他の接続済み Agent と重複しないようにします。\n- **KB と Incident：** ServiceNow **Knowledge** は読み取り専用の Q&A です。**incident status query** には **ServiceNow connector actions (Tool)** が必要です。",
+                "ko": "## 참고 및 주의 사항\n- **Connected agents(새 환경)**는 **같은 환경의 다른 새 환경 Copilot Studio agents**만 연결할 수 있으며, 대상은 **published**되어 있고 사용자가 소유하거나 공유받은 것이어야 합니다.\n- **라우팅 품질**은 연결된 Agent의 **name + description**에 따라 달라집니다. 구체적으로 유지하고 다른 연결된 Agent와 겹치지 않게 하세요.\n- **KB와 Incident:** ServiceNow **Knowledge**는 읽기 전용 Q&A입니다. **incident status query**에는 **ServiceNow connector actions (Tool)**가 필요합니다."
               },
               "prompts": [
                 {
@@ -1644,15 +1644,15 @@
               ],
               "markdown": {
                 "en": "## Publish the latest version\n1. Open **Ask Me Anything Agent** and go to the **Build** tab.\n2. Select the **chevron next to Publish** (first publish) or **Publish** in the upper-right (updates).\n3. In the **Publish agent** dialog, review the details — make sure name, description, and instructions are complete.\n4. Select **Publish** and confirm; wait for it to finish.\n5. **Republish Ask IT Anything Agent v2 -MJ too** if you changed it — the connected agent must be on its latest published version.\n\n> Publishing applies to all channels. The latest content goes live for a user when a **new session** starts (type **start over** to force it; otherwise it can take up to an hour).\n\n---\n\n## Add Microsoft 365 Copilot and Teams channels\n1. In the **Publish** dialog (or the top-menu **Channels**), select **Teams + Microsoft 365 Copilot**.\n2. In the configuration panel, under **Turn on Microsoft 365**, select **Make agent available in Microsoft 365 Copilot chat** — this enables both **Teams** and **Microsoft 365 Copilot**.\n3. Set the **Availability options** (start with just yourself for testing).\n4. **Publish** again to apply the channel changes.\n\n---\n\n## Install the agent\n- **For yourself (fastest):** select **Open the agent in Teams** / **See agent in Teams** to install it in Teams; **pin** it for easy access.\n- **In Microsoft 365 Copilot:** open Microsoft 365 Copilot chat → **Get Agents** → search **Ask Me Anything Agent** → **Add**.\n- **Org-wide (optional):** on the Publish page, select **Make the agent available to others** → **Submit for admin approval**; an admin approves it in **Teams Admin Center → Manage apps**.\n\n---\n\n## Run the joint test matrix\nRun every row in **both channels** (Microsoft Teams **and** Microsoft 365 Copilot), signed in as a normal end user.\n\n| # | Area | Sample prompt | Pass criteria |\n|---|------|---------------|---------------|\n| 1 | Routing (KB) | \"Top 5 reason to select Copilot Studio?\" | handled by the **primary** agent; answer comes from the **Microsoft Website**  |\n| 2 | Routing (ticket) | \"What's the status of my ticket INC0010053?\" | Routes to the IT agent; **JumpStart - Get SNOW Incident Status and Description by Number** is called; status + description returned |\n| 3 | Routing (negative) | \"Customer insights for My Big Bet Account\" | Handled by the **primary** agent — **not** routed to the IT agent |\n\n**For each run, log:** the channel, whether routing was correct, the identity the ticket call resolved to, whether a citation appeared, and how links/cards rendered.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "## 发布最新版本\n1. 打开 **Ask Me Anything Agent** 并转到 **Build** 选项卡。\n2. 选择 **chevron next to Publish**（首次发布）或右上角的 **Publish**（更新）。\n3. 在 **Publish agent** 对话框中，查看详情——确保名称、描述和指令完整。\n4. 选择 **Publish** 并确认；等待其完成。\n5. 如果你更改了 **Ask IT Anything Agent v2 -MJ**，也要 **重新发布它**——被连接的 Agent 必须处于其最新发布版本。\n\n> 发布适用于所有渠道。当用户开始一个 **new session** 时，最新内容才会对其生效（输入 **start over** 可强制刷新；否则最多可能需要一小时）。\n\n---\n\n## 添加 Microsoft 365 Copilot 和 Teams 渠道\n1. 在 **Publish** 对话框中（或顶部菜单 **Channels**），选择 **Teams + Microsoft 365 Copilot**。\n2. 在配置面板中，在 **Turn on Microsoft 365** 下，选择 **Make agent available in Microsoft 365 Copilot chat**——这会同时启用 **Teams** 和 **Microsoft 365 Copilot**。\n3. 设置 **Availability options**（测试时先仅限你自己）。\n4. 再次 **Publish** 以应用渠道更改。\n\n---\n\n## 安装 Agent\n- **给你自己（最快）：** 选择 **Open the agent in Teams** / **See agent in Teams** 将其安装到 Teams；将其 **pin** 以便快速访问。\n- **在 Microsoft 365 Copilot 中：** 打开 Microsoft 365 Copilot chat → **Get Agents** → 搜索 **Ask Me Anything Agent** → **Add**。\n- **面向全组织（可选）：** 在 Publish 页面，选择 **Make the agent available to others** → **Submit for admin approval**；管理员在 **Teams Admin Center → Manage apps** 中批准。\n\n---\n\n## 运行联合测试矩阵\n以普通最终用户身份登录，在 **两个渠道**（Microsoft Teams **和** Microsoft 365 Copilot）中运行每一行。\n\n| # | 领域 | 示例提示 | 通过标准 |\n|---|------|---------------|---------------|\n| 1 | Routing (KB) | \"Top 5 reason to select Copilot Studio?\" | 由 **primary** agent 处理；答案来自 **Microsoft Website** |\n| 2 | Routing (ticket) | \"What's the status of my ticket INC0010053?\" | 路由到 IT agent；调用 **JumpStart - Get SNOW Incident Status and Description by Number**；返回 status + description |\n| 3 | Routing (negative) | \"Customer insights for My Big Bet Account\" | 由 **primary** agent 处理——**不**路由到 IT agent |\n\n**每次运行都记录：** 渠道、路由是否正确、工单调用解析到的身份、是否出现引用，以及链接/卡片的渲染情况。",
+                "ja": "## 最新バージョンを発行する\n1. **Ask Me Anything Agent** を開き、**Build** タブに移動します。\n2. **chevron next to Publish**（初回発行）または右上の **Publish**（更新）を選択します。\n3. **Publish agent** ダイアログで詳細を確認し、名前・説明・指示が完成していることを確認します。\n4. **Publish** を選択して確定し、完了まで待ちます。\n5. **Ask IT Anything Agent v2 -MJ** を変更した場合は、そちらも **再発行** します。接続された Agent は最新の発行バージョンである必要があります。\n\n> 発行はすべてのチャネルに適用されます。最新のコンテンツは、ユーザーが **new session** を開始したときに反映されます（**start over** と入力すると強制できます。そうでなければ最大 1 時間かかることがあります）。\n\n---\n\n## Microsoft 365 Copilot と Teams チャネルを追加する\n1. **Publish** ダイアログ（または上部メニューの **Channels**）で **Teams + Microsoft 365 Copilot** を選択します。\n2. 構成パネルの **Turn on Microsoft 365** で **Make agent available in Microsoft 365 Copilot chat** を選択します。これで **Teams** と **Microsoft 365 Copilot** の両方が有効になります。\n3. **Availability options** を設定します（テストでは最初は自分だけに）。\n4. もう一度 **Publish** してチャネルの変更を適用します。\n\n---\n\n## Agent をインストールする\n- **自分用（最速）：** **Open the agent in Teams** / **See agent in Teams** を選択して Teams にインストールし、**pin** して素早くアクセスできるようにします。\n- **Microsoft 365 Copilot で：** Microsoft 365 Copilot chat を開く → **Get Agents** → **Ask Me Anything Agent** を検索 → **Add**。\n- **組織全体（任意）：** Publish ページで **Make the agent available to others** → **Submit for admin approval** を選択します。管理者が **Teams Admin Center → Manage apps** で承認します。\n\n---\n\n## 合同テスト マトリックスを実行する\n通常のエンド ユーザーとしてサインインし、**両方のチャネル**（Microsoft Teams **と** Microsoft 365 Copilot）で各行を実行します。\n\n| # | 領域 | サンプル プロンプト | 合格基準 |\n|---|------|---------------|---------------|\n| 1 | Routing (KB) | \"Top 5 reason to select Copilot Studio?\" | **primary** agent が処理。回答は **Microsoft Website** から |\n| 2 | Routing (ticket) | \"What's the status of my ticket INC0010053?\" | IT agent にルーティング。**JumpStart - Get SNOW Incident Status and Description by Number** が呼ばれ、status + description が返る |\n| 3 | Routing (negative) | \"Customer insights for My Big Bet Account\" | **primary** agent が処理 — IT agent には **ルーティングしない** |\n\n**各実行で記録：** チャネル、ルーティングが正しかったか、チケット呼び出しが解決した ID、引用が表示されたか、リンク／カードの表示状態。",
+                "ko": "## 최신 버전 게시\n1. **Ask Me Anything Agent**를 열고 **Build** 탭으로 이동합니다.\n2. **chevron next to Publish**(첫 게시) 또는 오른쪽 상단의 **Publish**(업데이트)를 선택합니다.\n3. **Publish agent** 대화 상자에서 세부 정보를 검토하고 이름, 설명, 지침이 완전한지 확인합니다.\n4. **Publish**를 선택하고 확인한 다음 완료될 때까지 기다립니다.\n5. **Ask IT Anything Agent v2 -MJ**를 변경했다면 그것도 **다시 게시**하세요. 연결된 Agent는 최신 게시 버전이어야 합니다.\n\n> 게시는 모든 채널에 적용됩니다. 최신 콘텐츠는 사용자가 **new session**을 시작할 때 적용됩니다(**start over**를 입력하면 강제할 수 있으며, 그렇지 않으면 최대 한 시간이 걸릴 수 있습니다).\n\n---\n\n## Microsoft 365 Copilot 및 Teams 채널 추가\n1. **Publish** 대화 상자(또는 상단 메뉴 **Channels**)에서 **Teams + Microsoft 365 Copilot**을 선택합니다.\n2. 구성 패널의 **Turn on Microsoft 365**에서 **Make agent available in Microsoft 365 Copilot chat**을 선택합니다. 이렇게 하면 **Teams**와 **Microsoft 365 Copilot**이 모두 활성화됩니다.\n3. **Availability options**를 설정합니다(테스트 시에는 처음에 본인만).\n4. 채널 변경을 적용하려면 다시 **Publish**합니다.\n\n---\n\n## Agent 설치\n- **본인용(가장 빠름):** **Open the agent in Teams** / **See agent in Teams**를 선택하여 Teams에 설치하고 빠른 액세스를 위해 **pin**합니다.\n- **Microsoft 365 Copilot에서:** Microsoft 365 Copilot chat 열기 → **Get Agents** → **Ask Me Anything Agent** 검색 → **Add**.\n- **조직 전체(선택):** Publish 페이지에서 **Make the agent available to others** → **Submit for admin approval**을 선택합니다. 관리자가 **Teams Admin Center → Manage apps**에서 승인합니다.\n\n---\n\n## 공동 테스트 매트릭스 실행\n일반 최종 사용자로 로그인하여 **두 채널**(Microsoft Teams **및** Microsoft 365 Copilot)에서 각 행을 실행합니다.\n\n| # | 영역 | 샘플 프롬프트 | 통과 기준 |\n|---|------|---------------|---------------|\n| 1 | Routing (KB) | \"Top 5 reason to select Copilot Studio?\" | **primary** agent가 처리, 답변은 **Microsoft Website**에서 |\n| 2 | Routing (ticket) | \"What's the status of my ticket INC0010053?\" | IT agent로 라우팅, **JumpStart - Get SNOW Incident Status and Description by Number** 호출, status + description 반환 |\n| 3 | Routing (negative) | \"Customer insights for My Big Bet Account\" | **primary** agent가 처리 — IT agent로 **라우팅하지 않음** |\n\n**각 실행마다 기록:** 채널, 라우팅이 올바랐는지, 티켓 호출이 확인한 ID, 인용이 표시되었는지, 링크/카드 렌더링 상태."
               },
               "highlight": {
                 "en": "## Notes & gotchas\n- **Republish after every change** — and republish the connected IT agent too; unpublished changes don't reach users.\n- **Latest content timing:** start a new session or type **start over**; otherwise propagation can take ~1 hour.\n- **Rendering differs by channel:** adaptive cards and markdown are only partially supported in Teams/M365 Copilot vs. the web demo — always test both surfaces (rows #5, #7).\n- **Don't go org-wide early:** keep availability limited to yourself until the full matrix passes in both channels.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "## 注意事项与坑\n- **每次更改后都重新发布**——并且也重新发布被连接的 IT agent；未发布的更改不会到达用户。\n- **最新内容的时效：** 开始一个新会话或输入 **start over**；否则传播可能需要约 1 小时。\n- **不同渠道渲染不同：** adaptive cards 和 markdown 在 Teams/M365 Copilot 中相比 web demo 仅部分支持——请始终测试两个界面（第 #5、#7 行）。\n- **不要过早面向全组织：** 在完整矩阵于两个渠道均通过之前，将可用性限制为仅你自己。",
+                "ja": "## 注意点と落とし穴\n- **変更のたびに再発行** — 接続された IT agent も再発行してください。未発行の変更はユーザーに届きません。\n- **最新コンテンツのタイミング：** 新しいセッションを開始するか **start over** と入力します。そうでないと反映に約 1 時間かかることがあります。\n- **チャネルによって表示が異なる：** adaptive cards や markdown は web demo に比べ Teams/M365 Copilot では一部のみ対応です。常に両方の画面をテストしてください（#5、#7 行）。\n- **早すぎる組織全体展開は避ける：** 完全なマトリックスが両チャネルで合格するまで、可用性は自分だけに限定します。",
+                "ko": "## 참고 및 주의 사항\n- **변경할 때마다 다시 게시** — 연결된 IT agent도 다시 게시하세요. 게시되지 않은 변경은 사용자에게 전달되지 않습니다.\n- **최신 콘텐츠 타이밍:** 새 세션을 시작하거나 **start over**를 입력하세요. 그렇지 않으면 전파에 약 1시간이 걸릴 수 있습니다.\n- **채널마다 렌더링이 다름:** adaptive cards와 markdown은 web demo에 비해 Teams/M365 Copilot에서 부분적으로만 지원됩니다. 항상 두 화면을 모두 테스트하세요(#5, #7 행).\n- **너무 일찍 조직 전체로 배포하지 마세요:** 전체 매트릭스가 두 채널에서 모두 통과할 때까지 가용성을 본인으로만 제한하세요."
               },
               "prompts": [
                 {
@@ -1770,9 +1770,9 @@
               ],
               "markdown": {
                 "en": "## Open the Workflow designer\n1. In the **Copilot Studio Agent Maker experience**, go to the left sidebar panel.\n2. Select **Workflows** → **+ New workflow** (or **Add workflow**).\n3. Name it **Automate Everything Email Workflow v2 - <Your Alias>** and keep it in **Draft** while you build.\n\n## Add the email trigger\n1. On the canvas, select **Add a trigger**.\n2. Choose **When a new email arrives** (Microsoft 365 Outlook).\n3. Sign in and pick the **connection** for the dedicated training mailbox.\n4. In advanced options set **Folder** to *Inbox*, **Include attachments** as needed, and add a filter so automated loops and already-processed mail are ignored.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "## 打开 Workflow 设计器\n1. 在 **Copilot Studio Agent Maker experience** 中，进入左侧边栏面板。\n2. 选择 **Workflows** → **+ New workflow**（或 **Add workflow**）。\n3. 将其命名为 **Automate Everything Email Workflow v2 - <Your Alias>**，并在构建期间保持 **Draft** 状态。\n\n## 添加电子邮件触发器\n1. 在画布上，选择 **Add a trigger**。\n2. 选择 **When a new email arrives**（Microsoft 365 Outlook）。\n3. 登录并为专用培训邮箱选择 **connection**。\n4. 在高级选项中，将 **Folder** 设置为 *Inbox*，按需设置 **Include attachments**，并添加过滤器以忽略自动循环和已处理的邮件。",
+                "ja": "## Workflow デザイナーを開く\n1. **Copilot Studio Agent Maker experience** で、左側のサイドバー パネルに移動します。\n2. **Workflows** → **+ New workflow**（または **Add workflow**）を選択します。\n3. **Automate Everything Email Workflow v2 - <Your Alias>** と名前を付け、構築中は **Draft** のままにします。\n\n## メール トリガーを追加する\n1. キャンバスで **Add a trigger** を選択します。\n2. **When a new email arrives**（Microsoft 365 Outlook）を選択します。\n3. サインインし、専用トレーニング メールボックスの **connection** を選びます。\n4. 詳細オプションで **Folder** を *Inbox* に設定し、必要に応じて **Include attachments** を設定し、自動ループや処理済みメールを無視するフィルターを追加します。",
+                "ko": "## Workflow 디자이너 열기\n1. **Copilot Studio Agent Maker experience**에서 왼쪽 사이드바 패널로 이동합니다.\n2. **Workflows** → **+ New workflow**(또는 **Add workflow**)를 선택합니다.\n3. 이름을 **Automate Everything Email Workflow v2 - <Your Alias>**로 지정하고 빌드하는 동안 **Draft** 상태로 둡니다.\n\n## 이메일 트리거 추가\n1. 캔버스에서 **Add a trigger**를 선택합니다.\n2. **When a new email arrives**(Microsoft 365 Outlook)를 선택합니다.\n3. 로그인하고 전용 교육 사서함의 **connection**을 선택합니다.\n4. 고급 옵션에서 **Folder**를 *Inbox*로 설정하고 필요에 따라 **Include attachments**를 설정한 다음 자동 루프 및 이미 처리된 메일을 무시하도록 필터를 추가합니다."
               },
               "highlight": {
                 "en": "Use a dedicated training assigned user mailbox. Never build autonomous email automation against a personal or production inbox.",
@@ -1841,9 +1841,9 @@
               ],
               "markdown": {
                 "en": "## Add the Classify action\n1. Below the trigger, select **+** → **Classify**.\n2. For the **Input**, pass the email **Subject** and **Body** (plain text) from the trigger.\n3. Define the routing **categories** (these become the branches you see on the canvas):\n   - **IT Service** — IT help, access, device, ticket, or ServiceNow-style requests.\n   - **MSFT Copilot Studio Product** — questions about Microsoft Power Platform or Copilot Studio product features and capabilities.\n   - **Other** — anything that does not match the two above.\n4. Give each category a one-line description so the model routes reliably.\n5. **Save**. The Classify node now shows one branch per category.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "## 添加 Classify 操作\n1. 在触发器下方，选择 **+** → **Classify**。\n2. 对于 **Input**，从触发器传入邮件的 **Subject** 和 **Body**（纯文本）。\n3. 定义路由 **categories**（这些会成为你在画布上看到的分支）：\n   - **IT Service** — IT 帮助、访问、设备、工单或 ServiceNow 类请求。\n   - **MSFT Copilot Studio Product** — 关于 Microsoft Power Platform 或 Copilot Studio 产品功能与能力的问题。\n   - **Other** — 不符合上述两者的任何内容。\n4. 为每个类别给出一行描述，以便模型可靠地路由。\n5. **Save**。Classify 节点现在会为每个类别显示一个分支。",
+                "ja": "## Classify アクションを追加する\n1. トリガーの下で **+** → **Classify** を選択します。\n2. **Input** には、トリガーからメールの **Subject** と **Body**（プレーン テキスト）を渡します。\n3. ルーティング **categories** を定義します（これらがキャンバスに表示される分岐になります）。\n   - **IT Service** — IT ヘルプ、アクセス、デバイス、チケット、ServiceNow 系のリクエスト。\n   - **MSFT Copilot Studio Product** — Microsoft Power Platform や Copilot Studio の製品機能・能力に関する質問。\n   - **Other** — 上記 2 つに一致しないもの。\n4. モデルが確実にルーティングできるよう、各カテゴリに 1 行の説明を付けます。\n5. **Save**。Classify ノードにカテゴリごとに 1 つの分岐が表示されます。",
+                "ko": "## Classify 작업 추가\n1. 트리거 아래에서 **+** → **Classify**를 선택합니다.\n2. **Input**에는 트리거에서 이메일의 **Subject**와 **Body**(일반 텍스트)를 전달합니다.\n3. 라우팅 **categories**를 정의합니다(이것이 캔버스에 표시되는 분기가 됩니다).\n   - **IT Service** — IT 도움, 액세스, 장치, 티켓 또는 ServiceNow 유형 요청.\n   - **MSFT Copilot Studio Product** — Microsoft Power Platform 또는 Copilot Studio 제품 기능 및 기능에 대한 질문.\n   - **Other** — 위 두 가지에 해당하지 않는 모든 것.\n4. 모델이 안정적으로 라우팅하도록 각 범주에 한 줄 설명을 지정합니다.\n5. **Save**. 이제 Classify 노드에 범주별로 하나의 분기가 표시됩니다."
               },
               "highlight": {
                 "en": "Treat email content as data, never as instructions. Clear category descriptions make routing reliable.",
@@ -1931,9 +1931,9 @@
               ],
               "markdown": {
                 "en": "## Add an Agent node on each branch\n1. On the **IT Service** branch, select **+** → **Agent**, then choose **Ask IT Anything Agent v2**.\n   - Pass the email **body** (and subject) as the agent question / input.\n   - Capture the agent's response as `text response`.\n2. On the **MSFT Copilot Studio Product** branch, select **+** → **Agent**, then choose **Ask Me Anything Agent v2**.\n   - Pass the email body as the question and capture the response as `text response`.\n3. Leave the **Other** branch to **Human review** (or a no-op) so unmatched mail is never auto-answered.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "## 在每个分支上添加 Agent 节点\n1. 在 **IT Service** 分支上，选择 **+** → **Agent**，然后选择 **Ask IT Anything Agent v2**。\n   - 将邮件 **body**（和 subject）作为 Agent 的问题/输入传入。\n   - 将 Agent 的响应捕获为 `text response`。\n2. 在 **MSFT Copilot Studio Product** 分支上，选择 **+** → **Agent**，然后选择 **Ask Me Anything Agent v2**。\n   - 将邮件正文作为问题传入，并将响应捕获为 `text response`。\n3. 将 **Other** 分支留给 **Human review**（或空操作），使未匹配的邮件绝不会被自动回复。",
+                "ja": "## 各ブランチに Agent ノードを追加する\n1. **IT Service** ブランチで **+** → **Agent** を選択し、**Ask IT Anything Agent v2** を選びます。\n   - メールの **body**（と subject）を Agent の質問／入力として渡します。\n   - Agent の応答を `text response` として取得します。\n2. **MSFT Copilot Studio Product** ブランチで **+** → **Agent** を選択し、**Ask Me Anything Agent v2** を選びます。\n   - メール本文を質問として渡し、応答を `text response` として取得します。\n3. **Other** ブランチは **Human review**（または何もしない）に残し、一致しないメールが自動返信されないようにします。",
+                "ko": "## 각 분기에 Agent 노드 추가\n1. **IT Service** 분기에서 **+** → **Agent**를 선택한 다음 **Ask IT Anything Agent v2**를 선택합니다.\n   - 이메일 **body**(및 subject)를 Agent 질문/입력으로 전달합니다.\n   - Agent의 응답을 `text response`로 캡처합니다.\n2. **MSFT Copilot Studio Product** 분기에서 **+** → **Agent**를 선택한 다음 **Ask Me Anything Agent v2**를 선택합니다.\n   - 이메일 본문을 질문으로 전달하고 응답을 `text response`로 캡처합니다.\n3. **Other** 분기는 **Human review**(또는 아무 작업 안 함)로 두어 일치하지 않는 메일이 자동으로 응답되지 않도록 합니다."
               },
               "highlight": {
                 "en": "Route only to agents you trust for that content type, and keep the Other branch behind Human review.",
@@ -2011,9 +2011,9 @@
               ],
               "markdown": {
                 "en": "## Reply personally from each branch\n1. Under the **Ask IT Anything Agent v2** node, add **Connector** → **Send an email (V2)** (Outlook).\n   - **To**: the original sender (`From` from the trigger).\n   - **Subject**: `Reply by Ask IT Anything Agent — {original subject}`.\n   - **Body**: the `itReply` variable, sent as **HTML** so headings and tables render.\n2. Under the **Ask Anything Agent v2** node, add a second **Send an email** action (**Send an email 2**).\n   - **Subject**: `Reply by Ask Me Anything Agent — {original subject}`.\n   - **Body**: the `copilotReply` variable as HTML.\n3. Personalize the greeting with the sender's name and keep the agent's grounded, markdown-rich answer intact.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "## 从每个分支进行个性化回复\n1. 在 **Ask IT Anything Agent v2** 节点下，添加 **Connector** → **Send an email (V2)**（Outlook）。\n   - **To**：原始发件人（触发器中的 `From`）。\n   - **Subject**：`Reply by Ask IT Anything Agent — {original subject}`。\n   - **Body**：`itReply` 变量，以 **HTML** 发送，使标题和表格得以呈现。\n2. 在 **Ask Anything Agent v2** 节点下，添加第二个 **Send an email** 操作（**Send an email 2**）。\n   - **Subject**：`Reply by Ask Me Anything Agent — {original subject}`。\n   - **Body**：`copilotReply` 变量，以 HTML 形式。\n3. 用发件人的姓名个性化问候语，并保持 Agent 有依据、富含 markdown 的回答完整。",
+                "ja": "## 各ブランチから個別に返信する\n1. **Ask IT Anything Agent v2** ノードの下に **Connector** → **Send an email (V2)**（Outlook）を追加します。\n   - **To**：元の送信者（トリガーの `From`）。\n   - **Subject**：`Reply by Ask IT Anything Agent — {original subject}`。\n   - **Body**：`itReply` 変数を **HTML** として送信し、見出しや表が表示されるようにします。\n2. **Ask Anything Agent v2** ノードの下に、2 つ目の **Send an email** アクション（**Send an email 2**）を追加します。\n   - **Subject**：`Reply by Ask Me Anything Agent — {original subject}`。\n   - **Body**：`copilotReply` 変数を HTML として。\n3. 送信者の名前で挨拶を個別化し、Agent の根拠に基づく markdown 豊富な回答をそのまま保ちます。",
+                "ko": "## 각 분기에서 개인화된 답장 보내기\n1. **Ask IT Anything Agent v2** 노드 아래에 **Connector** → **Send an email (V2)**(Outlook)를 추가합니다.\n   - **To**: 원래 발신자(트리거의 `From`).\n   - **Subject**: `Reply by Ask IT Anything Agent — {original subject}`.\n   - **Body**: `itReply` 변수를 **HTML**로 보내 제목과 표가 렌더링되도록 합니다.\n2. **Ask Anything Agent v2** 노드 아래에 두 번째 **Send an email** 작업(**Send an email 2**)을 추가합니다.\n   - **Subject**: `Reply by Ask Me Anything Agent — {original subject}`.\n   - **Body**: `copilotReply` 변수를 HTML로.\n3. 발신자 이름으로 인사말을 개인화하고 Agent의 근거 기반, markdown이 풍부한 답변을 그대로 유지합니다."
               },
               "highlight": {
                 "en": "Send the agent response as HTML so headings, tables, and lists render in Outlook.",
@@ -2094,9 +2094,9 @@
               ],
               "markdown": {
                 "en": "## Test the end-to-end flow\n1. **Save** the workflow.\n2. Send a test email to the training mailbox for each category:\n   - **IT Service** — *\"What's the status of my ticket INC0010053?\"* → handled by **Ask IT Anything Agent v2**.\n   - **MSFT Copilot** — *\"What's new with real-time voice agents in Copilot Studio?\"* → handled by **Ask Anything Agent v2**.\n3. Open **Activity / Monitor** to confirm the run classified correctly and routed to the right agent.\n4. Confirm each sender received a **personalized reply**.\n5. **Publish** the workflow when the test matrix passes.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "## 测试端到端流程\n1. **Save** 该工作流。\n2. 为每个类别向培训邮箱发送一封测试邮件：\n   - **IT Service** — *\"What's the status of my ticket INC0010053?\"* → 由 **Ask IT Anything Agent v2** 处理。\n   - **MSFT Copilot** — *\"What's new with real-time voice agents in Copilot Studio?\"* → 由 **Ask Anything Agent v2** 处理。\n3. 打开 **Activity / Monitor** 以确认运行分类正确并路由到了正确的 Agent。\n4. 确认每个发件人都收到了 **personalized reply**。\n5. 当测试矩阵通过后，**Publish** 该工作流。",
+                "ja": "## エンドツーエンドのフローをテストする\n1. ワークフローを **Save** します。\n2. カテゴリごとにトレーニング メールボックスへテスト メールを送ります。\n   - **IT Service** — *\"What's the status of my ticket INC0010053?\"* → **Ask IT Anything Agent v2** が処理。\n   - **MSFT Copilot** — *\"What's new with real-time voice agents in Copilot Studio?\"* → **Ask Anything Agent v2** が処理。\n3. **Activity / Monitor** を開き、実行が正しく分類され、正しい Agent にルーティングされたことを確認します。\n4. 各送信者が **personalized reply** を受け取ったことを確認します。\n5. テスト マトリックスが合格したら、ワークフローを **Publish** します。",
+                "ko": "## 엔드투엔드 흐름 테스트\n1. 워크플로를 **Save**합니다.\n2. 각 범주에 대해 교육 사서함으로 테스트 이메일을 보냅니다.\n   - **IT Service** — *\"What's the status of my ticket INC0010053?\"* → **Ask IT Anything Agent v2**가 처리.\n   - **MSFT Copilot** — *\"What's new with real-time voice agents in Copilot Studio?\"* → **Ask Anything Agent v2**가 처리.\n3. **Activity / Monitor**를 열어 실행이 올바르게 분류되고 올바른 Agent로 라우팅되었는지 확인합니다.\n4. 각 발신자가 **personalized reply**를 받았는지 확인합니다.\n5. 테스트 매트릭스가 통과하면 워크플로를 **Publish**합니다."
               },
               "highlight": {
                 "en": "Review every run in Monitor before enabling unattended sending. Add Human review for low-confidence or sensitive email.",
@@ -2229,9 +2229,9 @@
               ],
               "markdown": {
                 "en": "## Create a classic agent from the modern home page\n1. Open **Copilot Studio** and go to the **Home** page (the modern agent experience).\n2. Select **+ Create** (or the **New agent** button).\n3. On the describe screen, select **Skip to configure** to open the configuration form.\n4. Switch to the **classic agent** experience — use the **…** (more) menu and choose **Switch to classic**, or select the classic-experience link on the configure page.\n5. Enter a **Name** (for example *Talk to Me Anything Agent v2 - MJ*) and pick the primary **Language**.\n6. Select **Create**.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "## 从现代主页创建 Classic Agent\n1. 打开 **Copilot Studio** 并进入 **Home** 页面（现代 Agent 体验）。\n2. 选择 **+ Create**（或 **New agent** 按钮）。\n3. 在描述界面上，选择 **Skip to configure** 以打开配置表单。\n4. 切换到 **classic agent** 体验——使用 **…**（更多）菜单并选择 **Switch to classic**，或在配置页面上选择经典体验链接。\n5. 输入 **Name**（例如 *Talk to Me Anything Agent v2 - MJ*）并选择主 **Language**。\n6. 选择 **Create**。",
+                "ja": "## モダン ホームから Classic Agent を作成する\n1. **Copilot Studio** を開き、**Home** ページ（モダン Agent 体験）に移動します。\n2. **+ Create**（または **New agent** ボタン）を選択します。\n3. 説明画面で **Skip to configure** を選択して構成フォームを開きます。\n4. **classic agent** 体験に切り替えます — **…**（その他）メニューで **Switch to classic** を選ぶか、構成ページのクラシック体験リンクを選択します。\n5. **Name**（例：*Talk to Me Anything Agent v2 - MJ*）を入力し、主要 **Language** を選びます。\n6. **Create** を選択します。",
+                "ko": "## 모던 홈에서 Classic Agent 만들기\n1. **Copilot Studio**를 열고 **Home** 페이지(모던 Agent 환경)로 이동합니다.\n2. **+ Create**(또는 **New agent** 버튼)를 선택합니다.\n3. 설명 화면에서 **Skip to configure**를 선택하여 구성 양식을 엽니다.\n4. **classic agent** 환경으로 전환합니다 — **…**(추가) 메뉴에서 **Switch to classic**을 선택하거나 구성 페이지의 클래식 환경 링크를 선택합니다.\n5. **Name**(예: *Talk to Me Anything Agent v2 - MJ*)을 입력하고 기본 **Language**를 선택합니다.\n6. **Create**를 선택합니다."
               },
               "highlight": {
                 "en": "The real-time voice configuration surfaces live in the classic agent experience, so create the agent there.",
@@ -2279,9 +2279,9 @@
               ],
               "markdown": {
                 "en": "## Set security to No authentication\n1. Open the agent's **Settings** → **Security** → **Authentication**.\n2. Select **No authentication**.\n3. **Save**, then refresh the agent if prompted.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "## 将安全设置为 No authentication\n1. 打开 Agent 的 **Settings** → **Security** → **Authentication**。\n2. 选择 **No authentication**。\n3. **Save**，如出现提示则刷新 Agent。",
+                "ja": "## セキュリティを No authentication に設定する\n1. Agent の **Settings** → **Security** → **Authentication** を開きます。\n2. **No authentication** を選択します。\n3. **Save** し、求められたら Agent を更新します。",
+                "ko": "## 보안을 No authentication으로 설정\n1. Agent의 **Settings** → **Security** → **Authentication**을 엽니다.\n2. **No authentication**을 선택합니다.\n3. **Save**하고 메시지가 표시되면 Agent를 새로 고칩니다."
               },
               "highlight": {
                 "en": "",
@@ -2318,9 +2318,9 @@
               ],
               "markdown": {
                 "en": "## Enable the voice channel and choose real-time voice\n1. Go to **Channels** (or **Settings → Channels**).\n2. Select **Telephony** / **Voice**.\n3. Turn **on** the voice capability for this agent.\n4. For the voice engine, choose **Real-time voice** (powered by the GPT-Realtime model) instead of **Classic voice**.\n5. **Save**.\n\nReal-time voice streams audio both ways for low latency and natural turn-taking. Classic voice uses the traditional speech-to-text → model → text-to-speech pipeline, which feels more like an IVR.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "## 启用语音通道并选择实时语音\n1. 转到 **Channels**（或 **Settings → Channels**）。\n2. 选择 **Telephony** / **Voice**。\n3. 为此 Agent **打开** 语音功能。\n4. 对于语音引擎，选择 **Real-time voice**（由 GPT-Realtime 模型驱动）而非 **Classic voice**。\n5. **Save**。\n\n实时语音双向流式传输音频，实现低延迟和自然的轮流对话。经典语音使用传统的 speech-to-text → 模型 → text-to-speech 流程，感觉更像 IVR。",
+                "ja": "## 音声チャネルを有効化し、リアルタイム音声を選ぶ\n1. **Channels**（または **Settings → Channels**）に移動します。\n2. **Telephony** / **Voice** を選択します。\n3. この Agent の音声機能を **オン** にします。\n4. 音声エンジンには、**Classic voice** ではなく **Real-time voice**（GPT-Realtime モデル搭載）を選択します。\n5. **Save**。\n\nリアルタイム音声は音声を双方向でストリーミングし、低遅延と自然なターン交代を実現します。クラシック音声は従来の speech-to-text → モデル → text-to-speech パイプラインを使い、IVR のように感じられます。",
+                "ko": "## 음성 채널 활성화 및 실시간 음성 선택\n1. **Channels**(또는 **Settings → Channels**)로 이동합니다.\n2. **Telephony** / **Voice**를 선택합니다.\n3. 이 Agent의 음성 기능을 **켭니다**.\n4. 음성 엔진으로 **Classic voice** 대신 **Real-time voice**(GPT-Realtime 모델 기반)를 선택합니다.\n5. **Save**.\n\n실시간 음성은 오디오를 양방향으로 스트리밍하여 낮은 지연과 자연스러운 턴 전환을 제공합니다. 클래식 음성은 전통적인 speech-to-text → 모델 → text-to-speech 파이프라인을 사용하여 IVR처럼 느껴집니다."
               },
               "highlight": {
                 "en": "Real-time voice gives low latency and natural turn-taking. Classic voice uses the traditional STT → model → TTS pipeline.",
@@ -2356,9 +2356,9 @@
               ],
               "markdown": {
                 "en": "## Review the voice settings one by one\nOpen the voice channel settings and walk through each option:\n\n- **Voice selection** — pick the neural voice and locale (name, gender, style) the agent speaks with.\n- **Silence timeout / end-of-speech** — how long the agent waits after the caller stops talking before it responds. Shorter feels snappy; too short cuts people off.\n- **Speech sensitivity** — how eagerly the agent detects that the caller has started speaking, especially in noisy audio.\n- **DTMF** — accept **keypad tones** so callers can enter menus, numbers, or confirmations by pressing keys.\n- **Barge-in** — let the caller **interrupt** the agent while it is speaking, so they don't have to wait for a long prompt to finish.\n- **Greeting & retries** — the opening message and how many times to re-prompt on silence or no recognition.\n\nTune **silence timeout** and **sensitivity** together to balance responsiveness against accidentally cutting the caller off.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "## 逐项检查语音设置\n打开语音通道设置，逐一浏览每个选项：\n\n- **Voice selection** — 选择 Agent 用于说话的神经语音和区域设置（名称、性别、风格）。\n- **Silence timeout / end-of-speech** — Agent 在来电者停止说话后等待多久再回应。较短更灵敏；太短会打断对方。\n- **Speech sensitivity** — Agent 检测来电者已开始说话的积极程度，尤其在嘈杂音频中。\n- **DTMF** — 接受 **keypad tones**，使来电者可以按键输入菜单、数字或确认。\n- **Barge-in** — 允许来电者在 Agent 说话时 **打断** 它，无需等待冗长提示结束。\n- **Greeting & retries** — 开场消息以及在静默或未识别时重新提示的次数。\n\n将 **silence timeout** 和 **sensitivity** 一起调整，在响应速度与避免误打断来电者之间取得平衡。",
+                "ja": "## 音声設定を 1 つずつ確認する\n音声チャネルの設定を開き、各オプションを順に確認します。\n\n- **Voice selection** — Agent が話すニューラル音声とロケール（名前、性別、スタイル）を選びます。\n- **Silence timeout / end-of-speech** — 発信者が話し終えてから応答するまでの待ち時間。短いほど機敏ですが、短すぎると相手を遮ります。\n- **Speech sensitivity** — 特に雑音のある音声で、発信者が話し始めたことを Agent がどれだけ積極的に検出するか。\n- **DTMF** — **keypad tones** を受け付け、発信者がキー入力でメニュー、数字、確認を行えるようにします。\n- **Barge-in** — Agent が話している最中に発信者が **割り込める** ようにし、長いプロンプトの終了を待たずに済みます。\n- **Greeting & retries** — 冒頭メッセージと、無音や未認識時に再プロンプトする回数。\n\n**silence timeout** と **sensitivity** を併せて調整し、応答性と発信者を誤って遮らないことのバランスを取ります。",
+                "ko": "## 음성 설정을 하나씩 검토\n음성 채널 설정을 열고 각 옵션을 차례로 살펴봅니다.\n\n- **Voice selection** — Agent가 말할 뉴럴 음성과 로캘(이름, 성별, 스타일)을 선택합니다.\n- **Silence timeout / end-of-speech** — 발신자가 말을 멈춘 후 Agent가 응답하기까지 기다리는 시간. 짧을수록 민첩하지만 너무 짧으면 상대의 말을 끊습니다.\n- **Speech sensitivity** — 특히 시끄러운 오디오에서 발신자가 말을 시작했음을 Agent가 얼마나 적극적으로 감지하는지.\n- **DTMF** — **keypad tones**를 허용하여 발신자가 키 입력으로 메뉴, 숫자, 확인을 입력할 수 있게 합니다.\n- **Barge-in** — 발신자가 Agent가 말하는 도중에 **가로막을** 수 있게 하여 긴 프롬프트가 끝날 때까지 기다리지 않아도 됩니다.\n- **Greeting & retries** — 시작 메시지와 침묵 또는 미인식 시 다시 프롬프트하는 횟수.\n\n**silence timeout**과 **sensitivity**를 함께 조정하여 응답성과 발신자를 실수로 끊지 않는 것 사이의 균형을 맞추세요."
               },
               "highlight": {
                 "en": "Barge-in plus a well-tuned silence timeout is what makes a real-time voice call feel human.",
@@ -2396,9 +2396,9 @@
               ],
               "markdown": {
                 "en": "## One agent, all of Copilot Studio's capabilities\nA real-time voice agent is not a separate, limited product — it reuses everything you already build in Copilot Studio, now spoken:\n\n- **Knowledge** — ground spoken answers in Policy PDF File Upload, Microsoft.com, or your own indexes.\n- **Tools** — call MCP servers, connectors, Power Automate flows, and APIs (for example Dataverse or ServiceNow) during the call.\n- **Topics** — run deterministic, compliance-critical flows when you need exact wording and steps.\n- **Child / connected agents** — hand off to specialists (for example an *Ask IT Anything* agent) mid-conversation and come back.\n\nCombined, these turn a phone call into a compelling, interactive, intelligent conversational experience.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "## 一个 Agent，拥有 Copilot Studio 的全部能力\n实时语音 Agent 并不是一个独立、受限的产品——它复用你已经在 Copilot Studio 中构建的一切，只是改为语音形式：\n\n- **Knowledge** — 将语音回答基于 Policy PDF File Upload、Microsoft.com 或你自己的索引。\n- **Tools** — 在通话中调用 MCP 服务器、连接器、Power Automate flows 以及 API（例如 Dataverse 或 ServiceNow）。\n- **Topics** — 当你需要精确措辞和步骤时，运行确定性的、合规关键的流程。\n- **Child / connected agents** — 在对话中途交接给专家（例如 *Ask IT Anything* agent）再返回。\n\n综合起来，这些能力将一次电话通话变成引人入胜、可交互、智能的对话体验。",
+                "ja": "## 1 つの Agent で Copilot Studio のすべての機能を\nリアルタイム音声 Agent は独立した限定的な製品ではありません。Copilot Studio ですでに構築したすべてを、音声として再利用します。\n\n- **Knowledge** — 音声の回答を Policy PDF File Upload、Microsoft.com、または自分のインデックスに基づかせます。\n- **Tools** — 通話中に MCP サーバー、コネクタ、Power Automate flows、API（例：Dataverse や ServiceNow）を呼び出します。\n- **Topics** — 正確な文言と手順が必要なとき、確定的でコンプライアンス上重要なフローを実行します。\n- **Child / connected agents** — 会話の途中でスペシャリスト（例：*Ask IT Anything* agent）に引き継ぎ、戻ってきます。\n\nこれらを組み合わせることで、電話を魅力的でインタラクティブ、かつインテリジェントな会話体験に変えます。",
+                "ko": "## 하나의 Agent, Copilot Studio의 모든 기능\n실시간 음성 Agent는 별도의 제한된 제품이 아니라 Copilot Studio에서 이미 만든 모든 것을 이제 음성으로 재사용합니다.\n\n- **Knowledge** — 음성 답변을 Policy PDF File Upload, Microsoft.com 또는 자체 인덱스에 근거를 둡니다.\n- **Tools** — 통화 중에 MCP 서버, 커넥터, Power Automate flows, API(예: Dataverse 또는 ServiceNow)를 호출합니다.\n- **Topics** — 정확한 문구와 단계가 필요할 때 결정적이고 규정 준수가 중요한 흐름을 실행합니다.\n- **Child / connected agents** — 대화 도중 전문가(예: *Ask IT Anything* agent)에게 인계하고 다시 돌아옵니다.\n\n이러한 기능이 결합되어 전화 통화를 매력적이고 인터랙티브하며 지능적인 대화 경험으로 바꿉니다."
               },
               "highlight": {
                 "en": "Design once, speak everywhere: the same knowledge, tools, topics, and child agents power chat and voice.",
@@ -2434,9 +2434,9 @@
               ],
               "markdown": {
                 "en": "## Apply the agent instruction\n1. Open the agent's **Instructions** (Overview or Settings).\n2. Paste the instruction below.\n3. **Save**.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "## 应用 Agent 指令\n1. 打开 Agent 的 **Instructions**（Overview 或 Settings）。\n2. 粘贴下面的指令。\n3. **Save**。",
+                "ja": "## Agent の指示を適用する\n1. Agent の **Instructions**（Overview または Settings）を開きます。\n2. 下の指示を貼り付けます。\n3. **Save**。",
+                "ko": "## Agent 지침 적용\n1. Agent의 **Instructions**(Overview 또는 Settings)를 엽니다.\n2. 아래 지침을 붙여넣습니다.\n3. **Save**."
               },
               "highlight": {
                 "en": "Voice instructions should ask for short spoken sentences and one question at a time — long paragraphs sound robotic.",
@@ -2484,9 +2484,9 @@
               ],
               "markdown": {
                 "en": "## Test live in the Test command window (multilingual)\n1. Open the **Test** pane and switch it to **voice** mode (the microphone in the Test command window).\n2. Ask a Microsoft question in **English**: *\"What is Microsoft Copilot Studio?\"*\n3. Ask again in **中文**: *\"Copilot 和 Copilot Studio 有什么区别？\"*\n4. Ask in **日本語**: *\"Microsoft 365 Copilot でできることを教えて。\"*\n5. Ask in **한국어**: *\"Azure AI Foundry는 무엇인가요?\"*\n6. Confirm the agent: detects each language and replies in it, keeps context across turns, and lets you **barge-in** to interrupt.",
-                "zh": "",
-                "ja": "",
-                "ko": ""
+                "zh": "## 在测试命令窗口中进行实时测试（多语言）\n1. 打开 **Test** 窗格并将其切换到 **voice** 模式（测试命令窗口中的麦克风）。\n2. 用 **English** 提出一个 Microsoft 问题：*\"What is Microsoft Copilot Studio?\"*\n3. 再用 **中文** 提问：*\"Copilot 和 Copilot Studio 有什么区别？\"*\n4. 用 **日本語** 提问：*\"Microsoft 365 Copilot でできることを教えて。\"*\n5. 用 **한국어** 提问：*\"Azure AI Foundry는 무엇인가요?\"*\n6. 确认 Agent：检测每种语言并以该语言回复，跨轮次保持上下文，并允许你 **barge-in** 打断。",
+                "ja": "## テスト コマンド ウィンドウでライブ テストする（多言語）\n1. **Test** ペインを開き、**voice** モード（テスト コマンド ウィンドウのマイク）に切り替えます。\n2. **English** で Microsoft の質問をします：*\"What is Microsoft Copilot Studio?\"*\n3. もう一度 **中文** で質問します：*\"Copilot 和 Copilot Studio 有什么区别？\"*\n4. **日本語** で質問します：*\"Microsoft 365 Copilot でできることを教えて。\"*\n5. **한국어** で質問します：*\"Azure AI Foundry는 무엇인가요?\"*\n6. Agent が次のことを行うか確認します：各言語を検出してその言語で応答し、ターンをまたいでコンテキストを保持し、**barge-in** で割り込めるようにする。",
+                "ko": "## 테스트 명령 창에서 실시간 테스트(다국어)\n1. **Test** 창을 열고 **voice** 모드(테스트 명령 창의 마이크)로 전환합니다.\n2. **English**로 Microsoft 질문을 합니다: *\"What is Microsoft Copilot Studio?\"*\n3. 다시 **中文**로 질문합니다: *\"Copilot 和 Copilot Studio 有什么区别？\"*\n4. **日本語**로 질문합니다: *\"Microsoft 365 Copilot でできることを教えて。\"*\n5. **한국어**로 질문합니다: *\"Azure AI Foundry는 무엇인가요?\"*\n6. Agent가 다음을 수행하는지 확인합니다: 각 언어를 감지하여 해당 언어로 응답하고, 턴 간에 컨텍스트를 유지하며, **barge-in**으로 가로막을 수 있게 합니다."
               },
               "highlight": {
                 "en": "Use the Test command window's voice mode to hear real-time turn-taking and interruptions before publishing to a phone number.",

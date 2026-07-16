@@ -3,12 +3,13 @@ import type { ReactNode } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import {
-  ArrowRight, BookOpenCheck, Check, ChevronDown, ChevronUp,
-  Clipboard, Database, FileSpreadsheet, Languages, Lock, MailCheck, Menu, Mic2,
-  Moon, Network, PanelLeft, PanelLeftClose, PencilLine, Sparkles, Sun, X,
+  ArrowRight, BookOpenCheck, CalendarDays, Check, ChevronDown, ChevronUp,
+  Clipboard, Database, FileSpreadsheet, Languages, Lock, Mail, MailCheck, Menu, Mic2,
+  Moon, Network, PanelLeft, PanelLeftClose, PencilLine, Sparkles, Sun, Users, X,
 } from 'lucide-react'
 import { defaultContent, loadLabs } from './content/store'
 import MakerEditor from './editor/MakerEditor'
+import Fireworks from './Fireworks'
 import { localeNames, text, ui } from './content/ui'
 import type { Lab, LabStep, Locale } from './content/types'
 
@@ -63,15 +64,23 @@ function PromptBlock({ title, content, locale }: { title?: string; content: stri
 }
 
 function Screenshot({ lab, imageKey, locale }: { lab: Lab; imageKey: string; locale: Locale }) {
+  const localeSource = `/labs/${lab.id}/images/${locale}/${imageKey}.png`
+  const enSource = `/labs/${lab.id}/images/en/${imageKey}.png`
+  const [source, setSource] = useState(localeSource)
   const [missing, setMissing] = useState(false)
-  const source = `/labs/${lab.id}/images/${locale}/${imageKey}.png`
-  useEffect(() => setMissing(false), [source])
+  // Reset to the locale image whenever the language or image changes.
+  useEffect(() => { setSource(localeSource); setMissing(false) }, [localeSource])
+  // If the locale image is missing, fall back to the English image before showing the placeholder.
+  const handleError = () => {
+    if (source !== enSource) setSource(enSource)
+    else setMissing(true)
+  }
   return (
     <figure className="screenshot-frame">
-      {!missing && <img src={source} alt={`${text(lab.title, locale)} — ${imageKey}`} onError={() => setMissing(true)} />}
+      {!missing && <img src={source} alt={`${text(lab.title, locale)} — ${imageKey}`} onError={handleError} />}
       {missing && <div className="screenshot-placeholder">
         <div className="placeholder-mark"><Sparkles size={28} /></div>
-        <strong>{text(ui.screenshot, locale)}</strong><span>{text(ui.screenshotHint, locale)}</span><code>{source}</code>
+        <strong>{text(ui.screenshot, locale)}</strong><span>{text(ui.screenshotHint, locale)}</span><code>{enSource}</code>
       </div>}
       <figcaption>{source}</figcaption>
     </figure>
@@ -127,6 +136,29 @@ function DocumentStep({
   )
 }
 
+function CoverPage({ onEnter, dark, onToggleTheme }: { onEnter: () => void; dark: boolean; onToggleTheme: () => void }) {
+  return (
+    <div className="cover-hero">
+      <button className="icon-button cover-theme" type="button" onClick={onToggleTheme} title="Toggle color theme" aria-label="Toggle color theme">{dark ? <Sun size={19} /> : <Moon size={19} />}</button>
+      <span className="cover-orb one" aria-hidden="true" />
+      <span className="cover-orb two" aria-hidden="true" />
+      <span className="cover-orb three" aria-hidden="true" />
+      <div className="cover-card">
+        <div className="cover-badge"><Sparkles size={16} /><span>Microsoft Copilot Studio</span></div>
+        <h1 className="cover-title">Jumpstart v2<br />AI Agent Workshop</h1>
+        <p className="cover-tagline">A hands-on learning path exploring the full breadth of custom agent innovation in Microsoft Copilot Studio.</p>
+        <div className="cover-meta">
+          <div className="cover-meta-row"><span className="cover-meta-icon"><Users size={18} /></span><div><small>Prepared by</small><strong>Microsoft MCAPS Core — Agent Asia Team</strong></div></div>
+          <div className="cover-meta-row"><span className="cover-meta-icon"><CalendarDays size={18} /></span><div><small>Prepared in</small><strong>Sep 16, 2026</strong></div></div>
+          <div className="cover-meta-row"><span className="cover-meta-icon"><Mail size={18} /></span><div><small>Need help? Contact</small><strong className="cover-contacts"><a href="mailto:nshukla@microsoft.com">Nalin Shukla &middot; nshukla@microsoft.com</a><a href="mailto:zhijian@microsoft.com">Michael Jiang &middot; zhijian@microsoft.com</a></strong></div></div>
+        </div>
+        <button className="cover-cta" type="button" onClick={onEnter}>Enter workshop <ArrowRight size={18} /></button>
+      </div>
+      <div className="cover-footer">&copy; Microsoft &middot; MCAPS Core — Agent Asia Team</div>
+    </div>
+  )
+}
+
 function App() {
   const [locale, setLocale] = useState<Locale>(() => (localStorage.getItem('jumpstart-locale') as Locale) || 'en')
   const [labs, setLabs] = useState<Lab[]>(() => defaultContent())
@@ -144,6 +176,8 @@ function App() {
     try { return new Set(JSON.parse(localStorage.getItem('jumpstart-progress') || '[]')) }
     catch { return new Set() }
   })
+  const [celebrate, setCelebrate] = useState(0)
+  const [showCover, setShowCover] = useState(true)
   const lab = labs[labIndex] ?? labs[0]
   const totalSteps = labs.reduce((sum, item) => sum + item.steps.length, 0)
   const overallPercent = totalSteps ? Math.round((completed.size / totalSteps) * 100) : 0
@@ -210,7 +244,13 @@ function App() {
   const toggleComplete = (step: LabStep) => {
     const key = `${lab.id}:${step.id}`
     const updated = new Set(completed)
-    if (updated.has(key)) updated.delete(key); else updated.add(key)
+    if (updated.has(key)) {
+      updated.delete(key)
+    } else {
+      updated.add(key)
+      // Celebrate only when a step transitions to complete.
+      setCelebrate((value) => value + 1)
+    }
     setCompleted(updated)
     localStorage.setItem('jumpstart-progress', JSON.stringify([...updated]))
   }
@@ -222,10 +262,12 @@ function App() {
   const LabIcon = iconMap[lab.icon]
 
   return <div className={collapsed ? 'app-shell sidebar-collapsed' : 'app-shell'}>
+    <Fireworks trigger={celebrate} />
+    {showCover && <CoverPage onEnter={() => setShowCover(false)} dark={dark} onToggleTheme={toggleTheme} />}
     <button className="mobile-menu" type="button" onClick={() => setMenuOpen(true)} title={text(ui.menu, locale)} aria-label={text(ui.menu, locale)}><Menu /></button>
     {menuOpen && <button className="nav-scrim" type="button" onClick={() => setMenuOpen(false)} aria-label={text(ui.close, locale)} />}
     <aside className={menuOpen ? 'sidebar open' : 'sidebar'}>
-      <div className="brand-lockup"><div className="brand-mark"><Sparkles size={22} /></div><div><span>{text(ui.kicker, locale)}</span><strong>{text(ui.program, locale)}</strong></div><button className="collapse-menu" type="button" onClick={() => setCollapsed(true)} title={text(ui.collapseSidebar, locale)} aria-label={text(ui.collapseSidebar, locale)}><PanelLeftClose size={18} /></button><button className="close-menu" type="button" onClick={() => setMenuOpen(false)} title={text(ui.close, locale)}><X /></button></div>
+      <div className="brand-lockup"><button className="brand-mark" type="button" onClick={() => setShowCover(true)} title={text(ui.program, locale)} aria-label={text(ui.program, locale)}><Sparkles size={22} /></button><div><span>{text(ui.kicker, locale)}</span><strong>{text(ui.program, locale)}</strong></div><button className="collapse-menu" type="button" onClick={() => setCollapsed(true)} title={text(ui.collapseSidebar, locale)} aria-label={text(ui.collapseSidebar, locale)}><PanelLeftClose size={18} /></button><button className="close-menu" type="button" onClick={() => setMenuOpen(false)} title={text(ui.close, locale)}><X /></button></div>
       <div className="overall-progress"><div><span>{text(ui.progress, locale)}</span><strong>{overallPercent}%</strong></div><div className="progress-track"><span style={{ width: `${overallPercent}%` }} /></div></div>
       <nav className="lab-nav" aria-label="Labs">
         {labs.map((item, index) => {
