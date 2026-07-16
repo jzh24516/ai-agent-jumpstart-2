@@ -2065,10 +2065,10 @@
               ],
               "imageKeys": [
                 "04-send-reply-1",
+                "04-send-reply-1.5",
                 "04-send-reply-2",
                 "04-send-reply-3",
-                "04-send-reply-4",
-                "04-send-reply-1.5"
+                "04-send-reply-4"
               ]
             }
           ]
@@ -2093,7 +2093,7 @@
                 }
               ],
               "markdown": {
-                "en": "## Test the end-to-end flow\n1. **Save** the workflow.\n2. Send a test email to the training mailbox for each category:\n   - **IT Service** — *\"What's the status of my ticket INC0010053?\"* → handled by **Ask IT Anything Agent v2**.\n   - **MSFT Copilot** — *\"What's new with real-time voice agents in Copilot Studio?\"* → handled by **Ask Anything Agent v2**.\n   - **Other** — a generic message → goes to **Human review**.\n3. Open **Activity / Monitor** to confirm the run classified correctly and routed to the right agent.\n4. Confirm each sender received a **personalized reply**.\n5. **Publish** the workflow when the test matrix passes.",
+                "en": "## Test the end-to-end flow\n1. **Save** the workflow.\n2. Send a test email to the training mailbox for each category:\n   - **IT Service** — *\"What's the status of my ticket INC0010053?\"* → handled by **Ask IT Anything Agent v2**.\n   - **MSFT Copilot** — *\"What's new with real-time voice agents in Copilot Studio?\"* → handled by **Ask Anything Agent v2**.\n3. Open **Activity / Monitor** to confirm the run classified correctly and routed to the right agent.\n4. Confirm each sender received a **personalized reply**.\n5. **Publish** the workflow when the test matrix passes.",
                 "zh": "",
                 "ja": "",
                 "ko": ""
@@ -2104,9 +2104,52 @@
                 "ja": "無人送信を有効化する前に、Monitor で毎回の実行を確認します。低信頼・機微なメールには人によるレビューを追加します。",
                 "ko": "무인 전송을 활성화하기 전에 Monitor에서 모든 실행을 검토하세요. 낮은 신뢰도 또는 민감한 이메일에는 사람 검토를 추가하세요."
               },
-              "prompts": [],
+              "prompts": [
+                {
+                  "id": "prompt-a2a3ba26",
+                  "title": {
+                    "en": "Sample Test Email Subject",
+                    "zh": "",
+                    "ja": "",
+                    "ko": ""
+                  },
+                  "content": "**Lab** About my current ticket status"
+                },
+                {
+                  "id": "prompt-0fcb2aaf",
+                  "title": {
+                    "en": "Sample Test Email Content",
+                    "zh": "",
+                    "ja": "",
+                    "ko": ""
+                  },
+                  "content": "Hi Support,\n\nI am asking for the service ticket update with number INC0010053?\n\nThanks.\n\nMichael"
+                },
+                {
+                  "id": "prompt-d156af7b",
+                  "title": {
+                    "en": "Sample Test Email 2 Subject",
+                    "zh": "",
+                    "ja": "",
+                    "ko": ""
+                  },
+                  "content": "**Lab** About some questions on Copilot Studio on Voice Agent"
+                },
+                {
+                  "id": "prompt-f4a8df29",
+                  "title": {
+                    "en": "Sample Test Email 2 Content",
+                    "zh": "",
+                    "ja": "",
+                    "ko": ""
+                  },
+                  "content": "Hi Microsoft,\n\nI am asking the highlights of new features of Realtime Voice AI Agent on Copilot Studio.\n\nWe are very interested in this.\n\nThanks.\n\nM.J"
+                }
+              ],
               "imageKeys": [
-                "05-test-monitor-1"
+                "05-test-monitor-1",
+                "05-test-monitor-2",
+                "05-test-monitor-3"
               ]
             }
           ]
