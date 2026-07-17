@@ -33,6 +33,14 @@ const IMG = {
   },
   coverLenovo: b64('cover-lenovo.png'),
   branding: b64('branding.png'),
+  jumpstart: {
+    en: b64('jumpstart-english.png'),
+    zh: b64('jumpstart-chinese.png'),
+    ja: b64('jumpstart-japanese.png'),
+    ko: b64('jumpstart-korean.png'),
+    th: b64('jumpstart-thai.png'),
+    hi: b64('jumpstart-hindi.png'),
+  },
   avatar: firstImg(['michael-photo.png', 'michael-photo.jpg', 'michael-photo.jpeg', 'michael-photo.webp', 'michael.png']),
 }
 
@@ -225,64 +233,20 @@ const slides = /* html */ `
   </div>
 </section>
 
-<!-- 11. JUMPSTART SPRINTER -->
-<section class="slide sprint-slide" data-title="On your marks">
-  <div class="sprint-grid">
-    <div class="sprint-copy">
-      <span class="kicker" data-i18n="s10.k">⚡ On your marks</span>
-      <h2 data-i18n="s10.h">This is a <span class="grad">JumpStart</span></h2>
-      <p class="lede" data-i18n="s10.tag">Like a sprinter exploding off the blocks &mdash; go from the starting line to real, working agents in record time.</p>
-      <div class="rsg"><span>READY</span><span>SET</span><span class="go">GO!</span></div>
-    </div>
-    <div class="sprint-art">
-      <svg viewBox="0 0 900 1000" role="img" aria-label="A spiky-haired athlete crouched at the starting blocks, facing forward, ready to sprint">
-        <defs>
-          <radialGradient id="spAura" cx="48%" cy="40%" r="58%">
-            <stop offset="0" stop-color="#7C3AED" stop-opacity=".55"/><stop offset=".42" stop-color="#9333EA" stop-opacity=".2"/><stop offset="1" stop-color="#7C3AED" stop-opacity="0"/>
-          </radialGradient>
-          <linearGradient id="spNeon" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22D3EE"/><stop offset=".52" stop-color="#A78BFA"/><stop offset="1" stop-color="#F472B6"/></linearGradient>
-          <linearGradient id="spHair" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5EEAD4"/><stop offset="1" stop-color="#22D3EE"/></linearGradient>
-          <linearGradient id="spTrack" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#22D3EE" stop-opacity="0"/><stop offset="1" stop-color="#A78BFA" stop-opacity=".55"/></linearGradient>
-          <filter id="spGlow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="4.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-          <filter id="spBlur"><feGaussianBlur stdDeviation="30"/></filter>
-        </defs>
-        <ellipse cx="440" cy="440" rx="360" ry="380" fill="url(#spAura)"/>
-        <g fill="url(#spNeon)" opacity=".16" filter="url(#spBlur)">
-          <polygon points="440,440 300,70 360,60"/><polygon points="440,440 560,60 620,90"/><polygon points="440,440 120,300 110,360"/><polygon points="440,440 780,300 800,360"/><polygon points="440,440 210,120 260,95"/><polygon points="440,440 690,150 720,200"/>
-        </g>
-        <g stroke="url(#spNeon)" stroke-linecap="round" opacity=".55">
-          <line x1="40" y1="360" x2="250" y2="360" stroke-width="7"/><line x1="20" y1="430" x2="210" y2="430" stroke-width="10"/><line x1="60" y1="500" x2="230" y2="500" stroke-width="6"/><line x1="30" y1="565" x2="180" y2="565" stroke-width="8"/>
-        </g>
-        <g stroke="url(#spTrack)" stroke-width="4" fill="none" opacity=".85">
-          <line x1="120" y1="1000" x2="405" y2="640"/><line x1="330" y1="1000" x2="425" y2="640"/><line x1="560" y1="1000" x2="452" y2="640"/><line x1="800" y1="1000" x2="470" y2="640"/>
-        </g>
-        <path d="M150,980 L770,880" stroke="url(#spNeon)" stroke-width="12" stroke-linecap="round" opacity=".9" filter="url(#spGlow)"/>
-        <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M508,552 L602,646 L700,742" stroke="url(#spNeon)" stroke-width="60" filter="url(#spGlow)"/><path d="M508,552 L602,646 L700,742" stroke="#0C0B18" stroke-width="48"/>
-          <path d="M455,552 L500,590 L466,672" stroke="url(#spNeon)" stroke-width="64" filter="url(#spGlow)"/><path d="M455,552 L500,590 L466,672" stroke="#0C0B18" stroke-width="52"/>
-        </g>
-        <path d="M362,398 Q450,384 538,398 L552,545 Q450,575 408,556 Z" fill="#0C0B18" stroke="url(#spNeon)" stroke-width="7" filter="url(#spGlow)"/>
-        <path d="M402,452 L450,470 L498,452" fill="none" stroke="url(#spNeon)" stroke-width="6" opacity=".8"/>
-        <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M392,414 L346,452 L398,498" stroke="url(#spNeon)" stroke-width="44" filter="url(#spGlow)"/><path d="M392,414 L346,452 L398,498" stroke="#0C0B18" stroke-width="36"/>
-          <path d="M524,416 L582,492 L566,580" stroke="url(#spNeon)" stroke-width="44" filter="url(#spGlow)"/><path d="M524,416 L582,492 L566,580" stroke="#0C0B18" stroke-width="36"/>
-        </g>
-        <circle cx="398" cy="500" r="22" fill="#0C0B18" stroke="url(#spNeon)" stroke-width="6" filter="url(#spGlow)"/>
-        <circle cx="566" cy="582" r="22" fill="#0C0B18" stroke="url(#spNeon)" stroke-width="6" filter="url(#spGlow)"/>
-        <path d="M430,352 L470,352 L466,404 L434,404 Z" fill="#0C0B18" stroke="url(#spNeon)" stroke-width="6"/>
-        <circle cx="450" cy="304" r="52" fill="#0C0B18" stroke="url(#spNeon)" stroke-width="7" filter="url(#spGlow)"/>
-        <path d="M404,286 L386,214 L418,252 L430,188 L450,244 L456,176 L474,244 L488,190 L500,252 L520,210 L512,286 Q450,262 404,286 Z" fill="#0C0B18" stroke="url(#spHair)" stroke-width="6" filter="url(#spGlow)"/>
-        <g filter="url(#spGlow)">
-          <path d="M418,300 L440,308" stroke="url(#spNeon)" stroke-width="7" stroke-linecap="round"/><path d="M482,300 L460,308" stroke="url(#spNeon)" stroke-width="7" stroke-linecap="round"/>
-          <path d="M424,286 L446,294" stroke="#F472B6" stroke-width="5" stroke-linecap="round" opacity=".9"/><path d="M476,286 L454,294" stroke="#F472B6" stroke-width="5" stroke-linecap="round" opacity=".9"/>
-          <path d="M436,338 Q450,346 464,338" stroke="#22D3EE" stroke-width="5" fill="none" stroke-linecap="round"/>
-        </g>
-        <path d="M446,662 L498,662 L506,694 L454,694 Z" fill="#0C0B18" stroke="url(#spNeon)" stroke-width="5"/>
-        <path d="M678,732 L732,752 L724,784 L670,764 Z" fill="#0C0B18" stroke="url(#spNeon)" stroke-width="5"/>
-        <g fill="url(#spNeon)" opacity=".85">
-          <circle cx="300" cy="720" r="6"/><circle cx="610" cy="712" r="7"/><circle cx="270" cy="640" r="5"/><circle cx="650" cy="640" r="6"/><circle cx="330" cy="840" r="5"/><circle cx="600" cy="800" r="5"/>
-        </g>
-      </svg>
+<!-- 11. FAST START — FROM LAB TO IMPACT -->
+<section class="slide vp-slide" data-title="From Lab to Impact">
+  <div class="vp-grid">
+    <div class="vp-art"><img data-jumpstart class="vp-img" src="${IMG.jumpstart.en}" alt="JumpStart — Fast Start" /></div>
+    <div class="vp-copy">
+      <span class="kicker" data-i18n="s10.k">⚡ Fast Start</span>
+      <h2 data-i18n="s10.h">From <span class="grad">Lab to Impact</span></h2>
+      <div class="vflow">
+        <div class="vstep"><span class="vi">⚡</span><div class="vt"><b data-i18n="s10.t1">Fast Start</b><span data-i18n="s10.d1">Open one link and go &mdash; zero install, zero setup.</span></div></div>
+        <div class="vstep"><span class="vi">🙌</span><div class="vt"><b data-i18n="s10.t2">Self-Serve &amp; Self-Paced</b><span data-i18n="s10.d2">Attendees drive their own journey while you facilitate.</span></div></div>
+        <div class="vstep"><span class="vi">📋</span><div class="vt"><b data-i18n="s10.t3">Copy &amp; Build</b><span data-i18n="s10.d3">Copy-ready prompts turn each step into a real, working agent.</span></div></div>
+        <div class="vstep"><span class="vi">🌍</span><div class="vt"><b data-i18n="s10.t4">Multilingual Ready</b><span data-i18n="s10.d4">Six languages, one shareable link.</span></div></div>
+        <div class="vstep hot"><span class="vi">🚀</span><div class="vt"><b data-i18n="s10.t5">From Lab to Impact</b><span data-i18n="s10.d5">Ship agents that deliver real business value &mdash; fast.</span></div></div>
+      </div>
     </div>
   </div>
 </section>
@@ -472,15 +436,21 @@ const html = /* html */ `<!doctype html>
   .flow.big3 .farrow{animation:flowpulse 1.6s ease-in-out infinite}
   @keyframes flowpulse{0%,100%{transform:translateX(0);opacity:.72}50%{transform:translateX(5px);opacity:1}}
 
-  /* slide 11 sprinter */
-  .sprint-grid{flex:1;display:grid;grid-template-columns:1.02fr .98fr;gap:3%;align-items:center}
-  .sprint-copy{min-width:0}
-  .sprint-art{height:100%;display:flex;align-items:center;justify-content:center}
-  .sprint-art svg{width:100%;height:100%;max-height:94%;filter:drop-shadow(0 26px 56px rgba(124,58,237,.4))}
-  .rsg{display:flex;gap:14px;margin-top:34px;align-items:center}
-  .rsg span{font-weight:900;letter-spacing:.14em;font-size:1.16rem;color:#CFCDE0;padding:11px 20px;border:1px solid var(--cardbrd);border-radius:12px;background:rgba(255,255,255,.04)}
-  .rsg .go{color:#fff;background:var(--grad);border:0;box-shadow:0 12px 28px rgba(124,58,237,.42);animation:goPulse 1.15s ease-in-out infinite}
-  @keyframes goPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.09)}}
+  /* slide 11 value proposition (left image + right vertical flow) */
+  .vp-grid{flex:1;min-height:0;display:grid;grid-template-columns:.92fr 1.08fr;gap:5%;align-items:center}
+  .vp-art{height:100%;min-height:0;display:flex;align-items:center;justify-content:center;min-width:0}
+  .vp-img{max-width:100%;max-height:100%;border-radius:20px;border:1px solid var(--cardbrd);box-shadow:0 30px 70px rgba(0,0,0,.5);object-fit:contain}
+  .vp-copy{min-width:0}
+  .vflow{margin-top:24px;display:flex;flex-direction:column;gap:16px}
+  .vstep{display:flex;align-items:flex-start;gap:16px;position:relative}
+  .vstep:not(:last-child)::before{content:"";position:absolute;left:27px;top:56px;bottom:-16px;width:2px;
+    background:linear-gradient(180deg,rgba(167,139,250,.55),rgba(34,211,238,.18))}
+  .vstep .vi{flex:0 0 auto;width:56px;height:56px;display:grid;place-items:center;border-radius:15px;font-size:1.7rem;position:relative;z-index:1;
+    background:linear-gradient(160deg,rgba(167,139,250,.22),rgba(34,211,238,.12));border:1px solid var(--cardbrd)}
+  .vstep.hot .vi{background:var(--grad);border:0;box-shadow:0 12px 26px rgba(124,58,237,.42)}
+  .vstep .vt{min-width:0;padding-top:4px}
+  .vstep .vt b{display:block;font-size:1.42rem;font-weight:800;letter-spacing:-.01em;color:#F3F1FB}
+  .vstep .vt span{display:block;color:var(--muted);font-size:1.14rem;line-height:1.4;margin-top:3px}
 
   /* closing */
   .closing{align-items:center;justify-content:center}
@@ -589,6 +559,7 @@ const html = /* html */ `<!doctype html>
     else if(e.key.toLowerCase()==='f')document.getElementById('fs').click();
   });
   const blueprintImages=${JSON.stringify(IMG.blueprint)};
+  const jumpstartImages=${JSON.stringify(IMG.jumpstart)};
   const blueprintAlt={
     en:'Copilot Studio Agent Platform Blueprint: six labs mapped from use case through agent mode, architecture, tools, and business value',
     zh:'Copilot Studio Agent 平台蓝图：六个实验映射用例、Agent 模式、架构、工具与业务价值',
@@ -624,7 +595,7 @@ const html = /* html */ `<!doctype html>
       's7.note':'无需逐个用户配置。发布的文件是每位访问者的唯一可信来源。',
       's8.k':'⚡ 快速起步','s8.h':'JumpStart v2 就是<span class="grad">快速起步</span>',
       's8.b1':'打开链接','s8.s1':'一个 URL，任意现代浏览器。开始无需安装、无需登录。','s8.b2':'选择语言','s8.s2':'在封面切换 EN / 中文 / 日本語 / 한국어 / ไทย / हिन्दी。','s8.b3':'进入并构建','s8.s3':'逐个实验推进，复制提示词，跟踪进度，尽情庆祝。','s8.url':'在线研讨会','s8.lede':'一个链接。任意语言。几分钟内构建真实 Agent — 无需安装、无需等待。','s8.c1':'上手超简单','s8.c2':'自助服务','s8.c3':'自定进度','s8.c4':'复制即构建','s8.c5':'多语言就绪',
-      's9.badge':'随时可以开始','s9.h':'把 JumpStart v2 带到你的<br><span class="grad">下一场客户研讨会</span>','s9.lede':'无论是内部赋能还是外部客户活动 &mdash; 联合品牌化、分享链接，让参与者亲手构建真实 Agent。','s10.k':'⚡ 各就各位','s10.h':'这就是 <span class="grad">JumpStart</span>','s10.tag':'就像短跑运动员从起跑器上爆发冲出 &mdash; 从起跑线到真正可用的 Agent，只需极短时间。',
+      's9.badge':'随时可以开始','s9.h':'把 JumpStart v2 带到你的<br><span class="grad">下一场客户研讨会</span>','s9.lede':'无论是内部赋能还是外部客户活动 &mdash; 联合品牌化、分享链接，让参与者亲手构建真实 Agent。','s10.k':'⚡ 快速起步','s10.h':'从<span class="grad">实验到影响</span>','s10.t1':'快速起步','s10.d1':'打开一个链接即可开始 — 无需安装、无需配置。','s10.t2':'自助 & 自定进度','s10.d2':'参与者自主推进，你只需引导。','s10.t3':'复制即构建','s10.d3':'可复制的提示词，将每一步变成真正可用的 Agent。','s10.t4':'多语言就绪','s10.d4':'六种语言，一个可分享链接。','s10.t5':'从实验到影响','s10.d5':'快速交付带来真实业务价值的 Agent。',
       'ui.hint':'← → 切换 · F 全屏',
     },
     ja:{
@@ -653,7 +624,7 @@ const html = /* html */ `<!doctype html>
       's7.note':'ユーザーごとの設定は不要。公開ファイルがすべての訪問者にとって唯一の信頼できる情報源です。',
       's8.k':'⚡ ファストスタート','s8.h':'JumpStart v2 は<span class="grad">ファストスタート</span>',
       's8.b1':'リンクを開く','s8.s1':'URL 1 つ、モダンなブラウザで。インストールもサインインも不要。','s8.b2':'言語を選ぶ','s8.s2':'表紙で EN / 中文 / 日本語 / 한국어 / ไทย / हिन्दी に切り替え。','s8.b3':'入って構築','s8.s3':'ラボごとに進め、プロンプトをコピー、進捗を記録、お祝い。','s8.url':'ライブ ワークショップ','s8.lede':'リンク 1 つ。どの言語でも。数分で本物の Agent — インストールも待ち時間もなし。','s8.c1':'起動は超かんたん','s8.c2':'セルフサービス','s8.c3':'自分のペースで','s8.c4':'コピーして構築','s8.c5':'多言語対応',
-      's9.badge':'準備はいつでも','s9.h':'JumpStart v2 を<br><span class="grad">次の顧客ワークショップ</span>へ','s9.lede':'社内イネーブルメントでも外部の顧客イベントでも &mdash; 共同ブランド化してリンクを共有し、参加者に実際の Agent を手を動かして構築してもらいましょう。','s10.k':'⚡ 位置について','s10.h':'これが <span class="grad">JumpStart</span> だ','s10.tag':'スタートブロックから飛び出すスプリンターのように &mdash; スタートラインから本物の Agent まで、最短で。',
+      's9.badge':'準備はいつでも','s9.h':'JumpStart v2 を<br><span class="grad">次の顧客ワークショップ</span>へ','s9.lede':'社内イネーブルメントでも外部の顧客イベントでも &mdash; 共同ブランド化してリンクを共有し、参加者に実際の Agent を手を動かして構築してもらいましょう。','s10.k':'⚡ ファストスタート','s10.h':'<span class="grad">ラボからインパクト</span>へ','s10.t1':'ファストスタート','s10.d1':'リンク 1 つで開始 — インストールも設定も不要。','s10.t2':'セルフサービス & 自分のペース','s10.d2':'参加者が自ら進め、あなたはファシリテート。','s10.t3':'コピーして構築','s10.d3':'コピーできるプロンプトで、各ステップを本物の Agent に。','s10.t4':'多言語対応','s10.d4':'6 言語、共有リンク 1 つ。','s10.t5':'ラボからインパクトへ','s10.d5':'実際のビジネス価値を生む Agent を、素早く届ける。',
       'ui.hint':'← → で移動 · F 全画面',
     },
     ko:{
@@ -682,7 +653,7 @@ const html = /* html */ `<!doctype html>
       's7.note':'사용자별 설정이 필요 없습니다. 게시된 파일이 모든 방문자의 단일 진실 소스입니다.',
       's8.k':'⚡ 빠른 시작','s8.h':'JumpStart v2는 <span class="grad">빠른 시작</span>',
       's8.b1':'링크 열기','s8.s1':'URL 하나, 최신 브라우저면 됩니다. 설치·로그인 없이 시작.','s8.b2':'언어 선택','s8.s2':'표지에서 EN / 中文 / 日本語 / 한국어 / ไทย / हिन्दी로 전환.','s8.b3':'입장 후 구축','s8.s3':'랩을 차례로 진행하고 프롬프트 복사, 진행 추적, 축하까지.','s8.url':'라이브 워크숍','s8.lede':'링크 하나. 어떤 언어든. 몇 분 만에 진짜 Agent — 설치도 대기도 없이.','s8.c1':'시작이 매우 쉬움','s8.c2':'셀프 서비스','s8.c3':'자기 주도 학습','s8.c4':'복사하고 빌드','s8.c5':'다국어 지원',
-      's9.badge':'언제든 준비 완료','s9.h':'JumpStart v2를<br><span class="grad">다음 고객 워크숍</span>으로','s9.lede':'내부 역량 강화든 외부 고객 행사든 &mdash; 공동 브랜딩하고 링크를 공유해 참가자가 실제 Agent를 직접 만들게 하세요.','s10.k':'⚡ 제자리에','s10.h':'이것이 <span class="grad">JumpStart</span>','s10.tag':'스타팅 블록을 박차고 나가는 단거리 선수처럼 &mdash; 출발선에서 진짜 작동하는 Agent까지, 최단 시간에.',
+      's9.badge':'언제든 준비 완료','s9.h':'JumpStart v2를<br><span class="grad">다음 고객 워크숍</span>으로','s9.lede':'내부 역량 강화든 외부 고객 행사든 &mdash; 공동 브랜딩하고 링크를 공유해 참가자가 실제 Agent를 직접 만들게 하세요.','s10.k':'⚡ 빠른 시작','s10.h':'<span class="grad">랩에서 임팩트</span>로','s10.t1':'빠른 시작','s10.d1':'링크 하나로 시작 — 설치도 설정도 없이.','s10.t2':'셀프 서비스 & 자기 주도','s10.d2':'참가자가 스스로 진행하고 당신은 퍼실리테이션.','s10.t3':'복사하고 빌드','s10.d3':'복사 가능한 프롬프트로 각 단계를 진짜 작동하는 Agent로.','s10.t4':'다국어 지원','s10.d4':'여섯 개 언어, 하나의 공유 링크.','s10.t5':'랩에서 임팩트로','s10.d5':'실제 비즈니스 가치를 주는 Agent를 빠르게 제공.',
       'ui.hint':'← → 이동 · F 전체화면',
     },
     th:{
@@ -711,7 +682,7 @@ const html = /* html */ `<!doctype html>
       's7.note':'ไม่ต้องตั้งค่ารายบุคคล ไฟล์ที่เผยแพร่คือแหล่งข้อมูลจริงเพียงหนึ่งเดียวสำหรับผู้เยี่ยมชมทุกคน',
       's8.k':'⚡ เริ่มเร็ว','s8.h':'JumpStart v2 คือ<span class="grad">การเริ่มต้นที่รวดเร็ว</span>',
       's8.b1':'เปิดลิงก์','s8.s1':'URL เดียว เบราว์เซอร์สมัยใหม่ใดก็ได้ เริ่มได้โดยไม่ต้องติดตั้งหรือลงชื่อเข้าใช้','s8.b2':'เลือกภาษา','s8.s2':'สลับเป็น EN / 中文 / 日本語 / 한국어 / ไทย / हिन्दी ที่หน้าปก','s8.b3':'เข้าสู่ระบบ &amp; สร้าง','s8.s3':'ทำทีละแล็บ คัดลอกพรอมป์ ติดตามความคืบหน้า และเฉลิมฉลอง','s8.url':'เวิร์กช็อปสด','s8.lede':'ลิงก์เดียว ทุกภาษา สร้าง Agent จริงในไม่กี่นาที — ไม่ต้องติดตั้ง ไม่ต้องรอ','s8.c1':'เริ่มง่ายสุด ๆ','s8.c2':'บริการตนเอง','s8.c3':'เรียนตามจังหวะตัวเอง','s8.c4':'คัดลอกแล้วสร้าง','s8.c5':'พร้อมหลายภาษา',
-      's9.badge':'พร้อมเมื่อคุณพร้อม','s9.h':'นำ JumpStart v2 ไปสู่<br><span class="grad">เวิร์กช็อปลูกค้าครั้งถัดไป</span>','s9.lede':'ไม่ว่าจะเป็นการเสริมศักยภาพภายในหรืออีเวนต์ลูกค้าภายนอก &mdash; ร่วมแบรนด์ แชร์ลิงก์ และให้ผู้เข้าร่วมสร้าง Agent จริงด้วยตนเอง','s10.k':'⚡ เข้าที่','s10.h':'นี่คือ <span class="grad">JumpStart</span>','s10.tag':'เหมือนนักวิ่งระยะสั้นที่พุ่งออกจากบล็อกสตาร์ท &mdash; จากเส้นเริ่มต้นสู่ Agent ที่ใช้งานได้จริงในเวลาอันสั้น',
+      's9.badge':'พร้อมเมื่อคุณพร้อม','s9.h':'นำ JumpStart v2 ไปสู่<br><span class="grad">เวิร์กช็อปลูกค้าครั้งถัดไป</span>','s9.lede':'ไม่ว่าจะเป็นการเสริมศักยภาพภายในหรืออีเวนต์ลูกค้าภายนอก &mdash; ร่วมแบรนด์ แชร์ลิงก์ และให้ผู้เข้าร่วมสร้าง Agent จริงด้วยตนเอง','s10.k':'⚡ เริ่มเร็ว','s10.h':'จาก<span class="grad">แล็บสู่ผลลัพธ์</span>','s10.t1':'เริ่มเร็ว','s10.d1':'เปิดลิงก์เดียวก็เริ่มได้ — ไม่ต้องติดตั้ง ไม่ต้องตั้งค่า','s10.t2':'บริการตนเอง & ตามจังหวะ','s10.d2':'ผู้เข้าร่วมขับเคลื่อนเอง ส่วนคุณเป็นผู้อำนวยความสะดวก','s10.t3':'คัดลอกแล้วสร้าง','s10.d3':'พรอมป์ที่คัดลอกได้ เปลี่ยนแต่ละขั้นตอนเป็น Agent ที่ใช้งานได้จริง','s10.t4':'พร้อมหลายภาษา','s10.d4':'หกภาษา ลิงก์แชร์เดียว','s10.t5':'จากแล็บสู่ผลลัพธ์','s10.d5':'ส่งมอบ Agent ที่สร้างคุณค่าทางธุรกิจจริง — อย่างรวดเร็ว',
       'ui.hint':'← → เลื่อน · F เต็มจอ',
     },
     hi:{
@@ -740,7 +711,7 @@ const html = /* html */ `<!doctype html>
       's7.note':'कोई प्रति-उपयोगकर्ता सेटअप नहीं। प्रकाशित फ़ाइलें हर आगंतुक के लिए एकमात्र विश्वसनीय स्रोत हैं।',
       's8.k':'⚡ फ़ास्ट स्टार्ट','s8.h':'JumpStart v2 है एक <span class="grad">फ़ास्ट स्टार्ट</span>',
       's8.b1':'लिंक खोलें','s8.s1':'एक URL, कोई भी आधुनिक ब्राउज़र। शुरू करने के लिए न इंस्टॉल, न साइन-इन।','s8.b2':'एक भाषा चुनें','s8.s2':'कवर पर EN / 中文 / 日本語 / 한국어 / ไทย / हिन्दी पर स्विच करें।','s8.b3':'प्रवेश करें &amp; बनाएँ','s8.s3':'लैब दर लैब काम करें, प्रॉम्प्ट कॉपी करें, प्रगति ट्रैक करें, जश्न मनाएँ।','s8.url':'लाइव वर्कशॉप','s8.lede':'एक लिंक। कोई भी भाषा। मिनटों में असली Agent — न इंस्टॉल, न इंतज़ार।','s8.c1':'शुरू करना बेहद आसान','s8.c2':'सेल्फ-सर्व','s8.c3':'अपनी गति से','s8.c4':'कॉपी करें और बनाएँ','s8.c5':'बहुभाषी तैयार',
-      's9.badge':'जब आप तैयार हों','s9.h':'JumpStart v2 को अपनी<br><span class="grad">अगली ग्राहक वर्कशॉप</span> में लाएँ','s9.lede':'आंतरिक सक्षमता हो या बाहरी ग्राहक कार्यक्रम &mdash; इसे को-ब्रांड करें, लिंक साझा करें, और प्रतिभागियों को असली Agent व्यावहारिक रूप से बनाने दें।','s10.k':'⚡ अपनी जगह पर','s10.h':'यही है <span class="grad">JumpStart</span>','s10.tag':'स्टार्टिंग ब्लॉक से छलांग लगाते धावक की तरह &mdash; शुरुआती रेखा से असली, काम करते Agent तक, रिकॉर्ड समय में।',
+      's9.badge':'जब आप तैयार हों','s9.h':'JumpStart v2 को अपनी<br><span class="grad">अगली ग्राहक वर्कशॉप</span> में लाएँ','s9.lede':'आंतरिक सक्षमता हो या बाहरी ग्राहक कार्यक्रम &mdash; इसे को-ब्रांड करें, लिंक साझा करें, और प्रतिभागियों को असली Agent व्यावहारिक रूप से बनाने दें।','s10.k':'⚡ फ़ास्ट स्टार्ट','s10.h':'<span class="grad">लैब से प्रभाव</span> तक','s10.t1':'फ़ास्ट स्टार्ट','s10.d1':'एक लिंक खोलें और शुरू करें — न इंस्टॉल, न सेटअप।','s10.t2':'सेल्फ-सर्व और अपनी गति','s10.d2':'प्रतिभागी खुद आगे बढ़ते हैं, आप सहायक बनते हैं।','s10.t3':'कॉपी करें और बनाएँ','s10.d3':'कॉपी-तैयार प्रॉम्प्ट हर चरण को असली, काम करते Agent में बदलते हैं।','s10.t4':'बहुभाषी तैयार','s10.d4':'छह भाषाएँ, एक साझा लिंक।','s10.t5':'लैब से प्रभाव तक','s10.d5':'असली व्यावसायिक मूल्य देने वाले Agent तेज़ी से पहुँचाएँ।',
       'ui.hint':'← → नेविगेट · F पूर्ण स्क्रीन',
     },
   };
@@ -753,6 +724,8 @@ const html = /* html */ `<!doctype html>
     i18nEls.forEach(el=>{const k=el.getAttribute('data-i18n');const v=lang==='en'?el.dataset.en:(T[lang]&&T[lang][k]);el.innerHTML=(v!=null?v:el.dataset.en);});
     const blueprint=document.querySelector('[data-blueprint]');
     if(blueprint){blueprint.src=blueprintImages[lang]||blueprintImages.en;blueprint.alt=blueprintAlt[lang]||blueprintAlt.en;}
+    const jumpstart=document.querySelector('[data-jumpstart]');
+    if(jumpstart){jumpstart.src=jumpstartImages[lang]||jumpstartImages.en;}
     document.documentElement.lang=lang==='zh'?'zh-CN':lang;
     langBtns.forEach(b=>b.classList.toggle('on',b.dataset.lang===lang));
     try{localStorage.setItem('jumpstart-deck-lang',lang);}catch(e){}
