@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import {
-  ArrowDown, ArrowUp, ChevronDown, ChevronRight, Copy, Plus, Save, Trash2, UploadCloud, X,
+  ArrowDown, ArrowUp, ChevronDown, ChevronRight, Copy, Lock, Plus, Save, Trash2, UploadCloud, X,
 } from 'lucide-react'
 import { localeNames, text, ui } from '../content/ui'
-import { applyNumbers, emptyText, newLab, newPage, newPrompt, newStep, publishLabs, saveLabs } from '../content/store'
+import { applyNumbers, authenticateMaker, emptyText, newLab, newPage, newPrompt, newStep, publishLabs, saveLabs } from '../content/store'
 import type { Lab, LabIconName, Locale, LocalizedText } from '../content/types'
 
 const editLocales = Object.keys(localeNames) as Locale[]
@@ -58,6 +58,10 @@ export default function MakerEditor({
   const [selected, setSelected] = useState(Math.min(initialLabIndex, labs.length - 1))
   const [status, setStatus] = useState<'idle' | 'saving' | 'saved' | 'publishing' | 'published' | 'error'>('idle')
   const [log, setLog] = useState('')
+  const [reauth, setReauth] = useState(false)
+  const [reauthPassword, setReauthPassword] = useState('')
+  const [reauthError, setReauthError] = useState(false)
+  const [pendingAction, setPendingAction] = useState<'save' | 'publish' | null>(null)
   const [stepsCollapsed, setStepsCollapsed] = useState<boolean>(() => localStorage.getItem('jumpstart-editor-steps-collapsed') === '1')
   const [collapsedSteps, setCollapsedSteps] = useState<Set<string>>(() => {
     try { return new Set(JSON.parse(localStorage.getItem('jumpstart-editor-collapsed-steps') || '[]')) }
@@ -90,12 +94,29 @@ export default function MakerEditor({
   const save = async () => {
     setStatus('saving'); setLog('')
     try { await saveLabs(labs); setStatus('saved') }
-    catch (error) { setStatus('error'); setLog((error as Error).message) }
+    catch (error) { handleWriteError(error, 'save') }
   }
   const publish = async () => {
     setStatus('publishing'); setLog('')
     try { await saveLabs(labs); const out = await publishLabs(); setStatus('published'); setLog(out) }
-    catch (error) { setStatus('error'); setLog((error as Error).message) }
+    catch (error) { handleWriteError(error, 'publish') }
+  }
+  // A 401/503 means the maker session lapsed: prompt for the password, then retry.
+  const handleWriteError = (error: unknown, action: 'save' | 'publish') => {
+    if ((error as Error).name === 'AuthRequired') {
+      setStatus('idle'); setPendingAction(action); setReauthPassword(''); setReauthError(false); setReauth(true)
+    } else {
+      setStatus('error'); setLog((error as Error).message)
+    }
+  }
+  const submitReauth = async () => {
+    const ok = await authenticateMaker(reauthPassword)
+    if (!ok) { setReauthError(true); return }
+    setReauth(false)
+    const action = pendingAction
+    setPendingAction(null)
+    if (action === 'publish') await publish()
+    else await save()
   }
 
   const statusLabel = () => {
@@ -285,6 +306,24 @@ export default function MakerEditor({
           </section>
         )}
       </div>
+
+      {reauth && (
+        <div className="password-scrim" role="dialog" aria-label={text(ui.makerUnlock, locale)}>
+          <div className="password-card">
+            <div className="password-icon"><Lock size={22} /></div>
+            <strong>{text(ui.makerUnlock, locale)}</strong>
+            <span className="reauth-hint">{text(ui.reauthHint, locale)}</span>
+            <input type="password" autoFocus value={reauthPassword}
+              onChange={(event) => { setReauthPassword(event.target.value); setReauthError(false) }}
+              onKeyDown={(event) => { if (event.key === 'Enter') submitReauth() }} />
+            {reauthError && <span className="password-error">{text(ui.makerWrong, locale)}</span>}
+            <div className="password-actions">
+              <button type="button" className="ghost-button" onClick={() => { setReauth(false); setPendingAction(null) }}>{text(ui.close, locale)}</button>
+              <button type="button" className="copy-button" onClick={submitReauth}>{text(ui.unlock, locale)}</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

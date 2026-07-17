@@ -102,6 +102,27 @@ export async function loadLabs(): Promise<Lab[]> {
   return defaultContent()
 }
 
+// Establishes a maker session cookie by verifying the password server-side.
+export async function authenticateMaker(password: string): Promise<boolean> {
+  try {
+    const response = await fetch('/api/maker-auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password }),
+    })
+    return response.ok
+  } catch {
+    return false
+  }
+}
+
+// Marks 401/503 responses so the editor can prompt for re-authentication and retry.
+const writeError = (message: string, status: number): Error => {
+  const error = new Error(message)
+  if (status === 401 || status === 503) error.name = 'AuthRequired'
+  return error
+}
+
 export async function saveLabs(labs: Lab[]): Promise<void> {
   const response = await fetch('/api/content', {
     method: 'POST',
@@ -109,14 +130,14 @@ export async function saveLabs(labs: Lab[]): Promise<void> {
     body: JSON.stringify({ version: CONTENT_VERSION, labs: renumber(labs) }, null, 2),
   })
   if (!response.ok) {
-    throw new Error(await response.text() || `Save failed (${response.status})`)
+    throw writeError(await response.text() || `Save failed (${response.status})`, response.status)
   }
 }
 
 export async function publishLabs(): Promise<string> {
   const response = await fetch('/api/publish', { method: 'POST' })
   const message = await response.text()
-  if (!response.ok) throw new Error(message || `Publish failed (${response.status})`)
+  if (!response.ok) throw writeError(message || `Publish failed (${response.status})`, response.status)
   return message
 }
 

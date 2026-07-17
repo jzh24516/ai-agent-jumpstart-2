@@ -288,6 +288,7 @@ h1 { max-width: 850px; margin: 22px 0 20px; color: var(--cp-text); font-size: cl
 .password-card strong { font-size: 16px; }
 .password-card input { height: 42px; padding: 0 12px; color: var(--cp-text); background: var(--cp-surface-soft); border: 1px solid var(--cp-border); border-radius: 8px; }
 .password-error { color: var(--cp-danger); font-size: 13px; }
+.password-card .reauth-hint { color: var(--cp-text-muted); font-size: 13px; line-height: 1.5; margin-top: -2px; }
 .password-actions { display: flex; justify-content: center; gap: 10px; margin-top: 4px; }
 
 /* --- Maker editor --- */
