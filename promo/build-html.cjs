@@ -23,6 +23,7 @@ const IMG = {
   labFireworks: b64('lab-fireworks.png'),
   labEn: b64('lab-en.png'),
   labZh: b64('lab-zh.png'),
+  flightpath: b64('agent-innovation-flightpath.png'),
   coverLenovo: b64('cover-lenovo.png'),
   branding: b64('branding.png'),
   avatar: firstImg(['michael-photo.png', 'michael-photo.jpg', 'michael-photo.jpeg', 'michael-photo.webp', 'michael.png']),
@@ -101,7 +102,12 @@ const slides = /* html */ `
   </div>
 </section>
 
-<!-- 4. MULTILINGUAL -->
+<!-- 4. VISUAL LEARNING MAP -->
+<section class="slide visual-flightpath" data-title="Agent innovation flightpath">
+  <img class="flightpath-img" src="${IMG.flightpath}" alt="Agent Innovation Flightpath infographic: six connected Copilot Studio learning missions and their platform value" />
+</section>
+
+<!-- 5. MULTILINGUAL -->
 <section class="slide" data-title="Multilingual">
   <div class="s-head"><span class="kicker" data-i18n="s4.k">Unique feature 01</span><h2 data-i18n="s4.h">Multilingual <span class="grad">by design</span></h2></div>
   <div class="two shots-row">
@@ -126,7 +132,7 @@ const slides = /* html */ `
   </div>
 </section>
 
-<!-- 5. LEARN BY DOING -->
+<!-- 6. LEARN BY DOING -->
 <section class="slide" data-title="Learn by doing">
   <div class="s-head"><span class="kicker" data-i18n="s5.k">Unique feature 02</span><h2 data-i18n="s5.h">A learn-by-doing UX that's <span class="grad">actually joyful</span></h2></div>
   <div class="two">
@@ -141,7 +147,7 @@ const slides = /* html */ `
   </div>
 </section>
 
-<!-- 6. CO-BRANDING -->
+<!-- 7. CO-BRANDING -->
 <section class="slide" data-title="Co-branding">
   <div class="s-head"><span class="kicker" data-i18n="s6.k">Unique feature 03</span><h2 data-i18n="s6.h">Co-brand a <span class="grad">dedicated workshop</span> in seconds</h2></div>
   <div class="two wide-right">
@@ -155,7 +161,7 @@ const slides = /* html */ `
   </div>
 </section>
 
-<!-- 7. PUBLISH ONCE -->
+<!-- 8. PUBLISH ONCE -->
 <section class="slide" data-title="Publish once">
   <div class="s-head"><span class="kicker" data-i18n="s7.k">Unique feature 04</span><h2 data-i18n="s7.h">Publish once &mdash; <span class="grad">everyone sees it</span></h2></div>
   <div class="flow">
@@ -170,7 +176,7 @@ const slides = /* html */ `
   <p class="note" data-i18n="s7.note">No per-user setup. The published files are the single source of truth for every visitor.</p>
 </section>
 
-<!-- 8. HOW TO RUN -->
+<!-- 9. HOW TO RUN -->
 <section class="slide" data-title="How to run">
   <div class="s-head"><span class="kicker" data-i18n="s8.k">For your attendees</span><h2 data-i18n="s8.h">Running it is <span class="grad">three steps</span></h2></div>
   <div class="flow big3">
@@ -183,7 +189,7 @@ const slides = /* html */ `
   <div class="urlbar"><span class="urllbl" data-i18n="s8.url">Live workshop</span><code>https://jzh24516.github.io/ai-agent-jumpstart-2/</code></div>
 </section>
 
-<!-- 9. CLOSING -->
+<!-- 10. CLOSING -->
 <section class="slide closing" data-title="Bring it to your workshop">
   <div class="orb o1"></div><div class="orb o2"></div>
   <div class="close-grid">
@@ -316,6 +322,12 @@ const html = /* html */ `<!doctype html>
   .blade{height:2px;margin:12px 0;border-radius:2px;background:linear-gradient(90deg,var(--saber),transparent);box-shadow:0 0 12px var(--saber)}
   .ep h3{font-size:1.24rem;font-weight:800;letter-spacing:-.01em;color:#f2f1fa}
   .ep p{margin-top:8px;color:#b9b7cf;font-size:1.04rem;line-height:1.4}
+
+  /* full-bleed bitmap infographic slide */
+  .visual-flightpath{padding:2.1%;display:block;background:#030615}
+  .flightpath-img{display:block;width:100%;height:100%;object-fit:contain;border-radius:18px;
+    filter:drop-shadow(0 28px 54px rgba(0,0,0,.54));animation:flightpathIn .65s cubic-bezier(.2,.7,.2,1) both}
+  @keyframes flightpathIn{from{opacity:0;transform:scale(.975)}to{opacity:1;transform:scale(1)}}
 
   /* feature rows */
   .feat{display:flex;flex-direction:column;gap:20px}
