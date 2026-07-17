@@ -77,7 +77,7 @@ const slides = /* html */ `
 <!-- 4. MULTILINGUAL -->
 <section class="slide" data-title="Multilingual">
   <div class="s-head"><span class="kicker" data-i18n="s4.k">Unique feature 01</span><h2 data-i18n="s4.h">Multilingual <span class="grad">by design</span></h2></div>
-  <div class="two wide-left">
+  <div class="two shots-row">
     <div class="col">
       <p class="big" data-i18n="s4.big">One click switches the <b>entire lab experience</b> — the same page, instructions, sidebar, and UI — between <b>English, 中文, 日本語, 한국어</b>.</p>
       <ul class="ticks">
@@ -87,9 +87,14 @@ const slides = /* html */ `
       </ul>
       <div class="chips"><span>EN</span><span>中文</span><span>日本語</span><span>한국어</span></div>
     </div>
-    <div class="col shots2">
-      <img src="${IMG.labEn}" alt="Lab 1 in English" />
-      <img src="${IMG.labZh}" alt="Lab 1 in Chinese" />
+    <div class="col">
+      <div class="shotwrap">
+        <span class="shot-blob"></span>
+        <img class="s1" src="${IMG.labEn}" alt="Lab 1 in English" />
+        <span class="btag b1">EN</span>
+        <img class="s2" src="${IMG.labZh}" alt="Lab 1 in Chinese" />
+        <span class="btag b2">中文</span>
+      </div>
     </div>
   </div>
 </section>
@@ -232,6 +237,7 @@ const html = /* html */ `<!doctype html>
   .two{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:5%;align-items:center}
   .two.wide-left{grid-template-columns:1.15fr .85fr}
   .two.wide-right{grid-template-columns:.85fr 1.15fr}
+  .two.shots-row{grid-template-columns:.86fr 1.14fr;gap:3%}
   .col{min-width:0}
   .ticks{list-style:none;margin-top:24px;display:flex;flex-direction:column;gap:16px}
   .ticks li{position:relative;padding-left:34px;color:#D7D5E6;font-size:1.3rem;line-height:1.45}
@@ -270,8 +276,19 @@ const html = /* html */ `<!doctype html>
 
   /* images */
   .framed{width:100%;border-radius:14px;border:1px solid var(--cardbrd);box-shadow:var(--glow)}
-  .shots2{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:center}
-  .shots2 img{width:100%;border-radius:12px;border:1px solid var(--cardbrd);box-shadow:0 16px 40px rgba(0,0,0,.4)}
+  .shotwrap{position:relative;width:100%;aspect-ratio:4/3}
+  .shotwrap .shot-blob{position:absolute;inset:6%;background:var(--grad);filter:blur(52px);opacity:.38;border-radius:46% 54% 58% 42%;z-index:0;animation:blob 9s ease-in-out infinite}
+  .shotwrap img{position:absolute;width:76%;border-radius:16px;border:1px solid rgba(255,255,255,.18);
+    box-shadow:0 30px 70px rgba(0,0,0,.55);transition:transform .4s cubic-bezier(.2,.7,.2,1)}
+  .shotwrap .s1{top:0;left:0;transform:rotate(-5deg);z-index:1}
+  .shotwrap .s2{bottom:0;right:0;transform:rotate(5deg);z-index:2}
+  .shotwrap:hover .s1{transform:rotate(-8deg) translateY(-10px)}
+  .shotwrap:hover .s2{transform:rotate(8deg) translateY(10px)}
+  .shotwrap .btag{position:absolute;z-index:3;font-weight:800;font-size:.95rem;color:#fff;background:var(--grad);
+    padding:8px 15px;border-radius:999px;box-shadow:0 12px 26px rgba(124,58,237,.55)}
+  .shotwrap .btag.b1{top:-3%;left:5%}
+  .shotwrap .btag.b2{bottom:-3%;right:5%;z-index:4}
+  @keyframes blob{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(4%,-3%) scale(1.06)}}
 
   /* flow */
   .flow{flex:1;display:flex;align-items:stretch;justify-content:center;gap:16px}
