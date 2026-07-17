@@ -384,6 +384,15 @@ const html = /* html */ `<!doctype html>
   .fstep .femoji{position:absolute;left:50%;top:68%;transform:translate(-50%,-50%);font-size:4.32rem;line-height:1;z-index:2;pointer-events:none}
   .flow.big3 .fstep .femoji{font-size:3.456rem;left:auto;right:1.2rem;top:1rem;transform:none}
   .fstep .femoji span{display:block;font-size:inherit;line-height:inherit}
+  /* slide 8 step icons show off with looping teasers (delays come from inline animation-delay) */
+  .flow:not(.big3) .fstep:nth-child(1) .femoji{animation:teaseWiggle 2s ease-in-out infinite}
+  .flow:not(.big3) .fstep:nth-child(3) .femoji{animation:teaseZoom 2.2s ease-in-out infinite}
+  .flow:not(.big3) .fstep:nth-child(5) .femoji{animation:teaseLaunch 2.4s ease-in-out infinite}
+  .flow:not(.big3) .fstep:nth-child(7) .femoji{animation:teaseTada 2.6s ease-in-out infinite}
+  @keyframes teaseWiggle{0%,100%{transform:translate(-50%,-50%) rotate(-16deg)}50%{transform:translate(-50%,-50%) rotate(16deg)}}
+  @keyframes teaseZoom{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.32)}}
+  @keyframes teaseLaunch{0%,100%{transform:translate(-50%,-50%) translateY(0) rotate(0)}45%{transform:translate(-50%,-50%) translateY(-14px) rotate(-10deg)}70%{transform:translate(-50%,-50%) translateY(-4px) rotate(-4deg)}}
+  @keyframes teaseTada{0%,100%{transform:translate(-50%,-50%) scale(1) rotate(0)}20%{transform:translate(-50%,-50%) scale(1.2) rotate(-12deg)}40%{transform:translate(-50%,-50%) scale(1.2) rotate(12deg)}60%{transform:translate(-50%,-50%) scale(1.16) rotate(-9deg)}80%{transform:translate(-50%,-50%) scale(1.1) rotate(9deg)}}
   .fstep.hot{background:linear-gradient(160deg,rgba(167,139,250,.22),rgba(236,72,153,.16));border-color:rgba(236,72,153,.4)}
   .fstep .fnum{width:42px;height:42px;display:grid;place-items:center;border-radius:12px;font-weight:900;font-size:1.25rem;color:#fff;background:var(--grad);margin-bottom:16px}
   .fstep b{font-size:1.36rem}
