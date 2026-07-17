@@ -172,13 +172,13 @@ const slides = /* html */ `
 <section class="slide" data-title="Publish once">
   <div class="s-head"><span class="kicker" data-i18n="s7.k">Unique feature 04</span><h2 data-i18n="s7.h">Publish once &mdash; <span class="grad">everyone sees it</span></h2></div>
   <div class="flow">
-    <div class="fstep"><div class="fnum">1</div><b data-i18n="s7.b1">Configure locally</b><span data-i18n="s7.s1">Set branding &amp; edit lab content in the maker view.</span></div>
+    <div class="fstep"><div class="femoji" style="animation-delay:0s"><span>🛠️</span></div><div class="fnum">1</div><b data-i18n="s7.b1">Configure locally</b><span data-i18n="s7.s1">Set branding &amp; edit lab content in the maker view.</span></div>
     <div class="farrow">&rarr;</div>
-    <div class="fstep"><div class="fnum">2</div><b data-i18n="s7.b2">Apply &amp; commit</b><span data-i18n="s7.s2">Branding &amp; content ship as <code>branding.json</code> + <code>labs.json</code>.</span></div>
+    <div class="fstep"><div class="femoji" style="animation-delay:.5s"><span>💾</span></div><div class="fnum">2</div><b data-i18n="s7.b2">Apply &amp; commit</b><span data-i18n="s7.s2">Branding &amp; content ship as <code>branding.json</code> + <code>labs.json</code>.</span></div>
     <div class="farrow">&rarr;</div>
-    <div class="fstep"><div class="fnum">3</div><b data-i18n="s7.b3">Auto-deploy</b><span data-i18n="s7.s3">GitHub Actions builds &amp; publishes to GitHub Pages on every push.</span></div>
+    <div class="fstep"><div class="femoji" style="animation-delay:1s"><span>🚀</span></div><div class="fnum">3</div><b data-i18n="s7.b3">Auto-deploy</b><span data-i18n="s7.s3">GitHub Actions builds &amp; publishes to GitHub Pages on every push.</span></div>
     <div class="farrow">&rarr;</div>
-    <div class="fstep hot"><div class="fnum">4</div><b data-i18n="s7.b4">Everyone sees it</b><span data-i18n="s7.s4">Attendees open the live URL &mdash; same content, same brand.</span></div>
+    <div class="fstep hot"><div class="femoji" style="animation-delay:1.5s"><span>🎉</span></div><div class="fnum">4</div><b data-i18n="s7.b4">Everyone sees it</b><span data-i18n="s7.s4">Attendees open the live URL &mdash; same content, same brand.</span></div>
   </div>
   <p class="note" data-i18n="s7.note">No per-user setup. The published files are the single source of truth for every visitor.</p>
 </section>
@@ -187,11 +187,11 @@ const slides = /* html */ `
 <section class="slide" data-title="How to run">
   <div class="s-head"><span class="kicker" data-i18n="s8.k">For your attendees</span><h2 data-i18n="s8.h">Running it is <span class="grad">three steps</span></h2></div>
   <div class="flow big3">
-    <div class="fstep"><div class="fnum">1</div><b data-i18n="s8.b1">Open the link</b><span data-i18n="s8.s1">One URL, any modern browser. No install, no sign-in to start.</span></div>
+    <div class="fstep"><div class="femoji" style="animation-delay:0s"><span>🔗</span></div><div class="fnum">1</div><b data-i18n="s8.b1">Open the link</b><span data-i18n="s8.s1">One URL, any modern browser. No install, no sign-in to start.</span></div>
     <div class="farrow">&rarr;</div>
-    <div class="fstep"><div class="fnum">2</div><b data-i18n="s8.b2">Pick a language</b><span data-i18n="s8.s2">Switch to EN / 中文 / 日本語 / 한국어 / ไทย / हिन्दी on the cover.</span></div>
+    <div class="fstep"><div class="femoji" style="animation-delay:.5s"><span>🌍</span></div><div class="fnum">2</div><b data-i18n="s8.b2">Pick a language</b><span data-i18n="s8.s2">Switch to EN / 中文 / 日本語 / 한국어 / ไทย / हिन्दी on the cover.</span></div>
     <div class="farrow">&rarr;</div>
-    <div class="fstep"><div class="fnum">3</div><b data-i18n="s8.b3">Enter &amp; build</b><span data-i18n="s8.s3">Work lab by lab, copy prompts, track progress, celebrate.</span></div>
+    <div class="fstep"><div class="femoji" style="animation-delay:1s"><span>🏗️</span></div><div class="fnum">3</div><b data-i18n="s8.b3">Enter &amp; build</b><span data-i18n="s8.s3">Work lab by lab, copy prompts, track progress, celebrate.</span></div>
   </div>
   <div class="urlbar"><span class="urllbl" data-i18n="s8.url">Live workshop</span><code>https://jzh24516.github.io/ai-agent-jumpstart-2/</code></div>
 </section>
@@ -366,7 +366,13 @@ const html = /* html */ `<!doctype html>
   /* flow */
   .flow{flex:1;display:flex;align-items:stretch;justify-content:center;gap:16px}
   .flow.big3 .fstep{padding:34px 26px}
-  .fstep{flex:1;background:var(--card);border:1px solid var(--cardbrd);border-radius:16px;padding:28px 22px;position:relative}
+  .fstep{flex:1;background:var(--card);border:1px solid var(--cardbrd);border-radius:16px;padding:28px 22px;position:relative;
+    transition:transform .3s cubic-bezier(.2,.7,.2,1),box-shadow .3s ease,border-color .3s ease}
+  .fstep:hover{transform:translateY(-7px);border-color:rgba(167,139,250,.55);box-shadow:0 22px 48px rgba(124,58,237,.32)}
+  .fstep .femoji{position:absolute;top:14px;right:16px;font-size:2rem;line-height:1;z-index:2;pointer-events:none;animation:efloat 3.4s ease-in-out infinite}
+  .fstep .femoji span{display:inline-block;filter:drop-shadow(0 5px 12px rgba(0,0,0,.5));transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+  .fstep:hover .femoji span{transform:scale(1.32) rotate(-8deg)}
+  @keyframes efloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
   .fstep.hot{background:linear-gradient(160deg,rgba(167,139,250,.22),rgba(236,72,153,.16));border-color:rgba(236,72,153,.4)}
   .fstep .fnum{width:42px;height:42px;display:grid;place-items:center;border-radius:12px;font-weight:900;font-size:1.25rem;color:#fff;background:var(--grad);margin-bottom:16px}
   .fstep b{font-size:1.36rem}
