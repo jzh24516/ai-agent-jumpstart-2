@@ -321,7 +321,7 @@ const html = /* html */ `<!doctype html>
   .close-grid{position:relative;z-index:2;width:100%;display:grid;grid-template-columns:1.35fr .75fr;gap:5%;align-items:center}
   .close-wrap{min-width:0}
   .close-avatar{display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px}
-  .close-avatar img{width:min(320px,90%);aspect-ratio:1;border-radius:50%;box-shadow:0 30px 80px rgba(124,58,237,.55)}
+  .close-avatar img{width:min(320px,90%);aspect-ratio:1;object-fit:cover;object-position:center;border-radius:50%;box-shadow:0 30px 80px rgba(124,58,237,.55)}
   .close-avatar b{font-size:1.5rem;margin-top:6px}
   .close-avatar span{color:var(--muted);font-size:1rem;max-width:22ch}
   .contacts{display:flex;gap:16px;margin-top:26px}
