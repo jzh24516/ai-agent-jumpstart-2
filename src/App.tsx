@@ -279,7 +279,11 @@ function CoverPage({ onEnter, dark, onToggleTheme, locale, onLocaleChange, brand
   return (
     <div className="cover-hero">
       <div className="cover-controls">
-        <label className="language-select cover-lang"><Languages size={17} /><select value={locale} onChange={(e) => onLocaleChange(e.target.value as Locale)} aria-label={text(ui.language, locale)}>{locales.map((item) => <option key={item} value={item}>{localeNames[item]}</option>)}</select></label>
+        <div className="cover-langbar" role="group" aria-label={text(ui.language, locale)}>
+          {locales.map((item) => (
+            <button key={item} type="button" className={item === locale ? 'on' : ''} aria-pressed={item === locale} onClick={() => onLocaleChange(item)}>{item === 'en' ? 'EN' : localeNames[item]}</button>
+          ))}
+        </div>
         {canConfigure && <button className="icon-button" type="button" onClick={onOpenSettings} title={text(ui.workshopBranding, locale)} aria-label={text(ui.workshopBranding, locale)}><Settings size={18} /></button>}
         <button className="icon-button" type="button" onClick={onToggleTheme} title={text(ui.theme, locale)} aria-label={text(ui.theme, locale)}>{dark ? <Sun size={19} /> : <Moon size={19} />}</button>
       </div>
