@@ -453,9 +453,15 @@ def main():
     data = json.loads(LABS_PATH.read_text(encoding="utf-8"))
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     for locale in FONTS:
+        image = render(locale, data["labs"])
         out = OUT_DIR / f"agent-platform-blueprint-{locale}.webp"
-        render(locale, data["labs"]).save(out, "WEBP", quality=92, method=6)
+        image.save(out, "WEBP", quality=92, method=6)
         print(f"Wrote {out.name}")
+        # English PNG for the PowerPoint deck (PPTX/PowerPoint don't embed WebP reliably).
+        if locale == "en":
+            png = OUT_DIR / "agent-platform-blueprint-en.png"
+            image.save(png, "PNG")
+            print(f"Wrote {png.name}")
 
 
 if __name__ == "__main__":

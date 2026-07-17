@@ -90,7 +90,11 @@ title(s, [{ text: 'Six labs, from first agent to ', options: { color: C.txt } },
   s.addText(l[2], { x: x + 0.32, y: y + 1.26, w: w - 0.6, h: 0.9, fontFace: FB, fontSize: 14.5, color: C.mut, margin: 0, lineSpacingMultiple: 1.06 })
 })
 
-// ---------- Slide 4: Multilingual ----------
+// ---------- Slide 4: Agent platform blueprint ----------
+s = p.addSlide(); s.background = { color: '0F0D1A' }
+s.addImage({ path: IMG('agent-platform-blueprint-en.png'), x: 0.302, y: 0.17, w: 12.729, h: 7.16 })
+
+// ---------- Slide 5: Multilingual ----------
 s = p.addSlide(); s.background = { color: C.bg2 }
 kicker(s, 'Unique feature 01')
 title(s, [{ text: 'Multilingual ', options: { color: C.txt } }, { text: 'by design', options: { color: C.pur } }])
@@ -111,7 +115,7 @@ let lx = 0.7
 s.addImage({ path: IMG('lab-en.png'), x: 6.95, y: 1.95, w: 3.55, h: 2.49, rounding: true }); frame(s, 6.95, 1.95, 3.55, 2.49)
 s.addImage({ path: IMG('lab-zh.png'), x: 9.25, y: 4.05, w: 3.55, h: 2.49, rounding: true }); frame(s, 9.25, 4.05, 3.55, 2.49)
 
-// ---------- Slide 5: Learn by doing ----------
+// ---------- Slide 6: Learn by doing ----------
 s = p.addSlide(); s.background = { color: C.bg }
 kicker(s, 'Unique feature 02')
 title(s, [{ text: "A learn-by-doing UX that's ", options: { color: C.txt } }, { text: 'actually joyful', options: { color: C.pink } }])
@@ -130,7 +134,7 @@ title(s, [{ text: "A learn-by-doing UX that's ", options: { color: C.txt } }, { 
 })
 s.addImage({ path: IMG('lab-overview.png'), x: 7.55, y: 2.05, w: 5.1, h: 3.66, rounding: true }); frame(s, 7.55, 2.05, 5.1, 3.66)
 
-// ---------- Slide 6: Co-branding ----------
+// ---------- Slide 7: Co-branding ----------
 s = p.addSlide(); s.background = { color: C.bg2 }
 kicker(s, 'Unique feature 03')
 title(s, [{ text: 'Co-brand a ', options: { color: C.txt } }, { text: 'dedicated workshop', options: { color: C.cyan } }, { text: ' in seconds', options: { color: C.txt } }])
@@ -148,7 +152,7 @@ s.addImage({ path: IMG('cover-lenovo.png'), x: 0.7, y: 2.1, w: 5.6, h: 3.92, rou
   s.addText(f[1], { x: 7.5, y: y + 0.4, w: 5.2, h: 0.55, fontFace: FB, fontSize: 14.5, color: C.mut, margin: 0, lineSpacingMultiple: 1.04 })
 })
 
-// ---------- Slide 7: Publish once ----------
+// ---------- Slide 8: Publish once ----------
 s = p.addSlide(); s.background = { color: C.bg }
 kicker(s, 'Unique feature 04')
 title(s, [{ text: 'Publish once — ', options: { color: C.txt } }, { text: 'everyone sees it', options: { color: C.pur } }])
@@ -169,7 +173,7 @@ title(s, [{ text: 'Publish once — ', options: { color: C.txt } }, { text: 'eve
 s.addText('No per-user setup. The published files are the single source of truth for every visitor.',
   { x: 0.7, y: 5.95, w: 12, h: 0.5, fontFace: FB, fontSize: 17, italic: true, color: C.mut, align: 'left' })
 
-// ---------- Slide 8: How to run ----------
+// ---------- Slide 9: How to run ----------
 s = p.addSlide(); s.background = { color: C.bg2 }
 kicker(s, 'For your attendees')
 title(s, [{ text: 'Running it is ', options: { color: C.txt } }, { text: 'three steps', options: { color: C.cyan } }])
@@ -189,7 +193,7 @@ s.addShape(p.shapes.ROUNDED_RECTANGLE, { x: 0.7, y: 5.75, w: 11.93, h: 1.0, rect
 s.addText('LIVE WORKSHOP', { x: 1.0, y: 5.75, w: 2.5, h: 1.0, fontFace: FH, fontSize: 13, bold: true, color: C.pur, charSpacing: 2, valign: 'middle', margin: 0 })
 s.addText('https://jzh24516.github.io/ai-agent-jumpstart-2/', { x: 3.4, y: 5.75, w: 9.0, h: 1.0, fontFace: FB, fontSize: 21, bold: true, color: 'EFEDFA', valign: 'middle', margin: 0 })
 
-// ---------- Slide 9: Closing ----------
+// ---------- Slide 10: Closing ----------
 s = p.addSlide(); bgFill(s)
 s.addText([{ text: '● ', options: { color: C.pink } }, { text: 'Ready when you are', options: { color: 'E9E6FF' } }],
   { x: 0.7, y: 0.9, w: 5, h: 0.4, fontFace: FB, fontSize: 12, bold: true, align: 'left' })
