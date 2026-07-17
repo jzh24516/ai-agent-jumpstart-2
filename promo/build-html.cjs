@@ -28,6 +28,22 @@ const IMG = {
   avatar: firstImg(['michael-photo.png', 'michael-photo.jpg', 'michael-photo.jpeg', 'michael-photo.webp', 'michael.png']),
 }
 
+// Self-contained CSS starfield (no external images) for the saga-themed slide 3.
+const starfield = (n) => {
+  let seed = 20260717
+  const rnd = () => { seed = (seed * 1103515245 + 12345) & 0x7fffffff; return seed / 0x7fffffff }
+  const layers = []
+  for (let i = 0; i < n; i++) {
+    const x = (rnd() * 100).toFixed(2)
+    const y = (rnd() * 100).toFixed(2)
+    const s = (rnd() * 1.3 + 0.4).toFixed(2)
+    const a = (rnd() * 0.6 + 0.3).toFixed(2)
+    layers.push(`radial-gradient(${s}px ${s}px at ${x}% ${y}%, rgba(255,255,255,${a}) 50%, transparent 51%)`)
+  }
+  return layers.join(',')
+}
+const STARS = starfield(70)
+
 const slides = /* html */ `
 <!-- 1. COVER -->
 <section class="slide cover" data-title="Cover">
@@ -71,15 +87,17 @@ const slides = /* html */ `
 </section>
 
 <!-- 3. THE 6 LABS -->
-<section class="slide" data-title="The 6 labs">
-  <div class="s-head"><span class="kicker" data-i18n="s3.k">🧭 The learning path</span><h2 data-i18n="s3.h">Six labs, from first agent to <span class="grad">real-time voice</span> 🎙️</h2></div>
-  <div class="labgrid">
-    <div class="labcard"><div class="li"><span class="le">🤖</span>01</div><h3 data-i18n="s3.t1">Meet the Agent Maker</h3><p data-i18n="s3.d1">Build a grounded, multilingual agent with Microsoft.com + Microsoft Learn MCP.</p></div>
-    <div class="labcard"><div class="li"><span class="le">🗂️</span>02</div><h3 data-i18n="s3.t2">Bring in business context</h3><p data-i18n="s3.d2">Dataverse MCP, reusable Skills, Memory, and a CoWork customer-360 workflow.</p></div>
-    <div class="labcard"><div class="li"><span class="le">📝</span>03</div><h3 data-i18n="s3.t3">Evidence-based RFP</h3><p data-i18n="s3.d3">Work IQ + Microsoft IQ generate sourced RFP/RFI responses across Office.</p></div>
-    <div class="labcard"><div class="li"><span class="le">🔌</span>04</div><h3 data-i18n="s3.t4">Connect specialist agents</h3><p data-i18n="s3.d4">ServiceNow knowledge + tickets, connected agents, Teams &amp; M365 Copilot.</p></div>
-    <div class="labcard"><div class="li"><span class="le">📨</span>05</div><h3 data-i18n="s3.t5">Multi-agent email Workflow</h3><p data-i18n="s3.d5">Classify inbound email &rarr; route to the right agent &rarr; personalized reply.</p></div>
-    <div class="labcard"><div class="li"><span class="le">🎙️</span>06</div><h3 data-i18n="s3.t6">Real-time voice agent</h3><p data-i18n="s3.d6">Classic agent + real-time voice, multilingual, tested live in the Test window.</p></div>
+<section class="slide saga-slide" data-title="The 6 labs">
+  <div class="saga-bg" style="background:${STARS}, radial-gradient(ellipse 85% 60% at 50% -12%, rgba(124,58,237,.24), transparent 60%), radial-gradient(ellipse 95% 75% at 50% 118%, rgba(34,211,238,.16), transparent 60%), #05030f"></div>
+  <div class="saga-glow" aria-hidden="true"></div>
+  <div class="s-head saga-head"><span class="kicker" data-i18n="s3.k">🧭 The learning path</span><h2 data-i18n="s3.h">Six labs, from first agent to <span class="grad">real-time voice</span> 🎙️</h2></div>
+  <div class="saga-grid">
+    <div class="ep" style="--saber:#4ea8ff"><div class="ep-top"><span class="ep-no">I</span><span class="ep-emoji">🤖</span><span class="ep-arch" data-i18n="s3.a1">The Apprentice</span></div><div class="blade"></div><h3 data-i18n="s3.t1">Meet the Agent Maker</h3><p data-i18n="s3.d1">Build a grounded, multilingual agent with Microsoft.com + Microsoft Learn MCP.</p></div>
+    <div class="ep" style="--saber:#3ee06a"><div class="ep-top"><span class="ep-no">II</span><span class="ep-emoji">🗂️</span><span class="ep-arch" data-i18n="s3.a2">The Archivist</span></div><div class="blade"></div><h3 data-i18n="s3.t2">Bring in business context</h3><p data-i18n="s3.d2">Dataverse MCP, reusable Skills, Memory, and a CoWork customer-360 workflow.</p></div>
+    <div class="ep" style="--saber:#b57bff"><div class="ep-top"><span class="ep-no">III</span><span class="ep-emoji">📝</span><span class="ep-arch" data-i18n="s3.a3">The Chronicler</span></div><div class="blade"></div><h3 data-i18n="s3.t3">Evidence-based RFP</h3><p data-i18n="s3.d3">Work IQ + Microsoft IQ generate sourced RFP/RFI responses across Office.</p></div>
+    <div class="ep" style="--saber:#ffb020"><div class="ep-top"><span class="ep-no">IV</span><span class="ep-emoji">🔌</span><span class="ep-arch" data-i18n="s3.a4">The Envoy</span></div><div class="blade"></div><h3 data-i18n="s3.t4">Connect specialist agents</h3><p data-i18n="s3.d4">ServiceNow knowledge + tickets, connected agents, Teams &amp; M365 Copilot.</p></div>
+    <div class="ep" style="--saber:#ff5c5c"><div class="ep-top"><span class="ep-no">V</span><span class="ep-emoji">📨</span><span class="ep-arch" data-i18n="s3.a5">The Squadron</span></div><div class="blade"></div><h3 data-i18n="s3.t5">Multi-agent email Workflow</h3><p data-i18n="s3.d5">Classify inbound email &rarr; route to the right agent &rarr; personalized reply.</p></div>
+    <div class="ep" style="--saber:#34e2ff"><div class="ep-top"><span class="ep-no">VI</span><span class="ep-emoji">🎙️</span><span class="ep-arch" data-i18n="s3.a6">The Herald</span></div><div class="blade"></div><h3 data-i18n="s3.t6">Real-time voice agent</h3><p data-i18n="s3.d6">Classic agent + real-time voice, multilingual, tested live in the Test window.</p></div>
   </div>
 </section>
 
@@ -275,6 +293,30 @@ const html = /* html */ `<!doctype html>
   .labcard h3{margin-top:10px;font-size:1.42rem;font-weight:800;letter-spacing:-.01em}
   .labcard p{margin-top:10px;color:var(--muted);font-size:1.15rem;line-height:1.42}
 
+  /* saga theme (slide 3) */
+  .saga-slide{overflow:hidden}
+  .saga-bg{position:absolute;inset:0;z-index:0}
+  .saga-glow{position:absolute;left:50%;bottom:-46%;width:120%;aspect-ratio:2/1;transform:translateX(-50%);z-index:0;
+    background:radial-gradient(ellipse at 50% 100%,rgba(124,58,237,.30),rgba(5,3,15,0) 62%)}
+  .saga-slide .s-head,.saga-slide .saga-grid{position:relative;z-index:2}
+  .saga-slide .kicker{color:#ffd94a;background:rgba(245,182,10,.12);border-color:rgba(245,182,10,.35)}
+  .saga-slide h2{color:#f3ecd2}
+  .saga-slide h2 .grad{background:linear-gradient(180deg,#ffe98a,#f5b60a);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 18px rgba(245,182,10,.4))}
+  .saga-grid{flex:1;display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;gap:18px}
+  .ep{position:relative;overflow:hidden;border-radius:16px;padding:18px 20px;display:flex;flex-direction:column;
+    background:linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,.02));
+    border:1px solid rgba(255,255,255,.12);box-shadow:0 18px 44px rgba(0,0,0,.55)}
+  .ep::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--saber);box-shadow:0 0 18px var(--saber)}
+  .ep::after{content:"";position:absolute;right:-30%;top:-30%;width:60%;aspect-ratio:1;border-radius:50%;
+    background:radial-gradient(circle,var(--saber),transparent 62%);opacity:.14}
+  .ep-top{display:flex;align-items:center;gap:10px}
+  .ep-no{font-weight:900;font-size:1.45rem;line-height:1;color:var(--saber);text-shadow:0 0 14px var(--saber);min-width:1.7em}
+  .ep-emoji{font-size:1.35rem;line-height:1}
+  .ep-arch{font-size:.76rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#c9cce6}
+  .blade{height:2px;margin:12px 0;border-radius:2px;background:linear-gradient(90deg,var(--saber),transparent);box-shadow:0 0 12px var(--saber)}
+  .ep h3{font-size:1.24rem;font-weight:800;letter-spacing:-.01em;color:#f2f1fa}
+  .ep p{margin-top:8px;color:#b9b7cf;font-size:1.04rem;line-height:1.4}
+
   /* feature rows */
   .feat{display:flex;flex-direction:column;gap:20px}
   .frow{display:flex;gap:16px;align-items:flex-start}
@@ -416,7 +458,7 @@ const html = /* html */ `<!doctype html>
       's2.big':'JumpStart v2 把“幻灯片 + 演示”变成一个<b>可动手操作的实时实验应用</b>。参与者打开一个链接、选择语言，逐步构建真实的 Agent &mdash; 你只需引导，而不必手把手照看。',
       's2.t1':'<span class="e">🖥️</span> 自主进度、基于浏览器、零安装','s2.t2':'<span class="e">📋</span> 每一步都可一键复制，并配有截图引导','s2.t3':'<span class="e">🤝</span> 既适用于内部赋能，<b>也</b>适用于客户研讨会',
       's2.l1':'动手实验','s2.l2':'引导步骤','s2.l3':'种语言','s2.l4':'复用，任意客户',
-      's3.k':'🧭 学习路径','s3.h':'六个实验，从第一个 Agent 到<span class="grad">实时语音</span> 🎙️',
+      's3.k':'🧭 学习路径','s3.h':'六个实验，从第一个 Agent 到<span class="grad">实时语音</span> 🎙️','s3.a1':'学徒','s3.a2':'档案官','s3.a3':'记述者','s3.a4':'使者','s3.a5':'中队','s3.a6':'传令者',
       's3.t1':'认识 Agent Maker','s3.d1':'使用 Microsoft.com + Microsoft Learn MCP 构建有依据的多语言 Agent。',
       's3.t2':'引入业务上下文','s3.d2':'Dataverse MCP、可复用 Skills、Memory，以及 CoWork 客户 360 工作流。',
       's3.t3':'基于证据的 RFP','s3.d3':'Work IQ + Microsoft IQ 在 Office 中生成有出处的 RFP/RFI 回复。',
@@ -445,7 +487,7 @@ const html = /* html */ `<!doctype html>
       's2.big':'JumpStart v2 は「スライド＋デモ」を<b>自分で操作できるライブなラボ アプリ</b>に変えます。参加者はリンクを 1 つ開き、言語を選び、実際の Agent を一歩ずつ構築 &mdash; あなたは付きっきりではなくファシリテートに専念できます。',
       's2.t1':'<span class="e">🖥️</span> 自分のペース・ブラウザ完結・インストール不要','s2.t2':'<span class="e">📋</span> すべての手順はコピーしてすぐ使え、スクリーンショット付き','s2.t3':'<span class="e">🤝</span> 社内イネーブルメント<b>にも</b>顧客ワークショップにも対応',
       's2.l1':'ハンズオン ラボ','s2.l2':'ガイド付き手順','s2.l3':'言語','s2.l4':'再利用・どの顧客でも',
-      's3.k':'🧭 学習パス','s3.h':'6 つのラボ、最初の Agent から<span class="grad">リアルタイム音声</span>まで 🎙️',
+      's3.k':'🧭 学習パス','s3.h':'6 つのラボ、最初の Agent から<span class="grad">リアルタイム音声</span>まで 🎙️','s3.a1':'見習い','s3.a2':'記録官','s3.a3':'年代記者','s3.a4':'使者','s3.a5':'部隊','s3.a6':'伝令',
       's3.t1':'Agent Maker を知る','s3.d1':'Microsoft.com + Microsoft Learn MCP で根拠のある多言語 Agent を構築。',
       's3.t2':'ビジネス コンテキストを取り込む','s3.d2':'Dataverse MCP、再利用可能な Skills、Memory、CoWork の顧客 360 ワークフロー。',
       's3.t3':'根拠ベースの RFP','s3.d3':'Work IQ + Microsoft IQ が Office 全体で出典付きの RFP/RFI 回答を生成。',
@@ -474,7 +516,7 @@ const html = /* html */ `<!doctype html>
       's2.big':'JumpStart v2는 “슬라이드+데모” 세션을 <b>직접 해보는 실시간 랩 앱</b>으로 바꿉니다. 참가자는 링크 하나를 열고 언어를 선택해 실제 Agent를 단계별로 구축하며 &mdash; 여러분은 일일이 챙기는 대신 퍼실리테이션에 집중합니다.',
       's2.t1':'<span class="e">🖥️</span> 자기 주도, 브라우저 기반, 설치 불필요','s2.t2':'<span class="e">📋</span> 모든 단계는 복사해 바로 쓰고 스크린샷으로 안내','s2.t3':'<span class="e">🤝</span> 내부 역량 강화<b>와</b> 고객 워크숍 모두에 적합',
       's2.l1':'실습 랩','s2.l2':'가이드 단계','s2.l3':'개 언어','s2.l4':'재사용, 모든 고객',
-      's3.k':'🧭 학습 경로','s3.h':'여섯 개의 랩, 첫 Agent부터 <span class="grad">실시간 음성</span>까지 🎙️',
+      's3.k':'🧭 학습 경로','s3.h':'여섯 개의 랩, 첫 Agent부터 <span class="grad">실시간 음성</span>까지 🎙️','s3.a1':'견습생','s3.a2':'기록관','s3.a3':'연대기록자','s3.a4':'특사','s3.a5':'편대','s3.a6':'전령',
       's3.t1':'Agent Maker 만나기','s3.d1':'Microsoft.com + Microsoft Learn MCP로 근거 있는 다국어 Agent 구축.',
       's3.t2':'비즈니스 컨텍스트 가져오기','s3.d2':'Dataverse MCP, 재사용 가능한 Skills, Memory, CoWork 고객 360 워크플로.',
       's3.t3':'근거 기반 RFP','s3.d3':'Work IQ + Microsoft IQ가 Office 전반에서 출처 있는 RFP/RFI 응답 생성.',
@@ -503,7 +545,7 @@ const html = /* html */ `<!doctype html>
       's2.big':'JumpStart v2 เปลี่ยนเซสชัน “สไลด์และเดโม” ให้เป็น<b>แอปแล็บที่ลงมือทำได้จริงแบบสด</b> ผู้เข้าร่วมเปิดลิงก์เดียว เลือกภาษา แล้วสร้าง Agent จริงทีละขั้น &mdash; ขณะที่คุณเป็นผู้อำนวยความสะดวกแทนการคอยประคบประหงม',
       's2.t1':'<span class="e">🖥️</span> เรียนตามจังหวะตัวเอง ทำงานบนเบราว์เซอร์ ไม่ต้องติดตั้ง','s2.t2':'<span class="e">📋</span> ทุกขั้นตอนคัดลอกใช้ได้ทันทีและมีภาพหน้าจอแนะนำ','s2.t3':'<span class="e">🤝</span> ใช้ได้ทั้งการเสริมศักยภาพภายใน<b>และ</b>เวิร์กช็อปกับลูกค้า',
       's2.l1':'แล็บลงมือทำ','s2.l2':'ขั้นตอนพร้อมคำแนะนำ','s2.l3':'ภาษา','s2.l4':'นำกลับมาใช้ กับลูกค้าทุกราย',
-      's3.k':'🧭 เส้นทางการเรียนรู้','s3.h':'หกแล็บ ตั้งแต่ Agent แรกจนถึง<span class="grad">เสียงแบบเรียลไทม์</span> 🎙️',
+      's3.k':'🧭 เส้นทางการเรียนรู้','s3.h':'หกแล็บ ตั้งแต่ Agent แรกจนถึง<span class="grad">เสียงแบบเรียลไทม์</span> 🎙️','s3.a1':'ผู้ฝึกหัด','s3.a2':'ผู้เก็บบันทึก','s3.a3':'ผู้บันทึกเรื่องราว','s3.a4':'ทูต','s3.a5':'ฝูงบิน','s3.a6':'ผู้ประกาศ',
       's3.t1':'รู้จัก Agent Maker','s3.d1':'สร้าง Agent หลายภาษาที่มีแหล่งอ้างอิงด้วย Microsoft.com + Microsoft Learn MCP',
       's3.t2':'นำบริบททางธุรกิจเข้ามา','s3.d2':'Dataverse MCP, Skills ที่นำกลับมาใช้ได้, Memory และเวิร์กโฟลว์ลูกค้า 360 ของ CoWork',
       's3.t3':'RFP ที่อิงหลักฐาน','s3.d3':'Work IQ + Microsoft IQ สร้างคำตอบ RFP/RFI ที่มีแหล่งอ้างอิงทั่วทั้ง Office',
@@ -532,7 +574,7 @@ const html = /* html */ `<!doctype html>
       's2.big':'JumpStart v2 “स्लाइड और डेमो” सत्र को एक <b>जीवंत, खुद-करें लैब ऐप</b> में बदल देता है। प्रतिभागी एक लिंक खोलते हैं, अपनी भाषा चुनते हैं, और चरण-दर-चरण असली Agent बनाते हैं &mdash; जबकि आप देखरेख के बजाय मार्गदर्शन करते हैं।',
       's2.t1':'<span class="e">🖥️</span> स्व-गति, ब्राउज़र-आधारित, शून्य इंस्टॉल','s2.t2':'<span class="e">📋</span> हर चरण कॉपी-तैयार और स्क्रीनशॉट-निर्देशित है','s2.t3':'<span class="e">🤝</span> आंतरिक सक्षमता <b>और</b> ग्राहक वर्कशॉप दोनों के लिए उपयुक्त',
       's2.l1':'व्यावहारिक लैब','s2.l2':'निर्देशित चरण','s2.l3':'भाषाएँ','s2.l4':'पुनः उपयोग, कोई भी ग्राहक',
-      's3.k':'🧭 सीखने का मार्ग','s3.h':'छह लैब, पहले Agent से <span class="grad">रीयल-टाइम आवाज़</span> तक 🎙️',
+      's3.k':'🧭 सीखने का मार्ग','s3.h':'छह लैब, पहले Agent से <span class="grad">रीयल-टाइम आवाज़</span> तक 🎙️','s3.a1':'प्रशिक्षु','s3.a2':'अभिलेखी','s3.a3':'वृत्तांतकार','s3.a4':'दूत','s3.a5':'स्क्वाड्रन','s3.a6':'उद्घोषक',
       's3.t1':'Agent Maker से मिलें','s3.d1':'Microsoft.com + Microsoft Learn MCP के साथ एक आधारित, बहुभाषी Agent बनाएँ।',
       's3.t2':'व्यावसायिक संदर्भ लाएँ','s3.d2':'Dataverse MCP, पुन: प्रयोज्य Skills, Memory, और एक CoWork ग्राहक-360 वर्कफ़्लो।',
       's3.t3':'साक्ष्य-आधारित RFP','s3.d3':'Work IQ + Microsoft IQ पूरे Office में स्रोत-सहित RFP/RFI उत्तर तैयार करते हैं।',
