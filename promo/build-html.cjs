@@ -369,9 +369,12 @@ const html = /* html */ `<!doctype html>
   .fstep{flex:1;background:var(--card);border:1px solid var(--cardbrd);border-radius:16px;padding:28px 22px;position:relative;
     transition:transform .3s cubic-bezier(.2,.7,.2,1),box-shadow .3s ease,border-color .3s ease}
   .fstep:hover{transform:translateY(-7px);border-color:rgba(167,139,250,.55);box-shadow:0 22px 48px rgba(124,58,237,.32)}
-  .fstep .femoji{position:absolute;top:14px;right:16px;font-size:2rem;line-height:1;z-index:2;pointer-events:none;animation:efloat 3.4s ease-in-out infinite}
-  .fstep .femoji span{display:inline-block;filter:drop-shadow(0 5px 12px rgba(0,0,0,.5));transition:transform .35s cubic-bezier(.2,.7,.2,1)}
-  .fstep:hover .femoji span{transform:scale(1.32) rotate(-8deg)}
+  .fstep .femoji{position:absolute;top:14px;right:16px;width:4.2rem;height:4.2rem;display:grid;place-items:center;
+    border-radius:1.25rem;background:radial-gradient(circle at 35% 28%,rgba(255,255,255,.2),rgba(167,139,250,.12) 48%,rgba(34,211,238,.04) 72%);
+    border:1px solid rgba(255,255,255,.13);box-shadow:0 12px 30px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.12);
+    font-size:3.25rem;line-height:1;z-index:2;pointer-events:none;animation:efloat 3.4s ease-in-out infinite}
+  .fstep .femoji span{display:inline-block;filter:drop-shadow(0 6px 13px rgba(0,0,0,.52));transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+  .fstep:hover .femoji span{transform:scale(1.16) rotate(-6deg)}
   @keyframes efloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
   .fstep.hot{background:linear-gradient(160deg,rgba(167,139,250,.22),rgba(236,72,153,.16));border-color:rgba(236,72,153,.4)}
   .fstep .fnum{width:42px;height:42px;display:grid;place-items:center;border-radius:12px;font-weight:900;font-size:1.25rem;color:#fff;background:var(--grad);margin-bottom:16px}
