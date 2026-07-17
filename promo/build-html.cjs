@@ -23,6 +23,14 @@ const IMG = {
   labFireworks: b64('lab-fireworks.png'),
   labEn: b64('lab-en.png'),
   labZh: b64('lab-zh.png'),
+  blueprint: {
+    en: b64('agent-platform-blueprint-en.webp'),
+    zh: b64('agent-platform-blueprint-zh.webp'),
+    ja: b64('agent-platform-blueprint-ja.webp'),
+    ko: b64('agent-platform-blueprint-ko.webp'),
+    th: b64('agent-platform-blueprint-th.webp'),
+    hi: b64('agent-platform-blueprint-hi.webp'),
+  },
   coverLenovo: b64('cover-lenovo.png'),
   branding: b64('branding.png'),
   avatar: firstImg(['michael-photo.png', 'michael-photo.jpg', 'michael-photo.jpeg', 'michael-photo.webp', 'michael.png']),
@@ -101,7 +109,12 @@ const slides = /* html */ `
   </div>
 </section>
 
-<!-- 4. MULTILINGUAL -->
+<!-- 4. AGENT PLATFORM BLUEPRINT -->
+<section class="slide blueprint-slide" data-title="Agent platform blueprint">
+  <img class="blueprint-img" data-blueprint src="${IMG.blueprint.en}" alt="Copilot Studio Agent Platform Blueprint: six labs mapped from use case through agent mode, architecture, tools, and business value" />
+</section>
+
+<!-- 5. MULTILINGUAL -->
 <section class="slide" data-title="Multilingual">
   <div class="s-head"><span class="kicker" data-i18n="s4.k">Unique feature 01</span><h2 data-i18n="s4.h">Multilingual <span class="grad">by design</span></h2></div>
   <div class="two shots-row">
@@ -126,7 +139,7 @@ const slides = /* html */ `
   </div>
 </section>
 
-<!-- 5. LEARN BY DOING -->
+<!-- 6. LEARN BY DOING -->
 <section class="slide" data-title="Learn by doing">
   <div class="s-head"><span class="kicker" data-i18n="s5.k">Unique feature 02</span><h2 data-i18n="s5.h">A learn-by-doing UX that's <span class="grad">actually joyful</span></h2></div>
   <div class="two">
@@ -141,7 +154,7 @@ const slides = /* html */ `
   </div>
 </section>
 
-<!-- 6. CO-BRANDING -->
+<!-- 7. CO-BRANDING -->
 <section class="slide" data-title="Co-branding">
   <div class="s-head"><span class="kicker" data-i18n="s6.k">Unique feature 03</span><h2 data-i18n="s6.h">Co-brand a <span class="grad">dedicated workshop</span> in seconds</h2></div>
   <div class="two wide-right">
@@ -155,7 +168,7 @@ const slides = /* html */ `
   </div>
 </section>
 
-<!-- 7. PUBLISH ONCE -->
+<!-- 8. PUBLISH ONCE -->
 <section class="slide" data-title="Publish once">
   <div class="s-head"><span class="kicker" data-i18n="s7.k">Unique feature 04</span><h2 data-i18n="s7.h">Publish once &mdash; <span class="grad">everyone sees it</span></h2></div>
   <div class="flow">
@@ -170,7 +183,7 @@ const slides = /* html */ `
   <p class="note" data-i18n="s7.note">No per-user setup. The published files are the single source of truth for every visitor.</p>
 </section>
 
-<!-- 8. HOW TO RUN -->
+<!-- 9. HOW TO RUN -->
 <section class="slide" data-title="How to run">
   <div class="s-head"><span class="kicker" data-i18n="s8.k">For your attendees</span><h2 data-i18n="s8.h">Running it is <span class="grad">three steps</span></h2></div>
   <div class="flow big3">
@@ -183,7 +196,7 @@ const slides = /* html */ `
   <div class="urlbar"><span class="urllbl" data-i18n="s8.url">Live workshop</span><code>https://jzh24516.github.io/ai-agent-jumpstart-2/</code></div>
 </section>
 
-<!-- 9. CLOSING -->
+<!-- 10. CLOSING -->
 <section class="slide closing" data-title="Bring it to your workshop">
   <div class="orb o1"></div><div class="orb o2"></div>
   <div class="close-grid">
@@ -316,6 +329,12 @@ const html = /* html */ `<!doctype html>
   .blade{height:2px;margin:12px 0;border-radius:2px;background:linear-gradient(90deg,var(--saber),transparent);box-shadow:0 0 12px var(--saber)}
   .ep h3{font-size:1.24rem;font-weight:800;letter-spacing:-.01em;color:#f2f1fa}
   .ep p{margin-top:8px;color:#b9b7cf;font-size:1.04rem;line-height:1.4}
+
+  /* layered platform blueprint (slide 4, locale-specific bitmap) */
+  .blueprint-slide{display:block;padding:1.8%;background:#f6f9fe}
+  .blueprint-img{display:block;width:100%;height:100%;object-fit:contain;border-radius:18px;
+    box-shadow:0 30px 70px rgba(4,29,70,.24);animation:blueprintIn .6s cubic-bezier(.2,.7,.2,1) both}
+  @keyframes blueprintIn{from{opacity:0;transform:scale(.978)}to{opacity:1;transform:scale(1)}}
 
   /* feature rows */
   .feat{display:flex;flex-direction:column;gap:20px}
@@ -450,6 +469,15 @@ const html = /* html */ `<!doctype html>
     else if(e.key==='End')go(slides.length-1);
     else if(e.key.toLowerCase()==='f')document.getElementById('fs').click();
   });
+  const blueprintImages=${JSON.stringify(IMG.blueprint)};
+  const blueprintAlt={
+    en:'Copilot Studio Agent Platform Blueprint: six labs mapped from use case through agent mode, architecture, tools, and business value',
+    zh:'Copilot Studio Agent 平台蓝图：六个实验映射用例、Agent 模式、架构、工具与业务价值',
+    ja:'Copilot Studio Agent プラットフォーム設計図：6 つのラボをユースケース、Agent モード、アーキテクチャ、ツール、ビジネス価値で整理',
+    ko:'Copilot Studio Agent 플랫폼 블루프린트: 6개 랩의 사용 사례, Agent 모드, 아키텍처, 도구, 비즈니스 가치',
+    th:'Copilot Studio Agent Platform Blueprint: 6 แล็บที่เชื่อมกรณีใช้งาน โหมด Agent สถาปัตยกรรม เครื่องมือ และคุณค่าทางธุรกิจ',
+    hi:'Copilot Studio Agent Platform Blueprint: उपयोग मामले, Agent मोड, आर्किटेक्चर, उपकरण और व्यावसायिक मूल्य के अनुसार छह लैब',
+  };
   const T={
     zh:{
       'c.lede':'一个动手、自主、多语言的实验体验，全面构建 Microsoft Copilot Studio 中的各类自定义 Agent。',
@@ -604,6 +632,8 @@ const html = /* html */ `<!doctype html>
   function applyLang(lang){
     if(!LANGS.includes(lang))lang='en';
     i18nEls.forEach(el=>{const k=el.getAttribute('data-i18n');const v=lang==='en'?el.dataset.en:(T[lang]&&T[lang][k]);el.innerHTML=(v!=null?v:el.dataset.en);});
+    const blueprint=document.querySelector('[data-blueprint]');
+    if(blueprint){blueprint.src=blueprintImages[lang]||blueprintImages.en;blueprint.alt=blueprintAlt[lang]||blueprintAlt.en;}
     document.documentElement.lang=lang==='zh'?'zh-CN':lang;
     langBtns.forEach(b=>b.classList.toggle('on',b.dataset.lang===lang));
     try{localStorage.setItem('jumpstart-deck-lang',lang);}catch(e){}
