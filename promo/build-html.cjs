@@ -331,9 +331,9 @@ const html = /* html */ `<!doctype html>
   .ep p{margin-top:8px;color:#b9b7cf;font-size:1.04rem;line-height:1.4}
 
   /* layered platform blueprint (slide 4, locale-specific bitmap) */
-  .blueprint-slide{padding:1.8%;background:#f6f9fe}
+  .blueprint-slide{padding:1.6%;background:radial-gradient(120% 120% at 50% 0%,#171430,#0f0d1a)}
   .blueprint-img{display:block;width:100%;height:100%;object-fit:contain;border-radius:18px;
-    box-shadow:0 30px 70px rgba(4,29,70,.24);animation:blueprintIn .6s cubic-bezier(.2,.7,.2,1) both}
+    box-shadow:0 30px 70px rgba(0,0,0,.5);animation:blueprintIn .6s cubic-bezier(.2,.7,.2,1) both}
   @keyframes blueprintIn{from{opacity:0;transform:scale(.978)}to{opacity:1;transform:scale(1)}}
 
   /* feature rows */
