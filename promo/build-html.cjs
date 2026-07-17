@@ -158,7 +158,7 @@ const slides = /* html */ `
 <section class="slide" data-title="Co-branding">
   <div class="s-head"><span class="kicker" data-i18n="s6.k">Unique feature 03</span><h2 data-i18n="s6.h">Co-brand a <span class="grad">dedicated workshop</span> in seconds</h2></div>
   <div class="two wide-right">
-    <div class="col"><img class="framed" src="${IMG.coverLenovo}" alt="Microsoft x Lenovo co-branded cover" /></div>
+    <div class="col"><img class="framed shot-solo" src="${IMG.coverLenovo}" alt="Microsoft x Lenovo co-branded cover" /></div>
     <div class="col feat">
       <div class="frow"><div class="fi">◇</div><div><b data-i18n="s6.b1">Microsoft &times; Customer</b><span data-i18n="s6.s1">Set a customer name or logo &mdash; the cover instantly co-brands.</span></div></div>
       <div class="frow"><div class="fi">⤓</div><div><b data-i18n="s6.b2">Save &amp; reuse</b><span data-i18n="s6.s2">Workshop history: save, retrieve, and quick-search past setups.</span></div></div>
