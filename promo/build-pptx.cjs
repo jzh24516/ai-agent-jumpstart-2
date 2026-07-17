@@ -42,7 +42,7 @@ s.addText('A hands-on, self-guided, multilingual lab experience for building the
 s.addText('Microsoft MCAPS Core — Agent Asia Team   ·   July 16, 2026',
   { x: 0.7, y: 4.7, w: 6.6, h: 0.35, fontFace: FB, fontSize: 12, color: C.mut, align: 'left' })
 let px = 0.7
-;['6 guided labs', '29 steps', '4 languages', '1 shareable link'].forEach((t) => {
+;['6 guided labs', '29 steps', '6 languages', '1 shareable link'].forEach((t) => {
   const w = 0.42 + t.length * 0.098
   s.addShape(p.shapes.ROUNDED_RECTANGLE, { x: px, y: 5.35, w, h: 0.5, rectRadius: 0.1, fill: { color: C.panel }, line: { color: C.brd, width: 1 } })
   s.addText(t, { x: px, y: 5.35, w, h: 0.5, fontFace: FH, fontSize: 12, bold: true, color: 'EFEDFA', align: 'center', valign: 'middle', margin: 0 })
@@ -62,7 +62,7 @@ s.addText('JumpStart v2 turns a slide-and-demo session into a living, do-it-your
   s.addShape(p.shapes.OVAL, { x: 0.74, y: y + 0.09, w: 0.2, h: 0.2, fill: { color: C.pur }, line: { type: 'none' } })
   s.addText(t, { x: 1.14, y, w: 6.3, h: 0.5, fontFace: FB, fontSize: 17, color: 'D7D5E6', align: 'left', valign: 'top', margin: 0 })
 })
-;[['6', 'hands-on labs', '🧪'], ['29', 'guided steps', '👣'], ['4', 'languages', '🌍'], ['∞', 'reuse, any customer', '🔁']].forEach((st, i) => {
+;[['6', 'hands-on labs', '🧪'], ['29', 'guided steps', '👣'], ['6', 'languages', '🌍'], ['∞', 'reuse, any customer', '🔁']].forEach((st, i) => {
   const x = 8.0 + (i % 2) * 2.72, y = 2.15 + Math.floor(i / 2) * 2.55
   card(s, x, y, 2.5, 2.3)
   s.addText(st[2], { x, y: y + 0.2, w: 2.5, h: 0.5, fontSize: 22, align: 'center', margin: 0 })
@@ -94,7 +94,7 @@ title(s, [{ text: 'Six labs, from first agent to ', options: { color: C.txt } },
 s = p.addSlide(); s.background = { color: C.bg2 }
 kicker(s, 'Unique feature 01')
 title(s, [{ text: 'Multilingual ', options: { color: C.txt } }, { text: 'by design', options: { color: C.pur } }])
-s.addText('One click switches the entire experience — cover, labs, instructions, and UI — between English, 中文, 日本語, and 한국어.',
+s.addText('One click switches the entire experience — cover, labs, instructions, and UI — between English, 中文, 日本語, 한국어, ไทย, and हिन्दी.',
   { x: 0.7, y: 2.35, w: 5.9, h: 1.7, fontFace: FB, fontSize: 20, color: 'E4E2F0', align: 'left', lineSpacingMultiple: 1.18 })
 ;['Product names, prompts & tool names stay in English on purpose', 'Copy-ready prompts never get "lost in translation"', 'Screenshots fall back to English automatically'].forEach((t, i) => {
   const y = 4.35 + i * 0.72
@@ -102,7 +102,7 @@ s.addText('One click switches the entire experience — cover, labs, instruction
   s.addText(t, { x: 1.14, y, w: 5.6, h: 0.5, fontFace: FB, fontSize: 17, color: 'D7D5E6', align: 'left', margin: 0 })
 })
 let lx = 0.7
-;['EN', '中文', '日本語', '한국어'].forEach((t) => {
+;['EN', '中文', '日本語', '한국어', 'ไทย', 'हिन्दी'].forEach((t) => {
   const w = 1.15
   s.addShape(p.shapes.ROUNDED_RECTANGLE, { x: lx, y: 6.55, w, h: 0.72, rectRadius: 0.1, fill: { color: C.panelHi }, line: { color: C.brd, width: 1 } })
   s.addText(t, { x: lx, y: 6.55, w, h: 0.72, fontFace: FH, fontSize: 18, bold: true, color: 'EFEDFA', align: 'center', valign: 'middle', margin: 0 })
@@ -175,7 +175,7 @@ kicker(s, 'For your attendees')
 title(s, [{ text: 'Running it is ', options: { color: C.txt } }, { text: 'three steps', options: { color: C.cyan } }])
 ;[
   ['1', 'Open the link', 'One URL, any modern browser. No install, no sign-in to start.'],
-  ['2', 'Pick a language', 'Switch to EN / 中文 / 日本語 / 한국어 on the cover.'],
+  ['2', 'Pick a language', 'Switch to EN / 中文 / 日本語 / 한국어 / ไทย / हिन्दी on the cover.'],
   ['3', 'Enter & build', 'Work lab by lab, copy prompts, track progress, celebrate.'],
 ].forEach((f, i) => {
   const x = 0.7 + i * 4.12, y = 2.4, w = 3.7, h = 2.95
