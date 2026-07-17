@@ -298,7 +298,7 @@ function CoverPage({ onEnter, dark, onToggleTheme, locale, onLocaleChange, brand
         </div>
         <div className="cover-actions">
           <button className="cover-cta" type="button" onClick={onEnter}>{text(cover.cta, locale)} <ArrowRight size={18} /></button>
-          <a className="cover-deck-link" href={`${import.meta.env.BASE_URL}promo/JumpStart-v2-Workshop-Highlights.html`} target="_blank" rel="noreferrer">{text(cover.deck, locale)} <ExternalLink size={16} /></a>
+          <a className="cover-deck-link" href={`${import.meta.env.BASE_URL}promo/JumpStart-v2-Workshop-Highlights.html?lang=${locale}`} target="_blank" rel="noreferrer">{text(cover.deck, locale)} <ExternalLink size={16} /></a>
         </div>
       </div>
       <div className="cover-footer">&copy; Microsoft &middot; MCAPS Core — Agent Asia Team</div>
