@@ -60,12 +60,23 @@ Learner progress and language preference are stored in browser local storage. No
 Content authors can edit every lab directly in the browser — no code changes required.
 
 1. Run `npm run dev` (maker mode uses a dev-only content API, so it works while the dev server is running).
-2. Click the lock icon in the top bar and enter the maker password (`copilotstudio123`).
+2. Configure the maker password once (see below). Then click the lock icon in the top bar and enter it.
 3. Edit lab metadata, titles, steps, pages, paragraphs, highlights, inputs, and screenshot keys. You can also add, remove, and reorder labs, steps, and pages.
 4. **Save** writes your changes to `public/content/labs.json` and the reader updates immediately.
 5. **Publish to GitHub** saves, then `git add`/`commit`/`push`es `public/content/labs.json` to the current branch's remote. The command output (including any git errors) is shown in the editor.
 
-The password is a lightweight gate defined in `src/App.tsx` (`submitPassword`) — it is client-side only and not a security boundary. Change it there if needed.
+Maker mode and the branding settings are **dev-only** — they are not rendered or reachable in the built (GitHub Pages) site. The password is **never** stored in the codebase or the client bundle. It lives only in a git-ignored `.env` file as a salted scrypt hash, and the dev server verifies it server-side, issuing a short-lived signed `HttpOnly` session cookie. Every write endpoint (`/api/content`, `/api/branding`, `/api/publish`) requires that session.
+
+### Configure the maker password (local, one time)
+
+1. Copy `.env.example` to `.env`.
+2. Generate the hash and session secret, then paste the printed values into `.env`:
+
+   ```powershell
+   node -e "const c=require('crypto');const pw=process.argv[1];const salt=c.randomBytes(16).toString('hex');const hash=c.scryptSync(pw,salt,64).toString('hex');console.log('WORKSHOP_MAKER_PASSWORD_HASH='+salt+':'+hash);console.log('WORKSHOP_MAKER_SESSION_SECRET='+c.randomBytes(32).toString('hex'))" "your-password-here"
+   ```
+
+3. Restart `npm run dev`. Only someone who knows the plaintext password can unlock maker mode; the repo only ever contains the non-reversible hash (and only in your local, ignored `.env`).
 
 ### Content source of truth
 

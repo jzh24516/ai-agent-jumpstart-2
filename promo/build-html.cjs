@@ -374,5 +374,8 @@ const html = /* html */ `<!doctype html>
 </html>`
 
 const out = path.join(__dirname, 'JumpStart-v2-Workshop-Highlights.html')
+const publicOut = path.join(__dirname, '..', 'public', 'promo', 'JumpStart-v2-Workshop-Highlights.html')
 fs.writeFileSync(out, html, 'utf8')
-console.log('HTML deck written:', out, '(' + Math.round(html.length / 1024) + ' KB)')
+fs.mkdirSync(path.dirname(publicOut), { recursive: true })
+fs.writeFileSync(publicOut, html, 'utf8')
+console.log('HTML deck written:', out, 'and', publicOut, '(' + Math.round(html.length / 1024) + ' KB)')

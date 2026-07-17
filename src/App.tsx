@@ -5,7 +5,7 @@ import remarkGfm from 'remark-gfm'
 import {
   ArrowRight, BookOpenCheck, CalendarDays, Check, ChevronDown, ChevronUp,
   Clipboard, Database, FileSpreadsheet, Languages, Lock, Mail, MailCheck, Menu, Mic2,
-  Moon, Network, PanelLeft, PanelLeftClose, PencilLine, Save, Search, Settings, Sparkles, Sun, Trash2, Users, X,
+  ExternalLink, Moon, Network, PanelLeft, PanelLeftClose, PencilLine, Save, Search, Settings, Sparkles, Sun, Trash2, Users, X,
 } from 'lucide-react'
 import { defaultContent, loadLabs } from './content/store'
 import MakerEditor from './editor/MakerEditor'
@@ -158,6 +158,19 @@ async function saveBrandingToFile(b: Branding): Promise<'published' | 'offline'>
   } catch { return 'offline' }
 }
 
+async function verifyMakerPassword(password: string): Promise<boolean> {
+  try {
+    const response = await fetch('/api/maker-auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password }),
+    })
+    return response.ok
+  } catch {
+    return false
+  }
+}
+
 const cover: Record<string, LocalizedText> = {
   tagline: {
     en: 'A hands-on learning path exploring the full breadth of custom agent innovation in Microsoft Copilot Studio.',
@@ -170,6 +183,7 @@ const cover: Record<string, LocalizedText> = {
   date: { en: 'July 16, 2026', zh: '2026年7月16日', ja: '2026年7月16日', ko: '2026년 7월 16일' },
   contact: { en: 'Need help? Contact', zh: '需要帮助？请联系', ja: 'お困りですか？ お問い合わせ', ko: '도움이 필요하신가요? 문의' },
   cta: { en: 'Enter workshop', zh: '进入研讨会', ja: 'ワークショップを開く', ko: '워크숍 시작' },
+  deck: { en: 'Explore the workshop highlights', zh: '查看研讨会亮点', ja: 'ワークショップのハイライトを見る', ko: '워크숍 하이라이트 살펴보기' },
 }
 const dedicatedText = (locale: Locale, name: string): string => {
   const n = name.trim()
@@ -189,7 +203,7 @@ const loadWorkshops = (): Workshop[] => {
 }
 const newWorkshopId = () => (typeof crypto !== 'undefined' && 'randomUUID' in crypto ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(36).slice(2, 8))
 
-function BrandingSettings({ value, onApply, onClose }: { value: Branding; onApply: (b: Branding) => Promise<'published' | 'offline'>; onClose: () => void }) {
+function BrandingSettings({ value, locale, onApply, onClose }: { value: Branding; locale: Locale; onApply: (b: Branding) => Promise<'published' | 'offline'>; onClose: () => void }) {
   const [draft, setDraft] = useState<Branding>(value)
   const [history, setHistory] = useState<Workshop[]>(() => loadWorkshops())
   const [query, setQuery] = useState('')
@@ -206,46 +220,46 @@ function BrandingSettings({ value, onApply, onClose }: { value: Branding; onAppl
     const existing = history.find((w) => w.name.toLowerCase() === name.toLowerCase())
     const entry: Workshop = { id: existing?.id || newWorkshopId(), name, hostName: draft.hostName, hostLogo: draft.hostLogo, customerName: draft.customerName, customerLogo: draft.customerLogo, savedAt: Date.now() }
     persist(existing ? history.map((w) => (w.id === existing.id ? entry : w)) : [entry, ...history])
-    setFlash(existing ? `Updated “${name}”` : `Saved “${name}”`)
+    setFlash(text(existing ? ui.updatedWorkshop : ui.savedWorkshop, locale).replace('{name}', name))
     window.setTimeout(() => setFlash(''), 2200)
   }
-  const loadWorkshop = (w: Workshop) => { setDraft({ hostName: w.hostName, hostLogo: w.hostLogo, customerName: w.customerName, customerLogo: w.customerLogo }); setFlash(`Loaded “${w.name}” — select Apply to use it`); window.setTimeout(() => setFlash(''), 2600) }
+  const loadWorkshop = (w: Workshop) => { setDraft({ hostName: w.hostName, hostLogo: w.hostLogo, customerName: w.customerName, customerLogo: w.customerLogo }); setFlash(text(ui.loadedWorkshop, locale).replace('{name}', w.name)); window.setTimeout(() => setFlash(''), 2600) }
   const removeWorkshop = (id: string) => persist(history.filter((w) => w.id !== id))
   const q = query.trim().toLowerCase()
   const filtered = [...history].sort((a, b) => b.savedAt - a.savedAt).filter((w) => !q || w.name.toLowerCase().includes(q) || w.customerName.toLowerCase().includes(q) || w.hostName.toLowerCase().includes(q))
   return (
-    <div className="settings-scrim" role="dialog" aria-label="Workshop branding">
+    <div className="settings-scrim" role="dialog" aria-label={text(ui.workshopBranding, locale)}>
       <div className="settings-card">
-        <div className="settings-head"><strong>Workshop branding</strong><button className="icon-button" type="button" onClick={onClose} aria-label="Close"><X size={18} /></button></div>
-        <p className="settings-hint">Set a customer name or logo to co-brand this JumpStart. Save named workshops to reuse them anytime.</p>
+        <div className="settings-head"><strong>{text(ui.workshopBranding, locale)}</strong><button className="icon-button" type="button" onClick={onClose} aria-label={text(ui.closeDialog, locale)}><X size={18} /></button></div>
+        <p className="settings-hint">{text(ui.brandingHint, locale)}</p>
         <div className="settings-grid">
-          <label>Host name<input type="text" value={draft.hostName} onChange={(e) => setDraft({ ...draft, hostName: e.target.value })} placeholder="Microsoft" /></label>
-          <label>Host logo URL<input type="text" value={draft.hostLogo.startsWith('data:') ? '' : draft.hostLogo} onChange={(e) => setDraft({ ...draft, hostLogo: e.target.value })} placeholder="https:// … (or upload below)" /></label>
-          <label className="settings-file">Upload host logo<input type="file" accept="image/*" onChange={(e) => readFile(e.target.files?.[0], 'hostLogo')} /></label>
-          {draft.hostLogo && <div className="settings-preview"><img src={draft.hostLogo} alt="host logo preview" /><button type="button" onClick={() => setDraft({ ...draft, hostLogo: '' })}>Remove</button></div>}
-          <label>Customer name<input type="text" value={draft.customerName} onChange={(e) => setDraft({ ...draft, customerName: e.target.value })} placeholder="e.g. Contoso" /></label>
-          <label>Customer logo URL<input type="text" value={draft.customerLogo.startsWith('data:') ? '' : draft.customerLogo} onChange={(e) => setDraft({ ...draft, customerLogo: e.target.value })} placeholder="https:// … (or upload below)" /></label>
-          <label className="settings-file">Upload customer logo<input type="file" accept="image/*" onChange={(e) => readFile(e.target.files?.[0], 'customerLogo')} /></label>
-          {draft.customerLogo && <div className="settings-preview"><img src={draft.customerLogo} alt="customer logo preview" /><button type="button" onClick={() => setDraft({ ...draft, customerLogo: '' })}>Remove</button></div>}
+          <label>{text(ui.hostName, locale)}<input type="text" value={draft.hostName} onChange={(e) => setDraft({ ...draft, hostName: e.target.value })} placeholder="Microsoft" /></label>
+          <label>{text(ui.hostLogoUrl, locale)}<input type="text" value={draft.hostLogo.startsWith('data:') ? '' : draft.hostLogo} onChange={(e) => setDraft({ ...draft, hostLogo: e.target.value })} placeholder={text(ui.logoUrlHint, locale)} /></label>
+          <label className="settings-file">{text(ui.uploadHostLogo, locale)}<input type="file" accept="image/*" onChange={(e) => readFile(e.target.files?.[0], 'hostLogo')} /></label>
+          {draft.hostLogo && <div className="settings-preview"><img src={draft.hostLogo} alt={text(ui.hostLogoUrl, locale)} /><button type="button" onClick={() => setDraft({ ...draft, hostLogo: '' })}>{text(ui.removeLogo, locale)}</button></div>}
+          <label>{text(ui.customerName, locale)}<input type="text" value={draft.customerName} onChange={(e) => setDraft({ ...draft, customerName: e.target.value })} placeholder={text(ui.customerNameHint, locale)} /></label>
+          <label>{text(ui.customerLogoUrl, locale)}<input type="text" value={draft.customerLogo.startsWith('data:') ? '' : draft.customerLogo} onChange={(e) => setDraft({ ...draft, customerLogo: e.target.value })} placeholder={text(ui.logoUrlHint, locale)} /></label>
+          <label className="settings-file">{text(ui.uploadCustomerLogo, locale)}<input type="file" accept="image/*" onChange={(e) => readFile(e.target.files?.[0], 'customerLogo')} /></label>
+          {draft.customerLogo && <div className="settings-preview"><img src={draft.customerLogo} alt={text(ui.customerLogoUrl, locale)} /><button type="button" onClick={() => setDraft({ ...draft, customerLogo: '' })}>{text(ui.removeLogo, locale)}</button></div>}
         </div>
         <div className="settings-actions">
-          <button className="ghost" type="button" onClick={() => setDraft(defaultBranding)}>Reset</button>
-          <button className="ghost" type="button" onClick={saveToHistory}><Save size={15} /> Save to history</button>
-          <button className="primary" type="button" onClick={async () => { setFlash('Applying…'); const s = await onApply(draft); setFlash(s === 'published' ? 'Applied & published to branding.json — commit & push so everyone sees it.' : 'Applied locally. Run the app in dev and commit branding.json to share it.') }}>Apply</button>
+          <button className="ghost" type="button" onClick={() => setDraft(defaultBranding)}>{text(ui.reset, locale)}</button>
+          <button className="ghost" type="button" onClick={saveToHistory}><Save size={15} /> {text(ui.saveToHistory, locale)}</button>
+          <button className="primary" type="button" onClick={async () => { setFlash(text(ui.applying, locale)); const s = await onApply(draft); setFlash(text(s === 'published' ? ui.brandingPublished : ui.brandingOffline, locale)) }}>{text(ui.apply, locale)}</button>
         </div>
         {flash && <div className="settings-flash" role="status">{flash}</div>}
         <div className="history-section">
-          <div className="history-head"><strong>Workshop history</strong><span className="history-count">{history.length}</span></div>
-          <div className="history-search"><Search size={15} /><input type="text" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Quick search saved workshops…" /></div>
+          <div className="history-head"><strong>{text(ui.workshopHistory, locale)}</strong><span className="history-count">{history.length}</span></div>
+          <div className="history-search"><Search size={15} /><input type="text" value={query} onChange={(e) => setQuery(e.target.value)} placeholder={text(ui.searchWorkshops, locale)} /></div>
           <div className="history-list">
-            {filtered.length === 0 && <div className="history-empty">{history.length === 0 ? 'No saved workshops yet. Configure branding above, then select “Save to history.”' : 'No workshops match your search.'}</div>}
+            {filtered.length === 0 && <div className="history-empty">{text(history.length === 0 ? ui.noSavedWorkshops : ui.noMatchingWorkshops, locale)}</div>}
             {filtered.map((w) => (
               <div className="history-row" key={w.id}>
-                <button className="history-item" type="button" onClick={() => loadWorkshop(w)} title="Load into the form">
+                <button className="history-item" type="button" onClick={() => loadWorkshop(w)} title={text(ui.loadWorkshop, locale)}>
                   <span className="history-logo">{(w.customerLogo || w.hostLogo) ? <img src={w.customerLogo || w.hostLogo} alt="" /> : <span className="history-initial">{(w.name[0] || '?').toUpperCase()}</span>}</span>
                   <span className="history-info"><strong>{w.name}</strong><small>{w.customerName ? `${w.hostName || 'Microsoft'} × ${w.customerName}` : (w.hostName || 'Microsoft')} · {new Date(w.savedAt).toLocaleDateString()}</small></span>
                 </button>
-                <button className="history-del" type="button" onClick={() => removeWorkshop(w.id)} aria-label={`Delete ${w.name}`} title="Delete"><Trash2 size={15} /></button>
+                <button className="history-del" type="button" onClick={() => removeWorkshop(w.id)} aria-label={text(ui.deleteWorkshop, locale).replace('{name}', w.name)} title={text(ui.deleteWorkshop, locale).replace('{name}', w.name)}><Trash2 size={15} /></button>
               </div>
             ))}
           </div>
@@ -255,17 +269,17 @@ function BrandingSettings({ value, onApply, onClose }: { value: Branding; onAppl
   )
 }
 
-function CoverPage({ onEnter, dark, onToggleTheme, locale, onLocaleChange, branding, onOpenSettings }: {
+function CoverPage({ onEnter, dark, onToggleTheme, locale, onLocaleChange, branding, canConfigure, onOpenSettings }: {
   onEnter: () => void; dark: boolean; onToggleTheme: () => void;
-  locale: Locale; onLocaleChange: (l: Locale) => void; branding: Branding; onOpenSettings: () => void;
+  locale: Locale; onLocaleChange: (l: Locale) => void; branding: Branding; canConfigure: boolean; onOpenSettings: () => void;
 }) {
   const hasCustomer = !!(branding.customerName.trim() || branding.customerLogo.trim())
   return (
     <div className="cover-hero">
       <div className="cover-controls">
-        <label className="language-select cover-lang"><Languages size={17} /><select value={locale} onChange={(e) => onLocaleChange(e.target.value as Locale)} aria-label="Language">{locales.map((item) => <option key={item} value={item}>{localeNames[item]}</option>)}</select></label>
-        <button className="icon-button" type="button" onClick={onOpenSettings} title="Workshop branding" aria-label="Workshop branding"><Settings size={18} /></button>
-        <button className="icon-button" type="button" onClick={onToggleTheme} title="Toggle color theme" aria-label="Toggle color theme">{dark ? <Sun size={19} /> : <Moon size={19} />}</button>
+        <label className="language-select cover-lang"><Languages size={17} /><select value={locale} onChange={(e) => onLocaleChange(e.target.value as Locale)} aria-label={text(ui.language, locale)}>{locales.map((item) => <option key={item} value={item}>{localeNames[item]}</option>)}</select></label>
+        {canConfigure && <button className="icon-button" type="button" onClick={onOpenSettings} title={text(ui.workshopBranding, locale)} aria-label={text(ui.workshopBranding, locale)}><Settings size={18} /></button>}
+        <button className="icon-button" type="button" onClick={onToggleTheme} title={text(ui.theme, locale)} aria-label={text(ui.theme, locale)}>{dark ? <Sun size={19} /> : <Moon size={19} />}</button>
       </div>
       <span className="cover-orb one" aria-hidden="true" />
       <span className="cover-orb two" aria-hidden="true" />
@@ -282,7 +296,10 @@ function CoverPage({ onEnter, dark, onToggleTheme, locale, onLocaleChange, brand
           <div className="cover-meta-row"><span className="cover-meta-icon"><CalendarDays size={18} /></span><div><small>{text(cover.preparedIn, locale)}</small><strong>{text(cover.date, locale)}</strong></div></div>
           <div className="cover-meta-row"><span className="cover-meta-icon"><Mail size={18} /></span><div><small>{text(cover.contact, locale)}</small><strong className="cover-contacts"><a href="mailto:nshukla@microsoft.com">Nalin Shukla &middot; nshukla@microsoft.com</a><a href="mailto:zhijian@microsoft.com">Michael Jiang &middot; zhijian@microsoft.com</a></strong></div></div>
         </div>
-        <button className="cover-cta" type="button" onClick={onEnter}>{text(cover.cta, locale)} <ArrowRight size={18} /></button>
+        <div className="cover-actions">
+          <button className="cover-cta" type="button" onClick={onEnter}>{text(cover.cta, locale)} <ArrowRight size={18} /></button>
+          <a className="cover-deck-link" href={`${import.meta.env.BASE_URL}promo/JumpStart-v2-Workshop-Highlights.html`} target="_blank" rel="noreferrer">{text(cover.deck, locale)} <ExternalLink size={16} /></a>
+        </div>
       </div>
       <div className="cover-footer">&copy; Microsoft &middot; MCAPS Core — Agent Asia Team</div>
     </div>
@@ -290,6 +307,7 @@ function CoverPage({ onEnter, dark, onToggleTheme, locale, onLocaleChange, brand
 }
 
 function App() {
+  const makerEnabled = import.meta.env.DEV
   const [locale, setLocale] = useState<Locale>(() => (localStorage.getItem('jumpstart-locale') as Locale) || 'en')
   const [labs, setLabs] = useState<Lab[]>(() => defaultContent())
   const [labIndex, setLabIndex] = useState(0)
@@ -360,15 +378,17 @@ function App() {
   }, [lab])
 
   const openMaker = () => {
+    if (!makerEnabled) return
     if (makerUnlocked) { setEditorOpen(true); return }
     setPendingUnlock('editor'); setAskPassword(true); setPasswordValue(''); setPasswordError(false)
   }
   const openSettings = () => {
+    if (!makerEnabled) return
     if (makerUnlocked) { setSettingsOpen(true); return }
     setPendingUnlock('settings'); setAskPassword(true); setPasswordValue(''); setPasswordError(false)
   }
-  const submitPassword = () => {
-    if (passwordValue === 'copilotstudio123') {
+  const submitPassword = async () => {
+    if (await verifyMakerPassword(passwordValue)) {
       sessionStorage.setItem('jumpstart-maker', '1')
       setMakerUnlocked(true); setAskPassword(false)
       if (pendingUnlock === 'settings') setSettingsOpen(true)
@@ -416,8 +436,8 @@ function App() {
 
   return <div className={collapsed ? 'app-shell sidebar-collapsed' : 'app-shell'}>
     <Fireworks trigger={celebrate} />
-    {showCover && <CoverPage onEnter={() => setShowCover(false)} dark={dark} onToggleTheme={toggleTheme} locale={locale} onLocaleChange={setLocale} branding={branding} onOpenSettings={openSettings} />}
-    {settingsOpen && <BrandingSettings value={branding} onApply={applyBranding} onClose={() => setSettingsOpen(false)} />}
+    {showCover && <CoverPage onEnter={() => setShowCover(false)} dark={dark} onToggleTheme={toggleTheme} locale={locale} onLocaleChange={setLocale} branding={branding} canConfigure={makerEnabled} onOpenSettings={openSettings} />}
+    {settingsOpen && <BrandingSettings value={branding} locale={locale} onApply={applyBranding} onClose={() => setSettingsOpen(false)} />}
     <button className="mobile-menu" type="button" onClick={() => setMenuOpen(true)} title={text(ui.menu, locale)} aria-label={text(ui.menu, locale)}><Menu /></button>
     {menuOpen && <button className="nav-scrim" type="button" onClick={() => setMenuOpen(false)} aria-label={text(ui.close, locale)} />}
     <aside className={menuOpen ? 'sidebar open' : 'sidebar'}>
@@ -453,7 +473,7 @@ function App() {
             </div>
           </div>
         </div>
-        <div className="top-actions"><label className="language-select"><Languages size={17} /><select value={locale} onChange={(event) => setLocale(event.target.value as Locale)} aria-label="Language">{locales.map((item) => <option value={item} key={item}>{localeNames[item]}</option>)}</select></label><button className="icon-button" type="button" onClick={openMaker} title={text(ui.maker, locale)} aria-label={text(ui.maker, locale)}>{makerUnlocked ? <PencilLine size={19} /> : <Lock size={18} />}</button><button className="icon-button" type="button" onClick={toggleTheme} title={text(ui.theme, locale)} aria-label={text(ui.theme, locale)}>{dark ? <Sun size={19} /> : <Moon size={19} />}</button></div>
+        <div className="top-actions"><label className="language-select"><Languages size={17} /><select value={locale} onChange={(event) => setLocale(event.target.value as Locale)} aria-label={text(ui.language, locale)}>{locales.map((item) => <option value={item} key={item}>{localeNames[item]}</option>)}</select></label>{makerEnabled && <button className="icon-button" type="button" onClick={openMaker} title={text(ui.maker, locale)} aria-label={text(ui.maker, locale)}>{makerUnlocked ? <PencilLine size={19} /> : <Lock size={18} />}</button>}<button className="icon-button" type="button" onClick={toggleTheme} title={text(ui.theme, locale)} aria-label={text(ui.theme, locale)}>{dark ? <Sun size={19} /> : <Moon size={19} />}</button></div>
       </header>
 
       <article className="lab-document">
