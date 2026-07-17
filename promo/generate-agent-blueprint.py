@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 import random
+import re
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
@@ -51,18 +52,22 @@ def translate(locale: str, values: dict[str, str]) -> str:
     return values.get(locale) or values["en"]
 
 
+# Latin words / numbers / handles stay whole; whitespace and every other char (CJK,
+# Thai, punctuation) are individually breakable so no-space scripts wrap correctly.
+_TOKEN_RE = re.compile(r"[A-Za-z0-9@._/&+#-]+|\s+|[^\sA-Za-z0-9]", re.UNICODE)
+
+
 def wrap(draw: ImageDraw.ImageDraw, text: str, font: ImageFont.FreeTypeFont, width: int) -> list[str]:
-    words = text.split(" ")
     lines, current = [], ""
-    for word in words:
-        trial = word if not current else f"{current} {word}"
-        if draw.textbbox((0, 0), trial, font=font)[2] <= width or not current:
+    for token in _TOKEN_RE.findall(text):
+        trial = current + token
+        if draw.textbbox((0, 0), trial, font=font)[2] <= width or not current.strip():
             current = trial
         else:
-            lines.append(current)
-            current = word
-    if current:
-        lines.append(current)
+            lines.append(current.rstrip())
+            current = "" if token.isspace() else token
+    if current.strip():
+        lines.append(current.rstrip())
     return lines
 
 
@@ -102,7 +107,7 @@ TEXT = {
         "node_agent": "Agent",
         "node_knowledge": "Knowledge",
         "node_data": "Business data",
-        "node_review": "Review",
+        "node_review": "Sales operation",
         "node_specialist": "Specialist",
         "node_workflow": "Workflow",
         "node_voice": "Voice",
@@ -115,7 +120,7 @@ TEXT = {
         "use_case": "用例", "mode": "AGENT 模式", "architecture": "架构", "tools": "知识与工具", "value": "业务价值",
         "footer": "一个平台  ·  六种 AGENT 模式  ·  价值持续叠加",
         "footer_copy": "知识 + 操作 + 编排 + 工作流 + 语音，构建持久的 Copilot Studio 创新。",
-        "node_user": "用户需求", "node_agent": "Agent", "node_knowledge": "知识", "node_data": "业务数据", "node_review": "审查", "node_specialist": "专家", "node_workflow": "工作流", "node_voice": "语音",
+        "node_user": "用户需求", "node_agent": "Agent", "node_knowledge": "知识", "node_data": "业务数据", "node_review": "销售运营", "node_specialist": "专家", "node_workflow": "工作流", "node_voice": "语音",
     },
     "ja": {
         "eyebrow": "COPILOT STUDIO · AGENT プラットフォーム設計図",
@@ -125,7 +130,7 @@ TEXT = {
         "use_case": "ユースケース", "mode": "AGENT モード", "architecture": "アーキテクチャ", "tools": "ナレッジとツール", "value": "ビジネス価値",
         "footer": "一つのプラットフォーム  ·  6 つの AGENT パターン  ·  積み上がる価値",
         "footer_copy": "ナレッジ + アクション + オーケストレーション + ワークフロー + 音声が、持続する Copilot Studio イノベーションを実現します。",
-        "node_user": "ユーザーの課題", "node_agent": "Agent", "node_knowledge": "ナレッジ", "node_data": "業務データ", "node_review": "レビュー", "node_specialist": "専門 Agent", "node_workflow": "ワークフロー", "node_voice": "音声",
+        "node_user": "ユーザーの課題", "node_agent": "Agent", "node_knowledge": "ナレッジ", "node_data": "業務データ", "node_review": "営業オペレーション", "node_specialist": "専門 Agent", "node_workflow": "ワークフロー", "node_voice": "音声",
     },
     "ko": {
         "eyebrow": "COPILOT STUDIO · AGENT 플랫폼 블루프린트",
@@ -135,7 +140,7 @@ TEXT = {
         "use_case": "사용 사례", "mode": "AGENT 모드", "architecture": "아키텍처", "tools": "지식 및 도구", "value": "비즈니스 가치",
         "footer": "하나의 플랫폼  ·  6가지 AGENT 패턴  ·  누적되는 가치",
         "footer_copy": "지식 + 작업 + 오케스트레이션 + 워크플로 + 음성이 지속 가능한 Copilot Studio 혁신을 만듭니다.",
-        "node_user": "사용자 요구", "node_agent": "Agent", "node_knowledge": "지식", "node_data": "비즈니스 데이터", "node_review": "검토", "node_specialist": "전문 Agent", "node_workflow": "워크플로", "node_voice": "음성",
+        "node_user": "사용자 요구", "node_agent": "Agent", "node_knowledge": "지식", "node_data": "비즈니스 데이터", "node_review": "영업 운영", "node_specialist": "전문 Agent", "node_workflow": "워크플로", "node_voice": "음성",
     },
     "th": {
         "eyebrow": "COPILOT STUDIO · AGENT PLATFORM BLUEPRINT",
@@ -145,7 +150,7 @@ TEXT = {
         "use_case": "กรณีใช้งาน", "mode": "โหมด AGENT", "architecture": "สถาปัตยกรรม", "tools": "ความรู้และเครื่องมือ", "value": "คุณค่าทางธุรกิจ",
         "footer": "หนึ่งแพลตฟอร์ม  ·  6 รูปแบบ AGENT  ·  คุณค่าที่เพิ่มต่อเนื่อง",
         "footer_copy": "ความรู้ + การดำเนินการ + การประสานงาน + เวิร์กโฟลว์ + เสียง สร้างนวัตกรรม Copilot Studio ที่ยั่งยืน",
-        "node_user": "ความต้องการผู้ใช้", "node_agent": "Agent", "node_knowledge": "ความรู้", "node_data": "ข้อมูลธุรกิจ", "node_review": "ตรวจทาน", "node_specialist": "Agent เฉพาะทาง", "node_workflow": "เวิร์กโฟลว์", "node_voice": "เสียง",
+        "node_user": "ความต้องการผู้ใช้", "node_agent": "Agent", "node_knowledge": "ความรู้", "node_data": "ข้อมูลธุรกิจ", "node_review": "ฝ่ายปฏิบัติการขาย", "node_specialist": "Agent เฉพาะทาง", "node_workflow": "เวิร์กโฟลว์", "node_voice": "เสียง",
     },
     "hi": {
         "eyebrow": "COPILOT STUDIO · AGENT PLATFORM BLUEPRINT",
@@ -155,7 +160,7 @@ TEXT = {
         "use_case": "उपयोग मामला", "mode": "AGENT मोड", "architecture": "आर्किटेक्चर", "tools": "ज्ञान और उपकरण", "value": "व्यावसायिक मूल्य",
         "footer": "एक प्लेटफ़ॉर्म  ·  छह AGENT पैटर्न  ·  बढ़ता हुआ मूल्य",
         "footer_copy": "ज्ञान + क्रियाएं + ऑर्केस्ट्रेशन + वर्कफ़्लो + आवाज़ स्थायी Copilot Studio नवाचार बनाते हैं।",
-        "node_user": "उपयोगकर्ता आवश्यकता", "node_agent": "Agent", "node_knowledge": "ज्ञान", "node_data": "व्यावसायिक डेटा", "node_review": "समीक्षा", "node_specialist": "विशेषज्ञ Agent", "node_workflow": "वर्कफ़्लो", "node_voice": "आवाज़",
+        "node_user": "उपयोगकर्ता आवश्यकता", "node_agent": "Agent", "node_knowledge": "ज्ञान", "node_data": "व्यावसायिक डेटा", "node_review": "बिक्री संचालन", "node_specialist": "विशेषज्ञ Agent", "node_workflow": "वर्कफ़्लो", "node_voice": "आवाज़",
     },
 }
 
@@ -422,7 +427,7 @@ def render(locale, labs):
                     cxp += tw + 9
             elif kind == "value":
                 draw.rounded_rectangle((x + 18, y + 20, x + 23, y + h - 20), 2, fill=color)
-                draw_wrapped(draw, translate(locale, spec["value"]), (x + 34, y + 22), colw - 52, f(locale, 17), c("#E2DFF1"), gap=4, max_lines=6)
+                draw_wrapped(draw, translate(locale, spec["value"]), (x + 34, y + 22), colw - 52, f(locale, 17), c("#E2DFF1"), gap=4, max_lines=7)
         y += h + row_gap
 
     # Footer outcome rail.
