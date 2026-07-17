@@ -37,7 +37,7 @@ function LocalizedField({
       </span>
       <textarea
         rows={rows}
-        value={value[locale]}
+        value={value[locale] ?? ''}
         placeholder={locale === 'en' ? '' : value.en}
         onChange={(event) => onChange({ ...value, [locale]: event.target.value })}
       />

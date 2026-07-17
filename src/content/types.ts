@@ -1,6 +1,7 @@
-export type Locale = 'en' | 'zh' | 'ja' | 'ko'
+export type Locale = 'en' | 'zh' | 'ja' | 'ko' | 'th' | 'hi'
 
-export type LocalizedText = Record<Locale, string>
+// English is required; every other locale is optional and falls back to English.
+export type LocalizedText = { en: string } & Partial<Record<Exclude<Locale, 'en'>, string>>
 
 export type LabIconName = 'sparkles' | 'database' | 'file' | 'network' | 'mail' | 'mic'
 

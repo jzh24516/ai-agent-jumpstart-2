@@ -177,18 +177,20 @@ const cover: Record<string, LocalizedText> = {
     zh: '一条动手实践的学习路径，全面探索 Microsoft Copilot Studio 中自定义 Agent 创新的方方面面。',
     ja: 'Microsoft Copilot Studio におけるカスタム Agent イノベーションの全体像を探る、ハンズオンの学習パスです。',
     ko: 'Microsoft Copilot Studio의 사용자 지정 Agent 혁신의 모든 영역을 탐구하는 실습 학습 경로입니다.',
+    th: 'เส้นทางการเรียนรู้แบบลงมือทำ ที่สำรวจนวัตกรรม custom agent ใน Microsoft Copilot Studio อย่างครบถ้วน',
+    hi: 'Microsoft Copilot Studio में कस्टम एजेंट नवाचार की पूरी व्यापकता का अन्वेषण करने वाला एक हैंड्स-ऑन लर्निंग पाथ।',
   },
-  preparedBy: { en: 'Prepared by', zh: '准备者', ja: '作成者', ko: '작성자' },
-  preparedIn: { en: 'Prepared in', zh: '编写时间', ja: '作成日', ko: '작성일' },
-  date: { en: 'July 16, 2026', zh: '2026年7月16日', ja: '2026年7月16日', ko: '2026년 7월 16일' },
-  contact: { en: 'Need help? Contact', zh: '需要帮助？请联系', ja: 'お困りですか？ お問い合わせ', ko: '도움이 필요하신가요? 문의' },
-  cta: { en: 'Enter workshop', zh: '进入研讨会', ja: 'ワークショップを開く', ko: '워크숍 시작' },
-  deck: { en: 'Explore the workshop highlights', zh: '查看研讨会亮点', ja: 'ワークショップのハイライトを見る', ko: '워크숍 하이라이트 살펴보기' },
+  preparedBy: { en: 'Prepared by', zh: '准备者', ja: '作成者', ko: '작성자', th: 'จัดทำโดย', hi: 'द्वारा तैयार' },
+  preparedIn: { en: 'Prepared in', zh: '编写时间', ja: '作成日', ko: '작성일', th: 'จัดทำเมื่อ', hi: 'तैयार किया गया' },
+  date: { en: 'July 16, 2026', zh: '2026年7月16日', ja: '2026年7月16日', ko: '2026년 7월 16일', th: '16 กรกฎาคม 2026', hi: '16 जुलाई 2026' },
+  contact: { en: 'Need help? Contact', zh: '需要帮助？请联系', ja: 'お困りですか？ お問い合わせ', ko: '도움이 필요하신가요? 문의', th: 'ต้องการความช่วยเหลือ? ติดต่อ', hi: 'मदद चाहिए? संपर्क करें' },
+  cta: { en: 'Enter workshop', zh: '进入研讨会', ja: 'ワークショップを開く', ko: '워크숍 시작', th: 'เข้าสู่เวิร์กช็อป', hi: 'वर्कशॉप में प्रवेश करें' },
+  deck: { en: 'Explore the workshop highlights', zh: '查看研讨会亮点', ja: 'ワークショップのハイライトを見る', ko: '워크숍 하이라이트 살펴보기', th: 'สำรวจไฮไลต์ของเวิร์กช็อป', hi: 'वर्कशॉप की मुख्य बातें देखें' },
 }
 const dedicatedText = (locale: Locale, name: string): string => {
   const n = name.trim()
-  if (n) return ({ en: `A dedicated JumpStart workshop for ${n}.`, zh: `专为 ${n} 定制的 JumpStart 研讨会。`, ja: `${n} 向けの専用 JumpStart ワークショップ。`, ko: `${n}를 위한 전용 JumpStart 워크숍.` } as Record<Locale, string>)[locale]
-  return ({ en: 'A dedicated JumpStart workshop.', zh: '定制的 JumpStart 研讨会。', ja: '専用の JumpStart ワークショップ。', ko: '전용 JumpStart 워크숍.' } as Record<Locale, string>)[locale]
+  if (n) return ({ en: `A dedicated JumpStart workshop for ${n}.`, zh: `专为 ${n} 定制的 JumpStart 研讨会。`, ja: `${n} 向けの専用 JumpStart ワークショップ。`, ko: `${n}를 위한 전용 JumpStart 워크숍.`, th: `เวิร์กช็อป JumpStart เฉพาะสำหรับ ${n}`, hi: `${n} के लिए एक समर्पित JumpStart वर्कशॉप।` } as Record<Locale, string>)[locale]
+  return ({ en: 'A dedicated JumpStart workshop.', zh: '定制的 JumpStart 研讨会。', ja: '専用の JumpStart ワークショップ。', ko: '전용 JumpStart 워크숍.', th: 'เวิร์กช็อป JumpStart เฉพาะทาง', hi: 'एक समर्पित JumpStart वर्कशॉप।' } as Record<Locale, string>)[locale]
 }
 
 function BrandLogo({ name, logo }: { name: string; logo: string }) {
