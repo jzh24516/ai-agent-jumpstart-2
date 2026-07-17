@@ -375,9 +375,9 @@ const html = /* html */ `<!doctype html>
   .flow{flex:1;display:flex;align-items:stretch;justify-content:center;gap:16px}
   .flow.big3 .fstep{padding:34px 26px}
   .fstep{flex:1;background:var(--card);border:1px solid var(--cardbrd);border-radius:16px;padding:28px 22px 7rem;position:relative}
-  .flow.big3 .fstep{padding-bottom:7rem}
+  .flow.big3 .fstep{padding-bottom:34px}
   .fstep .femoji{position:absolute;left:50%;top:68%;transform:translate(-50%,-50%);font-size:4.32rem;line-height:1;z-index:2;pointer-events:none}
-  .flow.big3 .fstep .femoji{font-size:3.456rem}
+  .flow.big3 .fstep .femoji{font-size:3.456rem;left:auto;right:1.4rem;top:2.6rem;transform:none}
   .fstep .femoji span{display:block;font-size:inherit;line-height:inherit}
   .fstep.hot{background:linear-gradient(160deg,rgba(167,139,250,.22),rgba(236,72,153,.16));border-color:rgba(236,72,153,.4)}
   .fstep .fnum{width:42px;height:42px;display:grid;place-items:center;border-radius:12px;font-weight:900;font-size:1.25rem;color:#fff;background:var(--grad);margin-bottom:16px}
