@@ -191,25 +191,22 @@ const slides = /* html */ `
   <p class="note" data-i18n="s7.note">No per-user setup. The published files are the single source of truth for every visitor.</p>
 </section>
 
-<!-- 9. HOW TO RUN -->
-<section class="slide" data-title="How to run">
-  <div class="s-head s9-head"><span class="kicker" data-i18n="s8.k">⚡ Fast start</span><h2 data-i18n="s8.h">JumpStart v2 is a <span class="grad">Fast Start</span></h2></div>
-  <p class="s9-lede" data-i18n="s8.lede">One link. Any language. Real agents in minutes &mdash; no install, no waiting.</p>
-  <div class="powerchips">
-    <span class="pchip"><i>⚡</i><b data-i18n="s8.c1">Super easy to Go</b></span>
-    <span class="pchip"><i>🙌</i><b data-i18n="s8.c2">Self-Serve</b></span>
-    <span class="pchip"><i>⏱️</i><b data-i18n="s8.c3">Self-Paced</b></span>
-    <span class="pchip"><i>📋</i><b data-i18n="s8.c4">Copy &amp; Build</b></span>
-    <span class="pchip"><i>🌍</i><b data-i18n="s8.c5">Multilingual Ready</b></span>
+<!-- 9. FAST START — FROM LAB TO IMPACT -->
+<section class="slide vp-slide" data-title="From Lab to Impact">
+  <div class="vp-grid">
+    <div class="vp-art"><img data-jumpstart class="vp-img" src="${IMG.jumpstart.en}" alt="JumpStart — Fast Start" /></div>
+    <div class="vp-copy">
+      <span class="kicker" data-i18n="s10.k">⚡ Fast Start</span>
+      <h2 data-i18n="s10.h">From <span class="grad">Lab to Impact</span></h2>
+      <div class="vflow">
+        <div class="vstep"><span class="vi">⚡</span><div class="vt"><b data-i18n="s10.t1">Fast Start</b><span data-i18n="s10.d1">Open one link and go &mdash; zero install, zero setup.</span></div></div>
+        <div class="vstep"><span class="vi">🙌</span><div class="vt"><b data-i18n="s10.t2">Self-Serve &amp; Self-Paced</b><span data-i18n="s10.d2">Attendees drive their own journey while you facilitate.</span></div></div>
+        <div class="vstep"><span class="vi">📋</span><div class="vt"><b data-i18n="s10.t3">Copy &amp; Build</b><span data-i18n="s10.d3">Copy-ready prompts turn each step into a real, working agent.</span></div></div>
+        <div class="vstep"><span class="vi">🌍</span><div class="vt"><b data-i18n="s10.t4">Multilingual Ready</b><span data-i18n="s10.d4">Six languages, one shareable link.</span></div></div>
+        <div class="vstep hot"><span class="vi">🚀</span><div class="vt"><b data-i18n="s10.t5">From Lab to Impact</b><span data-i18n="s10.d5">Ship agents that deliver real business value &mdash; fast.</span></div></div>
+      </div>
+    </div>
   </div>
-  <div class="flow big3">
-    <div class="fstep"><div class="femoji" style="animation-delay:0s"><span>🔗</span></div><div class="fnum">1</div><b data-i18n="s8.b1">Open the link</b><span data-i18n="s8.s1">One URL, any modern browser. No install, no sign-in to start.</span></div>
-    <div class="farrow">&rarr;</div>
-    <div class="fstep"><div class="femoji" style="animation-delay:.5s"><span>🌍</span></div><div class="fnum">2</div><b data-i18n="s8.b2">Pick a language</b><span data-i18n="s8.s2">Switch to EN / 中文 / 日本語 / 한국어 / ไทย / हिन्दी on the cover.</span></div>
-    <div class="farrow">&rarr;</div>
-    <div class="fstep"><div class="femoji" style="animation-delay:1s"><span>🏗️</span></div><div class="fnum">3</div><b data-i18n="s8.b3">Enter &amp; build</b><span data-i18n="s8.s3">Work lab by lab, copy prompts, track progress, celebrate.</span></div>
-  </div>
-  <div class="urlbar"><span class="urllbl" data-i18n="s8.url">Live workshop</span><code>https://jzh24516.github.io/ai-agent-jumpstart-2/</code></div>
 </section>
 
 <!-- 10. CLOSING -->
@@ -229,24 +226,6 @@ const slides = /* html */ `
       <img src="${IMG.avatar}" alt="Michael Jiang" />
       <b>Michael Jiang</b>
       <span>Microsoft MCAPS Core &mdash; Agent Asia Team</span>
-    </div>
-  </div>
-</section>
-
-<!-- 11. FAST START — FROM LAB TO IMPACT -->
-<section class="slide vp-slide" data-title="From Lab to Impact">
-  <div class="vp-grid">
-    <div class="vp-art"><img data-jumpstart class="vp-img" src="${IMG.jumpstart.en}" alt="JumpStart — Fast Start" /></div>
-    <div class="vp-copy">
-      <span class="kicker" data-i18n="s10.k">⚡ Fast Start</span>
-      <h2 data-i18n="s10.h">From <span class="grad">Lab to Impact</span></h2>
-      <div class="vflow">
-        <div class="vstep"><span class="vi">⚡</span><div class="vt"><b data-i18n="s10.t1">Fast Start</b><span data-i18n="s10.d1">Open one link and go &mdash; zero install, zero setup.</span></div></div>
-        <div class="vstep"><span class="vi">🙌</span><div class="vt"><b data-i18n="s10.t2">Self-Serve &amp; Self-Paced</b><span data-i18n="s10.d2">Attendees drive their own journey while you facilitate.</span></div></div>
-        <div class="vstep"><span class="vi">📋</span><div class="vt"><b data-i18n="s10.t3">Copy &amp; Build</b><span data-i18n="s10.d3">Copy-ready prompts turn each step into a real, working agent.</span></div></div>
-        <div class="vstep"><span class="vi">🌍</span><div class="vt"><b data-i18n="s10.t4">Multilingual Ready</b><span data-i18n="s10.d4">Six languages, one shareable link.</span></div></div>
-        <div class="vstep hot"><span class="vi">🚀</span><div class="vt"><b data-i18n="s10.t5">From Lab to Impact</b><span data-i18n="s10.d5">Ship agents that deliver real business value &mdash; fast.</span></div></div>
-      </div>
     </div>
   </div>
 </section>
