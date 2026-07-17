@@ -3,20 +3,29 @@ const fs = require('fs')
 const path = require('path')
 
 const imgDir = path.join(__dirname, 'img')
+const MIME = { '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.avif': 'image/avif', '.gif': 'image/gif' }
 const b64 = (name) => {
   const p = path.join(imgDir, name)
   if (!fs.existsSync(p)) return ''
-  return 'data:image/png;base64,' + fs.readFileSync(p).toString('base64')
+  const ext = path.extname(name).toLowerCase()
+  return `data:${MIME[ext] || 'image/png'};base64,` + fs.readFileSync(p).toString('base64')
+}
+// Returns the first candidate that exists (as a data URL), else ''. Lets a real
+// photo (michael-photo.*) override the generated monogram avatar when present.
+const firstImg = (names) => {
+  for (const n of names) { if (fs.existsSync(path.join(imgDir, n))) return b64(n) }
+  return ''
 }
 const IMG = {
   cover: b64('cover-en.png'),
   coverJa: b64('cover-ja.png'),
   lab: b64('lab-overview.png'),
+  labFireworks: b64('lab-fireworks.png'),
   labEn: b64('lab-en.png'),
   labZh: b64('lab-zh.png'),
   coverLenovo: b64('cover-lenovo.png'),
   branding: b64('branding.png'),
-  avatar: b64('michael.png'),
+  avatar: firstImg(['michael-photo.png', 'michael-photo.jpg', 'michael-photo.jpeg', 'michael-photo.webp', 'michael.png']),
 }
 
 const slides = /* html */ `
@@ -110,7 +119,7 @@ const slides = /* html */ `
       <div class="frow"><div class="fi">✺</div><div><b data-i18n="s5.b4">Fireworks on completion</b><span data-i18n="s5.s4">A celebratory burst rewards every finished step.</span></div></div>
       <div class="frow"><div class="fi">◐</div><div><b data-i18n="s5.b5">Glass UI, light &amp; dark</b><span data-i18n="s5.s5">Modern frosted-glass design, theme-aware everywhere.</span></div></div>
     </div>
-    <div class="col"><img class="framed" src="${IMG.lab}" alt="Lab overview" /></div>
+    <div class="col"><img class="framed shot-solo" src="${IMG.labFireworks}" alt="Fireworks celebrate each completed step" /></div>
   </div>
 </section>
 
@@ -276,6 +285,8 @@ const html = /* html */ `<!doctype html>
 
   /* images */
   .framed{width:100%;border-radius:14px;border:1px solid var(--cardbrd);box-shadow:var(--glow)}
+  .shot-solo{transition:transform .45s cubic-bezier(.2,.7,.2,1),box-shadow .45s ease;will-change:transform}
+  .shot-solo:hover{transform:perspective(1200px) rotateX(2deg) rotateY(-5deg) translateY(-12px) scale(1.03);box-shadow:0 44px 100px rgba(124,58,237,.55)}
   .shotwrap{position:relative;width:100%;aspect-ratio:4/3}
   .shotwrap .shot-blob{position:absolute;inset:6%;background:var(--grad);filter:blur(52px);opacity:.38;border-radius:46% 54% 58% 42%;z-index:0;animation:blob 9s ease-in-out infinite}
   .shotwrap img{position:absolute;width:76%;border-radius:16px;border:1px solid rgba(255,255,255,.18);
