@@ -348,15 +348,15 @@ const html = /* html */ `<!doctype html>
   /* images */
   .framed{width:100%;border-radius:14px;border:1px solid var(--cardbrd);box-shadow:var(--glow)}
   .shot-solo{transition:transform .45s cubic-bezier(.2,.7,.2,1),box-shadow .45s ease;will-change:transform}
-  .shot-solo:hover{transform:perspective(1200px) rotateX(2deg) rotateY(-5deg) translateY(-12px) scale(1.03);box-shadow:0 44px 100px rgba(124,58,237,.55)}
+  .shot-solo:hover,.shot-solo.hovering{transform:perspective(1200px) rotateX(2deg) rotateY(-5deg) translateY(-12px) scale(1.03);box-shadow:0 44px 100px rgba(124,58,237,.55)}
   .shotwrap{position:relative;width:100%;aspect-ratio:4/3}
   .shotwrap .shot-blob{position:absolute;inset:6%;background:var(--grad);filter:blur(52px);opacity:.38;border-radius:46% 54% 58% 42%;z-index:0;animation:blob 9s ease-in-out infinite}
   .shotwrap img{position:absolute;width:76%;border-radius:16px;border:1px solid rgba(255,255,255,.18);
     box-shadow:0 30px 70px rgba(0,0,0,.55);transition:transform .4s cubic-bezier(.2,.7,.2,1)}
   .shotwrap .s1{top:0;left:0;transform:rotate(-5deg);z-index:1}
   .shotwrap .s2{bottom:0;right:0;transform:rotate(5deg);z-index:2}
-  .shotwrap:hover .s1{transform:rotate(-8deg) translateY(-10px)}
-  .shotwrap:hover .s2{transform:rotate(8deg) translateY(10px)}
+  .shotwrap:hover .s1,.shotwrap.hovering .s1{transform:rotate(-8deg) translateY(-10px)}
+  .shotwrap:hover .s2,.shotwrap.hovering .s2{transform:rotate(8deg) translateY(10px)}
   .shotwrap .btag{position:absolute;z-index:3;font-weight:800;font-size:.95rem;color:#fff;background:var(--grad);
     padding:8px 15px;border-radius:999px;box-shadow:0 12px 26px rgba(124,58,237,.55)}
   .shotwrap .btag.b1{top:-3%;left:5%}
@@ -459,6 +459,20 @@ const html = /* html */ `<!doctype html>
     count.textContent=(i+1)+' / '+slides.length;
     pbar.style.width=((i+1)/slides.length*100)+'%';
     const nu=new URL(location.href);nu.hash='#'+(i+1);history.replaceState(null,'',nu);
+    autoHover();
+  }
+  let hoverTimer=null;
+  function autoHover(){
+    clearTimeout(hoverTimer);
+    document.querySelectorAll('.shot-solo.hovering,.shotwrap.hovering').forEach(el=>el.classList.remove('hovering'));
+    const targets=[...slides[i].querySelectorAll('.shot-solo,.shotwrap')];
+    if(!targets.length)return;
+    let on=false;
+    (function loop(){
+      on=!on;
+      targets.forEach(el=>el.classList.toggle('hovering',on));
+      hoverTimer=setTimeout(loop,2000);
+    })();
   }
   document.getElementById('next').onclick=()=>go(i+1);
   document.getElementById('prev').onclick=()=>go(i-1);
