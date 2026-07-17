@@ -515,7 +515,7 @@ const html = /* html */ `<!doctype html>
   slides.forEach((s,n)=>{const d=document.createElement('i');d.onclick=()=>go(n);dots.appendChild(d);});
   const dotEls=[...dots.children];
   function go(n){
-    i=Math.max(0,Math.min(slides.length-1,n));
+    i=((n%slides.length)+slides.length)%slides.length;
     slides.forEach((s,k)=>s.classList.toggle('active',k===i));
     dotEls.forEach((d,k)=>d.classList.toggle('on',k===i));
     count.textContent=(i+1)+' / '+slides.length;
