@@ -41,6 +41,12 @@ def c(value: str, alpha: int = 255) -> tuple[int, int, int, int]:
     return tuple(int(value[index:index + 2], 16) for index in (0, 2, 4)) + (alpha,)
 
 
+def blend(hex_fg: str, hex_bg: str, t: float) -> tuple[int, int, int, int]:
+    fg = c(hex_fg)
+    bg = c(hex_bg)
+    return tuple(int(bg[i] + (fg[i] - bg[i]) * t) for i in range(3)) + (255,)
+
+
 def translate(locale: str, values: dict[str, str]) -> str:
     return values.get(locale) or values["en"]
 
@@ -296,9 +302,9 @@ def draw_center(draw, text, cx, cy, width, font, fill, gap=2, max_lines=2):
 
 def node_box(draw, box, label, color, locale):
     x1, y1, x2, y2 = box
-    round_rect(draw, box, 12, c("#231D40"), color, 2)
-    draw.ellipse((x1 + 12, (y1 + y2) / 2 - 5, x1 + 22, (y1 + y2) / 2 + 5), fill=color)
-    draw_center(draw, label, (x1 + 28 + x2) / 2, (y1 + y2) / 2, x2 - x1 - 44, f(locale, 15, True), c("#EAE8F6"), gap=1, max_lines=2)
+    round_rect(draw, box, 11, c("#1B1834"), c("#39335A"), 1)
+    draw.rounded_rectangle((x1, y1, x1 + 5, y2), 2, fill=color)
+    draw_center(draw, label, (x1 + 20 + x2) / 2, (y1 + y2) / 2, x2 - x1 - 40, f(locale, 18, True), c("#EDEBF8"), gap=1, max_lines=2)
 
 
 def vchevron(draw, cx, cy, color):
@@ -311,75 +317,66 @@ ROW_COLORS = ["#A78BFA", "#F472B6", "#22D3EE", "#34D399", "#FBBF24"]
 
 
 def render(locale, labs):
-    image = Image.new("RGBA", (W, H), c("#0F0D1A"))
+    image = Image.new("RGBA", (W, H), c("#100E1B"))
     draw = ImageDraw.Draw(image)
 
-    # Deep vertical wash to echo the deck's dark stage.
+    # Restrained vertical wash — calm, editorial dark stage (no busy grid).
     for gy in range(H):
         t = gy / H
-        r = int(0x17 + (0x0F - 0x17) * t)
-        g = int(0x14 + (0x0D - 0x14) * t)
-        b = int(0x30 + (0x1A - 0x30) * t)
+        r = int(0x14 + (0x0E - 0x14) * t)
+        g = int(0x12 + (0x0C - 0x12) * t)
+        b = int(0x24 + (0x18 - 0x24) * t)
         draw.line((0, gy, W, gy), fill=(r, g, b, 255))
 
-    # Faint blueprint grid.
-    for gx in range(0, W, 80):
-        draw.line((gx, 0, gx, H), fill=c("#FFFFFF", 9), width=1)
-    for gy in range(0, H, 80):
-        draw.line((0, gy, W, gy), fill=c("#FFFFFF", 9), width=1)
-
-    # Signature purple / pink / cyan glow orbs.
+    # A single soft brand glow, low intensity, for depth only.
     glow = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     gd = ImageDraw.Draw(glow)
-    gd.ellipse((-260, -220, 640, 680), fill=c("#7C3AED", 70))
-    gd.ellipse((1860, 900, 2680, 1720), fill=c("#EC4899", 60))
-    gd.ellipse((900, 980, 1720, 1600), fill=c("#06B6D4", 44))
-    glow = glow.filter(ImageFilter.GaussianBlur(95))
+    gd.ellipse((300, -520, 2100, 420), fill=c("#6D5AE0", 34))
+    glow = glow.filter(ImageFilter.GaussianBlur(120))
     image.alpha_composite(glow)
     draw = ImageDraw.Draw(image)
 
-    MX = 56
+    MX = 60
     # Header.
-    round_rect(draw, (MX, 40, W - MX, 190), 26, c("#141026", 235), c("#3A3168"), 2)
-    round_rect(draw, (MX + 26, 66, MX + 122, 162), 20, c("#7C3AED"))
-    draw.polygon([(MX + 74, 84), (MX + 100, 96), (MX + 94, 134), (MX + 74, 150), (MX + 54, 134), (MX + 48, 96)], outline=c("#FFFFFF"), width=5)
-    draw.line((MX + 62, 114, MX + 71, 124, MX + 89, 102), fill=c("#FFFFFF"), width=5)
-    draw.text((MX + 150, 70), TEXT[locale]["eyebrow"], font=f(locale, 18, True), fill=c("#67E8F9"))
-    draw.text((MX + 150, 102), TEXT[locale]["heading"], font=f(locale, 42, True), fill=c("#FFFFFF"))
-    draw_wrapped(draw, TEXT[locale]["subheading"], (MX + 150, 155), 1520, f(locale, 17), c("#C9C6DE"), gap=1, max_lines=1)
-    round_rect(draw, (W - MX - 372, 78, W - MX - 26, 152), 34, c("#1B1636"), c("#4FD3F0"), 1)
-    draw.text((W - MX - 199, 115), "6 LABS  ·  6 PATTERNS", font=f(locale, 15, True), fill=c("#ACF4FF"), anchor="mm")
+    round_rect(draw, (MX, 42, W - MX, 196), 22, c("#171430", 235), c("#2C2748"), 1)
+    round_rect(draw, (MX + 28, 70, MX + 122, 164), 18, c("#7C5CFF"))
+    draw.polygon([(MX + 75, 88), (MX + 100, 100), (MX + 94, 136), (MX + 75, 150), (MX + 56, 136), (MX + 50, 100)], outline=c("#FFFFFF"), width=4)
+    draw.line((MX + 64, 116, MX + 72, 126, MX + 89, 105), fill=c("#FFFFFF"), width=4)
+    draw.text((MX + 150, 68), TEXT[locale]["eyebrow"], font=f(locale, 19, True), fill=c("#7FD8F0"))
+    draw.text((MX + 150, 98), TEXT[locale]["heading"], font=f(locale, 47, True), fill=c("#FFFFFF"))
+    draw_wrapped(draw, TEXT[locale]["subheading"], (MX + 150, 156), 1560, f(locale, 18), c("#B7B3CE"), gap=1, max_lines=1)
+    round_rect(draw, (W - MX - 356, 84, W - MX - 28, 154), 34, c("#1C1838"), c("#3E5B86"), 1)
+    draw.text((W - MX - 192, 119), "6 LABS  ·  6 PATTERNS", font=f(locale, 16, True), fill=c("#9FD3EA"), anchor="mm")
 
     # Matrix geometry: left label rail + six lab columns.
-    rail_w = 190
-    gx0 = MX + rail_w + 14
+    rail_w = 196
+    gx0 = MX + rail_w + 16
     gx1 = W - MX
     n = 6
-    col_gap = 16
+    col_gap = 18
     colw = (gx1 - gx0 - (n - 1) * col_gap) / n
     col_x = [gx0 + i * (colw + col_gap) for i in range(n)]
 
-    head_y0, head_y1 = 206, 300
-    row_defs = [("style", 104), ("type", 96), ("arch", 232), ("tools", 176), ("value", 214)]
-    row_gap = 14
-    rows_y0 = 314
+    head_y0, head_y1 = 210, 316
+    row_defs = [("style", 108), ("type", 96), ("arch", 236), ("tools", 176), ("value", 208)]
+    row_gap = 16
+    rows_y0 = 332
     band_bottom = rows_y0 + sum(h for _, h in row_defs) + (len(row_defs) - 1) * row_gap
 
-    # Vertical column bands so every layer maps to its lab column.
+    # Soft column tint groups every layer under its lab — pre-blended, no hard borders.
     for spec, x in zip(SPECS, col_x):
-        color = c(LAB_COLORS[spec["lab"]])
-        round_rect(draw, (x - 7, head_y0 - 8, x + colw + 7, band_bottom + 8), 20, c(LAB_COLORS[spec["lab"]], 20), c(LAB_COLORS[spec["lab"]], 90), 1)
+        round_rect(draw, (x - 9, head_y0 - 10, x + colw + 9, band_bottom + 10), 20, blend(LAB_COLORS[spec["lab"]], "#100E1B", 0.12), None)
 
-    # Column headers.
+    # Column headers (the strong colour lives here).
     for spec, x in zip(SPECS, col_x):
         color = c(LAB_COLORS[spec["lab"]])
-        round_rect(draw, (x, head_y0, x + colw, head_y1), 16, c("#191534"), c("#3A3160"), 1)
-        round_rect(draw, (x, head_y0, x + colw, head_y0 + 7), 16, color)
-        draw.rectangle((x, head_y0 + 4, x + colw, head_y0 + 7), fill=color)
-        round_rect(draw, (x + 14, head_y0 + 22, x + 62, head_y0 + 66), 12, color)
-        draw.text((x + 38, head_y0 + 44), spec["number"], font=f(locale, 20, True), fill=c("#0F0D1A"), anchor="mm")
+        round_rect(draw, (x, head_y0, x + colw, head_y1), 15, c("#1A1636"), c("#332C54"), 1)
+        round_rect(draw, (x, head_y0, x + colw, head_y0 + 8), 15, color)
+        draw.rectangle((x, head_y0 + 4, x + colw, head_y0 + 8), fill=color)
+        round_rect(draw, (x + 16, head_y0 + 26, x + 66, head_y0 + 76), 12, color)
+        draw.text((x + 41, head_y0 + 51), spec["number"], font=f(locale, 22, True), fill=c("#100E1B"), anchor="mm")
         title = labs[spec["lab"] - 1]["title"].get(locale) or labs[spec["lab"] - 1]["title"]["en"]
-        draw_center(draw, title, (x + 72 + x + colw - 16) / 2, head_y0 + 44, colw - 92, f(locale, 18, True), c("#F2F0FB"), gap=1, max_lines=2)
+        draw_center(draw, title, (x + 78 + x + colw - 16) / 2, head_y0 + 53, colw - 98, f(locale, 21, True), c("#F4F2FC"), gap=2, max_lines=2)
 
     # Row bands.
     row_labels = ROW_LABELS[locale]
@@ -387,64 +384,63 @@ def render(locale, labs):
     for r_idx, (kind, h) in enumerate(row_defs):
         rc = c(ROW_COLORS[r_idx])
         # Rail label.
-        draw.rounded_rectangle((MX, y + 16, MX + 6, y + h - 16), 3, fill=rc)
-        draw_wrapped(draw, row_labels[r_idx], (MX + 20, y + h / 2 - 20), rail_w - 34, f(locale, 18, True), c("#EDEBF8"), gap=2, max_lines=3)
+        draw.rounded_rectangle((MX, y + 18, MX + 5, y + h - 18), 2, fill=rc)
+        draw_wrapped(draw, row_labels[r_idx], (MX + 22, y + h / 2 - 22), rail_w - 36, f(locale, 20, True), c("#E7E5F4"), gap=3, max_lines=3)
 
         for spec, x in zip(SPECS, col_x):
             color = c(LAB_COLORS[spec["lab"]])
-            round_rect(draw, (x, y, x + colw, y + h), 14, c("#15122B", 236), c(LAB_COLORS[spec["lab"]], 60), 1)
+            round_rect(draw, (x, y, x + colw, y + h), 14, c("#16132B", 240), c("#2C2747"), 1)
             cx = x + colw / 2
             cy = y + h / 2
 
             if kind == "style":
-                icon(draw, spec["icon"], int(x + 48), int(cy), color)
-                draw_center(draw, translate(locale, STYLES[spec["lab"]]), (x + 94 + x + colw - 16) / 2, cy, colw - 110, f(locale, 21, True), color, gap=2, max_lines=2)
+                icon(draw, spec["icon"], int(x + 52), int(cy), color)
+                draw_center(draw, translate(locale, STYLES[spec["lab"]]), (x + 100 + x + colw - 16) / 2, cy, colw - 116, f(locale, 24, True), color, gap=2, max_lines=2)
             elif kind == "type":
-                round_rect(draw, (x + 16, cy - 24, x + colw - 16, cy + 24), 16, c("#221B3C"), c(LAB_COLORS[spec["lab"]], 120), 1)
-                draw_center(draw, translate(locale, CHANNELS[spec["lab"]]), cx, cy, colw - 44, f(locale, 17, True), c("#DCD9EE"), gap=1, max_lines=2)
+                round_rect(draw, (x + 18, cy - 26, x + colw - 18, cy + 26), 15, c("#201B3C"), c("#3A3358"), 1)
+                draw_center(draw, translate(locale, CHANNELS[spec["lab"]]), cx, cy, colw - 46, f(locale, 19, True), c("#DFDCEF"), gap=1, max_lines=2)
             elif kind == "arch":
                 keys = spec["nodes"]
-                node_h = 46
-                gap_a = 22
+                node_h = 50
+                gap_a = 20
                 total = len(keys) * node_h + (len(keys) - 1) * gap_a
                 ny = y + (h - total) / 2
                 for i, key in enumerate(keys):
-                    node_box(draw, (x + 16, ny, x + colw - 16, ny + node_h), TEXT[locale][key], color, locale)
+                    node_box(draw, (x + 18, ny, x + colw - 18, ny + node_h), TEXT[locale][key], color, locale)
                     if i < len(keys) - 1:
                         vchevron(draw, cx, ny + node_h + gap_a / 2, color)
                     ny += node_h + gap_a
             elif kind == "tools":
-                cxp, cyp = x + 16, y + 18
-                line_font = f(locale, 14, True)
+                cxp, cyp = x + 18, y + 22
+                line_font = f(locale, 16, True)
                 for tool in spec["tools"]:
-                    tw = draw.textbbox((0, 0), tool, font=line_font)[2] + 24
-                    if cxp + tw > x + colw - 16:
-                        cxp, cyp = x + 16, cyp + 40
-                    round_rect(draw, (cxp, cyp, cxp + tw, cyp + 30), 15, c("#1E1A36"), color, 1)
-                    draw.text((cxp + tw / 2, cyp + 15), tool, font=line_font, fill=color, anchor="mm")
-                    cxp += tw + 8
+                    tw = draw.textbbox((0, 0), tool, font=line_font)[2] + 26
+                    if cxp + tw > x + colw - 18:
+                        cxp, cyp = x + 18, cyp + 44
+                    round_rect(draw, (cxp, cyp, cxp + tw, cyp + 34), 16, c("#1E1A38"), color, 1)
+                    draw.text((cxp + tw / 2, cyp + 17), tool, font=line_font, fill=color, anchor="mm")
+                    cxp += tw + 9
             elif kind == "value":
-                draw.rounded_rectangle((x + 16, y + 16, x + 20, y + h - 16), 2, fill=color)
-                draw_wrapped(draw, translate(locale, spec["value"]), (x + 30, y + 18), colw - 46, f(locale, 15), c("#E4E1F2"), gap=3, max_lines=6)
+                draw.rounded_rectangle((x + 18, y + 20, x + 23, y + h - 20), 2, fill=color)
+                draw_wrapped(draw, translate(locale, spec["value"]), (x + 34, y + 22), colw - 52, f(locale, 17), c("#E2DFF1"), gap=4, max_lines=6)
         y += h + row_gap
 
     # Footer outcome rail.
-    fy0 = band_bottom + 14
-    round_rect(draw, (MX, fy0, W - MX, H - 30), 22, c("#141026", 240), c("#4338A0"), 2)
-    fmid = (fy0 + H - 30) / 2
-    draw.text((MX + 34, fy0 + 22), TEXT[locale]["footer"], font=f(locale, 19, True), fill=c("#67E8F9"))
-    draw_wrapped(draw, TEXT[locale]["footer_copy"], (MX + 34, fy0 + 54), 1360, f(locale, 18, True), c("#F1EFFB"), gap=1, max_lines=2)
+    fy0 = band_bottom + 16
+    round_rect(draw, (MX, fy0, W - MX, H - 34), 20, c("#171430", 240), c("#332C58"), 1)
+    draw.text((MX + 36, fy0 + 24), TEXT[locale]["footer"], font=f(locale, 20, True), fill=c("#7FD8F0"))
+    draw_wrapped(draw, TEXT[locale]["footer_copy"], (MX + 36, fy0 + 58), 1380, f(locale, 19, True), c("#EFEDFB"), gap=1, max_lines=2)
     outcome_chips = [("KNOWLEDGE", "#38BDF8"), ("ACTIONS", "#34D399"), ("ORCHESTRATION", "#A78BFA"), ("WORKFLOWS", "#F472B6"), ("VOICE", "#22D3EE")]
-    chip_x = W - MX - 748
+    chip_x = W - MX - 792
     for label, color in outcome_chips:
-        label_font = f("en", 13, True)
-        width = draw.textbbox((0, 0), label, font=label_font)[2] + 28
-        round_rect(draw, (chip_x, fy0 + 22, chip_x + width, fy0 + 58), 18, c("#1B1636"), c(color), 1)
-        draw.text((chip_x + width / 2, fy0 + 40), label, font=label_font, fill=c(color), anchor="mm")
-        chip_x += width + 10
+        label_font = f("en", 14, True)
+        width = draw.textbbox((0, 0), label, font=label_font)[2] + 30
+        round_rect(draw, (chip_x, fy0 + 26, chip_x + width, fy0 + 62), 18, c("#1C1838"), c(color), 1)
+        draw.text((chip_x + width / 2, fy0 + 44), label, font=label_font, fill=c(color), anchor="mm")
+        chip_x += width + 11
 
-    # Outer border.
-    draw.rounded_rectangle((14, 14, W - 14, H - 14), radius=32, outline=c("#3A3168"), width=2)
+    # Hairline outer frame.
+    draw.rounded_rectangle((16, 16, W - 16, H - 16), radius=30, outline=c("#2A2546"), width=1)
     return image.convert("RGB")
 
 
