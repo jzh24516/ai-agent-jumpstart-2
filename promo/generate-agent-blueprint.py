@@ -457,11 +457,10 @@ def main():
         out = OUT_DIR / f"agent-platform-blueprint-{locale}.webp"
         image.save(out, "WEBP", quality=92, method=6)
         print(f"Wrote {out.name}")
-        # English PNG for the PowerPoint deck (PPTX/PowerPoint don't embed WebP reliably).
-        if locale == "en":
-            png = OUT_DIR / "agent-platform-blueprint-en.png"
-            image.save(png, "PNG")
-            print(f"Wrote {png.name}")
+        # PNG per locale for the PowerPoint decks (PPTX/PowerPoint don't embed WebP reliably).
+        png = OUT_DIR / f"agent-platform-blueprint-{locale}.png"
+        image.save(png, "PNG")
+        print(f"Wrote {png.name}")
 
 
 if __name__ == "__main__":
