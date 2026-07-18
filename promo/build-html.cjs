@@ -222,8 +222,8 @@ const slides = /* html */ `
       </div>
       <div class="madeby">Microsoft MCAPS Core &mdash; Agent Asia Team</div>
       <div class="thanks">
-        <span class="thanks-label" data-i18n="s9.thanks">With thanks to the JumpStart v-Team</span>
-        <div class="thanks-names"><span>Nalin Shukla</span><span>Scott Berry</span><span>Steve Ng</span><span>Jalilah Halim</span></div>
+        <span class="thanks-label" data-i18n="s9.thanks">With thanks to the contribution of JumpStart v-Team</span>
+        <div class="thanks-names"><span>Nalin Shukla</span><span>Scott Berry</span><span>Steve Ng</span><span>Jalilah Halim</span><span>Anand Ponnusamy</span></div>
       </div>
     </div>
     <div class="close-avatar">
