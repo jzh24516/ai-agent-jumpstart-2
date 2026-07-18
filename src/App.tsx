@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -277,14 +277,28 @@ function CoverPage({ onEnter, dark, onToggleTheme, locale, onLocaleChange, brand
 }) {
   const hasCustomer = !!(branding.customerName.trim() || branding.customerLogo.trim())
   const [languageOpen, setLanguageOpen] = useState(false)
+  const languageRef = useRef<HTMLDivElement>(null)
   const selectLocale = (nextLocale: Locale) => {
     onLocaleChange(nextLocale)
     setLanguageOpen(false)
   }
+  useEffect(() => {
+    if (!languageOpen) return
+    const onPointerDown = (event: PointerEvent) => {
+      if (languageRef.current && !languageRef.current.contains(event.target as Node)) setLanguageOpen(false)
+    }
+    const onKeyDown = (event: KeyboardEvent) => { if (event.key === 'Escape') setLanguageOpen(false) }
+    document.addEventListener('pointerdown', onPointerDown)
+    document.addEventListener('keydown', onKeyDown)
+    return () => {
+      document.removeEventListener('pointerdown', onPointerDown)
+      document.removeEventListener('keydown', onKeyDown)
+    }
+  }, [languageOpen])
   return (
     <div className="cover-hero">
       <div className="cover-controls">
-        <div className={languageOpen ? 'cover-language open' : 'cover-language'}>
+        <div className={languageOpen ? 'cover-language open' : 'cover-language'} ref={languageRef}>
           <button className="cover-lang-toggle" type="button" aria-expanded={languageOpen} aria-controls="cover-language-options" onClick={() => setLanguageOpen((open) => !open)}>
             <Languages size={17} /><span>{localeNames[locale]}</span><ChevronDown size={15} />
           </button>
