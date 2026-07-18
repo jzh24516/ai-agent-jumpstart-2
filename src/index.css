@@ -426,16 +426,26 @@ h1 { max-width: 850px; margin: 22px 0 20px; color: var(--cp-text); font-size: cl
 .cover-theme { position: absolute; top: 20px; right: 20px; z-index: 3; }
 .cover-controls { position: absolute; top: 20px; right: 20px; z-index: 3; display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 8px; max-width: calc(100vw - 40px); }
 .cover-lang { height: 38px; }
+.cover-language { position: relative; }
+.cover-lang-toggle { display: none; height: 38px; align-items: center; gap: 8px; padding: 0 12px; color: var(--cp-text); background: var(--glass); border: 1px solid var(--glass-border); border-radius: 999px; box-shadow: var(--glass-shadow); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur); cursor: pointer; font: inherit; font-size: 12px; font-weight: 700; }
+.cover-lang-toggle svg:last-child { transition: transform .2s ease; }
 .cover-langbar { display: flex; align-items: center; gap: 3px; padding: 4px; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 999px; backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur); box-shadow: var(--glass-shadow); }
 .cover-langbar button { border: 0; background: transparent; color: var(--cp-text-muted); font-size: 12px; font-weight: 700; padding: 6px 11px; border-radius: 999px; cursor: pointer; font-family: inherit; line-height: 1; transition: color .15s ease, background .15s ease; }
 .cover-langbar button.on { background: var(--grad-btn); color: #fff; }
 .cover-langbar button:not(.on):hover { color: var(--cp-text); }
+@media (max-width: 1050px), (hover: none) and (pointer: coarse) {
+  .cover-lang-toggle { display: inline-flex; }
+  .cover-language.open .cover-lang-toggle svg:last-child { transform: rotate(180deg); }
+  .cover-langbar { display: none; position: absolute; top: calc(100% + 8px); right: 0; min-width: 150px; padding: 6px; flex-direction: column; align-items: stretch; border-radius: 14px; }
+  .cover-language.open .cover-langbar { display: flex; }
+  .cover-langbar button { width: 100%; padding: 10px 14px; text-align: left; border-radius: 9px; }
+}
 .cover-cobrand { display: inline-flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 18px; margin-bottom: 22px; }
 .cover-brand-logo { height: 46px; max-width: 220px; object-fit: contain; }
 .cover-brand-name { font-size: 22px; font-weight: 700; color: var(--cp-text); }
 .cover-cobrand-x { color: var(--cp-text-muted); font-size: 22px; font-weight: 300; }
 .cover-dedicated { margin: -16px auto 28px; color: var(--cp-accent); font-size: 15px; font-weight: 650; }
-.cover-orb { position: absolute; z-index: 0; border-radius: 50%; filter: blur(64px); opacity: .5; animation: coverFloat 16s ease-in-out infinite; }
+.cover-orb { position: absolute; z-index: 0; border-radius: 50%; filter: blur(64px); opacity: .5; pointer-events: none; animation: coverFloat 16s ease-in-out infinite; }
 .cover-orb.one { width: 42vmax; height: 42vmax; top: -12vmax; left: -8vmax; background: #7c3aed; }
 .cover-orb.two { width: 36vmax; height: 36vmax; right: -8vmax; bottom: -14vmax; background: #ec4899; animation-duration: 20s; }
 .cover-orb.three { width: 28vmax; height: 28vmax; left: 22vmax; bottom: 8vmax; background: #06b6d4; opacity: .34; animation-duration: 24s; }

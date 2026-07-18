@@ -276,13 +276,23 @@ function CoverPage({ onEnter, dark, onToggleTheme, locale, onLocaleChange, brand
   locale: Locale; onLocaleChange: (l: Locale) => void; branding: Branding; canConfigure: boolean; onOpenSettings: () => void;
 }) {
   const hasCustomer = !!(branding.customerName.trim() || branding.customerLogo.trim())
+  const [languageOpen, setLanguageOpen] = useState(false)
+  const selectLocale = (nextLocale: Locale) => {
+    onLocaleChange(nextLocale)
+    setLanguageOpen(false)
+  }
   return (
     <div className="cover-hero">
       <div className="cover-controls">
-        <div className="cover-langbar" role="group" aria-label={text(ui.language, locale)}>
-          {locales.map((item) => (
-            <button key={item} type="button" className={item === locale ? 'on' : ''} aria-pressed={item === locale} onClick={() => onLocaleChange(item)}>{item === 'en' ? 'EN' : localeNames[item]}</button>
-          ))}
+        <div className={languageOpen ? 'cover-language open' : 'cover-language'}>
+          <button className="cover-lang-toggle" type="button" aria-expanded={languageOpen} aria-controls="cover-language-options" onClick={() => setLanguageOpen((open) => !open)}>
+            <Languages size={17} /><span>{localeNames[locale]}</span><ChevronDown size={15} />
+          </button>
+          <div className="cover-langbar" id="cover-language-options" role="group" aria-label={text(ui.language, locale)}>
+            {locales.map((item) => (
+              <button key={item} type="button" className={item === locale ? 'on' : ''} aria-pressed={item === locale} onClick={() => selectLocale(item)}>{item === 'en' ? 'EN' : localeNames[item]}</button>
+            ))}
+          </div>
         </div>
         {canConfigure && <button className="icon-button" type="button" onClick={onOpenSettings} title={text(ui.workshopBranding, locale)} aria-label={text(ui.workshopBranding, locale)}><Settings size={18} /></button>}
         <button className="icon-button" type="button" onClick={onToggleTheme} title={text(ui.theme, locale)} aria-label={text(ui.theme, locale)}>{dark ? <Sun size={19} /> : <Moon size={19} />}</button>
