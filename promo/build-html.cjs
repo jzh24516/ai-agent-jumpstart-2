@@ -42,6 +42,7 @@ const IMG = {
     hi: b64('jumpstart-hindi.png'),
   },
   avatar: firstImg(['michael-photo.png', 'michael-photo.jpg', 'michael-photo.jpeg', 'michael-photo.webp', 'michael.png']),
+  hero: b64('ai-agent-jumpstart-hero-logo.png'),
 }
 
 // Self-contained CSS starfield (no external images) for the saga-themed slide 3.
@@ -218,7 +219,7 @@ const slides = /* html */ `
       <h2 class="hero sm" data-i18n="s9.h">Bring JumpStart v2 to your<br><span class="grad">next customer workshop</span></h2>
       <p class="lede" data-i18n="s9.lede">Internal enablement or external customer event &mdash; co-brand it, share the link, and let attendees build real agents hands-on.</p>
       <div class="contacts">
-        <a href="mailto:zhijian@microsoft.com"><b>Michael Jiang</b><span>zhijian@microsoft.com</span></a>
+        <a href="mailto:zhijian@microsoft.com"><img class="contact-photo" src="${IMG.avatar}" alt="Michael Jiang" /><span class="contact-info"><b>Michael Jiang</b><span>zhijian@microsoft.com</span></span></a>
       </div>
       <div class="madeby">Microsoft MCAPS Core &mdash; Agent Asia Team</div>
       <div class="thanks">
@@ -226,10 +227,8 @@ const slides = /* html */ `
         <div class="thanks-names"><span>Nalin Shukla</span><span>Scott Berry</span><span>Steve Ng</span><span>Jalilah Halim</span><span>Anand Ponnusamy</span></div>
       </div>
     </div>
-    <div class="close-avatar">
-      <img src="${IMG.avatar}" alt="Michael Jiang" />
-      <b>Michael Jiang</b>
-      <span>Microsoft MCAPS Core &mdash; Agent Asia Team</span>
+    <div class="close-avatar close-logo">
+      <img src="${IMG.hero}" alt="AI Agent Workshop &mdash; JumpStart v2" />
     </div>
   </div>
 </section>
@@ -450,11 +449,14 @@ const html = /* html */ `<!doctype html>
   .close-wrap{min-width:0}
   .close-avatar{display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px}
   .close-avatar img{width:min(320px,90%);aspect-ratio:1;object-fit:cover;object-position:center;border-radius:50%;box-shadow:0 30px 80px rgba(124,58,237,.55)}
+  .close-logo img{width:min(400px,98%);aspect-ratio:1;object-fit:contain;border-radius:26px;background:#fff;box-shadow:0 30px 80px rgba(124,58,237,.45)}
   .close-avatar b{font-size:1.5rem;margin-top:6px}
   .close-avatar span{color:var(--muted);font-size:1rem;max-width:22ch}
   .contacts{display:flex;gap:16px;margin-top:26px}
-  .contacts a{text-decoration:none;background:var(--card);border:1px solid var(--cardbrd);border-radius:14px;
-    padding:16px 22px;min-width:230px}
+  .contact-photo{width:48px;height:48px;flex:0 0 auto;border-radius:50%;object-fit:cover;object-position:center;border:1px solid var(--cardbrd)}
+  .contact-info{display:flex;flex-direction:column;gap:2px;min-width:0}
+  .contacts a{text-decoration:none;display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--cardbrd);border-radius:14px;
+    padding:14px 20px;min-width:230px}
   .contacts b{display:block;color:var(--txt);font-size:1.06rem}
   .contacts span{display:block;color:var(--cyan);font-size:.95rem;margin-top:3px}
   .madeby{margin-top:26px;color:var(--muted);font-size:.95rem}
