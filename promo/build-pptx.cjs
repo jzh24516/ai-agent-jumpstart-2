@@ -75,6 +75,7 @@ const EN = {
   's10.t5': 'From Lab to Impact', 's10.d5': 'Ship agents that deliver real business value \u2014 fast.',
   's9.badge': 'Ready when you are', 's9.h': 'Bring JumpStart v2 to your next customer workshop',
   's9.lede': 'Internal enablement or external customer event \u2014 co-brand it, share the link, and let attendees build real agents hands-on.',
+  's9.thanks': 'With thanks to the contribution of JumpStart v-Team',
 }
 
 const C = {
@@ -279,16 +280,23 @@ function build (lang) {
   // ---------- Slide 10: Closing ----------
   s = p.addSlide(); bgFill(s)
   s.addText([{ text: '\u25CF ', options: { color: C.pink } }, { text: t('s9.badge'), options: { color: 'E9E6FF' } }],
-    { x: 0.7, y: 0.9, w: 6, h: 0.4, fontFace: FB, fontSize: 12, bold: true, align: 'left' })
-  s.addText(t('s9.h'), { x: 0.66, y: 1.7, w: 8.3, h: 1.9, fontFace: FH, fontSize: 38, bold: true, color: C.txt, align: 'left', lineSpacingMultiple: 1.02, valign: 'top', margin: 0 })
-  s.addText(t('s9.lede'), { x: 0.7, y: 3.85, w: 8.1, h: 1.0, fontFace: FB, fontSize: 16, color: 'CFCDE0', align: 'left', lineSpacingMultiple: 1.1, valign: 'top' })
-  card(s, 0.7, 5.0, 4.0, 1.15)
-  s.addText('Michael Jiang', { x: 1.02, y: 5.17, w: 3.5, h: 0.42, fontFace: FH, fontSize: 17, bold: true, color: C.txt, margin: 0 })
-  s.addText('zhijian@microsoft.com', { x: 1.02, y: 5.61, w: 3.5, h: 0.38, fontFace: FB, fontSize: 13.5, color: C.cyan, margin: 0 })
-  s.addText('Microsoft MCAPS Core \u2014 Agent Asia Team', { x: 0.7, y: 6.45, w: 8, h: 0.4, fontFace: FB, fontSize: 12.5, color: C.mut, align: 'left' })
-  s.addImage({ path: IMG('michael.png'), x: 9.35, y: 1.95, w: 3.1, h: 3.1 })
-  s.addText('Michael Jiang', { x: 9.05, y: 5.15, w: 3.7, h: 0.4, fontFace: FH, fontSize: 17, bold: true, color: C.txt, align: 'center', margin: 0 })
-  s.addText('Microsoft MCAPS Core \u2014 Agent Asia Team', { x: 9.05, y: 5.58, w: 3.7, h: 0.6, fontFace: FB, fontSize: 12, color: C.mut, align: 'center', margin: 0 })
+    { x: 0.7, y: 0.62, w: 7, h: 0.4, fontFace: FB, fontSize: 12, bold: true, align: 'left' })
+  s.addText(t('s9.h'), { x: 0.66, y: 1.32, w: 7.7, h: 1.7, fontFace: FH, fontSize: 36, bold: true, color: C.txt, align: 'left', lineSpacingMultiple: 1.02, valign: 'top', margin: 0 })
+  s.addText(t('s9.lede'), { x: 0.7, y: 3.05, w: 7.7, h: 0.9, fontFace: FB, fontSize: 15, color: 'CFCDE0', align: 'left', lineSpacingMultiple: 1.1, valign: 'top' })
+  card(s, 0.7, 3.95, 4.5, 1.1)
+  s.addImage({ path: IMG('michael.png'), x: 0.9, y: 4.14, w: 0.72, h: 0.72, rounding: true })
+  s.addText('Michael Jiang', { x: 1.78, y: 4.16, w: 3.3, h: 0.4, fontFace: FH, fontSize: 16, bold: true, color: C.txt, valign: 'top', margin: 0 })
+  s.addText('zhijian@microsoft.com', { x: 1.78, y: 4.56, w: 3.3, h: 0.36, fontFace: FB, fontSize: 13, color: C.cyan, valign: 'top', margin: 0 })
+  s.addText('Microsoft MCAPS Core \u2014 Agent Asia Team', { x: 0.7, y: 5.28, w: 7.7, h: 0.4, fontFace: FB, fontSize: 12.5, color: C.mut, align: 'left' })
+  s.addImage({ path: IMG('ai-agent-jumpstart-hero-logo.png'), x: 8.75, y: 1.35, w: 3.95, h: 3.95 })
+  s.addText(t('s9.thanks'), { x: 0.7, y: 5.98, w: 12, h: 0.35, fontFace: FH, fontSize: 12, bold: true, color: C.mut, charSpacing: 1, align: 'left', margin: 0 })
+  let tx = 0.7
+  ;['Nalin Shukla', 'Scott Berry', 'Steve Ng', 'Jalilah Halim', 'Anand Ponnusamy'].forEach((name) => {
+    const w = 0.5 + name.length * 0.1
+    s.addShape(p.shapes.ROUNDED_RECTANGLE, { x: tx, y: 6.42, w, h: 0.5, rectRadius: 0.1, fill: { color: C.panelHi }, line: { color: C.brd, width: 1 } })
+    s.addText(name, { x: tx, y: 6.42, w, h: 0.5, fontFace: FH, fontSize: 12.5, bold: true, color: 'EFEDFA', align: 'center', valign: 'middle', margin: 0 })
+    tx += w + 0.18
+  })
 
   const out = path.join(__dirname, 'JumpStart-v2-Workshop-Highlights-' + lang + '.pptx')
   return p.writeFile({ fileName: out }).then(() => console.log('PPTX written:', out))
