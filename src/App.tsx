@@ -361,6 +361,11 @@ function App() {
   useEffect(() => { loadPublishedBranding().then((published) => { if (published) setBranding(published) }) }, [])
 
   useEffect(() => {
+    document.documentElement.classList.toggle('cover-open', showCover)
+    return () => document.documentElement.classList.remove('cover-open')
+  }, [showCover])
+
+  useEffect(() => {
     if (labIndex > labs.length - 1) setLabIndex(Math.max(0, labs.length - 1))
   }, [labs, labIndex])
 

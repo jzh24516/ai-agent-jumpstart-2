@@ -70,6 +70,7 @@ html[data-theme="dark"] {
 }
 * { box-sizing: border-box; }
 html { min-width: 320px; background: var(--cp-bg); }
+html.cover-open, html.cover-open body { overflow: hidden; overscroll-behavior: none; }
 body {
   margin: 0; min-width: 320px; min-height: 100vh; color: var(--cp-text);
   background:
