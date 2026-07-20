@@ -56,11 +56,15 @@ const normalizeStep = (step: LabStep): LabStep => {
   }
 }
 
+// A lab is public unless it is explicitly flagged private (isPublic === false).
+export const isLabPublic = (lab: Lab): boolean => lab.isPublic !== false
+
 export const normalizeLab = (lab: Lab): Lab => ({
   id: lab.id || uid('lab'),
   number: lab.number,
   icon: lab.icon,
   duration: lab.duration,
+  isPublic: lab.isPublic !== false,
   title: cloneText(lab.title),
   summary: cloneText(lab.summary),
   outcome: cloneText(lab.outcome),
@@ -169,6 +173,7 @@ export const newLab = (number: number): Lab => ({
   number,
   icon: 'sparkles',
   duration: 30,
+  isPublic: true,
   title: emptyText(),
   summary: emptyText(),
   outcome: emptyText(),

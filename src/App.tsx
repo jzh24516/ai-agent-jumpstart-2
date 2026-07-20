@@ -7,7 +7,7 @@ import {
   Clipboard, Database, FileSpreadsheet, Languages, Lock, Mail, MailCheck, Menu, Mic2,
   ExternalLink, Moon, Network, PanelLeft, PanelLeftClose, PencilLine, Save, Search, Settings, Sparkles, Sun, Trash2, Users, X,
 } from 'lucide-react'
-import { defaultContent, loadLabs } from './content/store'
+import { defaultContent, isLabPublic, loadLabs } from './content/store'
 import MakerEditor from './editor/MakerEditor'
 import Fireworks from './Fireworks'
 import { localeNames, text, ui } from './content/ui'
@@ -362,9 +362,16 @@ function App() {
     try { return { ...defaultBranding, ...JSON.parse(localStorage.getItem('jumpstart-branding') || '{}') } }
     catch { return defaultBranding }
   })
-  const lab = labs[labIndex] ?? labs[0]
-  const totalSteps = labs.reduce((sum, item) => sum + item.steps.length, 0)
-  const overallPercent = totalSteps ? Math.round((completed.size / totalSteps) * 100) : 0
+  // Public consumers (the published workshop) only ever see public labs. In maker
+  // mode (dev) every lab stays visible so drafts can be edited before going public.
+  const publicLabs = labs.filter(isLabPublic)
+  const visibleLabs = makerEnabled ? labs : publicLabs
+  const lab = visibleLabs[labIndex] ?? visibleLabs[0] ?? labs[0]
+  // Effective progress counts only public labs; private build-only labs are excluded.
+  const totalSteps = publicLabs.reduce((sum, item) => sum + item.steps.length, 0)
+  const publicStepKeys = new Set(publicLabs.flatMap((item) => item.steps.map((step) => `${item.id}:${step.id}`)))
+  const completedPublic = [...completed].filter((key) => publicStepKeys.has(key)).length
+  const overallPercent = totalSteps ? Math.round((completedPublic / totalSteps) * 100) : 0
   const sections = [
     { id: `${lab.id}-overview`, label: text(ui.overview, locale) },
     ...lab.steps.map((item, index) => ({ id: `${lab.id}-${item.id}`, label: `${index + 1}. ${stripMarkdown(text(item.title, locale))}` })),
@@ -380,8 +387,8 @@ function App() {
   }, [showCover])
 
   useEffect(() => {
-    if (labIndex > labs.length - 1) setLabIndex(Math.max(0, labs.length - 1))
-  }, [labs, labIndex])
+    if (labIndex > visibleLabs.length - 1) setLabIndex(Math.max(0, visibleLabs.length - 1))
+  }, [visibleLabs.length, labIndex])
 
   useEffect(() => {
     localStorage.setItem('jumpstart-locale', locale)
@@ -479,15 +486,15 @@ function App() {
       <div className="brand-lockup"><button className="brand-mark" type="button" onClick={() => setShowCover(true)} title={text(ui.program, locale)} aria-label={text(ui.program, locale)}><Sparkles size={22} /></button><div><span>{text(ui.kicker, locale)}</span><strong>{text(ui.program, locale)}</strong></div><button className="collapse-menu" type="button" onClick={() => setCollapsed(true)} title={text(ui.collapseSidebar, locale)} aria-label={text(ui.collapseSidebar, locale)}><PanelLeftClose size={18} /></button><button className="close-menu" type="button" onClick={() => setMenuOpen(false)} title={text(ui.close, locale)}><X /></button></div>
       <div className="overall-progress"><div><span>{text(ui.progress, locale)}</span><strong>{overallPercent}%</strong></div><div className="progress-track"><span style={{ width: `${overallPercent}%` }} /></div></div>
       <nav className="lab-nav" aria-label="Labs">
-        {labs.map((item, index) => {
+        {visibleLabs.map((item, index) => {
           const Icon = iconMap[item.icon]
           const labDone = item.steps.filter((itemStep) => completed.has(`${item.id}:${itemStep.id}`)).length
           return <button className={index === labIndex ? 'lab-link active' : 'lab-link'} type="button" onClick={() => selectLab(index)} key={item.id}>
-            <span className="lab-icon"><Icon size={19} /></span><span className="lab-link-copy"><small>{text(ui.lab, locale)} {item.number}</small><strong>{text(item.title, locale)}</strong></span><span className={labDone === item.steps.length ? 'lab-count done' : 'lab-count'}>{labDone}/{item.steps.length}</span>
+            <span className="lab-icon"><Icon size={19} /></span><span className="lab-link-copy"><small>{text(ui.lab, locale)} {index + 1}{item.isPublic === false && <span className="lab-private-badge">{text(ui.privateBadge, locale)}</span>}</small><strong>{text(item.title, locale)}</strong></span><span className={labDone === item.steps.length ? 'lab-count done' : 'lab-count'}>{labDone}/{item.steps.length}</span>
           </button>
         })}
       </nav>
-      <div className="sidebar-note"><BookOpenCheck size={18} /><span>{completed.size} / {totalSteps} {text(ui.completed, locale).toLowerCase()}</span></div>
+      <div className="sidebar-note"><BookOpenCheck size={18} /><span>{completedPublic} / {totalSteps} {text(ui.completed, locale).toLowerCase()}</span></div>
     </aside>
 
     <main className="main-stage">
@@ -496,7 +503,7 @@ function App() {
           {collapsed && <button className="icon-button rail-toggle" type="button" onClick={() => setCollapsed(false)} title={text(ui.expandSidebar, locale)} aria-label={text(ui.expandSidebar, locale)}><PanelLeft size={18} /></button>}
           <div className="breadcrumbs">
             <select className="crumb-select lab" value={labIndex} onChange={(event) => selectLab(Number(event.target.value))} aria-label={text(ui.lab, locale)}>
-              {labs.map((item, index) => <option value={index} key={item.id}>{text(ui.lab, locale)} {item.number}: {text(item.title, locale)}</option>)}
+              {visibleLabs.map((item, index) => <option value={index} key={item.id}>{text(ui.lab, locale)} {index + 1}: {text(item.title, locale)}</option>)}
             </select>
             <ArrowRight size={14} />
             <div className="crumb-steps">
@@ -514,7 +521,7 @@ function App() {
       <article className="lab-document">
         <section className="document-page cover-page" id={`${lab.id}-overview`}>
           <div className="overview-layout">
-            <section className="overview-copy"><div className="lab-number"><LabIcon size={20} /><span>{text(ui.lab, locale)} {lab.number}</span><span className="dot" /><span>{lab.duration} {text(ui.minutes, locale)}</span></div><h1>{text(lab.title, locale)}</h1><p className="lead">{text(lab.summary, locale)}</p><div className="outcome-band"><span>{text(ui.outcome, locale)}</span><strong>{text(lab.outcome, locale)}</strong></div></section>
+            <section className="overview-copy"><div className="lab-number"><LabIcon size={20} /><span>{text(ui.lab, locale)} {labIndex + 1}</span><span className="dot" /><span>{lab.duration} {text(ui.minutes, locale)}</span></div><h1>{text(lab.title, locale)}</h1><p className="lead">{text(lab.summary, locale)}</p><div className="outcome-band"><span>{text(ui.outcome, locale)}</span><strong>{text(lab.outcome, locale)}</strong></div></section>
             <section className="overview-details"><div className="detail-section"><h2>{text(ui.objectives, locale)}</h2><ol>{lab.objectives.map((objective, index) => <li key={index}><span>{index + 1}</span>{text(objective, locale)}</li>)}</ol></div><div className="detail-section prerequisites"><h2>{text(ui.prerequisites, locale)}</h2><ul>{lab.prerequisites.map((item, index) => <li key={index}>{text(item, locale)}</li>)}</ul></div></section>
           </div>
         </section>

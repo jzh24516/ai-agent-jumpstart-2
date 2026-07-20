@@ -160,6 +160,7 @@ export default function MakerEditor({
               <button type="button" onClick={() => setSelected(index)}>
                 <small>{text(ui.lab, locale)} {item.number}</small>
                 <strong>{text(item.title, editLocale) || text(item.title, locale) || '—'}</strong>
+                {item.isPublic === false && <span className="editor-private-tag">{text(ui.privateBadge, locale)}</span>}
               </button>
               <div className="editor-lab-tools">
                 <button type="button" title={text(ui.moveUp, locale)} onClick={() => update((d) => moveItem(d, index, -1))}><ArrowUp size={14} /></button>
@@ -191,6 +192,23 @@ export default function MakerEditor({
                 <span className="editor-field-label">{text(ui.labDuration, locale)}</span>
                 <input type="number" min={1} value={lab.duration} onChange={(event) => update((d) => { d[selected].duration = Number(event.target.value) || 0 })} />
               </label>
+            </div>
+
+            <div className="editor-visibility">
+              <div className="editor-visibility-head">
+                <span className="editor-field-label">{text(ui.labVisibility, locale)}</span>
+                <label className="editor-toggle">
+                  <input
+                    type="checkbox"
+                    checked={lab.isPublic !== false}
+                    onChange={(event) => update((d) => { d[selected].isPublic = event.target.checked })}
+                  />
+                  <span className={lab.isPublic !== false ? 'editor-toggle-pill on' : 'editor-toggle-pill'}>
+                    {text(lab.isPublic !== false ? ui.isPublic : ui.isPrivate, locale)}
+                  </span>
+                </label>
+              </div>
+              <p className="editor-visibility-hint">{text(lab.isPublic !== false ? ui.publicLab : ui.privateLab, locale)}</p>
             </div>
 
             <LocalizedField label={text(ui.labTitle, locale)} value={lab.title} locale={editLocale} onChange={(next) => update((d) => { d[selected].title = next })} />

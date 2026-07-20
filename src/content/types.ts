@@ -37,6 +37,9 @@ export interface Lab {
   number: number
   icon: LabIconName
   duration: number
+  // When false the lab is a private build-only draft: hidden from the published
+  // workshop and excluded from effective progress. Missing/true means public.
+  isPublic?: boolean
   title: LocalizedText
   summary: LocalizedText
   outcome: LocalizedText
