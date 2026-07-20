@@ -6,6 +6,7 @@
       "number": 1,
       "icon": "sparkles",
       "duration": 30,
+      "isPublic": true,
       "title": {
         "en": "Meet the new Agent Maker Experience",
         "zh": "认识全新的 Copilot Studio 创新者体验",
@@ -456,6 +457,7 @@
       "number": 2,
       "icon": "database",
       "duration": 30,
+      "isPublic": true,
       "title": {
         "en": "Bring in business context",
         "zh": "接入业务上下文",
@@ -807,7 +809,7 @@
                 "en": "Open your agent in **Copilot Studio** and select the **Build** tab and locate the **Memory** component in the components panel — this is where the **Memory toggle** lives.\n\n---\n\n## Part A — Memory = Disabled (no recall across sessions)\n\n1. On the **Build** tab, set the **Memory toggle** to **Off**.\n2. Open the **Preview** tab (the test chat on the right).\n3. In the chat, type: **`My big bet account for this FY is Microsoft.`** and send. → The agent acknowledges it for the current conversation.\n4. Next, type: **`Account plan for my big bet account.`** → **Expected result:** The agent produces a brief **for Microsoft** — it still \"knows\" because Microsoft is sitting in the *current conversation's* short-term context.\n5. Now **start a new test**: click the **Refresh / restart conversation** icon at the top of the **Preview** pane (this begins a fresh session).\n6. In the new session, type again: **`Account plan for my big bet account.`** → **Expected result:** The agent **does not know** which account you mean. It asks you to name the account (or gives a generic answer), because with Memory off, nothing was saved once the previous conversation ended.",
                 "zh": "在 **Copilot Studio** 中打开你的 Agent，选择 **Build** 选项卡，并在组件面板中找到 **Memory** 组件——这里就是 **Memory toggle** 所在的位置。\n\n---\n\n## 第 A 部分 — Memory = 禁用（会话间不记忆）\n\n1. 在 **Build** 选项卡上，将 **Memory toggle** 设置为 **Off**。\n2. 打开 **Preview** 选项卡（右侧的测试聊天）。\n3. 在聊天中输入：**`My big bet account for this FY is Microsoft.`** 并发送。→ Agent 会在当前对话中予以确认。\n4. 接着输入：**`Account plan for my big bet account.`** → **预期结果：** Agent 会为 **Microsoft** 生成一份简报——因为 Microsoft 仍位于 *当前对话* 的短期上下文中，它“知道”。\n5. 现在 **开始一次新测试**：点击 **Preview** 窗格顶部的 **Refresh / restart conversation** 图标（这会开始一个全新会话）。\n6. 在新会话中再次输入：**`Account plan for my big bet account.`** → **预期结果：** Agent **不知道** 你指的是哪个客户。它会请你指明客户（或给出通用回答），因为在 Memory 关闭时，上一次对话结束后没有保存任何内容。",
                 "ja": "**Copilot Studio** で Agent を開き、**Build** タブを選択し、コンポーネント パネルで **Memory** コンポーネントを見つけます。ここに **Memory toggle** があります。\n\n---\n\n## パート A — Memory = 無効（セッション間で記憶しない）\n\n1. **Build** タブで **Memory toggle** を **Off** にします。\n2. **Preview** タブ（右側のテスト チャット）を開きます。\n3. チャットに **`My big bet account for this FY is Microsoft.`** と入力して送信します。→ Agent は現在の会話でそれを認識します。\n4. 次に **`Account plan for my big bet account.`** と入力します。→ **期待される結果：** Agent は **Microsoft** 向けの簡単な内容を生成します。Microsoft が *現在の会話* の短期コンテキストにあるため、まだ「わかっている」からです。\n5. ここで **新しいテストを開始** します。**Preview** ペイン上部の **Refresh / restart conversation** アイコンをクリックします（新しいセッションが始まります）。\n6. 新しいセッションでもう一度 **`Account plan for my big bet account.`** と入力します。→ **期待される結果：** Agent はどのアカウントを指すのか **わかりません**。Memory がオフだと前の会話終了時に何も保存されないため、アカウント名を尋ねる（または一般的な回答を返す）ようになります。",
-                "ko": "**Copilot Studio**에서 Agent를 열고 **Build** 탭을 선택한 다음 구성 요소 패널에서 **Memory** 구성 요소를 찾습니다. 여기에 **Memory toggle**이 있습니다.\n\n---\n\n## 파트 A — Memory = 사용 안 함(세션 간 기억 없음)\n\n1. **Build** 탭에서 **Memory toggle**을 **Off**로 설정합니다.\n2. **Preview** 탭(오른쪽 테스트 채팅)을 엽니다.\n3. 채팅에 **`My big bet account for this FY is Microsoft.`**를 입력하고 보냅니다. → Agent가 현재 대화에서 이를 인식합니다.\n4. 다음으로 **`Account plan for my big bet account.`**를 입력합니다. → **예상 결과:** Agent가 **Microsoft**에 대한 간단한 내용을 생성합니다. Microsoft가 *현재 대화*의 단기 컨텍스트에 있으므로 여전히 \"알고\" 있기 때문입니다.\n5. 이제 **새 테스트를 시작**합니다. **Preview** 창 상단의 **Refresh / restart conversation** 아이콘을 클릭합니다(새 세션이 시작됩니다).\n6. 새 세션에서 다시 **`Account plan for my big bet account.`**를 입력합니다. → **예상 결과:** Agent는 어떤 계정을 의미하는지 **알지 못합니다**. Memory가 꺼져 있으면 이전 대화가 끝날 때 아무것도 저장되지 않���므로 계정 이름을 묻거나 일반적인 답변을 ��공합니다.",
+                "ko": "**Copilot Studio**에서 Agent를 열고 **Build** 탭을 선택한 다음 구성 요소 패널에서 **Memory** 구성 요소를 찾습니다. 여기에 **Memory toggle**이 있습니다.\n\n---\n\n## 파트 A — Memory = 사용 안 함(세션 간 기억 없음)\n\n1. **Build** 탭에서 **Memory toggle**을 **Off**로 설정합니다.\n2. **Preview** 탭(오른쪽 테스트 채팅)을 엽니다.\n3. 채팅에 **`My big bet account for this FY is Microsoft.`**를 입력하고 보냅니다. → Agent가 현재 대화에서 이를 인식합니다.\n4. 다음으로 **`Account plan for my big bet account.`**를 입력합니다. → **예상 결과:** Agent가 **Microsoft**에 대한 간단한 내용을 생성합니다. Microsoft가 *현재 대화*의 단기 컨텍스트에 있으므로 여전히 \"알고\" 있기 때문입니다.\n5. 이제 **새 테스트를 시작**합니다. **Preview** 창 상단의 **Refresh / restart conversation** 아이콘을 클릭합니다(새 세션이 시작됩니다).\n6. 새 세션에서 다시 **`Account plan for my big bet account.`**를 입력합니다. → **예상 결과:** Agent는 어떤 계정을 의미하는지 **알지 못합니다**. Memory가 꺼져 있으면 이전 대화가 끝날 때 아무것도 저장되지 않���므로 계��� 이름을 묻거나 일반적인 답변을 ��공합니다.",
                 "th": "เปิด Agent ของคุณใน **Copilot Studio** แล้วเลือกแท็บ **Build** จากนั้นค้นหาคอมโพเนนต์ **Memory** ในแผงคอมโพเนนต์ — นี่คือที่ที่ **Memory toggle** อยู่\n\n---\n\n## ส่วน A — Memory = ปิดใช้งาน (ไม่มีการจดจำข้ามเซสชัน)\n\n1. บนแท็บ **Build** ตั้งค่า **Memory toggle** เป็น **Off**\n2. เปิดแท็บ **Preview** (��ชททดสอบทางด้านขวา)\n3. ในแชท พิมพ์: **`My big bet account for this FY is Microsoft.`** แล้วส่ง → Agent จะรับทราบสำหรับการสนทนาปัจจุบัน\n4. ต่อไป พิมพ์: **`Account plan for my big bet account.`** → **ผลลัพธ์ที่คาดหวัง:** Agent จะสร้างสรุปข้อมูล **สำหรับ Microsoft** — มันยังคง \"รู้\" เพราะ Microsoft อยู่ในบริบทระยะสั้นของ*การสนทนาปัจจุบัน*\n5. ตอนนี้ **เริ่มการทดสอบใหม่**: คลิกไอคอน **Refresh / restart conversation** ที่ด้านบนของแผง **Preview** (สิ่งนี้จะเริ่มเซสชันใหม่)\n6. ในเซสชันใหม่ พิมพ์อีกครั้ง: **`Account plan for my big bet account.`** → **ผลลัพธ์ที่คาดหวัง:** Agent **จะไม่รู้** ว่าคุณหมายถึงบัญชีใด มันจะขอให้คุณระบุชื่อบัญชี (หรือให้คำตอบทั่วไป) เพราะเมื่อปิด Memory ไว้ จะไม่มีการบันทึกอะไรเมื่อการสนทนาก่อนหน้าสิ้นสุดลง",
                 "hi": "अपने Agent को **Copilot Studio** में खोलें और **Build** टैब चुनें, फिर components पैनल में **Memory** component ढूंढें — यहीं पर **Memory toggle** स्थित है।\n\n---\n\n## भाग A — Memory = अक्षम (सत्रों के बीच कोई स्मरण नहीं)\n\n1. **Build** टैब पर, **Memory toggle** को **Off** पर सेट करें।\n2. **Preview** टैब खोलें (दाईं ओर टेस्ट चैट)।\n3. चैट में टाइप करें: **`My big bet account is Microsoft.`** और भेजें। → Agent इसे वर्तमान बातचीत के लिए स्वीकार करता है।\n4. आगे, टाइप करें: **`Account plan for my big bet account.`** → **अपेक्षित परिणाम:** Agent **Microsoft के लिए** एक ब्रीफ तैयार करता है — यह अभी भी \"जानता\" है क्योंकि Microsoft *वर्तमान बातचीत के* अल्पकालिक संदर्भ में मौजूद है।\n5. अब **एक नया परीक्षण शुरू करें**: **Preview** पैनल के शीर्ष पर **Refresh / restart conversation** आइकन पर क्लिक करें (यह एक नया सत्र शुरू करता है)।\n6. नए सत्र में, फिर से टाइप करें: **`Account plan for my big bet account.`** → **अपेक्षित परिणाम:** Agent **नहीं जानता** कि आपका मतलब किस account से है। यह आपसे account का नाम बताने के लिए कहता है (या एक सामान्य उत्तर देता है), क्योंकि Memory बंद होने पर, पिछली बातचीत समाप्त होते ही कुछ भी सहेजा नहीं गया।"
               },
@@ -1159,6 +1161,7 @@
       "number": 3,
       "icon": "file",
       "duration": 30,
+      "isPublic": true,
       "title": {
         "en": "Generate an evidence-based RFP response",
         "zh": "生成有依据的 RFP 回应",
@@ -1538,6 +1541,7 @@
       "number": 4,
       "icon": "network",
       "duration": 30,
+      "isPublic": true,
       "title": {
         "en": "Connect an Ask IT Anything agent",
         "zh": "连接 Ask IT Anything Agent",
@@ -2005,7 +2009,7 @@
                 "en": "## Notes & gotchas\n- **Republish after every change** — and republish the connected IT agent too; unpublished changes don't reach users.\n- **Latest content timing:** start a new session or type **start over**; otherwise propagation can take ~1 hour.\n- **Rendering differs by channel:** adaptive cards and markdown are only partially supported in Teams/M365 Copilot vs. the web demo — always test both surfaces (rows #5, #7).\n- **Don't go org-wide early:** keep availability limited to yourself until the full matrix passes in both channels.",
                 "zh": "## 注意事项与坑\n- **每次更改后都重新发布**——并且也重新发布被连接的 IT agent；未发布的更改不会到达用户。\n- **最新内容的时效：** 开始一个新会话或输入 **start over**；否则传播可能需要约 1 小时。\n- **不同渠道渲染不同：** adaptive cards 和 markdown 在 Teams/M365 Copilot 中相比 web demo 仅部分支持——请始终测试两个界面（第 #5、#7 行）。\n- **不要过早面向全组织：** 在完整矩阵于两个渠道均通过之前，将可用性限制为仅你自己。",
                 "ja": "## 注意点と落とし穴\n- **変更のたびに再発行** — 接続された IT agent も再発行してください。未発行の変更はユーザーに届きません。\n- **最新コンテンツのタイミング：** 新しいセッションを開始するか **start over** と入力します。そうでないと反映に約 1 時間かかることがあります。\n- **チャネルによって表示が異なる：** adaptive cards や markdown は web demo に比べ Teams/M365 Copilot では一部のみ対応です。常に両方の画面をテストしてください（#5、#7 行）。\n- **早すぎる組織全体展開は避ける：** 完全なマトリックスが両チャネルで合格するまで、可用性は自分だけに限定します。",
-                "ko": "## 참고 및 주의 사항\n- **변경할 때마다 다시 게시** — 연결된 IT agent도 다시 게시하세요. 게시되지 않은 변경은 사용자에게 전달되지 않습니다.\n- **최신 콘텐츠 타이밍:** 새 세션을 시작하거나 **start over**를 입력하세요. 그렇지 않으면 전파에 약 1시간이 걸릴 수 있습니다.\n- **채널마다 렌더링이 다름:** adaptive cards와 markdown은 web demo에 비해 Teams/M365 Copilot에서 부분적으로만 지원됩니다. 항상 두 화면을 모두 테스트하세요(#5, #7 행).\n- **너무 일찍 조직 전체로 배포하지 마세요:** 전체 매트릭스가 두 채널에서 모두 통과할 때까지 가용성을 본인으로만 제한하세요.",
+                "ko": "## 참고 및 주의 사항\n- **변경할 때마다 다시 게시** — 연결된 IT agent도 다시 게시하세요. 게시되지 않은 변경은 사용자에게 전달되지 않습니다.\n- **최신 콘텐츠 타이밍:** 새 세션을 시작하거나 **start over**를 입력하세요. 그렇지 않으면 전파에 약 1시간이 걸릴 수 있습니다.\n- **채널마다 렌더링이 다름:** adaptive cards와 markdown은 web demo에 비해 Teams/M365 Copilot에서 부분적으로만 지원됩니다. 항상 두 화면을 모두 테스트하세요(#5, #7 행).\n- **너무 일찍 조직 전���로 배포하지 마세요:** 전체 매트릭스가 두 채널에서 모두 통과할 때까지 가용성을 본인으로만 제한하세요.",
                 "th": "## หมายเหตุและข้อควรระวัง\n- **เผยแพร่ซ้ำหลังการเปลี่ยนแปลงทุกครั้ง** — และเผยแพร่ซ้ำ IT agent ที่เชื่อมต่ออยู่ด้วย การเปลี่ยนแปลงที่ยังไม่เผยแพร่จะไม่ถึงผู้ใช้\n- **ระยะเวลาของเนื้อหาล่าสุด:** เริ่มเซสชันใหม่หรือพิมพ์ **start over** มิฉะนั้นการเผยแพร่อาจใช้เวลาประมาณ 1 ชั่วโมง\n- **การแสดงผลแตกต่างกันไปตามช่องทาง:** adaptive cards และ markdown รองรับเพียงบางส่วนใน Teams/M365 Copilot เมื่อเทียบกับการสาธิตบนเว็บ — ควรทดสอบทั้งสองพื้นผิวเสมอ (แถว #5, #7)\n- **อย่าเผยแพร่ทั่วทั้งองค์กรเร็วเกินไป:** จำกัดการเข้าถึงไว้เฉพาะตัวคุณเองจนกว่าเมทริกซ์ทั้งหมดจะผ่านในทั้งสองช่องทาง",
                 "hi": "## नोट्स और सावधानियां\n- **हर बदलाव के बाद फिर से प्रकाशित करें** — और जुड़े हुए IT agent को भी फिर से प्रकाशित करें; अप्रकाशित बदलाव उपयोगकर्ताओं तक नहीं पहुंचते।\n- **नवीनतम सामग्री का समय:** एक नया सत्र शुरू करें या **start over** टाइप करें; अन्यथा प्रसार में लगभग 1 घंटा लग सकता है।\n- **रेंडरिंग चैनल के अनुसार भिन्न होती है:** web डेमो की तुलना में Teams/M365 Copilot में adaptive cards और markdown केवल आंशिक रूप से समर्थित हैं — हमेशा दोनों सतहों का परीक्षण करें (पंक्तियाँ #5, #7)।\n- **जल्दी org-wide न जाएं:** जब तक दोनों चैनलों में पूरा मैट्रिक्स पास न हो जाए, तब तक उपलब्धता को केवल अपने तक सीमित रखें।"
               },
@@ -2063,6 +2067,7 @@
       "number": 5,
       "icon": "mail",
       "duration": 30,
+      "isPublic": true,
       "title": {
         "en": "Automate email with agent Workflow",
         "zh": "用多 Agent 工作流自动化邮件",
@@ -2616,6 +2621,7 @@
       "number": 6,
       "icon": "mic",
       "duration": 30,
+      "isPublic": false,
       "title": {
         "en": "Build a real-time voice agent",
         "zh": "构建实时语音 Agent",
