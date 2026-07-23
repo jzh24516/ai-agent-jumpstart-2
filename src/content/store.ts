@@ -93,7 +93,7 @@ export const defaultContent = (): Lab[] => renumber(defaultLabs.map(normalizeLab
 
 export async function loadLabs(): Promise<Lab[]> {
   try {
-    const response = await fetch(CONTENT_URL, { cache: 'no-store' })
+    const response = await fetch(`${CONTENT_URL}?t=${Date.now()}`, { cache: 'no-store' })
     if (response.ok) {
       const data = await response.json()
       if (Array.isArray(data?.labs) && data.labs.length) {

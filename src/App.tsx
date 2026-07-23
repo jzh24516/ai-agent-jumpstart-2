@@ -150,7 +150,7 @@ const defaultBranding: Branding = { hostName: 'Microsoft', hostLogo: '', custome
 // of the hosted app sees the same cover. Falls back to the built-in default when absent.
 async function loadPublishedBranding(): Promise<Branding | null> {
   try {
-    const res = await fetch(`${import.meta.env.BASE_URL}content/branding.json`, { cache: 'no-store' })
+    const res = await fetch(`${import.meta.env.BASE_URL}content/branding.json?t=${Date.now()}`, { cache: 'no-store' })
     if (res.ok) {
       const merged = { ...defaultBranding, ...(await res.json()) }
       if (!Array.isArray(merged.contacts) || merged.contacts.length === 0) merged.contacts = defaultContacts
