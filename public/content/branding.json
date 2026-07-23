@@ -1,12 +1,18 @@
 {
   "hostName": "Microsoft",
   "hostLogo": "",
-  "customerName": "",
+  "customerName": "GBB Agent Asia Team",
   "customerLogo": "",
   "preparedBy": "Microsoft Global Solution Advisory Agent - Asia Team",
-  "preparedDate": "July 16, 2026",
+  "preparedDate": "July 23rd, 2026",
   "contacts": [
-    { "name": "Nalin Shukla", "email": "nshukla@microsoft.com" },
-    { "name": "Michael Jiang", "email": "zhijian@microsoft.com" }
+    {
+      "name": "Nalin Shukla",
+      "email": "nshukla@microsoft.com"
+    },
+    {
+      "name": "Michael Jiang",
+      "email": "zhijian@microsoft.com"
+    }
   ]
 }
