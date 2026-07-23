@@ -138,15 +138,24 @@ function DocumentStep({
   )
 }
 
-type Branding = { hostName: string; hostLogo: string; customerName: string; customerLogo: string }
-const defaultBranding: Branding = { hostName: 'Microsoft', hostLogo: '', customerName: '', customerLogo: '' }
+type BrandingContact = { name: string; email: string }
+type Branding = { hostName: string; hostLogo: string; customerName: string; customerLogo: string; preparedBy: string; preparedDate: string; contacts: BrandingContact[] }
+const defaultContacts: BrandingContact[] = [
+  { name: 'Nalin Shukla', email: 'nshukla@microsoft.com' },
+  { name: 'Michael Jiang', email: 'zhijian@microsoft.com' },
+]
+const defaultBranding: Branding = { hostName: 'Microsoft', hostLogo: '', customerName: '', customerLogo: '', preparedBy: 'Microsoft Global Solution Advisory Agent - Asia Team', preparedDate: 'July 16, 2026', contacts: defaultContacts }
 
 // Published branding ships with the site (public/content/branding.json) so every visitor
 // of the hosted app sees the same cover. Falls back to the built-in default when absent.
 async function loadPublishedBranding(): Promise<Branding | null> {
   try {
     const res = await fetch(`${import.meta.env.BASE_URL}content/branding.json`, { cache: 'no-store' })
-    if (res.ok) return { ...defaultBranding, ...(await res.json()) }
+    if (res.ok) {
+      const merged = { ...defaultBranding, ...(await res.json()) }
+      if (!Array.isArray(merged.contacts) || merged.contacts.length === 0) merged.contacts = defaultContacts
+      return merged
+    }
   } catch { /* no published branding yet */ }
   return null
 }
@@ -198,7 +207,7 @@ function BrandLogo({ name, logo }: { name: string; logo: string }) {
   return <span className="cover-brand-name">{name || 'Microsoft'}</span>
 }
 
-type Workshop = { id: string; name: string; hostName: string; hostLogo: string; customerName: string; customerLogo: string; savedAt: number }
+type Workshop = { id: string; name: string; hostName: string; hostLogo: string; customerName: string; customerLogo: string; preparedBy?: string; preparedDate?: string; contacts?: BrandingContact[]; savedAt: number }
 const loadWorkshops = (): Workshop[] => {
   try { const v = JSON.parse(localStorage.getItem('jumpstart-workshops') || '[]'); return Array.isArray(v) ? v : [] }
   catch { return [] }
@@ -220,12 +229,12 @@ function BrandingSettings({ value, locale, onApply, onClose }: { value: Branding
   const saveToHistory = () => {
     const name = draft.customerName.trim() || draft.hostName.trim() || 'Untitled workshop'
     const existing = history.find((w) => w.name.toLowerCase() === name.toLowerCase())
-    const entry: Workshop = { id: existing?.id || newWorkshopId(), name, hostName: draft.hostName, hostLogo: draft.hostLogo, customerName: draft.customerName, customerLogo: draft.customerLogo, savedAt: Date.now() }
+    const entry: Workshop = { id: existing?.id || newWorkshopId(), name, hostName: draft.hostName, hostLogo: draft.hostLogo, customerName: draft.customerName, customerLogo: draft.customerLogo, preparedBy: draft.preparedBy, preparedDate: draft.preparedDate, contacts: draft.contacts, savedAt: Date.now() }
     persist(existing ? history.map((w) => (w.id === existing.id ? entry : w)) : [entry, ...history])
     setFlash(text(existing ? ui.updatedWorkshop : ui.savedWorkshop, locale).replace('{name}', name))
     window.setTimeout(() => setFlash(''), 2200)
   }
-  const loadWorkshop = (w: Workshop) => { setDraft({ hostName: w.hostName, hostLogo: w.hostLogo, customerName: w.customerName, customerLogo: w.customerLogo }); setFlash(text(ui.loadedWorkshop, locale).replace('{name}', w.name)); window.setTimeout(() => setFlash(''), 2600) }
+  const loadWorkshop = (w: Workshop) => { setDraft({ hostName: w.hostName, hostLogo: w.hostLogo, customerName: w.customerName, customerLogo: w.customerLogo, preparedBy: w.preparedBy ?? defaultBranding.preparedBy, preparedDate: w.preparedDate ?? defaultBranding.preparedDate, contacts: w.contacts && w.contacts.length ? w.contacts : defaultContacts }); setFlash(text(ui.loadedWorkshop, locale).replace('{name}', w.name)); window.setTimeout(() => setFlash(''), 2600) }
   const removeWorkshop = (id: string) => persist(history.filter((w) => w.id !== id))
   const q = query.trim().toLowerCase()
   const filtered = [...history].sort((a, b) => b.savedAt - a.savedAt).filter((w) => !q || w.name.toLowerCase().includes(q) || w.customerName.toLowerCase().includes(q) || w.hostName.toLowerCase().includes(q))
@@ -243,6 +252,18 @@ function BrandingSettings({ value, locale, onApply, onClose }: { value: Branding
           <label>{text(ui.customerLogoUrl, locale)}<input type="text" value={draft.customerLogo.startsWith('data:') ? '' : draft.customerLogo} onChange={(e) => setDraft({ ...draft, customerLogo: e.target.value })} placeholder={text(ui.logoUrlHint, locale)} /></label>
           <label className="settings-file">{text(ui.uploadCustomerLogo, locale)}<input type="file" accept="image/*" onChange={(e) => readFile(e.target.files?.[0], 'customerLogo')} /></label>
           {draft.customerLogo && <div className="settings-preview"><img src={draft.customerLogo} alt={text(ui.customerLogoUrl, locale)} /><button type="button" onClick={() => setDraft({ ...draft, customerLogo: '' })}>{text(ui.removeLogo, locale)}</button></div>}
+          <label>{text(ui.preparedByField, locale)}<input type="text" value={draft.preparedBy} onChange={(e) => setDraft({ ...draft, preparedBy: e.target.value })} placeholder="Microsoft Global Solution Advisory Agent - Asia Team" /></label>
+          <label>{text(ui.preparedDateField, locale)}<input type="text" value={draft.preparedDate} onChange={(e) => setDraft({ ...draft, preparedDate: e.target.value })} placeholder="July 16, 2026" /></label>
+        </div>
+        <div className="settings-contacts">
+          <div className="settings-contacts-head"><span>{text(ui.contactsField, locale)}</span><button type="button" className="ghost" onClick={() => setDraft({ ...draft, contacts: [...draft.contacts, { name: '', email: '' }] })}>+ {text(ui.addContact, locale)}</button></div>
+          {draft.contacts.map((c, idx) => (
+            <div className="settings-contact-row" key={idx}>
+              <input type="text" value={c.name} onChange={(e) => setDraft({ ...draft, contacts: draft.contacts.map((x, i) => (i === idx ? { ...x, name: e.target.value } : x)) })} placeholder={text(ui.contactNameHint, locale)} />
+              <input type="email" value={c.email} onChange={(e) => setDraft({ ...draft, contacts: draft.contacts.map((x, i) => (i === idx ? { ...x, email: e.target.value } : x)) })} placeholder={text(ui.contactEmailHint, locale)} />
+              <button type="button" className="icon-button" aria-label={text(ui.removeContact, locale)} title={text(ui.removeContact, locale)} onClick={() => setDraft({ ...draft, contacts: draft.contacts.filter((_, i) => i !== idx) })}><Trash2 size={15} /></button>
+            </div>
+          ))}
         </div>
         <div className="settings-actions">
           <button className="ghost" type="button" onClick={() => setDraft(defaultBranding)}>{text(ui.reset, locale)}</button>
@@ -322,9 +343,9 @@ function CoverPage({ onEnter, dark, onToggleTheme, locale, onLocaleChange, brand
         <p className="cover-tagline">{text(cover.tagline, locale)}</p>
         {hasCustomer && <p className="cover-dedicated">{dedicatedText(locale, branding.customerName)}</p>}
         <div className="cover-meta">
-          <div className="cover-meta-row"><span className="cover-meta-icon"><Users size={18} /></span><div><small>{text(cover.preparedBy, locale)}</small><strong>Microsoft MCAPS Core — Agent Asia Team</strong></div></div>
-          <div className="cover-meta-row"><span className="cover-meta-icon"><CalendarDays size={18} /></span><div><small>{text(cover.preparedIn, locale)}</small><strong>{text(cover.date, locale)}</strong></div></div>
-          <div className="cover-meta-row"><span className="cover-meta-icon"><Mail size={18} /></span><div><small>{text(cover.contact, locale)}</small><strong className="cover-contacts"><a href="mailto:nshukla@microsoft.com">Nalin Shukla &middot; nshukla@microsoft.com</a><a href="mailto:zhijian@microsoft.com">Michael Jiang &middot; zhijian@microsoft.com</a></strong></div></div>
+          <div className="cover-meta-row"><span className="cover-meta-icon"><Users size={18} /></span><div><small>{text(cover.preparedBy, locale)}</small><strong>{branding.preparedBy.trim() || defaultBranding.preparedBy}</strong></div></div>
+          <div className="cover-meta-row"><span className="cover-meta-icon"><CalendarDays size={18} /></span><div><small>{text(cover.preparedIn, locale)}</small><strong>{branding.preparedDate.trim() || text(cover.date, locale)}</strong></div></div>
+          <div className="cover-meta-row"><span className="cover-meta-icon"><Mail size={18} /></span><div><small>{text(cover.contact, locale)}</small><strong className="cover-contacts">{(branding.contacts.length ? branding.contacts : defaultContacts).map((c, idx) => (<a key={idx} href={`mailto:${c.email}`}>{c.name} &middot; {c.email}</a>))}</strong></div></div>
         </div>
         <div className="cover-actions">
           <button className="cover-cta" type="button" onClick={onEnter}>{text(cover.cta, locale)} <ArrowRight size={18} /></button>

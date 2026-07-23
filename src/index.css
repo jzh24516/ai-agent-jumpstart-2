@@ -501,6 +501,13 @@ h1 { max-width: 850px; margin: 22px 0 20px; color: var(--cp-text); font-size: cl
 .settings-preview { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 12px; background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 10px; }
 .settings-preview img { height: 40px; max-width: 180px; object-fit: contain; }
 .settings-preview button { color: var(--cp-danger); background: transparent; border: 0; cursor: pointer; font-size: 13px; font-weight: 600; }
+.settings-contacts { margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
+.settings-contacts-head { display: flex; align-items: center; justify-content: space-between; color: var(--cp-text-muted); font-size: 12px; font-weight: 700; }
+.settings-contacts-head .ghost { height: 30px; padding: 0 12px; color: var(--cp-text); background: transparent; border: 1px solid var(--cp-border); border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: 650; }
+.settings-contacts-head .ghost:hover { border-color: var(--cp-accent); color: var(--cp-accent); }
+.settings-contact-row { display: grid; grid-template-columns: 1fr 1.2fr auto; gap: 8px; align-items: center; }
+.settings-contact-row input { height: 38px; padding: 0 11px; color: var(--cp-text); background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 8px; font-size: 14px; }
+.settings-contact-row input:focus { outline: none; border-color: var(--cp-accent); }
 .settings-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 22px; }
 .settings-actions button { height: 40px; padding: 0 22px; border-radius: 10px; cursor: pointer; font-size: 14px; font-weight: 650; }
 .settings-actions .ghost { display: inline-flex; align-items: center; gap: 7px; color: var(--cp-text); background: transparent; border: 1px solid var(--cp-border); }

@@ -114,6 +114,13 @@ export const ui = {
   promptDefaultTitle: { en: 'Instructions / Input', zh: '说明/输入', ja: '指示/入力', ko: '지침/입력', th: 'คำแนะนำ/อินพุต', hi: 'निर्देश / इनपुट' },
   publishHint: { en: 'Save writes labs.json locally; Publish commits and pushes it to GitHub.', zh: '保存会写入本地 labs.json；发布会提交并推送到 GitHub。', ja: '保存はローカルの labs.json に書き込み、公開は GitHub にコミット & プッシュします。', ko: '저장은 로컬 labs.json에 기록하고, 게시는 GitHub에 커밋 및 푸시합니다.', th: 'บันทึกจะเขียน labs.json ในเครื่อง; เผยแพร่จะคอมมิตและพุชไปยัง GitHub', hi: 'सहेजें स्थानीय रूप से labs.json लिखता है; प्रकाशित करें इसे GitHub पर commit और push करता है।' },
   fallbackNote: { en: 'Empty non-English fields fall back to English when learners view the lab.', zh: '非英文字段为空时，学员查看实验时将回退为英文。', ja: '英語以外が空の場合、受講者には英語が表示されます。', ko: '영어 외 필드가 비어 있으면 학습자에게 영어로 표시됩니다.', th: 'ช่องที่ไม่ใช่ภาษาอังกฤษที่ว่างเปล่าจะแสดงเป็นภาษาอังกฤษเมื่อผู้เรียนดูแล็บ', hi: 'खाली गैर-अंग्रेज़ी फ़ील्ड लैब देखते समय अंग्रेज़ी पर वापस आ जाते हैं।' },
+  preparedByField: { en: 'Prepared by', zh: '准备者', ja: '作成者', ko: '작성자', th: 'จัดทำโดย', hi: 'द्वारा तैयार' },
+  preparedDateField: { en: 'Prepared date', zh: '编写日期', ja: '作成日', ko: '작성일', th: 'วันที่จัดทำ', hi: 'तैयारी की तारीख' },
+  contactsField: { en: 'Need help? Contacts', zh: '需要帮助？联系人', ja: 'お困りですか？ 連絡先', ko: '도움이 필요하신가요? 연락처', th: 'ต้องการความช่วยเหลือ? ผู้ติดต่อ', hi: 'मदद चाहिए? संपर्क' },
+  contactNameHint: { en: 'Name (e.g. Jane Doe)', zh: '姓名（例如：张三）', ja: '名前（例：山田太郎）', ko: '이름(예: 홍길동)', th: 'ชื่อ (เช่น สมชาย)', hi: 'नाम (उदा. जेन डो)' },
+  contactEmailHint: { en: 'email@microsoft.com', zh: 'email@microsoft.com', ja: 'email@microsoft.com', ko: 'email@microsoft.com', th: 'email@microsoft.com', hi: 'email@microsoft.com' },
+  addContact: { en: 'Add contact', zh: '添加联系人', ja: '連絡先を追加', ko: '연락처 추가', th: 'เพิ่มผู้ติดต่อ', hi: 'संपर्क जोड़ें' },
+  removeContact: { en: 'Remove contact', zh: '删除联系人', ja: '連絡先を削除', ko: '연락처 삭제', th: 'ลบผู้ติดต่อ', hi: 'संपर्क हटाएं' },
 } satisfies Record<string, LocalizedText>
 
 export const text = (value: LocalizedText | undefined, locale: Locale): string => {
