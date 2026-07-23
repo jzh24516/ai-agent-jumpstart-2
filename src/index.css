@@ -604,6 +604,7 @@ h1 { max-width: 850px; margin: 22px 0 20px; color: var(--cp-text); font-size: cl
 .celebrate-ghost { height: 44px; padding: 0 22px; color: var(--cp-text); background: transparent; border: 1px solid var(--cp-border); border-radius: 12px; font-size: 14px; font-weight: 650; cursor: pointer; }
 .celebrate-ghost:hover { border-color: var(--cp-accent); color: var(--cp-accent); }
 .celebrate-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 22px; }
+.celebrate-actions.center { justify-content: center; }
 .celebrate-thanks { display: flex; flex-direction: column; align-items: center; gap: 8px; }
 .celebrate-thanks .celebrate-primary { margin-top: 14px; }
 

@@ -45,6 +45,7 @@ export const ui = {
   labDoneTitle: { en: 'Congratulations!', zh: '恭喜！', ja: 'おめでとうございます！', ko: '축하합니다!', th: 'ยินดีด้วย!', hi: 'बधाई हो!' },
   labDoneMessage: { en: "You've completed this lab — you are awesome!", zh: '你已完成本实验——你太棒了！', ja: 'このラボを完了しました。素晴らしいです！', ko: '이 랩을 완료했어요 — 정말 멋져요!', th: 'คุณทำแล็บนี้เสร็จแล้ว — เยี่ยมมาก!', hi: 'आपने यह लैब पूरी कर ली — आप कमाल हैं!' },
   labDoneContinue: { en: 'Keep going', zh: '继续前进', ja: '次へ進む', ko: '계속하기', th: 'ไปต่อ', hi: 'आगे बढ़ें' },
+  labDoneStay: { en: 'Stay here a bit', zh: '先留在这里', ja: 'もう少しここにいる', ko: '잠시 여기 머무르기', th: 'อยู่ตรงนี้ก่อน', hi: 'थोड़ी देर यहीं रहें' },
   allDoneTitle: { en: 'Brilliant!', zh: '太精彩了！', ja: '見事です！', ko: '훌륭해요!', th: 'ยอดเยี่ยม!', hi: 'शानदार!' },
   allDoneMessage: { en: "High five! You've finished every lab.", zh: '击掌！你已完成所有实验。', ja: 'ハイタッチ！すべてのラボを完了しました。', ko: '하이파이브! 모든 랩을 끝냈어요.', th: 'ไฮไฟว์! คุณทำครบทุกแล็บแล้ว', hi: 'हाई फाइव! आपने सभी लैब पूरी कर लीं।' },
   feedbackHeading: { en: 'Share your feedback', zh: '分享你的反馈', ja: 'フィードバックをお寄せください', ko: '피드백을 남겨 주세요', th: 'แบ่งปันความคิดเห็นของคุณ', hi: 'अपनी प्रतिक्रिया साझा करें' },

@@ -385,15 +385,18 @@ function StarRating({ value, onChange, ariaLabel }: { value: number; onChange: (
   )
 }
 
-function LabCompleteModal({ locale, labTitle, onClose }: { locale: Locale; labTitle: string; onClose: () => void }) {
+function LabCompleteModal({ locale, labTitle, hasNext, onKeepGoing, onStay }: { locale: Locale; labTitle: string; hasNext: boolean; onKeepGoing: () => void; onStay: () => void }) {
   return (
-    <div className="celebrate-scrim" role="dialog" aria-modal="true" aria-label={text(ui.labDoneTitle, locale)} onClick={onClose}>
+    <div className="celebrate-scrim" role="dialog" aria-modal="true" aria-label={text(ui.labDoneTitle, locale)} onClick={onStay}>
       <div className="celebrate-card" onClick={(event) => event.stopPropagation()}>
         <div className="celebrate-emoji"><ThumbsUp size={52} /></div>
         <h2 className="celebrate-title">{text(ui.labDoneTitle, locale)}</h2>
         <p className="celebrate-message">{text(ui.labDoneMessage, locale)}</p>
         <div className="celebrate-lab">{labTitle}</div>
-        <button className="celebrate-primary" type="button" onClick={onClose}>{text(ui.labDoneContinue, locale)}</button>
+        <div className="celebrate-actions center">
+          <button className="celebrate-ghost" type="button" onClick={onStay}>{text(ui.labDoneStay, locale)}</button>
+          {hasNext && <button className="celebrate-primary" type="button" onClick={onKeepGoing}>{text(ui.labDoneContinue, locale)}</button>}
+        </div>
       </div>
     </div>
   )
@@ -692,7 +695,13 @@ function App() {
       onClose={() => setEditorOpen(false)}
     />}
 
-    {labDoneTitle && !allDoneOpen && <LabCompleteModal locale={locale} labTitle={labDoneTitle} onClose={() => setLabDoneTitle(null)} />}
+    {labDoneTitle && !allDoneOpen && <LabCompleteModal
+      locale={locale}
+      labTitle={labDoneTitle}
+      hasNext={labIndex < visibleLabs.length - 1}
+      onKeepGoing={() => { const next = labIndex + 1; if (next < visibleLabs.length) selectLab(next); setLabDoneTitle(null) }}
+      onStay={() => setLabDoneTitle(null)}
+    />}
     {allDoneOpen && <AllCompleteModal locale={locale} onClose={() => setAllDoneOpen(false)} onSubmit={submitFeedback} />}
   </div>
 }
