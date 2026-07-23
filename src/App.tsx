@@ -5,7 +5,7 @@ import remarkGfm from 'remark-gfm'
 import {
   ArrowRight, BookOpenCheck, CalendarDays, Check, ChevronDown, ChevronUp,
   Clipboard, Database, FileSpreadsheet, Languages, Lock, Mail, MailCheck, Menu, Mic2,
-  ExternalLink, Moon, Network, PanelLeft, PanelLeftClose, PencilLine, Save, Search, Settings, Sparkles, Sun, Trash2, Users, X,
+  ExternalLink, Moon, Network, PanelLeft, PanelLeftClose, PencilLine, Printer, Save, Search, Settings, Sparkles, Sun, Trash2, Users, X,
 } from 'lucide-react'
 import { defaultContent, isLabPublic, loadLabs } from './content/store'
 import MakerEditor from './editor/MakerEditor'
@@ -491,6 +491,15 @@ function App() {
     setDark(next)
     document.documentElement.dataset.theme = next ? 'dark' : 'light'
   }
+  // Exports the current lab by opening the browser print dialog (Save as PDF).
+  // Only the active lab is in the DOM, and an @media print stylesheet scopes output to it.
+  const exportLabPdf = () => {
+    const previousTitle = document.title
+    document.title = `AI Agent JumpStart — ${stripMarkdown(text(lab.title, locale))}`
+    const restore = () => { document.title = previousTitle; window.removeEventListener('afterprint', restore) }
+    window.addEventListener('afterprint', restore)
+    window.print()
+  }
   const applyBranding = async (next: Branding): Promise<'published' | 'offline'> => {
     setBranding(next)
     return saveBrandingToFile(next)
@@ -536,7 +545,7 @@ function App() {
             </div>
           </div>
         </div>
-        <div className="top-actions"><label className="language-select"><Languages size={17} /><select value={locale} onChange={(event) => setLocale(event.target.value as Locale)} aria-label={text(ui.language, locale)}>{locales.map((item) => <option value={item} key={item}>{localeNames[item]}</option>)}</select></label>{makerEnabled && <button className="icon-button" type="button" onClick={openMaker} title={text(ui.maker, locale)} aria-label={text(ui.maker, locale)}>{makerUnlocked ? <PencilLine size={19} /> : <Lock size={18} />}</button>}<button className="icon-button" type="button" onClick={toggleTheme} title={text(ui.theme, locale)} aria-label={text(ui.theme, locale)}>{dark ? <Sun size={19} /> : <Moon size={19} />}</button></div>
+        <div className="top-actions"><label className="language-select"><Languages size={17} /><select value={locale} onChange={(event) => setLocale(event.target.value as Locale)} aria-label={text(ui.language, locale)}>{locales.map((item) => <option value={item} key={item}>{localeNames[item]}</option>)}</select></label><button className="icon-button" type="button" onClick={exportLabPdf} title={text(ui.exportPdf, locale)} aria-label={text(ui.exportPdf, locale)}><Printer size={18} /></button>{makerEnabled && <button className="icon-button" type="button" onClick={openMaker} title={text(ui.maker, locale)} aria-label={text(ui.maker, locale)}>{makerUnlocked ? <PencilLine size={19} /> : <Lock size={18} />}</button>}<button className="icon-button" type="button" onClick={toggleTheme} title={text(ui.theme, locale)} aria-label={text(ui.theme, locale)}>{dark ? <Sun size={19} /> : <Moon size={19} />}</button></div>
       </header>
 
       <article className="lab-document">

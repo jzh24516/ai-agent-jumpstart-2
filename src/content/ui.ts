@@ -41,6 +41,7 @@ export const ui = {
   collapseSidebar: { en: 'Collapse sidebar', zh: '收起侧栏', ja: 'サイドバーを閉じる', ko: '사이드바 접기', th: 'ย่อแถบด้านข้าง', hi: 'साइडबार संक्षिप्त करें' },
   expandSidebar: { en: 'Expand sidebar', zh: '展开侧栏', ja: 'サイドバーを開く', ko: '사이드바 펼치기', th: 'ขยายแถบด้านข้าง', hi: 'साइडबार विस्तृत करें' },
   language: { en: 'Language', zh: '语言', ja: '言語', ko: '언어', th: 'ภาษา', hi: 'भाषा' },
+  exportPdf: { en: 'Export this lab to PDF', zh: '将此实验导出为 PDF', ja: 'このラボを PDF にエクスポート', ko: '이 랩을 PDF로 내보내기', th: 'ส่งออกแล็บนี้เป็น PDF', hi: 'इस लैब को PDF में निर्यात करें' },
   workshopBranding: { en: 'Workshop branding', zh: '研讨会品牌设置', ja: 'ワークショップのブランディング', ko: '워크숍 브랜딩', th: 'การสร้างแบรนด์เวิร์กช็อป', hi: 'वर्कशॉप ब्रांडिंग' },
   closeDialog: { en: 'Close', zh: '关闭', ja: '閉じる', ko: '닫기', th: 'ปิด', hi: 'बंद करें' },
   brandingHint: { en: 'Set a customer name or logo to co-brand this JumpStart. Save named workshops to reuse them anytime.', zh: '设置客户名称或徽标，为此 JumpStart 进行联合品牌设置。保存命名的研讨会以便随时复用。', ja: '顧客名またはロゴを設定して、この JumpStart を共同ブランディングできます。名前を付けたワークショップを保存すると、いつでも再利用できます。', ko: '고객 이름 또는 로고를 설정하여 이 JumpStart를 공동 브랜딩하세요. 이름을 지정한 워크숍을 저장해 언제든 재사용할 수 있습니다.', th: 'ตั้งชื่อหรือโลโก้ลูกค้าเพื่อร่วมสร้างแบรนด์ JumpStart นี้ บันทึกเวิร์กช็อปที่ตั้งชื่อไว้เพื่อนำกลับมาใช้ได้ทุกเมื่อ', hi: 'इस JumpStart को को-ब्रांड करने के लिए ग्राहक का नाम या लोगो सेट करें। नामित वर्कशॉप सहेजें और कभी भी दोबारा उपयोग करें।' },

@@ -536,3 +536,52 @@ h1 { max-width: 850px; margin: 22px 0 20px; color: var(--cp-text); font-size: cl
 .history-info small { overflow: hidden; color: var(--cp-text-muted); font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
 .history-del { flex: 0 0 auto; width: 40px; display: grid; place-items: center; color: var(--cp-text-muted); background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 10px; cursor: pointer; transition: color .15s ease, border-color .15s ease; }
 .history-del:hover { color: var(--cp-danger); border-color: var(--cp-danger); }
+
+/* ============================================================
+   Print / Export to PDF — scopes output to the active lab only.
+   Triggered by the topbar "Export this lab to PDF" button
+   (exportLabPdf -> window.print). Only the current lab is in the
+   DOM, so printing .lab-document yields exactly that lab.
+   ============================================================ */
+@media print {
+  /* Always print with the light palette, regardless of on-screen theme. */
+  html, html[data-theme="dark"] {
+    color-scheme: light;
+    --cp-bg: #ffffff; --cp-bg-elevated: #ffffff; --cp-surface: #ffffff; --cp-surface-soft: #f5f5f5;
+    --cp-border: #d5d5d5; --cp-border-strong: #9a9a9a; --cp-text: #1b1b1f; --cp-text-muted: #4a4a4a; --cp-text-soft: #5c5c5c;
+    --cp-panel: #ffffff; --cp-panel-strong: #ffffff; --glass: #ffffff; --glass-strong: #ffffff; --glass-page: #ffffff; --glass-border: #d5d5d5;
+    --cp-overlay: #ffffff; --cp-shadow: none; --glass-shadow: none; --glow: none; --blur: none;
+    background: #ffffff !important;
+  }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; box-shadow: none !important; }
+  body { background: #ffffff !important; }
+
+  /* Hide app chrome — keep only the lab document. */
+  .sidebar, .nav-scrim, .topbar, .rail-toggle, .settings-scrim, .password-scrim, .cover-hero, .fireworks-canvas, canvas { display: none !important; }
+
+  .app-shell { display: block !important; }
+  .main-stage { margin: 0 !important; padding: 0 !important; width: auto !important; overflow: visible !important; }
+  .lab-document { display: block !important; max-width: none !important; width: auto !important; margin: 0 !important; padding: 0 !important; background: #ffffff !important; border: 0 !important; }
+  .lab-document,
+  .lab-document h1, .lab-document h2, .lab-document h3, .lab-document h4,
+  .lab-document p, .lab-document li, .lab-document span, .lab-document strong,
+  .lab-document td, .lab-document th, .lab-document a { color: #1b1b1f !important; }
+
+  /* Hide interactive-only controls; keep the content they wrap. */
+  .prompt-toolbar .toolbar-actions, .step-complete-action, .screenshot-frame figcaption { display: none !important; }
+
+  /* Force truncated prompts to show in full and wrap. */
+  .prompt, .prompt.expanded { max-height: none !important; overflow: visible !important; background: #f4f4f6 !important; color: #16161a !important; }
+  .prompt code { color: #16161a !important; white-space: pre-wrap !important; word-break: break-word !important; }
+
+  /* Pagination: each step starts on a fresh page; keep atomic blocks together. */
+  .document-page.cover-page { page-break-after: always; }
+  .document-page.contents-page { page-break-before: avoid; page-break-after: always; }
+  .document-step { page-break-before: always; }
+  .document-step:first-of-type { page-break-before: avoid; }
+  .document-step-heading, .lab-document h1, .lab-document h2, .lab-document h3 { break-after: avoid; page-break-after: avoid; }
+  .screenshot-frame, .prompt-panel, .highlight, .embedded-figures img { break-inside: avoid; page-break-inside: avoid; }
+  .screenshot-frame img, .embedded-figures img { max-width: 100% !important; height: auto !important; }
+
+  @page { margin: 14mm; }
+}
