@@ -30,7 +30,8 @@ const pick = <T,>(items: T[]): T => items[Math.floor(Math.random() * items.lengt
 
 // A self-contained canvas fireworks overlay. Every time `trigger` increases,
 // it launches a fresh celebratory burst and animates until all particles fade.
-export default function Fireworks({ trigger }: { trigger: number }) {
+// `intensity` (>1) scales the burst for milestone moments (e.g. all labs complete).
+export default function Fireworks({ trigger, intensity = 1 }: { trigger: number; intensity?: number }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const particlesRef = useRef<Particle[]>([])
   const rocketsRef = useRef<Rocket[]>([])
@@ -89,9 +90,13 @@ export default function Fireworks({ trigger }: { trigger: number }) {
     }
 
     // Stagger a few volleys for a fuller, more impressive celebration.
-    launch(3)
-    const t1 = window.setTimeout(() => launch(3), 260)
-    const t2 = window.setTimeout(() => launch(4), 620)
+    // Higher intensity adds bigger, longer volleys for milestone moments.
+    const scale = Math.max(1, intensity)
+    launch(Math.round(3 * scale))
+    const t1 = window.setTimeout(() => launch(Math.round(3 * scale)), 260)
+    const t2 = window.setTimeout(() => launch(Math.round(4 * scale)), 620)
+    const t3 = intensity > 1.5 ? window.setTimeout(() => launch(Math.round(5 * scale)), 980) : undefined
+    const t4 = intensity > 1.5 ? window.setTimeout(() => launch(Math.round(6 * scale)), 1360) : undefined
 
     window.addEventListener('resize', resize)
 
@@ -158,6 +163,8 @@ export default function Fireworks({ trigger }: { trigger: number }) {
     return () => {
       window.clearTimeout(t1)
       window.clearTimeout(t2)
+      if (t3) window.clearTimeout(t3)
+      if (t4) window.clearTimeout(t4)
       window.removeEventListener('resize', resize)
       if (rafRef.current) cancelAnimationFrame(rafRef.current)
       rafRef.current = null

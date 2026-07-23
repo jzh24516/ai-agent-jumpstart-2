@@ -5,7 +5,7 @@ import remarkGfm from 'remark-gfm'
 import {
   ArrowRight, BookOpenCheck, CalendarDays, Check, ChevronDown, ChevronUp,
   Clipboard, Database, FileSpreadsheet, Languages, Lock, Mail, MailCheck, Menu, Mic2,
-  ExternalLink, Moon, Network, PanelLeft, PanelLeftClose, PencilLine, Printer, Save, Search, Settings, Sparkles, Sun, Trash2, Users, X,
+  ExternalLink, Moon, Network, PanelLeft, PanelLeftClose, PencilLine, Printer, Save, Search, Settings, Sparkles, Star, Sun, ThumbsUp, Trash2, Users, X,
 } from 'lucide-react'
 import { defaultContent, isLabPublic, loadLabs } from './content/store'
 import MakerEditor from './editor/MakerEditor'
@@ -357,6 +357,88 @@ function CoverPage({ onEnter, dark, onToggleTheme, locale, onLocaleChange, brand
   )
 }
 
+type Feedback = { overall: number; effort: number; recommend: number; comments: string; locale: Locale; at: number }
+// Persist feedback locally (always) and best-effort POST to an optional collector endpoint.
+// On the static site the POST simply no-ops; localStorage keeps every submission.
+async function saveFeedback(entry: Feedback) {
+  try {
+    const list: Feedback[] = JSON.parse(localStorage.getItem('jumpstart-feedback') || '[]')
+    list.push(entry)
+    localStorage.setItem('jumpstart-feedback', JSON.stringify(list))
+  } catch { /* storage unavailable */ }
+  try { await fetch('/api/feedback', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(entry) }) } catch { /* no collector endpoint */ }
+}
+
+function StarRating({ value, onChange, ariaLabel }: { value: number; onChange: (v: number) => void; ariaLabel: string }) {
+  const [hover, setHover] = useState(0)
+  const active = hover || value
+  return (
+    <div className="star-rating" role="radiogroup" aria-label={ariaLabel}>
+      {[1, 2, 3, 4, 5].map((n) => (
+        <button key={n} type="button" role="radio" aria-checked={value === n} aria-label={String(n)}
+          className={active >= n ? 'star on' : 'star'}
+          onMouseEnter={() => setHover(n)} onMouseLeave={() => setHover(0)} onClick={() => onChange(n)}>
+          <Star size={26} fill={active >= n ? 'currentColor' : 'none'} />
+        </button>
+      ))}
+    </div>
+  )
+}
+
+function LabCompleteModal({ locale, labTitle, onClose }: { locale: Locale; labTitle: string; onClose: () => void }) {
+  return (
+    <div className="celebrate-scrim" role="dialog" aria-modal="true" aria-label={text(ui.labDoneTitle, locale)} onClick={onClose}>
+      <div className="celebrate-card" onClick={(event) => event.stopPropagation()}>
+        <div className="celebrate-emoji"><ThumbsUp size={52} /></div>
+        <h2 className="celebrate-title">{text(ui.labDoneTitle, locale)}</h2>
+        <p className="celebrate-message">{text(ui.labDoneMessage, locale)}</p>
+        <div className="celebrate-lab">{labTitle}</div>
+        <button className="celebrate-primary" type="button" onClick={onClose}>{text(ui.labDoneContinue, locale)}</button>
+      </div>
+    </div>
+  )
+}
+
+function AllCompleteModal({ locale, onClose, onSubmit }: { locale: Locale; onClose: () => void; onSubmit: (data: { overall: number; effort: number; recommend: number; comments: string }) => void }) {
+  const [overall, setOverall] = useState(0)
+  const [effort, setEffort] = useState(0)
+  const [recommend, setRecommend] = useState(0)
+  const [comments, setComments] = useState('')
+  const [done, setDone] = useState(false)
+  const canSubmit = overall > 0 || effort > 0 || recommend > 0 || comments.trim().length > 0
+  const submit = () => { onSubmit({ overall, effort, recommend, comments: comments.trim() }); setDone(true) }
+  return (
+    <div className="celebrate-scrim" role="dialog" aria-modal="true" aria-label={text(ui.allDoneTitle, locale)}>
+      <div className="celebrate-card wide" onClick={(event) => event.stopPropagation()}>
+        {done ? (
+          <div className="celebrate-thanks">
+            <div className="celebrate-emoji big" aria-hidden="true">🎉</div>
+            <h2 className="celebrate-title">{text(ui.feedbackThanks, locale)}</h2>
+            <button className="celebrate-primary" type="button" onClick={onClose}>{text(ui.close, locale)}</button>
+          </div>
+        ) : (
+          <>
+            <div className="celebrate-emoji big" aria-hidden="true">🙌</div>
+            <h2 className="celebrate-title grand">{text(ui.allDoneTitle, locale)}</h2>
+            <p className="celebrate-message">{text(ui.allDoneMessage, locale)}</p>
+            <div className="feedback-form">
+              <div className="feedback-head"><strong>{text(ui.feedbackHeading, locale)}</strong><span>{text(ui.feedbackIntro, locale)}</span></div>
+              <div className="feedback-row"><label>{text(ui.feedbackOverall, locale)}</label><StarRating value={overall} onChange={setOverall} ariaLabel={text(ui.feedbackOverall, locale)} /></div>
+              <div className="feedback-row"><label>{text(ui.feedbackEffort, locale)}<small>{text(ui.feedbackEffortHint, locale)}</small></label><StarRating value={effort} onChange={setEffort} ariaLabel={text(ui.feedbackEffort, locale)} /></div>
+              <div className="feedback-row"><label>{text(ui.feedbackRecommend, locale)}</label><StarRating value={recommend} onChange={setRecommend} ariaLabel={text(ui.feedbackRecommend, locale)} /></div>
+              <label className="feedback-comments">{text(ui.feedbackComments, locale)}<textarea value={comments} onChange={(event) => setComments(event.target.value)} placeholder={text(ui.feedbackCommentsHint, locale)} rows={3} /></label>
+            </div>
+            <div className="celebrate-actions">
+              <button className="celebrate-ghost" type="button" onClick={onClose}>{text(ui.feedbackSkip, locale)}</button>
+              <button className="celebrate-primary" type="button" disabled={!canSubmit} onClick={submit}>{text(ui.feedbackSubmit, locale)}</button>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  )
+}
+
 function App() {
   const makerEnabled = import.meta.env.DEV
   const [locale, setLocale] = useState<Locale>(() => (localStorage.getItem('jumpstart-locale') as Locale) || 'en')
@@ -376,6 +458,9 @@ function App() {
     catch { return new Set() }
   })
   const [celebrate, setCelebrate] = useState(0)
+  const [celebrateIntensity, setCelebrateIntensity] = useState(1)
+  const [labDoneTitle, setLabDoneTitle] = useState<string | null>(null)
+  const [allDoneOpen, setAllDoneOpen] = useState(false)
   const [showCover, setShowCover] = useState(true)
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [pendingUnlock, setPendingUnlock] = useState<'editor' | 'settings' | null>(null)
@@ -481,7 +566,14 @@ function App() {
     } else {
       updated.add(key)
       // Celebrate only when a step transitions to complete.
+      const newCompletedPublic = [...updated].filter((completedKey) => publicStepKeys.has(completedKey)).length
+      const labComplete = lab.steps.every((labStep) => updated.has(`${lab.id}:${labStep.id}`))
+      const allComplete = totalSteps > 0 && newCompletedPublic === totalSteps
+      setCelebrateIntensity(allComplete ? 2.6 : 1)
       setCelebrate((value) => value + 1)
+      // Prioritise the grand "all labs" moment over a single-lab congrats.
+      if (allComplete) setAllDoneOpen(true)
+      else if (labComplete) setLabDoneTitle(stripMarkdown(text(lab.title, locale)))
     }
     setCompleted(updated)
     localStorage.setItem('jumpstart-progress', JSON.stringify([...updated]))
@@ -504,10 +596,13 @@ function App() {
     setBranding(next)
     return saveBrandingToFile(next)
   }
+  const submitFeedback = (data: { overall: number; effort: number; recommend: number; comments: string }) => {
+    void saveFeedback({ ...data, locale, at: Date.now() })
+  }
   const LabIcon = iconMap[lab.icon]
 
   return <div className={collapsed ? 'app-shell sidebar-collapsed' : 'app-shell'}>
-    <Fireworks trigger={celebrate} />
+    <Fireworks trigger={celebrate} intensity={celebrateIntensity} />
     {showCover && <CoverPage onEnter={() => setShowCover(false)} dark={dark} onToggleTheme={toggleTheme} locale={locale} onLocaleChange={setLocale} branding={branding} canConfigure={makerEnabled} onOpenSettings={openSettings} />}
     {settingsOpen && <BrandingSettings value={branding} locale={locale} onApply={applyBranding} onClose={() => setSettingsOpen(false)} />}
     <button className="mobile-menu" type="button" onClick={() => setMenuOpen(true)} title={text(ui.menu, locale)} aria-label={text(ui.menu, locale)}><Menu /></button>
@@ -596,6 +691,9 @@ function App() {
       onChange={setLabs}
       onClose={() => setEditorOpen(false)}
     />}
+
+    {labDoneTitle && !allDoneOpen && <LabCompleteModal locale={locale} labTitle={labDoneTitle} onClose={() => setLabDoneTitle(null)} />}
+    {allDoneOpen && <AllCompleteModal locale={locale} onClose={() => setAllDoneOpen(false)} onSubmit={submitFeedback} />}
   </div>
 }
 

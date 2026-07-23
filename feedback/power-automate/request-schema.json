@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "properties": {
+    "overall": { "type": "integer" },
+    "effort": { "type": "integer" },
+    "recommend": { "type": "integer" },
+    "comments": { "type": "string" },
+    "locale": { "type": "string" },
+    "at": { "type": "integer" }
+  }
+}

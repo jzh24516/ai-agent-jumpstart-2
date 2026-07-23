@@ -1,0 +1,10 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "FEEDBACK_STORAGE_CONNECTION": "<your-storage-account-connection-string>",
+    "FEEDBACK_TABLE_NAME": "JumpStartFeedback",
+    "FEEDBACK_ALLOWED_ORIGIN": "https://jzh24516.github.io"
+  }
+}
