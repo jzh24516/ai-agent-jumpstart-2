@@ -2621,7 +2621,7 @@
       "number": 6,
       "icon": "mic",
       "duration": 30,
-      "isPublic": false,
+      "isPublic": true,
       "title": {
         "en": "Build a real-time voice agent",
         "zh": "构建实时语音 Agent",
@@ -2934,7 +2934,7 @@
           "id": "instructions",
           "title": {
             "en": "Add the multilingual voice instruction",
-            "zh": "添加多���言语音指令",
+            "zh": "添加多��言语音指令",
             "ja": "多言語音声指示を追加",
             "ko": "다국어 음성 지침 추가",
             "th": "เพิ่มคำสั่งเสียงหลายภาษา",
