@@ -414,6 +414,9 @@ h1 { max-width: 850px; margin: 22px 0 20px; color: var(--cp-text); font-size: cl
 .sidebar-note { border-top-color: var(--glass-border); }
 .document-toc a { border-bottom-color: var(--glass-border); }
 
+/* Lighten the objectives / prerequisites list text in dark mode for readability. */
+html[data-theme="dark"] .detail-section li { color: var(--cp-text-soft); }
+
 /* Editor as frosted workspace */
 .editor-overlay { background: var(--glass-strong); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur); }
 .editor-topbar { background: var(--glass); border-bottom-color: var(--glass-border); }
