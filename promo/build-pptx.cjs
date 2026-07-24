@@ -76,6 +76,7 @@ const EN = {
   's9.badge': 'Ready when you are', 's9.h': 'Bring JumpStart v2 to your next customer workshop',
   's9.lede': 'Internal enablement or external customer event \u2014 co-brand it, share the link, and let attendees build real agents hands-on.',
   's9.thanks': 'With thanks to the contribution of JumpStart v-Team',
+  's9.live': 'Live workshop',
 }
 
 const C = {
@@ -124,6 +125,21 @@ function build (lang) {
     s.addShape(p.shapes.ROUNDED_RECTANGLE, { x, y, w, h, rectRadius: 0.12, fill: { color: fill }, line: { color: C.brd, width: 1 } })
   const frame = (s, x, y, w, h) =>
     s.addShape(p.shapes.ROUNDED_RECTANGLE, { x, y, w, h, rectRadius: 0.06, fill: { type: 'none' }, line: { color: C.brd, width: 1.25 } })
+  const LIVE_URL = 'aka.ms/ai-agent-jumpstart-v2'
+  // Horizontal "LIVE WORKSHOP  aka.ms/..." pill (single line).
+  const urlBadge = (s, x, y, w = 6.5) => {
+    const h = 0.66
+    s.addShape(p.shapes.ROUNDED_RECTANGLE, { x, y, w, h, rectRadius: 0.12, fill: { color: C.panel }, line: { color: C.brd, width: 1 } })
+    s.addText(t('s9.live').toUpperCase(), { x: x + 0.3, y, w: 2.1, h, fontFace: FH, fontSize: 11, bold: true, color: C.pur, charSpacing: 2, align: 'left', valign: 'middle', margin: 0 })
+    s.addText(LIVE_URL, { x: x + 2.45, y, w: w - 2.6, h, fontFace: 'Consolas', fontSize: 16, bold: true, color: 'EFEDFA', align: 'left', valign: 'middle', margin: 0 })
+  }
+  // Stacked badge (label over URL) for narrow columns.
+  const urlBadgeStacked = (s, x, y, w = 4.6) => {
+    const h = 1.02
+    s.addShape(p.shapes.ROUNDED_RECTANGLE, { x, y, w, h, rectRadius: 0.12, fill: { color: C.panel }, line: { color: C.brd, width: 1 } })
+    s.addText(t('s9.live').toUpperCase(), { x: x + 0.2, y: y + 0.16, w: w - 0.4, h: 0.3, fontFace: FH, fontSize: 11, bold: true, color: C.pur, charSpacing: 2, align: 'center', valign: 'middle', margin: 0 })
+    s.addText(LIVE_URL, { x: x + 0.2, y: y + 0.46, w: w - 0.4, h: 0.44, fontFace: 'Consolas', fontSize: 17, bold: true, color: 'EFEDFA', align: 'center', valign: 'middle', margin: 0 })
+  }
 
   // ---------- Slide 1: Cover ----------
   let s = p.addSlide(); bgFill(s)
@@ -143,6 +159,7 @@ function build (lang) {
     s.addText(txt, { x: px, y: 5.4, w, h: 0.5, fontFace: FH, fontSize: 12, bold: true, color: 'EFEDFA', align: 'center', valign: 'middle', margin: 0 })
     px += w + 0.18
   })
+  urlBadge(s, 0.7, 6.4)
   const coverImg = imgExists('cover-' + lang + '.png') ? 'cover-' + lang + '.png' : 'cover-en.png'
   s.addImage({ path: IMG(coverImg), x: 8.0, y: 1.6, w: 5.05, h: 3.56, rounding: true })
   frame(s, 8.0, 1.6, 5.05, 3.56)
@@ -289,6 +306,7 @@ function build (lang) {
   s.addText('zhijian@microsoft.com', { x: 1.78, y: 4.56, w: 3.3, h: 0.36, fontFace: FB, fontSize: 13, color: C.cyan, valign: 'top', margin: 0 })
   s.addText('Microsoft MCAPS Core \u2014 Agent Asia Team', { x: 0.7, y: 5.28, w: 7.7, h: 0.4, fontFace: FB, fontSize: 12.5, color: C.mut, align: 'left' })
   s.addImage({ path: IMG('ai-agent-jumpstart-hero-logo.png'), x: 8.75, y: 1.35, w: 3.95, h: 3.95 })
+  urlBadgeStacked(s, 8.425, 5.5, 4.6)
   s.addText(t('s9.thanks'), { x: 0.7, y: 5.98, w: 12, h: 0.35, fontFace: FH, fontSize: 12, bold: true, color: C.mut, charSpacing: 1, align: 'left', margin: 0 })
   let tx = 0.7
   ;['Nalin Shukla', 'Scott Berry', 'Steve Ng', 'Jalilah Halim', 'Anand Ponnusamy'].forEach((name) => {
