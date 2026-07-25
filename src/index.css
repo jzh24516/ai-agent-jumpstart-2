@@ -529,8 +529,10 @@ html[data-theme="dark"] .detail-section li { color: var(--cp-text-soft); }
 .attendee-chip button:hover { color: var(--cp-danger); background: var(--cp-accent-soft); }
 
 /* Email verification gate on the welcome page */
-.email-gate-scrim { position: fixed; inset: 0; z-index: 240; display: grid; place-items: center; padding: 20px; background: var(--glass); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur); }
-.email-gate-card { width: min(420px, 100%); display: flex; flex-direction: column; gap: 12px; padding: 30px; text-align: center; background: var(--glass-strong); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur); border: 1px solid var(--glass-border); border-radius: 22px; box-shadow: var(--cp-shadow); }
+.email-gate-scrim { position: fixed; inset: 0; z-index: 240; display: grid; place-items: center; padding: 20px; background: rgba(8, 6, 18, 0.74); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); animation: emailGateFade 0.18s ease-out; }
+.email-gate-card { width: min(420px, 100%); display: flex; flex-direction: column; gap: 12px; padding: 32px; text-align: center; background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 20px; box-shadow: 0 0 0 1px rgba(124, 58, 237, 0.35), 0 30px 80px rgba(0, 0, 0, 0.55); animation: emailGatePop 0.2s cubic-bezier(0.2, 0.9, 0.3, 1.2); }
+@keyframes emailGateFade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes emailGatePop { from { opacity: 0; transform: translateY(10px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
 .email-gate-icon { display: inline-grid; place-items: center; width: 54px; height: 54px; margin: 0 auto; color: #fff; background: var(--grad-btn); border-radius: 16px; box-shadow: var(--glow); }
 .email-gate-title { margin: 4px 0 0; font-size: 20px; }
 .email-gate-intro { margin: 0; color: var(--cp-text-muted); font-size: 14px; line-height: 1.55; }
