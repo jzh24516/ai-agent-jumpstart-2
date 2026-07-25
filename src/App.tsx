@@ -139,12 +139,18 @@ function DocumentStep({
 }
 
 type BrandingContact = { name: string; email: string }
-type Branding = { hostName: string; hostLogo: string; customerName: string; customerLogo: string; preparedBy: string; preparedDate: string; contacts: BrandingContact[] }
+type Branding = { hostName: string; hostLogo: string; customerName: string; customerLogo: string; preparedBy: string; preparedDate: string; contacts: BrandingContact[]; attendees: string[] }
 const defaultContacts: BrandingContact[] = [
   { name: 'Nalin Shukla', email: 'nshukla@microsoft.com' },
   { name: 'Michael Jiang', email: 'zhijian@microsoft.com' },
 ]
-const defaultBranding: Branding = { hostName: 'Microsoft', hostLogo: '', customerName: '', customerLogo: '', preparedBy: 'Microsoft Global Solution Advisory Agent - Asia Team', preparedDate: 'July 16, 2026', contacts: defaultContacts }
+const defaultBranding: Branding = { hostName: 'Microsoft', hostLogo: '', customerName: '', customerLogo: '', preparedBy: 'Microsoft Global Solution Advisory Agent - Asia Team', preparedDate: 'July 16, 2026', contacts: defaultContacts, attendees: [] }
+
+// Attendee email helpers. Emails are stored lowercased so validation is case-insensitive.
+const isEmail = (value: string): boolean => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())
+// Splits a pasted blob on commas, semicolons, or any whitespace (space/tab/newline).
+const parseEmails = (raw: string): string[] => raw.split(/[\s,;]+/).map((e) => e.trim().toLowerCase()).filter(Boolean)
+const PARTICIPANT_KEY = 'jumpstart-participant-email'
 
 // Published branding ships with the site (public/content/branding.json) so every visitor
 // of the hosted app sees the same cover. Falls back to the built-in default when absent.
@@ -154,6 +160,7 @@ async function loadPublishedBranding(): Promise<Branding | null> {
     if (res.ok) {
       const merged = { ...defaultBranding, ...(await res.json()) }
       if (!Array.isArray(merged.contacts) || merged.contacts.length === 0) merged.contacts = defaultContacts
+      if (!Array.isArray(merged.attendees)) merged.attendees = []
       return merged
     }
   } catch { /* no published branding yet */ }
@@ -207,7 +214,7 @@ function BrandLogo({ name, logo }: { name: string; logo: string }) {
   return <span className="cover-brand-name">{name || 'Microsoft'}</span>
 }
 
-type Workshop = { id: string; name: string; hostName: string; hostLogo: string; customerName: string; customerLogo: string; preparedBy?: string; preparedDate?: string; contacts?: BrandingContact[]; savedAt: number }
+type Workshop = { id: string; name: string; hostName: string; hostLogo: string; customerName: string; customerLogo: string; preparedBy?: string; preparedDate?: string; contacts?: BrandingContact[]; attendees?: string[]; savedAt: number }
 const loadWorkshops = (): Workshop[] => {
   try { const v = JSON.parse(localStorage.getItem('jumpstart-workshops') || '[]'); return Array.isArray(v) ? v : [] }
   catch { return [] }
@@ -219,6 +226,23 @@ function BrandingSettings({ value, locale, onApply, onClose }: { value: Branding
   const [history, setHistory] = useState<Workshop[]>(() => loadWorkshops())
   const [query, setQuery] = useState('')
   const [flash, setFlash] = useState('')
+  const [attendeeInput, setAttendeeInput] = useState('')
+  const [attendeeBulk, setAttendeeBulk] = useState('')
+  const addEmails = (raw: string) => {
+    const parsed = parseEmails(raw)
+    const valid = parsed.filter(isEmail)
+    if (!valid.length) { setFlash(text(ui.attendeesNoneAdded, locale)); window.setTimeout(() => setFlash(''), 2200); return }
+    setDraft((d) => {
+      const seen = new Set(d.attendees.map((e) => e.toLowerCase()))
+      const merged = [...d.attendees]
+      let added = 0
+      valid.forEach((e) => { if (!seen.has(e)) { seen.add(e); merged.push(e); added += 1 } })
+      setFlash(text(ui.attendeesAdded, locale).replace('{n}', String(added)))
+      window.setTimeout(() => setFlash(''), 2200)
+      return { ...d, attendees: merged }
+    })
+  }
+  const removeAttendee = (email: string) => setDraft((d) => ({ ...d, attendees: d.attendees.filter((e) => e !== email) }))
   const readFile = (file: File | undefined, key: 'hostLogo' | 'customerLogo') => {
     if (!file) return
     const reader = new FileReader()
@@ -229,12 +253,12 @@ function BrandingSettings({ value, locale, onApply, onClose }: { value: Branding
   const saveToHistory = () => {
     const name = draft.customerName.trim() || draft.hostName.trim() || 'Untitled workshop'
     const existing = history.find((w) => w.name.toLowerCase() === name.toLowerCase())
-    const entry: Workshop = { id: existing?.id || newWorkshopId(), name, hostName: draft.hostName, hostLogo: draft.hostLogo, customerName: draft.customerName, customerLogo: draft.customerLogo, preparedBy: draft.preparedBy, preparedDate: draft.preparedDate, contacts: draft.contacts, savedAt: Date.now() }
+    const entry: Workshop = { id: existing?.id || newWorkshopId(), name, hostName: draft.hostName, hostLogo: draft.hostLogo, customerName: draft.customerName, customerLogo: draft.customerLogo, preparedBy: draft.preparedBy, preparedDate: draft.preparedDate, contacts: draft.contacts, attendees: draft.attendees, savedAt: Date.now() }
     persist(existing ? history.map((w) => (w.id === existing.id ? entry : w)) : [entry, ...history])
     setFlash(text(existing ? ui.updatedWorkshop : ui.savedWorkshop, locale).replace('{name}', name))
     window.setTimeout(() => setFlash(''), 2200)
   }
-  const loadWorkshop = (w: Workshop) => { setDraft({ hostName: w.hostName, hostLogo: w.hostLogo, customerName: w.customerName, customerLogo: w.customerLogo, preparedBy: w.preparedBy ?? defaultBranding.preparedBy, preparedDate: w.preparedDate ?? defaultBranding.preparedDate, contacts: w.contacts && w.contacts.length ? w.contacts : defaultContacts }); setFlash(text(ui.loadedWorkshop, locale).replace('{name}', w.name)); window.setTimeout(() => setFlash(''), 2600) }
+  const loadWorkshop = (w: Workshop) => { setDraft({ hostName: w.hostName, hostLogo: w.hostLogo, customerName: w.customerName, customerLogo: w.customerLogo, preparedBy: w.preparedBy ?? defaultBranding.preparedBy, preparedDate: w.preparedDate ?? defaultBranding.preparedDate, contacts: w.contacts && w.contacts.length ? w.contacts : defaultContacts, attendees: Array.isArray(w.attendees) ? w.attendees : [] }); setFlash(text(ui.loadedWorkshop, locale).replace('{name}', w.name)); window.setTimeout(() => setFlash(''), 2600) }
   const removeWorkshop = (id: string) => persist(history.filter((w) => w.id !== id))
   const q = query.trim().toLowerCase()
   const filtered = [...history].sort((a, b) => b.savedAt - a.savedAt).filter((w) => !q || w.name.toLowerCase().includes(q) || w.customerName.toLowerCase().includes(q) || w.hostName.toLowerCase().includes(q))
@@ -265,6 +289,28 @@ function BrandingSettings({ value, locale, onApply, onClose }: { value: Branding
             </div>
           ))}
         </div>
+        <div className="settings-attendees">
+          <div className="settings-contacts-head">
+            <span>{text(ui.attendeesField, locale)}{draft.attendees.length > 0 && <em className="attendee-count">{draft.attendees.length}</em>}</span>
+            {draft.attendees.length > 0 && <button type="button" className="ghost" onClick={() => setDraft({ ...draft, attendees: [] })}>{text(ui.clearAll, locale)}</button>}
+          </div>
+          <p className="settings-subhint">{text(ui.attendeesHint, locale)}</p>
+          <div className="attendee-add-row">
+            <input type="email" value={attendeeInput} placeholder={text(ui.attendeeAddHint, locale)}
+              onChange={(e) => setAttendeeInput(e.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ',') { e.preventDefault(); if (attendeeInput.trim()) { addEmails(attendeeInput); setAttendeeInput('') } } }} />
+            <button type="button" className="ghost" onClick={() => { if (attendeeInput.trim()) { addEmails(attendeeInput); setAttendeeInput('') } }}>+ {text(ui.addAttendee, locale)}</button>
+          </div>
+          <textarea className="attendee-bulk" rows={3} value={attendeeBulk} placeholder={text(ui.attendeePasteHint, locale)} onChange={(e) => setAttendeeBulk(e.target.value)} />
+          <button type="button" className="ghost attendee-bulk-add" onClick={() => { if (attendeeBulk.trim()) { addEmails(attendeeBulk); setAttendeeBulk('') } }}>{text(ui.addPastedList, locale)}</button>
+          {draft.attendees.length > 0 && (
+            <div className="attendee-chips">
+              {draft.attendees.map((email) => (
+                <span className="attendee-chip" key={email}>{email}<button type="button" aria-label={text(ui.removeAttendee, locale)} title={text(ui.removeAttendee, locale)} onClick={() => removeAttendee(email)}><X size={13} /></button></span>
+              ))}
+            </div>
+          )}
+        </div>
         <div className="settings-actions">
           <button className="ghost" type="button" onClick={() => setDraft(defaultBranding)}>{text(ui.reset, locale)}</button>
           <button className="ghost" type="button" onClick={saveToHistory}><Save size={15} /> {text(ui.saveToHistory, locale)}</button>
@@ -286,6 +332,37 @@ function BrandingSettings({ value, locale, onApply, onClose }: { value: Branding
               </div>
             ))}
           </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function EmailGate({ locale, attendees, onVerified, onClose }: { locale: Locale; attendees: string[]; onVerified: (email: string) => void; onClose: () => void }) {
+  const [email, setEmail] = useState('')
+  const [error, setError] = useState<'invalid' | 'denied' | null>(null)
+  const verify = () => {
+    const value = email.trim().toLowerCase()
+    if (!isEmail(value)) { setError('invalid'); return }
+    if (!attendees.some((a) => a.toLowerCase() === value)) { setError('denied'); return }
+    try { localStorage.setItem(PARTICIPANT_KEY, value) } catch { /* storage unavailable */ }
+    onVerified(value)
+  }
+  return (
+    <div className="email-gate-scrim" role="dialog" aria-modal="true" aria-label={text(ui.attendeeGateTitle, locale)}>
+      <div className="email-gate-card">
+        <div className="email-gate-icon"><MailCheck size={26} /></div>
+        <h2 className="email-gate-title">{text(ui.attendeeGateTitle, locale)}</h2>
+        <p className="email-gate-intro">{text(ui.attendeeGateIntro, locale)}</p>
+        <label className="email-gate-field">{text(ui.attendeeGateLabel, locale)}
+          <input type="email" autoFocus value={email} placeholder={text(ui.attendeeAddHint, locale)}
+            onChange={(e) => { setEmail(e.target.value); setError(null) }}
+            onKeyDown={(e) => { if (e.key === 'Enter') verify() }} />
+        </label>
+        {error && <span className="email-gate-error">{text(error === 'invalid' ? ui.attendeeGateInvalid : ui.attendeeGateDenied, locale)}</span>}
+        <div className="email-gate-actions">
+          <button type="button" className="ghost-button" onClick={onClose}>{text(ui.close, locale)}</button>
+          <button type="button" className="email-gate-verify" onClick={verify}>{text(ui.attendeeGateVerify, locale)}</button>
         </div>
       </div>
     </div>
@@ -465,6 +542,7 @@ function App() {
   const [labDoneTitle, setLabDoneTitle] = useState<string | null>(null)
   const [allDoneOpen, setAllDoneOpen] = useState(false)
   const [showCover, setShowCover] = useState(true)
+  const [emailGateOpen, setEmailGateOpen] = useState(false)
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [pendingUnlock, setPendingUnlock] = useState<'editor' | 'settings' | null>(null)
   const [branding, setBranding] = useState<Branding>(() => {
@@ -599,6 +677,17 @@ function App() {
     setBranding(next)
     return saveBrandingToFile(next)
   }
+  // Entry gate: when an attendee list is configured, a participant must validate their
+  // email on the welcome page before the lab content is revealed. A previously verified
+  // email (still on the list) skips the prompt on return visits.
+  const enterWorkshop = () => {
+    const list = branding.attendees ?? []
+    if (list.length === 0) { setShowCover(false); return }
+    let saved = ''
+    try { saved = localStorage.getItem(PARTICIPANT_KEY) || '' } catch { /* storage unavailable */ }
+    if (saved && list.some((a) => a.toLowerCase() === saved.toLowerCase())) { setShowCover(false); return }
+    setEmailGateOpen(true)
+  }
   const submitFeedback = (data: { overall: number; effort: number; recommend: number; comments: string }) => {
     void saveFeedback({ ...data, locale, at: Date.now() })
   }
@@ -606,7 +695,8 @@ function App() {
 
   return <div className={collapsed ? 'app-shell sidebar-collapsed' : 'app-shell'}>
     <Fireworks trigger={celebrate} intensity={celebrateIntensity} />
-    {showCover && <CoverPage onEnter={() => setShowCover(false)} dark={dark} onToggleTheme={toggleTheme} locale={locale} onLocaleChange={setLocale} branding={branding} canConfigure={makerEnabled} onOpenSettings={openSettings} />}
+    {showCover && <CoverPage onEnter={enterWorkshop} dark={dark} onToggleTheme={toggleTheme} locale={locale} onLocaleChange={setLocale} branding={branding} canConfigure={makerEnabled} onOpenSettings={openSettings} />}
+    {showCover && emailGateOpen && <EmailGate locale={locale} attendees={branding.attendees ?? []} onVerified={() => { setEmailGateOpen(false); setShowCover(false) }} onClose={() => setEmailGateOpen(false)} />}
     {settingsOpen && <BrandingSettings value={branding} locale={locale} onApply={applyBranding} onClose={() => setSettingsOpen(false)} />}
     <button className="mobile-menu" type="button" onClick={() => setMenuOpen(true)} title={text(ui.menu, locale)} aria-label={text(ui.menu, locale)}><Menu /></button>
     {menuOpen && <button className="nav-scrim" type="button" onClick={() => setMenuOpen(false)} aria-label={text(ui.close, locale)} />}

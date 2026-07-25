@@ -511,6 +511,35 @@ html[data-theme="dark"] .detail-section li { color: var(--cp-text-soft); }
 .settings-contact-row { display: grid; grid-template-columns: 1fr 1.2fr auto; gap: 8px; align-items: center; }
 .settings-contact-row input { height: 38px; padding: 0 11px; color: var(--cp-text); background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 8px; font-size: 14px; }
 .settings-contact-row input:focus { outline: none; border-color: var(--cp-accent); }
+/* Attendee email list */
+.settings-attendees { margin-top: 18px; display: flex; flex-direction: column; gap: 10px; }
+.settings-subhint { color: var(--cp-text-muted); font-size: 12.5px; line-height: 1.5; margin: -2px 0 2px; }
+.attendee-count { font-style: normal; display: inline-grid; place-items: center; min-width: 20px; height: 20px; margin-left: 8px; padding: 0 6px; color: var(--cp-accent); background: var(--cp-accent-soft); border-radius: 999px; font-size: 11px; font-weight: 700; }
+.attendee-add-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center; }
+.attendee-add-row input { height: 38px; padding: 0 11px; color: var(--cp-text); background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 8px; font-size: 14px; }
+.attendee-add-row input:focus { outline: none; border-color: var(--cp-accent); }
+.attendee-add-row .ghost, .attendee-bulk-add { height: 38px; padding: 0 14px; color: var(--cp-text); background: transparent; border: 1px solid var(--cp-border); border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 650; white-space: nowrap; }
+.attendee-add-row .ghost:hover, .attendee-bulk-add:hover { border-color: var(--cp-accent); color: var(--cp-accent); }
+.attendee-bulk { padding: 10px 11px; color: var(--cp-text); background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 8px; font-size: 13.5px; font-family: inherit; resize: vertical; }
+.attendee-bulk:focus { outline: none; border-color: var(--cp-accent); }
+.attendee-bulk-add { align-self: flex-start; }
+.attendee-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 2px; }
+.attendee-chip { display: inline-flex; align-items: center; gap: 6px; padding: 5px 6px 5px 11px; color: var(--cp-text); background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 999px; font-size: 12.5px; font-weight: 600; }
+.attendee-chip button { display: inline-grid; place-items: center; width: 18px; height: 18px; color: var(--cp-text-muted); background: transparent; border: 0; border-radius: 999px; cursor: pointer; }
+.attendee-chip button:hover { color: var(--cp-danger); background: var(--cp-accent-soft); }
+
+/* Email verification gate on the welcome page */
+.email-gate-scrim { position: fixed; inset: 0; z-index: 240; display: grid; place-items: center; padding: 20px; background: var(--glass); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur); }
+.email-gate-card { width: min(420px, 100%); display: flex; flex-direction: column; gap: 12px; padding: 30px; text-align: center; background: var(--glass-strong); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur); border: 1px solid var(--glass-border); border-radius: 22px; box-shadow: var(--cp-shadow); }
+.email-gate-icon { display: inline-grid; place-items: center; width: 54px; height: 54px; margin: 0 auto; color: #fff; background: var(--grad-btn); border-radius: 16px; box-shadow: var(--glow); }
+.email-gate-title { margin: 4px 0 0; font-size: 20px; }
+.email-gate-intro { margin: 0; color: var(--cp-text-muted); font-size: 14px; line-height: 1.55; }
+.email-gate-field { display: flex; flex-direction: column; gap: 6px; text-align: left; font-size: 12.5px; font-weight: 650; color: var(--cp-text-muted); }
+.email-gate-field input { height: 44px; padding: 0 13px; color: var(--cp-text); background: var(--cp-surface-soft); border: 1px solid var(--cp-border); border-radius: 10px; font-size: 15px; }
+.email-gate-field input:focus { outline: none; border-color: var(--cp-accent); }
+.email-gate-error { color: var(--cp-danger); font-size: 13px; font-weight: 600; text-align: left; }
+.email-gate-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 6px; }
+.email-gate-verify { height: 42px; padding: 0 22px; color: #fff; background: var(--grad-btn); border: 0; border-radius: 10px; box-shadow: var(--glow); cursor: pointer; font-size: 14px; font-weight: 650; }
 .settings-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 22px; }
 .settings-actions button { height: 40px; padding: 0 22px; border-radius: 10px; cursor: pointer; font-size: 14px; font-weight: 650; }
 .settings-actions .ghost { display: inline-flex; align-items: center; gap: 7px; color: var(--cp-text); background: transparent; border: 1px solid var(--cp-border); }

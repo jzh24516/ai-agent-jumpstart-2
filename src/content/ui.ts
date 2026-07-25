@@ -139,6 +139,22 @@ export const ui = {
   contactEmailHint: { en: 'email@microsoft.com', zh: 'email@microsoft.com', ja: 'email@microsoft.com', ko: 'email@microsoft.com', th: 'email@microsoft.com', hi: 'email@microsoft.com' },
   addContact: { en: 'Add contact', zh: '添加联系人', ja: '連絡先を追加', ko: '연락처 추가', th: 'เพิ่มผู้ติดต่อ', hi: 'संपर्क जोड़ें' },
   removeContact: { en: 'Remove contact', zh: '删除联系人', ja: '連絡先を削除', ko: '연락처 삭제', th: 'ลบผู้ติดต่อ', hi: 'संपर्क हटाएं' },
+  attendeesField: { en: 'Attendee email list', zh: '参会者邮箱列表', ja: '参加者メールリスト', ko: '참석자 이메일 목록', th: 'รายชื่ออีเมลผู้เข้าร่วม', hi: 'उपस्थित ईमेल सूची' },
+  attendeesHint: { en: 'Optional. When set, participants must verify their email on the welcome page before entering the labs. Add one at a time, or paste a comma / space / tab-separated list.', zh: '可选。设置后，参会者必须在欢迎页面验证邮箱才能进入实验。可逐个添加，或粘贴以逗号／空格／制表符分隔的列表。', ja: '任意。設定すると、参加者はラボに入る前にウェルカムページでメールを確認する必要があります。1件ずつ追加するか、カンマ・スペース・タブ区切りのリストを貼り付けます。', ko: '선택 사항. 설정하면 참가자는 랩에 들어가기 전에 환영 페이지에서 이메일을 확인해야 합니다. 하나씩 추가하거나 쉼표/공백/탭으로 구분된 목록을 붙여넣으세요.', th: 'ไม่บังคับ เมื่อกำหนดแล้ว ผู้เข้าร่วมต้องยืนยันอีเมลในหน้าต้อนรับก่อนเข้าแล็บ เพิ่มทีละรายการ หรือวางรายการที่คั่นด้วยจุลภาค / เว้นวรรค / แท็บ', hi: 'वैकल्पिक। सेट होने पर, प्रतिभागियों को लैब में प्रवेश करने से पहले स्वागत पृष्ठ पर अपना ईमेल सत्यापित करना होगा। एक-एक करके जोड़ें, या अल्पविराम / स्थान / टैब से अलग की गई सूची पेस्ट करें।' },
+  addAttendee: { en: 'Add', zh: '添加', ja: '追加', ko: '추가', th: 'เพิ่ม', hi: 'जोड़ें' },
+  attendeeAddHint: { en: 'name@company.com', zh: 'name@company.com', ja: 'name@company.com', ko: 'name@company.com', th: 'name@company.com', hi: 'name@company.com' },
+  attendeePasteHint: { en: 'Paste emails separated by commas, spaces, tabs, or new lines…', zh: '粘贴以逗号、空格、制表符或换行分隔的邮箱…', ja: 'カンマ・スペース・タブ・改行で区切ったメールを貼り付け…', ko: '쉼표, 공백, 탭 또는 줄바꿈으로 구분된 이메일 붙여넣기…', th: 'วางอีเมลที่คั่นด้วยจุลภาค เว้นวรรค แท็บ หรือขึ้นบรรทัดใหม่…', hi: 'अल्पविराम, स्थान, टैब या नई पंक्तियों से अलग किए गए ईमेल पेस्ट करें…' },
+  addPastedList: { en: 'Add pasted list', zh: '添加粘贴的列表', ja: '貼り付けたリストを追加', ko: '붙여넣은 목록 추가', th: 'เพิ่มรายการที่วาง', hi: 'पेस्ट की गई सूची जोड़ें' },
+  clearAll: { en: 'Clear all', zh: '全部清除', ja: 'すべてクリア', ko: '모두 지우기', th: 'ล้างทั้งหมด', hi: 'सभी साफ़ करें' },
+  removeAttendee: { en: 'Remove attendee', zh: '删除参会者', ja: '参加者を削除', ko: '참석자 제거', th: 'ลบผู้เข้าร่วม', hi: 'उपस्थित हटाएं' },
+  attendeesAdded: { en: '{n} added', zh: '已添加 {n} 个', ja: '{n} 件追加', ko: '{n}개 추가됨', th: 'เพิ่ม {n} รายการ', hi: '{n} जोड़े गए' },
+  attendeesNoneAdded: { en: 'No valid email addresses found', zh: '未找到有效的邮箱地址', ja: '有効なメールアドレスが見つかりません', ko: '유효한 이메일 주소가 없습니다', th: 'ไม่พบที่อยู่อีเมลที่ถูกต้อง', hi: 'कोई मान्य ईमेल पता नहीं मिला' },
+  attendeeGateTitle: { en: 'Verify your email', zh: '验证您的邮箱', ja: 'メールを確認', ko: '이메일 확인', th: 'ยืนยันอีเมลของคุณ', hi: 'अपना ईमेल सत्यापित करें' },
+  attendeeGateIntro: { en: 'This workshop is open to registered attendees. Enter your email to continue.', zh: '本研讨会仅面向已登记的参会者。请输入您的邮箱以继续。', ja: 'このワークショップは登録済みの参加者が対象です。続行するにはメールを入力してください。', ko: '이 워크숍은 등록된 참석자를 위한 것입니다. 계속하려면 이메일을 입력하세요.', th: 'เวิร์กช็อปนี้เปิดสำหรับผู้เข้าร่วมที่ลงทะเบียนแล้ว กรอกอีเมลของคุณเพื่อดำเนินการต่อ', hi: 'यह वर्कशॉप पंजीकृत उपस्थित लोगों के लिए है। जारी रखने के लिए अपना ईमेल दर्ज करें।' },
+  attendeeGateLabel: { en: 'Work email', zh: '工作邮箱', ja: '仕事用メール', ko: '업무 이메일', th: 'อีเมลที่ทำงาน', hi: 'कार्य ईमेल' },
+  attendeeGateVerify: { en: 'Verify & enter', zh: '验证并进入', ja: '確認して開始', ko: '확인 후 시작', th: 'ยืนยันและเข้า', hi: 'सत्यापित करें और प्रवेश करें' },
+  attendeeGateInvalid: { en: 'Please enter a valid email address.', zh: '请输入有效的邮箱地址。', ja: '有効なメールアドレスを入力してください。', ko: '유효한 이메일 주소를 입력하세요.', th: 'กรุณากรอกที่อยู่อีเมลที่ถูกต้อง', hi: 'कृपया एक मान्य ईमेल पता दर्ज करें।' },
+  attendeeGateDenied: { en: 'This email isn’t on the attendee list. Please check with your workshop host.', zh: '此邮箱不在参会者名单中。请与研讨会主办方确认。', ja: 'このメールは参加者リストにありません。ワークショップ主催者にご確認ください。', ko: '이 이메일은 참석자 목록에 없습니다. 워크숍 주최자에게 문의하세요.', th: 'อีเมลนี้ไม่อยู่ในรายชื่อผู้เข้าร่วม โปรดตรวจสอบกับผู้จัดเวิร์กช็อป', hi: 'यह ईमेल उपस्थित सूची में नहीं है। कृपया अपने वर्कशॉप होस्ट से जांचें।' },
 } satisfies Record<string, LocalizedText>
 
 export const text = (value: LocalizedText | undefined, locale: Locale): string => {
