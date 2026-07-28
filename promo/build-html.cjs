@@ -34,6 +34,7 @@ const IMG = {
   coverLenovo: b64('cover-lenovo.png'),
   branding: b64('branding.png'),
   journey: b64('customer-agentic-ai-journey.png'),
+  emailValidate: b64('email-validate-form-before-lab.png'),
   jumpstart: {
     en: b64('jumpstart-english.png'),
     zh: b64('jumpstart-chinese.png'),
@@ -169,13 +170,42 @@ const slides = /* html */ `
   </div>
 </section>
 
+<!-- 7. PARTICIPANT GUIDELINE -->
+<section class="slide participant-guide" data-title="Participant guideline">
+  <div class="participant-layout">
+    <div class="participant-visual">
+      <div class="participant-head">
+        <span class="kicker" data-i18n="sp.k">Participant guideline</span>
+        <h2 data-i18n="sp.h">From registered email to <span class="grad">Lab 6</span></h2>
+        <p data-i18n="sp.lede">Enter securely, follow each guided lab, and turn copy-ready instructions into hands-on work.</p>
+      </div>
+      <figure class="participant-shot">
+        <img src="${IMG.emailValidate}" alt="Email validation form shown before entering the workshop labs" />
+      </figure>
+      <a class="participant-url" href="https://aka.ms/ai-agent-jumpstart-v2" target="_blank" rel="noreferrer">
+        <span class="participant-url-icon">↗</span>
+        <span class="participant-url-copy"><small data-i18n="sp.t1">Open the live workshop</small><code>aka.ms/ai-agent-jumpstart-v2</code></span>
+        <span class="participant-url-arrow">→</span>
+      </a>
+    </div>
+    <div class="participant-flow">
+      <article class="participant-step"><span class="participant-step-icon">🔗</span><div class="participant-step-copy"><div class="participant-step-title"><span class="participant-step-no">01</span><b data-i18n="sp.t1">Open the workshop</b></div><p data-i18n="sp.d1">Open the live link and choose your preferred language.</p></div></article>
+      <article class="participant-step"><span class="participant-step-icon">✉️</span><div class="participant-step-copy"><div class="participant-step-title"><span class="participant-step-no">02</span><b data-i18n="sp.t2">Verify your email</b></div><p data-i18n="sp.d2">Enter the host-registered email. Matching is case-insensitive; contact the host if blocked.</p></div></article>
+      <article class="participant-step"><span class="participant-step-icon">🧭</span><div class="participant-step-copy"><div class="participant-step-title"><span class="participant-step-no">03</span><b data-i18n="sp.t3">Enter Lab 1</b></div><p data-i18n="sp.d3">Select Enter workshop, open Lab 1, and review its outcomes and prerequisites.</p></div></article>
+      <article class="participant-step"><span class="participant-step-icon">👣</span><div class="participant-step-copy"><div class="participant-step-title"><span class="participant-step-no">04</span><b data-i18n="sp.t4">Follow each step</b></div><p data-i18n="sp.d4">Use Contents or the step selector; complete numbered pages in order.</p></div></article>
+      <article class="participant-step"><span class="participant-step-icon">📋</span><div class="participant-step-copy"><div class="participant-step-title"><span class="participant-step-no">05</span><b data-i18n="sp.t5">Copy, build, return</b></div><p data-i18n="sp.d5">Copy each prompt, build in the named app, then return to the guide.</p></div></article>
+      <article class="participant-step hot"><span class="participant-step-icon">✅</span><div class="participant-step-copy"><div class="participant-step-title"><span class="participant-step-no">06</span><b data-i18n="sp.t6">Continue through Lab 6</b></div><p data-i18n="sp.d6">Mark steps Complete and continue. Stay in this browser to retain progress.</p></div></article>
+    </div>
+  </div>
+</section>
+
 <!-- 7. CO-BRANDING -->
 <section class="slide" data-title="Co-branding">
   <div class="s-head"><span class="kicker" data-i18n="s6.k">Unique feature 03</span><h2 data-i18n="s6.h">Co-brand a <span class="grad">dedicated workshop</span> in seconds</h2></div>
   <div class="two wide-right">
     <div class="col"><img class="framed shot-solo" src="${IMG.coverLenovo}" alt="Microsoft x Lenovo co-branded cover" /></div>
     <div class="col feat">
-      <div class="frow"><div class="fi">◇</div><div><b data-i18n="s6.b1">Microsoft &times; Customer</b><span data-i18n="s6.s1">Set a customer name or logo &mdash; the cover instantly co-brands.</span></div></div>
+      <div class="frow"><div class="fi">◇</div><div><b data-i18n="s6.b1">Microsoft &times; Customer</b><span data-i18n="s6.s1">Set a customer name or logo, and register participants' emails to validate lab access &mdash; the cover instantly co-brands.</span></div></div>
       <div class="frow"><div class="fi">⤓</div><div><b data-i18n="s6.b2">Save &amp; reuse</b><span data-i18n="s6.s2">Workshop history: save, retrieve, and quick-search past setups.</span></div></div>
       <div class="frow"><div class="fi">⌘</div><div><b data-i18n="s6.b3">Logos by URL or upload</b><span data-i18n="s6.s3">Self-contained &mdash; no external image hosting needed.</span></div></div>
       <div class="frow"><div class="fi">🔒</div><div><b data-i18n="s6.b4">Password-gated</b><span data-i18n="s6.s4">Only facilitators can change branding &mdash; same gate as edit mode.</span></div></div>
@@ -183,7 +213,25 @@ const slides = /* html */ `
   </div>
 </section>
 
-<!-- 8. PUBLISH ONCE -->
+<!-- 10. MAKER GUIDANCE -->
+<section class="slide guide-slide maker-guide" data-title="Maker guidance">
+  <div class="s-head guide-head">
+    <span class="kicker" data-i18n="sm.k">Maker guidance</span>
+    <h2 data-i18n="sm.h">Configure, build &amp; <span class="grad">publish</span> a customer workshop</h2>
+    <p class="guide-lede" data-i18n="sm.lede">Prepare the engagement locally, build the guided content, and promote both branding and labs through GitHub Pages.</p>
+  </div>
+  <div class="guide-grid">
+    <article class="guide-card"><div class="guide-top"><span class="guide-no">01</span><span class="guide-icon">🔓</span></div><h3 data-i18n="sm.t1">Run locally and unlock</h3><p data-i18n="sm.d1">Run <code>npm run dev</code>, open <code>localhost:5173</code>, select the gear or pencil, and enter the maker password.</p></article>
+    <article class="guide-card"><div class="guide-top"><span class="guide-no">02</span><span class="guide-icon">🏷️</span></div><h3 data-i18n="sm.t2">Create the engagement brand</h3><p data-i18n="sm.d2">Set host and customer names, logo URL or upload, prepared-by/date, and host contact people. Save to history for reuse.</p></article>
+    <article class="guide-card"><div class="guide-top"><span class="guide-no">03</span><span class="guide-icon">👥</span></div><h3 data-i18n="sm.t3">Register participants</h3><p data-i18n="sm.d3">Add emails one by one or paste a comma, space, tab, or line-separated list. Review the chips, then Apply to write <code>branding.json</code>.</p></article>
+    <article class="guide-card"><div class="guide-top"><span class="guide-no">04</span><span class="guide-icon">🧱</span></div><h3 data-i18n="sm.t4">Finetune the lab content</h3><p data-i18n="sm.d4">Open pencil Maker mode. Add or reorder labs, steps, pages, localized text, prompts, and screenshots; publish only ready labs.</p></article>
+    <article class="guide-card"><div class="guide-top"><span class="guide-no">05</span><span class="guide-icon">🚀</span></div><h3 data-i18n="sm.t5">Save, test, and publish</h3><p data-i18n="sm.d5">Save to write <code>labs.json</code>, test locally in each language, then select Publish to commit and push branding plus lab content.</p></article>
+    <article class="guide-card hot"><div class="guide-top"><span class="guide-no">06</span><span class="guide-icon">🌐</span></div><h3 data-i18n="sm.t6">Confirm GitHub Pages</h3><p data-i18n="sm.d6">Wait for the GitHub Actions Deploy workflow, then hard-refresh the live URL and verify branding, email access, languages, and lab flow.</p></article>
+  </div>
+  <div class="guide-note"><strong data-i18n="sm.noteLabel">Manual fallback</strong><span data-i18n="sm.note"><code>git add public/content/branding.json public/content/labs.json</code> &rarr; commit &rarr; <code>git push origin main</code></span></div>
+</section>
+
+<!-- 11. PUBLISH ONCE -->
 <section class="slide" data-title="Publish once">
   <div class="s-head"><span class="kicker" data-i18n="s7.k">Unique feature 04</span><h2 data-i18n="s7.h">Publish once &mdash; <span class="grad">everyone sees it</span></h2></div>
   <div class="flow">
@@ -370,6 +418,72 @@ const html = /* html */ `<!doctype html>
     font-size:1.35rem;color:#fff;background:var(--grad);box-shadow:0 8px 22px rgba(124,58,237,.35)}
   .frow b{display:block;font-size:1.34rem}
   .frow span{display:block;color:var(--muted);font-size:1.16rem;line-height:1.4;margin-top:3px}
+
+  /* participant + maker guidance */
+  .participant-guide{padding:3.8% 4.8%}
+  .participant-layout{flex:1;min-height:0;display:grid;grid-template-columns:.95fr 1.05fr;gap:4.4%;align-items:stretch}
+  .participant-visual{min-width:0;min-height:0;display:flex;flex-direction:column;justify-content:center}
+  .participant-head .kicker{margin-bottom:10px;padding-top:6px;padding-bottom:6px}
+  .participant-head h2{font-size:2.55rem;line-height:1.08}
+  .participant-head p{margin-top:8px;max-width:58ch;color:var(--muted);font-size:.96rem;line-height:1.35}
+  .participant-shot{min-height:0;margin-top:16px;padding:8px;border-radius:15px;background:rgba(255,255,255,.045);border:1px solid var(--cardbrd);box-shadow:0 24px 56px rgba(0,0,0,.38)}
+  .participant-shot img{display:block;width:100%;height:20.5rem;object-fit:cover;object-position:center 50%;border-radius:10px}
+  .participant-url{margin-top:13px;display:flex;align-items:center;gap:12px;padding:11px 14px;text-decoration:none;color:inherit;
+    background:linear-gradient(155deg,rgba(167,139,250,.16),rgba(34,211,238,.08));border:1px solid rgba(167,139,250,.4);border-radius:13px}
+  .participant-url-icon{flex:0 0 auto;width:2.35rem;height:2.35rem;display:grid;place-items:center;border-radius:10px;font-size:1.35rem;font-weight:900;color:#fff;background:var(--grad)}
+  .participant-url-copy{min-width:0;display:block;line-height:1.15}
+  .participant-url-copy small{display:block;color:var(--muted);font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+  .participant-url-copy code{display:block;margin-top:4px;color:#F4F1FF;font-family:Consolas,"Courier New",monospace;font-size:1.03rem;font-weight:700;white-space:nowrap}
+  .participant-url-arrow{margin-left:auto;color:var(--cyan);font-size:1.45rem;font-weight:900}
+  .participant-flow{min-width:0;display:flex;flex-direction:column;justify-content:center;gap:9px}
+  .participant-step{position:relative;display:grid;grid-template-columns:3.15rem 1fr;gap:13px;align-items:center;padding:10px 14px;
+    background:linear-gradient(155deg,rgba(255,255,255,.07),rgba(255,255,255,.025));border:1px solid var(--cardbrd);border-radius:14px}
+  .participant-step:not(:last-child)::after{content:"";position:absolute;left:2.04rem;top:3.8rem;bottom:-10px;width:2px;z-index:0;background:linear-gradient(180deg,rgba(167,139,250,.58),rgba(34,211,238,.2))}
+  .participant-step.hot{background:linear-gradient(155deg,rgba(167,139,250,.22),rgba(236,72,153,.14));border-color:rgba(236,72,153,.45)}
+  .participant-step-icon{position:relative;z-index:1;width:3.15rem;height:3.15rem;display:grid;place-items:center;border-radius:12px;font-size:1.5rem;line-height:1;
+    background:linear-gradient(155deg,rgba(167,139,250,.22),rgba(34,211,238,.11));border:1px solid var(--cardbrd);filter:drop-shadow(0 5px 10px rgba(0,0,0,.3))}
+  .participant-step.hot .participant-step-icon{background:var(--grad);border-color:transparent}
+  .participant-step-copy{min-width:0}
+  .participant-step-title{display:flex;align-items:baseline;gap:8px;min-width:0}
+  .participant-step-no{flex:0 0 auto;color:var(--purple);font-size:.7rem;font-weight:900;letter-spacing:.12em}
+  .participant-step b{color:#F7F5FF;font-size:1.13rem;line-height:1.15;font-weight:900}
+  .participant-step p{margin-top:3px;color:#CBC8DC;font-size:.88rem;line-height:1.28}
+  html[lang="zh-CN"] .participant-step b{font-size:1.12rem}
+  html[lang="ja"] .participant-step b,html[lang="ko"] .participant-step b{font-size:1.05rem}
+  html[lang="ja"] .participant-step p,html[lang="ko"] .participant-step p{font-size:.81rem}
+  html[lang="th"] .participant-step b,html[lang="hi"] .participant-step b{font-size:1rem}
+  html[lang="th"] .participant-step p,html[lang="hi"] .participant-step p{font-size:.76rem;line-height:1.24}
+  .guide-slide{padding-top:3.7%;padding-bottom:3.7%}
+  .guide-head{margin-bottom:1.7%}
+  .guide-head .kicker{margin-bottom:9px;padding-top:6px;padding-bottom:6px}
+  .guide-head h2{font-size:2.55rem}
+  .guide-lede{margin-top:7px;max-width:88ch;color:var(--muted);font-size:.96rem;line-height:1.35}
+  .guide-grid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:12px}
+  .guide-card{min-width:0;position:relative;overflow:hidden;padding:20px 22px;display:flex;flex-direction:column;
+    background:linear-gradient(155deg,rgba(255,255,255,.075),rgba(255,255,255,.025));border:1px solid var(--cardbrd);border-radius:15px;
+    box-shadow:0 14px 34px rgba(0,0,0,.18)}
+  .guide-card::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--grad);opacity:.72}
+  .guide-card::after{content:"";position:absolute;right:-38px;top:-46px;width:120px;height:120px;border-radius:50%;background:var(--grad);opacity:.13}
+  .guide-card.hot{background:linear-gradient(160deg,rgba(167,139,250,.25),rgba(236,72,153,.17));border-color:rgba(236,72,153,.52)}
+  .guide-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;position:relative;z-index:1}
+  .guide-no{display:inline-flex;align-items:center;justify-content:center;min-width:2.45rem;height:1.7rem;padding:0 .52rem;border-radius:999px;
+    font-size:.9rem;font-weight:900;letter-spacing:.12em;color:#F3F1FB;background:rgba(167,139,250,.20);border:1px solid rgba(167,139,250,.36)}
+  .guide-icon{display:grid;place-items:center;width:2.55rem;height:2.55rem;border-radius:12px;font-size:1.72rem;line-height:1;
+    background:rgba(255,255,255,.08);border:1px solid var(--cardbrd);filter:drop-shadow(0 6px 12px rgba(0,0,0,.34))}
+  .guide-card h3{position:relative;z-index:1;font-size:1.33rem;line-height:1.16;font-weight:900;letter-spacing:-.012em;color:#F7F5FF}
+  .guide-card p{position:relative;z-index:1;margin-top:9px;color:#CBC8DC;font-size:1rem;line-height:1.4}
+  .guide-card code,.guide-note code{font-family:Consolas,"Courier New",monospace;color:#EFEDFA;background:rgba(255,255,255,.08);padding:1px 5px;border-radius:5px;font-size:.88em}
+  .guide-note{display:flex;align-items:center;gap:12px;margin-top:9px;padding:8px 13px;background:rgba(34,211,238,.07);border:1px solid var(--cardbrd);border-radius:11px}
+  .guide-note strong{flex:0 0 auto;color:var(--cyan);font-size:.9rem;letter-spacing:.08em;text-transform:uppercase}
+  .guide-note span{min-width:0;color:#E0DEEB;font-size:.9rem;line-height:1.3}
+  .maker-guide .guide-card:nth-child(-n+3){border-top-color:rgba(167,139,250,.58)}
+  .maker-guide .guide-card:nth-child(n+4){border-top-color:rgba(34,211,238,.48)}
+  html[lang="zh-CN"] .guide-card h3{font-size:1.42rem}
+  html[lang="zh-CN"] .guide-card p{font-size:1.05rem}
+  html[lang="ja"] .guide-card h3,html[lang="ko"] .guide-card h3{font-size:1.22rem}
+  html[lang="ja"] .guide-card p,html[lang="ko"] .guide-card p{font-size:.93rem}
+  html[lang="th"] .guide-card h3,html[lang="hi"] .guide-card h3{font-size:1.18rem}
+  html[lang="th"] .guide-card p,html[lang="hi"] .guide-card p{font-size:.88rem;line-height:1.34}
 
   /* images */
   .framed{width:100%;border-radius:14px;border:1px solid var(--cardbrd);box-shadow:var(--glow)}
@@ -597,10 +711,14 @@ const html = /* html */ `<!doctype html>
       's5.k':'独特功能 02','s5.h':'边做边学、<span class="grad">真正愉悦</span>的体验',
       's5.b1':'丰富的 Markdown 步骤','s5.s1':'标题、表格、提示框与重点都渲染精美。','s5.b2':'可复制的提示词','s5.s2':'每条说明一键复制到剪贴板。','s5.b3':'进度跟踪','s5.s3':'全部 29 个步骤逐步完成，本地保存。','s5.b4':'完成时的烟花','s5.s4':'每完成一步都有庆祝的烟花奖励。','s5.b5':'玻璃拟态界面，明暗主题','s5.s5':'现代磨砂玻璃设计，处处适配主题。',
       's6.k':'独特功能 03','s6.h':'几秒钟即可联合品牌化一个<span class="grad">专属研讨会</span>',
-      's6.b1':'Microsoft × 客户','s6.s1':'设置客户名称或徽标 &mdash; 封面即刻联合品牌化。','s6.b2':'保存与复用','s6.s2':'研讨会历史：保存、检索并快速搜索过往配置。','s6.b3':'徽标可用 URL 或上传','s6.s3':'自包含 &mdash; 无需外部图片托管。','s6.b4':'密码保护','s6.s4':'仅主持人可更改品牌设置 &mdash; 与编辑模式同一道门槛。',
+      's6.b1':'Microsoft × 客户','s6.s1':'设置客户名称或徽标，并登记参与者邮箱以验证实验访问权限 &mdash; 封面即刻联合品牌化。','s6.b2':'保存与复用','s6.s2':'研讨会历史：保存、检索并快速搜索过往配置。','s6.b3':'徽标可用 URL 或上传','s6.s3':'自包含 &mdash; 无需外部图片托管。','s6.b4':'密码保护','s6.s4':'仅主持人可更改品牌设置 &mdash; 与编辑模式同一道门槛。',
       's7.k':'独特功能 04','s7.h':'发布一次 &mdash; <span class="grad">人人可见</span>',
       's7.b1':'本地配置','s7.s1':'在创作者视图中设置品牌并编辑实验内容。','s7.b2':'应用并提交','s7.s2':'品牌与内容以 <code>branding.json</code> + <code>labs.json</code> 形式发布。','s7.b3':'自动部署','s7.s3':'每次推送时 GitHub Actions 自动构建并发布到 GitHub Pages。','s7.b4':'人人可见','s7.s4':'参与者打开在线 URL &mdash; 相同内容、相同品牌。',
       's7.note':'无需逐个用户配置。发布的文件是每位访问者的唯一可信来源。',
+      'sp.k':'参与者指南','sp.h':'从注册邮箱开始，完成<span class="grad">实验 6</span>','sp.lede':'按照以下引导流程安全进入、浏览每个实验，并把每条可复制的说明转化为动手实践。',
+      'sp.t1':'打开在线研讨会','sp.d1':'访问 <code>aka.ms/ai-agent-jumpstart-v2</code>，并在欢迎页选择首选语言。','sp.t2':'验证注册邮箱','sp.d2':'使用主办方登记的邮箱。匹配不区分大小写（ABC = abc）；未登记的邮箱无法进入。','sp.t3':'从实验 1 开始','sp.d3':'选择“进入研讨会”。使用左侧实验菜单（或移动端菜单）打开实验 1，然后查看成果、目标和先决条件。','sp.t4':'跟随引导步骤','sp.d4':'使用目录或顶部步骤选择器。按顺序完成每个编号页面，并遵循其中的截图与提示。','sp.t5':'复制、切换、操作、返回','sp.d5':'在提示词上选择“复制”，切换到 Copilot Studio 或指定应用，执行活动，然后返回指南。','sp.t6':'完成并继续到实验 6','sp.d6':'将每一步标记为“完成”。选择“继续前进”或从菜单选择下一个实验；重复直到实验 6。进度保存在此浏览器。','sp.noteLabel':'温馨提示','sp.note':'使用同一浏览器和设备以保留进度。如果邮箱无法识别，请联系研讨会主办方。',
+      'sm.k':'创作者指南','sm.h':'配置、构建并<span class="grad">发布</span>客户研讨会','sm.lede':'在本地准备活动、构建引导内容，并通过 GitHub Pages 发布品牌和实验。',
+      'sm.t1':'在本地运行并解锁','sm.d1':'运行 <code>npm run dev</code>，打开 <code>localhost:5173</code>，选择齿轮或铅笔图标，然后输入创作者密码。','sm.t2':'创建活动品牌','sm.d2':'设置主办方和客户名称、徽标 URL 或上传、准备者/日期及主办方联系人。保存到历史记录以便复用。','sm.t3':'登记参与者','sm.d3':'逐个添加邮箱，或粘贴以逗号、空格、制表符或换行分隔的列表。检查邮箱标签，然后选择“应用”写入 <code>branding.json</code>。','sm.t4':'优化实验内容','sm.d4':'打开铅笔图标的创作者模式。添加或重排实验、步骤、页面、本地化文本、提示词和截图；仅发布已就绪的实验。','sm.t5':'保存、测试并发布','sm.d5':'选择“保存”写入 <code>labs.json</code>，用每种语言进行本地测试，然后选择“发布”提交并推送品牌与实验内容。','sm.t6':'确认 GitHub Pages','sm.d6':'等待 GitHub Actions 的 Deploy 工作流完成，然后强制刷新在线 URL，验证品牌、邮箱访问、语言和实验流程。','sm.noteLabel':'手动备用方式','sm.note':'<code>git add public/content/branding.json public/content/labs.json</code> &rarr; 提交 &rarr; <code>git push origin main</code>',
       's8.k':'⚡ 快速起步','s8.h':'JumpStart v2 就是<span class="grad">快速起步</span>',
       's8.b1':'打开链接','s8.s1':'一个 URL，任意现代浏览器。开始无需安装、无需登录。','s8.b2':'选择语言','s8.s2':'在封面切换 EN / 中文 / 日本語 / 한국어 / ไทย / हिन्दी。','s8.b3':'进入并构建','s8.s3':'逐个实验推进，复制提示词，跟踪进度，尽情庆祝。','s8.url':'在线研讨会','s8.lede':'一个链接。任意语言。几分钟内构建真实 Agent — 无需安装、无需等待。','s8.c1':'上手超简单','s8.c2':'自助服务','s8.c3':'自定进度','s8.c4':'复制即构建','s8.c5':'多语言就绪',
       's9.badge':'随时可以开始','s9.live':'在线研讨会','s9.thanks':'特别感谢 JumpStart v-Team 团队的贡献','s9.h':'把 JumpStart v2 带到你的<br><span class="grad">下一场客户研讨会</span>','s9.lede':'无论是内部赋能还是外部客户活动 &mdash; 联合品牌化、分享链接，让参与者亲手构建真实 Agent。','s10.k':'⚡ JumpStart V2','s10.h':'从<span class="grad">实验到影响</span>','s10.t1':'快速起步','s10.d1':'打开一个链接即可开始 — 无需安装、无需配置。','s10.t2':'自助 & 自定进度','s10.d2':'参与者自主推进，你只需引导。','s10.t3':'复制即构建','s10.d3':'可复制的提示词，将每一步变成真正可用的 Agent。','s10.t4':'多语言就绪','s10.d4':'六种语言，一个可分享链接。','s10.t5':'从实验到影响','s10.d5':'快速交付带来真实业务价值的 Agent。',
@@ -626,10 +744,14 @@ const html = /* html */ `<!doctype html>
       's5.k':'独自機能 02','s5.h':'<span class="grad">本当に楽しい</span>、手を動かして学ぶ UX',
       's5.b1':'Markdown 対応の充実した手順','s5.s1':'見出し・表・コールアウト・ハイライトが美しく表示。','s5.b2':'コピーしてすぐ使えるプロンプト','s5.s2':'すべての指示がワンクリックでクリップボードへ。','s5.b3':'進捗トラッキング','s5.s3':'全 29 手順の完了状況を手順ごとに、ローカル保存。','s5.b4':'完了時の花火','s5.s4':'手順を終えるたびにお祝いの演出。','s5.b5':'グラス UI、ライト＆ダーク','s5.s5':'モダンなすりガラス デザイン、全体がテーマ対応。',
       's6.k':'独自機能 03','s6.h':'数秒で<span class="grad">専用ワークショップ</span>を共同ブランド化',
-      's6.b1':'Microsoft × 顧客','s6.s1':'顧客名またはロゴを設定 &mdash; 表紙が即座に共同ブランド化。','s6.b2':'保存＆再利用','s6.s2':'ワークショップ履歴：過去の設定を保存・呼び出し・クイック検索。','s6.b3':'ロゴは URL またはアップロード','s6.s3':'自己完結 &mdash; 外部の画像ホスティング不要。','s6.b4':'パスワード保護','s6.s4':'ブランディング変更はファシリテーターのみ &mdash; 編集モードと同じゲート。',
+      's6.b1':'Microsoft × 顧客','s6.s1':'顧客名またはロゴを設定し、参加者のメールを登録してラボへのアクセスを検証 &mdash; 表紙が即座に共同ブランド化。','s6.b2':'保存＆再利用','s6.s2':'ワークショップ履歴：過去の設定を保存・呼び出し・クイック検索。','s6.b3':'ロゴは URL またはアップロード','s6.s3':'自己完結 &mdash; 外部の画像ホスティング不要。','s6.b4':'パスワード保護','s6.s4':'ブランディング変更はファシリテーターのみ &mdash; 編集モードと同じゲート。',
       's7.k':'独自機能 04','s7.h':'一度公開すれば &mdash; <span class="grad">全員に反映</span>',
       's7.b1':'ローカルで設定','s7.s1':'メーカー ビューでブランディング設定とラボ編集。','s7.b2':'適用してコミット','s7.s2':'ブランディングとコンテンツは <code>branding.json</code> + <code>labs.json</code> として配信。','s7.b3':'自動デプロイ','s7.s3':'プッシュのたびに GitHub Actions がビルドして GitHub Pages に公開。','s7.b4':'全員が閲覧','s7.s4':'参加者はライブ URL を開くだけ &mdash; 同じ内容・同じブランド。',
       's7.note':'ユーザーごとの設定は不要。公開ファイルがすべての訪問者にとって唯一の信頼できる情報源です。',
+      'sp.k':'参加者ガイド','sp.h':'登録メールから<span class="grad">ラボ 6</span>まで','sp.lede':'次のガイドに従って安全に入場し、すべてのラボを移動し、コピー対応の手順を実際の操作に変えます。',
+      'sp.t1':'ライブ ワークショップを開く','sp.d1':'<code>aka.ms/ai-agent-jumpstart-v2</code> を開き、ウェルカム ページで使用する言語を選びます。','sp.t2':'登録メールを確認する','sp.d2':'主催者が登録したメールを使用します。大文字と小文字は区別されず（ABC = abc）、未登録のメールでは入場できません。','sp.t3':'ラボ 1 から開始する','sp.d3':'「ワークショップを開く」を選択します。左のラボ メニュー（モバイルではメニュー）からラボ 1 を開き、成果・目標・前提条件を確認します。','sp.t4':'ガイド付き手順に従う','sp.d4':'目次または上部の手順セレクターを使用します。番号順に各ページを進め、スクリーンショットとコールアウトに従います。','sp.t5':'コピー、切替、実行、戻る','sp.d5':'プロンプトで「コピー」を選び、Copilot Studio または指定アプリへ切り替えて操作し、ガイドに戻ります。','sp.t6':'完了してラボ 6 まで進む','sp.d6':'各手順を「完了」にします。「続ける」またはメニューの次のラボを選び、ラボ 6 まで繰り返します。進捗はこのブラウザーに保存されます。','sp.noteLabel':'ヒント','sp.note':'進捗を保持するには同じブラウザーと端末を使用します。メールが認識されない場合は主催者に連絡してください。',
+      'sm.k':'メーカー ガイド','sm.h':'顧客ワークショップを設定・構築・<span class="grad">公開</span>','sm.lede':'ローカルでイベントを準備し、ガイド コンテンツを構築して、ブランディングとラボを GitHub Pages に公開します。',
+      'sm.t1':'ローカル実行とロック解除','sm.d1':'<code>npm run dev</code> を実行し、<code>localhost:5173</code> を開き、歯車または鉛筆を選んでメーカー パスワードを入力します。','sm.t2':'イベント ブランドを作成','sm.d2':'主催者名・顧客名、ロゴ URL またはアップロード、作成者/日付、主催者の連絡先を設定します。再利用するには履歴に保存します。','sm.t3':'参加者を登録','sm.d3':'メールを 1 件ずつ追加するか、カンマ・スペース・タブ・改行区切りのリストを貼り付けます。チップを確認し、「適用」で <code>branding.json</code> に書き込みます。','sm.t4':'ラボ コンテンツを微調整','sm.d4':'鉛筆のメーカー モードを開きます。ラボ、手順、ページ、多言語テキスト、プロンプト、画像を追加・並べ替えし、準備済みのラボだけを公開します。','sm.t5':'保存、テスト、公開','sm.d5':'「保存」で <code>labs.json</code> に書き込み、各言語をローカル テストしてから、「公開」でブランドとラボ内容をコミットしてプッシュします。','sm.t6':'GitHub Pages を確認','sm.d6':'GitHub Actions の Deploy ワークフローを待ち、ライブ URL を強制更新して、ブランド、メール アクセス、言語、ラボ フローを確認します。','sm.noteLabel':'手動フォールバック','sm.note':'<code>git add public/content/branding.json public/content/labs.json</code> &rarr; コミット &rarr; <code>git push origin main</code>',
       's8.k':'⚡ ファストスタート','s8.h':'JumpStart v2 は<span class="grad">ファストスタート</span>',
       's8.b1':'リンクを開く','s8.s1':'URL 1 つ、モダンなブラウザで。インストールもサインインも不要。','s8.b2':'言語を選ぶ','s8.s2':'表紙で EN / 中文 / 日本語 / 한국어 / ไทย / हिन्दी に切り替え。','s8.b3':'入って構築','s8.s3':'ラボごとに進め、プロンプトをコピー、進捗を記録、お祝い。','s8.url':'ライブ ワークショップ','s8.lede':'リンク 1 つ。どの言語でも。数分で本物の Agent — インストールも待ち時間もなし。','s8.c1':'起動は超かんたん','s8.c2':'セルフサービス','s8.c3':'自分のペースで','s8.c4':'コピーして構築','s8.c5':'多言語対応',
       's9.badge':'準備はいつでも','s9.live':'ライブ ワークショップ','s9.thanks':'JumpStart v-Team の皆さんの貢献に感謝します','s9.h':'JumpStart v2 を<br><span class="grad">次の顧客ワークショップ</span>へ','s9.lede':'社内イネーブルメントでも外部の顧客イベントでも &mdash; 共同ブランド化してリンクを共有し、参加者に実際の Agent を手を動かして構築してもらいましょう。','s10.k':'⚡ JumpStart V2','s10.h':'<span class="grad">ラボからインパクト</span>へ','s10.t1':'ファストスタート','s10.d1':'リンク 1 つで開始 — インストールも設定も不要。','s10.t2':'セルフサービス & 自分のペース','s10.d2':'参加者が自ら進め、あなたはファシリテート。','s10.t3':'コピーして構築','s10.d3':'コピーできるプロンプトで、各ステップを本物の Agent に。','s10.t4':'多言語対応','s10.d4':'6 言語、共有リンク 1 つ。','s10.t5':'ラボからインパクトへ','s10.d5':'実際のビジネス価値を生む Agent を、素早く届ける。',
@@ -655,10 +777,14 @@ const html = /* html */ `<!doctype html>
       's5.k':'고유 기능 02','s5.h':'직접 해보며 배우는, <span class="grad">정말 즐거운</span> UX',
       's5.b1':'Markdown이 풍부한 단계','s5.s1':'제목, 표, 콜아웃, 강조가 아름답게 렌더링.','s5.b2':'복사해 바로 쓰는 프롬프트','s5.s2':'모든 지침을 클릭 한 번으로 클립보드에.','s5.b3':'진행 상황 추적','s5.s3':'전체 29단계의 단계별 완료를 로컬 저장.','s5.b4':'완료 시 불꽃놀이','s5.s4':'단계를 마칠 때마다 축하 연출로 보상.','s5.b5':'글래스 UI, 라이트 & 다크','s5.s5':'모던한 프로스트 글래스 디자인, 어디서나 테마 대응.',
       's6.k':'고유 기능 03','s6.h':'몇 초 만에 <span class="grad">전용 워크숍</span>을 공동 브랜딩',
-      's6.b1':'Microsoft × 고객','s6.s1':'고객 이름이나 로고 설정 &mdash; 표지가 즉시 공동 브랜딩.','s6.b2':'저장 및 재사용','s6.s2':'워크숍 기록: 과거 설정을 저장, 불러오기, 빠른 검색.','s6.b3':'로고는 URL 또는 업로드','s6.s3':'자체 완결 &mdash; 외부 이미지 호스팅 불필요.','s6.b4':'비밀번호 보호','s6.s4':'브랜딩 변경은 퍼실리테이터만 &mdash; 편집 모드와 동일한 게이트.',
+      's6.b1':'Microsoft × 고객','s6.s1':'고객 이름이나 로고를 설정하고 참가자 이메일을 등록해 랩 접근을 확인 &mdash; 표지가 즉시 공동 브랜딩.','s6.b2':'저장 및 재사용','s6.s2':'워크숍 기록: 과거 설정을 저장, 불러오기, 빠른 검색.','s6.b3':'로고는 URL 또는 업로드','s6.s3':'자체 완결 &mdash; 외부 이미지 호스팅 불필요.','s6.b4':'비밀번호 보호','s6.s4':'브랜딩 변경은 퍼실리테이터만 &mdash; 편집 모드와 동일한 게이트.',
       's7.k':'고유 기능 04','s7.h':'한 번 게시하면 &mdash; <span class="grad">모두가 봅니다</span>',
       's7.b1':'로컬에서 구성','s7.s1':'메이커 뷰에서 브랜딩 설정 및 랩 콘텐츠 편집.','s7.b2':'적용 및 커밋','s7.s2':'브랜딩과 콘텐츠는 <code>branding.json</code> + <code>labs.json</code>으로 배포.','s7.b3':'자동 배포','s7.s3':'푸시할 때마다 GitHub Actions가 빌드하여 GitHub Pages에 게시.','s7.b4':'모두가 봅니다','s7.s4':'참가자는 라이브 URL만 열면 &mdash; 같은 콘텐츠, 같은 브랜드.',
       's7.note':'사용자별 설정이 필요 없습니다. 게시된 파일이 모든 방문자의 단일 진실 소스입니다.',
+      'sp.k':'참가자 가이드','sp.h':'등록 이메일부터 <span class="grad">랩 6</span>까지','sp.lede':'아래 여정에 따라 안전하게 입장하고 모든 랩을 탐색하며 복사 가능한 안내를 실제 실습으로 전환하세요.',
+      'sp.t1':'라이브 워크숍 열기','sp.d1':'<code>aka.ms/ai-agent-jumpstart-v2</code>로 이동하고 환영 페이지에서 원하는 언어를 선택합니다.','sp.t2':'등록 이메일 확인','sp.d2':'주최자가 등록한 이메일을 사용합니다. 대소문자를 구분하지 않으며(ABC = abc), 목록에 없는 이메일은 입장할 수 없습니다.','sp.t3':'랩 1에서 시작','sp.d3':'“워크숍 시작”을 선택합니다. 왼쪽 랩 메뉴(모바일 메뉴)에서 랩 1을 열고 결과, 목표, 필수 조건을 확인합니다.','sp.t4':'가이드 단계 따르기','sp.d4':'목차 또는 상단 단계 선택기를 사용합니다. 번호 순서대로 각 페이지를 진행하고 스크린샷과 콜아웃을 따릅니다.','sp.t5':'복사, 전환, 실행, 복귀','sp.d5':'프롬프트에서 복사를 선택하고 Copilot Studio 또는 지정된 앱으로 전환해 활동을 수행한 다음 가이드로 돌아옵니다.','sp.t6':'완료하고 랩 6까지 계속','sp.d6':'각 단계를 완료로 표시합니다. 계속 진행을 선택하거나 메뉴에서 다음 랩을 선택하고 랩 6까지 반복합니다. 진행 상황은 이 브라우저에 저장됩니다.','sp.noteLabel':'알아두기','sp.note':'진행 상황을 유지하려면 같은 브라우저와 기기를 사용하세요. 이메일이 인식되지 않으면 워크숍 주최자에게 문의하세요.',
+      'sm.k':'메이커 가이드','sm.h':'고객 워크숍 구성, 구축 및 <span class="grad">게시</span>','sm.lede':'로컬에서 행사를 준비하고 가이드 콘텐츠를 구축한 뒤 브랜딩과 랩을 GitHub Pages에 게시합니다.',
+      'sm.t1':'로컬 실행 및 잠금 해제','sm.d1':'<code>npm run dev</code>를 실행하고 <code>localhost:5173</code>을 연 뒤 톱니바퀴나 연필을 선택하고 메이커 암호를 입력합니다.','sm.t2':'행사 브랜드 만들기','sm.d2':'주최자와 고객 이름, 로고 URL 또는 업로드, 작성자/날짜, 주최자 연락처를 설정합니다. 재사용하려면 기록에 저장합니다.','sm.t3':'참가자 등록','sm.d3':'이메일을 하나씩 추가하거나 쉼표, 공백, 탭 또는 줄바꿈으로 구분된 목록을 붙여넣습니다. 칩을 검토한 뒤 적용을 선택해 <code>branding.json</code>에 씁니다.','sm.t4':'랩 콘텐츠 미세 조정','sm.d4':'연필 메이커 모드를 엽니다. 랩, 단계, 페이지, 현지화 텍스트, 프롬프트, 스크린샷을 추가하거나 재정렬하고 준비된 랩만 공개합니다.','sm.t5':'저장, 테스트 및 게시','sm.d5':'저장을 선택해 <code>labs.json</code>에 쓰고 각 언어로 로컬 테스트한 다음, 게시를 선택해 브랜드와 랩 콘텐츠를 커밋하고 푸시합니다.','sm.t6':'GitHub Pages 확인','sm.d6':'GitHub Actions Deploy 워크플로를 기다린 후 라이브 URL을 강력 새로고침하고 브랜딩, 이메일 액세스, 언어, 랩 흐름을 확인합니다.','sm.noteLabel':'수동 대안','sm.note':'<code>git add public/content/branding.json public/content/labs.json</code> &rarr; 커밋 &rarr; <code>git push origin main</code>',
       's8.k':'⚡ 빠른 시작','s8.h':'JumpStart v2는 <span class="grad">빠른 시작</span>',
       's8.b1':'링크 열기','s8.s1':'URL 하나, 최신 브라우저면 됩니다. 설치·로그인 없이 시작.','s8.b2':'언어 선택','s8.s2':'표지에서 EN / 中文 / 日本語 / 한국어 / ไทย / हिन्दी로 전환.','s8.b3':'입장 후 구축','s8.s3':'랩을 차례로 진행하고 프롬프트 복사, 진행 추적, 축하까지.','s8.url':'라이브 워크숍','s8.lede':'링크 하나. 어떤 언어든. 몇 분 만에 진짜 Agent — 설치도 대기도 없이.','s8.c1':'시작이 매우 쉬움','s8.c2':'셀프 서비스','s8.c3':'자기 주도 학습','s8.c4':'복사하고 빌드','s8.c5':'다국어 지원',
       's9.badge':'언제든 준비 완료','s9.live':'라이브 워크숍','s9.thanks':'JumpStart v-Team의 기여에 감사드립니다','s9.h':'JumpStart v2를<br><span class="grad">다음 고객 워크숍</span>으로','s9.lede':'내부 역량 강화든 외부 고객 행사든 &mdash; 공동 브랜딩하고 링크를 공유해 참가자가 실제 Agent를 직접 만들게 하세요.','s10.k':'⚡ JumpStart V2','s10.h':'<span class="grad">랩에서 임팩트</span>로','s10.t1':'빠른 시작','s10.d1':'링크 하나로 시작 — 설치도 설정도 없이.','s10.t2':'셀프 서비스 & 자기 주도','s10.d2':'참가자가 스스로 진행하고 당신은 퍼실리테이션.','s10.t3':'복사하고 빌드','s10.d3':'복사 가능한 프롬프트로 각 단계를 진짜 작동하는 Agent로.','s10.t4':'다국어 지원','s10.d4':'여섯 개 언어, 하나의 공유 링크.','s10.t5':'랩에서 임팩트로','s10.d5':'실제 비즈니스 가치를 주는 Agent를 빠르게 제공.',
@@ -684,10 +810,14 @@ const html = /* html */ `<!doctype html>
       's5.k':'คุณสมบัติเฉพาะ 02','s5.h':'UX เรียนรู้ด้วยการลงมือทำที่<span class="grad">สนุกอย่างแท้จริง</span>',
       's5.b1':'ขั้นตอนที่เต็มไปด้วย Markdown','s5.s1':'หัวข้อ ตาราง คำอธิบาย &amp; ไฮไลต์แสดงผลอย่างสวยงาม','s5.b2':'พรอมป์คัดลอกใช้ได้ทันที','s5.s2':'ทุกคำสั่งคัดลอกไปยังคลิปบอร์ดได้ในคลิกเดียว','s5.b3':'การติดตามความคืบหน้า','s5.s3':'ความสำเร็จรายขั้นครบทั้ง 29 ขั้นตอน บันทึกไว้ในเครื่อง','s5.b4':'พลุเมื่อทำสำเร็จ','s5.s4':'พลุเฉลิมฉลองเป็นรางวัลทุกครั้งที่ทำขั้นตอนเสร็จ','s5.b5':'Glass UI ทั้งสว่าง &amp; มืด','s5.s5':'ดีไซน์กระจกฝ้าสมัยใหม่ รองรับธีมทุกที่',
       's6.k':'คุณสมบัติเฉพาะ 03','s6.h':'ร่วมแบรนด์<span class="grad">เวิร์กช็อปเฉพาะ</span>ได้ในไม่กี่วินาที',
-      's6.b1':'Microsoft &times; ลูกค้า','s6.s1':'ตั้งชื่อหรือโลโก้ลูกค้า &mdash; หน้าปกร่วมแบรนด์ทันที','s6.b2':'บันทึก &amp; นำกลับมาใช้','s6.s2':'ประวัติเวิร์กช็อป: บันทึก เรียกคืน และค้นหาการตั้งค่าเดิมอย่างรวดเร็ว','s6.b3':'โลโก้ด้วย URL หรืออัปโหลด','s6.s3':'อยู่ในตัวเอง &mdash; ไม่ต้องมีโฮสต์รูปภาพภายนอก','s6.b4':'ป้องกันด้วยรหัสผ่าน','s6.s4':'เฉพาะผู้อำนวยความสะดวกเท่านั้นที่เปลี่ยนแบรนด์ได้ &mdash; ประตูเดียวกับโหมดแก้ไข',
+      's6.b1':'Microsoft &times; ลูกค้า','s6.s1':'ตั้งชื่อหรือโลโก้ลูกค้า และลงทะเบียนอีเมลผู้เข้าร่วมเพื่อตรวจสอบสิทธิ์เข้าแล็บ &mdash; หน้าปกร่วมแบรนด์ทันที','s6.b2':'บันทึก &amp; นำกลับมาใช้','s6.s2':'ประวัติเวิร์กช็อป: บันทึก เรียกคืน และค้นหาการตั้งค่าเดิมอย่างรวดเร็ว','s6.b3':'โลโก้ด้วย URL หรืออัปโหลด','s6.s3':'อยู่ในตัวเอง &mdash; ไม่ต้องมีโฮสต์รูปภาพภายนอก','s6.b4':'ป้องกันด้วยรหัสผ่าน','s6.s4':'เฉพาะผู้อำนวยความสะดวกเท่านั้นที่เปลี่ยนแบรนด์ได้ &mdash; ประตูเดียวกับโหมดแก้ไข',
       's7.k':'คุณสมบัติเฉพาะ 04','s7.h':'เผยแพร่ครั้งเดียว &mdash; <span class="grad">ทุกคนเห็น</span>',
       's7.b1':'ตั้งค่าในเครื่อง','s7.s1':'ตั้งแบรนด์ &amp; แก้ไขเนื้อหาแล็บในมุมมองผู้สร้าง','s7.b2':'ใช้งาน &amp; คอมมิต','s7.s2':'แบรนด์ &amp; เนื้อหาถูกส่งเป็น <code>branding.json</code> + <code>labs.json</code>','s7.b3':'ปรับใช้อัตโนมัติ','s7.s3':'GitHub Actions สร้าง &amp; เผยแพร่ไปยัง GitHub Pages ทุกครั้งที่พุช','s7.b4':'ทุกคนเห็น','s7.s4':'ผู้เข้าร่วมเปิด URL สด &mdash; เนื้อหาเดียวกัน แบรนด์เดียวกัน',
       's7.note':'ไม่ต้องตั้งค่ารายบุคคล ไฟล์ที่เผยแพร่คือแหล่งข้อมูลจริงเพียงหนึ่งเดียวสำหรับผู้เยี่ยมชมทุกคน',
+      'sp.k':'คู่มือผู้เข้าร่วม','sp.h':'จากอีเมลที่ลงทะเบียนถึง<span class="grad">แล็บ 6</span>','sp.lede':'ทำตามเส้นทางด้านล่างเพื่อเข้าใช้อย่างปลอดภัย ไปยังทุกแล็บ และเปลี่ยนคำแนะนำที่พร้อมคัดลอกเป็นการลงมือทำจริง',
+      'sp.t1':'เปิดเวิร์กช็อปสด','sp.d1':'ไปที่ <code>aka.ms/ai-agent-jumpstart-v2</code> และเลือกภาษาที่ต้องการในหน้าต้อนรับ','sp.t2':'ยืนยันอีเมลที่ลงทะเบียน','sp.d2':'ใช้อีเมลที่ผู้จัดลงทะเบียนไว้ ระบบไม่แยกตัวพิมพ์ใหญ่-เล็ก (ABC = abc) และอีเมลที่ไม่อยู่ในรายการจะเข้าไม่ได้','sp.t3':'เริ่มที่แล็บ 1','sp.d3':'เลือก “เข้าสู่เวิร์กช็อป” ใช้เมนูแล็บด้านซ้าย (หรือเมนูมือถือ) เปิดแล็บ 1 แล้วทบทวนผลลัพธ์ เป้าหมาย และข้อกำหนดเบื้องต้น','sp.t4':'ทำตามขั้นตอนแนะนำ','sp.d4':'ใช้สารบัญหรือตัวเลือกขั้นตอนด้านบน ทำแต่ละหน้าตามลำดับหมายเลขและทำตามภาพหน้าจอและคำแนะนำ','sp.t5':'คัดลอก สลับ ทำ แล้วกลับ','sp.d5':'เลือกคัดลอกที่พรอมป์ สลับไป Copilot Studio หรือแอปที่ระบุ ทำกิจกรรม แล้วกลับมาที่คู่มือ','sp.t6':'ทำให้เสร็จและไปต่อถึงแล็บ 6','sp.d6':'ทำเครื่องหมายแต่ละขั้นตอนว่าเสร็จ เลือกไปต่อหรือเลือกแล็บถัดไปจากเมนู แล้วทำซ้ำถึงแล็บ 6 ความคืบหน้าเก็บในเบราว์เซอร์นี้','sp.noteLabel':'ควรรู้','sp.note':'ใช้เบราว์เซอร์และอุปกรณ์เดิมเพื่อเก็บความคืบหน้า หากระบบไม่รู้จักอีเมล ให้ติดต่อผู้จัดเวิร์กช็อป',
+      'sm.k':'คู่มือผู้สร้าง','sm.h':'กำหนดค่า สร้าง และ<span class="grad">เผยแพร่</span>เวิร์กช็อปลูกค้า','sm.lede':'เตรียมงานในเครื่อง สร้างเนื้อหาแนะนำ และเผยแพร่ทั้งแบรนด์และแล็บผ่าน GitHub Pages',
+      'sm.t1':'รันในเครื่องและปลดล็อก','sm.d1':'รัน <code>npm run dev</code> เปิด <code>localhost:5173</code> เลือกไอคอนเฟืองหรือดินสอ แล้วป้อนรหัสผ่านผู้สร้าง','sm.t2':'สร้างแบรนด์ของงาน','sm.d2':'ตั้งชื่อผู้จัดและลูกค้า URL โลโก้หรืออัปโหลด ผู้จัดทำ/วันที่ และผู้ติดต่อของผู้จัด บันทึกในประวัติเพื่อนำกลับมาใช้','sm.t3':'ลงทะเบียนผู้เข้าร่วม','sm.d3':'เพิ่มอีเมลทีละรายการ หรือวางรายการที่คั่นด้วยจุลภาค เว้นวรรค แท็บ หรือขึ้นบรรทัดใหม่ ตรวจสอบชิป แล้วเลือกใช้งานเพื่อเขียน <code>branding.json</code>','sm.t4':'ปรับแต่งเนื้อหาแล็บ','sm.d4':'เปิดโหมดผู้สร้างด้วยดินสอ เพิ่มหรือเรียงแล็บ ขั้นตอน หน้า ข้อความหลายภาษา พรอมป์ และภาพหน้าจอใหม่ และเผยแพร่เฉพาะแล็บที่พร้อม','sm.t5':'บันทึก ทดสอบ และเผยแพร่','sm.d5':'เลือกบันทึกเพื่อเขียน <code>labs.json</code> ทดสอบแต่ละภาษาในเครื่อง แล้วเลือกเผยแพร่เพื่อคอมมิตและพุชแบรนด์กับเนื้อหาแล็บ','sm.t6':'ยืนยัน GitHub Pages','sm.d6':'รอเวิร์กโฟลว์ Deploy ของ GitHub Actions จากนั้นรีเฟรช URL สดแบบไม่ใช้แคช และตรวจสอบแบรนด์ การเข้าใช้อีเมล ภาษา และเส้นทางแล็บ','sm.noteLabel':'ทางเลือกแบบทำเอง','sm.note':'<code>git add public/content/branding.json public/content/labs.json</code> &rarr; คอมมิต &rarr; <code>git push origin main</code>',
       's8.k':'⚡ เริ่มเร็ว','s8.h':'JumpStart v2 คือ<span class="grad">การเริ่มต้นที่รวดเร็ว</span>',
       's8.b1':'เปิดลิงก์','s8.s1':'URL เดียว เบราว์เซอร์สมัยใหม่ใดก็ได้ เริ่มได้โดยไม่ต้องติดตั้งหรือลงชื่อเข้าใช้','s8.b2':'เลือกภาษา','s8.s2':'สลับเป็น EN / 中文 / 日本語 / 한국어 / ไทย / हिन्दी ที่หน้าปก','s8.b3':'เข้าสู่ระบบ &amp; สร้าง','s8.s3':'ทำทีละแล็บ คัดลอกพรอมป์ ติดตามความคืบหน้า และเฉลิมฉลอง','s8.url':'เวิร์กช็อปสด','s8.lede':'ลิงก์เดียว ทุกภาษา สร้าง Agent จริงในไม่กี่นาที — ไม่ต้องติดตั้ง ไม่ต้องรอ','s8.c1':'เริ่มง่ายสุด ๆ','s8.c2':'บริการตนเอง','s8.c3':'เรียนตามจังหวะตัวเอง','s8.c4':'คัดลอกแล้วสร้าง','s8.c5':'พร้อมหลายภาษา',
       's9.badge':'พร้อมเมื่อคุณพร้อม','s9.live':'เวิร์กช็อปสด','s9.thanks':'ขอขอบคุณการมีส่วนร่วมจากทีม JumpStart v-Team','s9.h':'นำ JumpStart v2 ไปสู่<br><span class="grad">เวิร์กช็อปลูกค้าครั้งถัดไป</span>','s9.lede':'ไม่ว่าจะเป็นการเสริมศักยภาพภายในหรืออีเวนต์ลูกค้าภายนอก &mdash; ร่วมแบรนด์ แชร์ลิงก์ และให้ผู้เข้าร่วมสร้าง Agent จริงด้วยตนเอง','s10.k':'⚡ JumpStart V2','s10.h':'จาก<span class="grad">แล็บสู่ผลลัพธ์</span>','s10.t1':'เริ่มเร็ว','s10.d1':'เปิดลิงก์เดียวก็เริ่มได้ — ไม่ต้องติดตั้ง ไม่ต้องตั้งค่า','s10.t2':'บริการตนเอง & ตามจังหวะ','s10.d2':'ผู้เข้าร่วมขับเคลื่อนเอง ส่วนคุณเป็นผู้อำนวยความสะดวก','s10.t3':'คัดลอกแล้วสร้าง','s10.d3':'พรอมป์ที่คัดลอกได้ เปลี่ยนแต่ละขั้นตอนเป็น Agent ที่ใช้งานได้จริง','s10.t4':'พร้อมหลายภาษา','s10.d4':'หกภาษา ลิงก์แชร์เดียว','s10.t5':'จากแล็บสู่ผลลัพธ์','s10.d5':'ส่งมอบ Agent ที่สร้างคุณค่าทางธุรกิจจริง — อย่างรวดเร็ว',
@@ -713,10 +843,14 @@ const html = /* html */ `<!doctype html>
       's5.k':'अद्वितीय सुविधा 02','s5.h':'करके-सीखने वाला UX जो <span class="grad">वाकई आनंददायक</span> है',
       's5.b1':'Markdown-समृद्ध चरण','s5.s1':'शीर्षक, तालिकाएँ, कॉलआउट &amp; हाइलाइट सुंदर ढंग से प्रस्तुत होते हैं।','s5.b2':'कॉपी-तैयार प्रॉम्प्ट','s5.s2':'हर निर्देश एक क्लिक में क्लिपबोर्ड पर।','s5.b3':'प्रगति ट्रैकिंग','s5.s3':'सभी 29 चरणों में प्रति-चरण पूर्णता, स्थानीय रूप से सहेजी गई।','s5.b4':'पूर्ण होने पर आतिशबाज़ी','s5.s4':'हर पूरा हुआ चरण एक उत्सवी आतिशबाज़ी से पुरस्कृत होता है।','s5.b5':'Glass UI, हल्का &amp; गहरा','s5.s5':'आधुनिक फ्रॉस्टेड-ग्लास डिज़ाइन, हर जगह थीम-अनुरूप।',
       's6.k':'अद्वितीय सुविधा 03','s6.h':'सेकंडों में एक <span class="grad">समर्पित वर्कशॉप</span> को को-ब्रांड करें',
-      's6.b1':'Microsoft &times; ग्राहक','s6.s1':'ग्राहक का नाम या लोगो सेट करें &mdash; कवर तुरंत को-ब्रांड हो जाता है।','s6.b2':'सहेजें &amp; पुनः उपयोग करें','s6.s2':'वर्कशॉप इतिहास: पिछले सेटअप सहेजें, पुनः प्राप्त करें, और त्वरित खोजें।','s6.b3':'URL या अपलोड द्वारा लोगो','s6.s3':'स्व-निहित &mdash; किसी बाहरी छवि होस्टिंग की आवश्यकता नहीं।','s6.b4':'पासवर्ड-संरक्षित','s6.s4':'केवल सूत्रधार ही ब्रांडिंग बदल सकते हैं &mdash; संपादन मोड जैसा ही गेट।',
+      's6.b1':'Microsoft &times; ग्राहक','s6.s1':'ग्राहक का नाम या लोगो सेट करें, और लैब पहुँच सत्यापित करने के लिए प्रतिभागियों के ईमेल पंजीकृत करें &mdash; कवर तुरंत को-ब्रांड हो जाता है।','s6.b2':'सहेजें &amp; पुनः उपयोग करें','s6.s2':'वर्कशॉप इतिहास: पिछले सेटअप सहेजें, पुनः प्राप्त करें, और त्वरित खोजें।','s6.b3':'URL या अपलोड द्वारा लोगो','s6.s3':'स्व-निहित &mdash; किसी बाहरी छवि होस्टिंग की आवश्यकता नहीं।','s6.b4':'पासवर्ड-संरक्षित','s6.s4':'केवल सूत्रधार ही ब्रांडिंग बदल सकते हैं &mdash; संपादन मोड जैसा ही गेट।',
       's7.k':'अद्वितीय सुविधा 04','s7.h':'एक बार प्रकाशित करें &mdash; <span class="grad">सब देखते हैं</span>',
       's7.b1':'स्थानीय रूप से कॉन्फ़िगर करें','s7.s1':'मेकर व्यू में ब्रांडिंग सेट करें &amp; लैब सामग्री संपादित करें।','s7.b2':'लागू करें &amp; कमिट करें','s7.s2':'ब्रांडिंग &amp; सामग्री <code>branding.json</code> + <code>labs.json</code> के रूप में भेजी जाती है।','s7.b3':'स्वतः-डिप्लॉय','s7.s3':'हर पुश पर GitHub Actions बनाकर GitHub Pages पर प्रकाशित करता है।','s7.b4':'सब देखते हैं','s7.s4':'प्रतिभागी लाइव URL खोलते हैं &mdash; वही सामग्री, वही ब्रांड।',
       's7.note':'कोई प्रति-उपयोगकर्ता सेटअप नहीं। प्रकाशित फ़ाइलें हर आगंतुक के लिए एकमात्र विश्वसनीय स्रोत हैं।',
+      'sp.k':'प्रतिभागी मार्गदर्शिका','sp.h':'पंजीकृत ईमेल से <span class="grad">लैब 6</span> तक','sp.lede':'सुरक्षित रूप से प्रवेश करने, हर लैब में जाने, और कॉपी-तैयार निर्देशों को व्यावहारिक कार्य में बदलने के लिए नीचे की यात्रा अपनाएँ।',
+      'sp.t1':'लाइव वर्कशॉप खोलें','sp.d1':'<code>aka.ms/ai-agent-jumpstart-v2</code> खोलें और स्वागत पृष्ठ पर अपनी पसंदीदा भाषा चुनें।','sp.t2':'पंजीकृत ईमेल सत्यापित करें','sp.d2':'होस्ट द्वारा पंजीकृत ईमेल का उपयोग करें। मिलान केस-असंवेदनशील है (ABC = abc); सूची से बाहर ईमेल प्रवेश नहीं कर सकते।','sp.t3':'लैब 1 से शुरू करें','sp.d3':'“वर्कशॉप में प्रवेश करें” चुनें। बाएँ लैब मेनू (या मोबाइल मेनू) से लैब 1 खोलें, फिर परिणाम, उद्देश्य और पूर्वापेक्षाएँ देखें।','sp.t4':'निर्देशित चरणों का पालन करें','sp.d4':'विषय-सूची या ऊपर के चरण चयनकर्ता का उपयोग करें। हर क्रमांकित पृष्ठ को क्रम में पूरा करें और स्क्रीनशॉट व कॉलआउट का पालन करें।','sp.t5':'कॉपी, स्विच, करें, वापस आएँ','sp.d5':'प्रॉम्प्ट पर कॉपी चुनें, Copilot Studio या बताए गए ऐप पर जाएँ, गतिविधि करें, फिर गाइड पर लौटें।','sp.t6':'पूरा करें और लैब 6 तक जारी रखें','sp.d6':'हर चरण को पूर्ण चिह्नित करें। आगे बढ़ें चुनें या मेनू में अगली लैब चुनें; लैब 6 तक दोहराएँ। प्रगति इसी ब्राउज़र में रहती है।','sp.noteLabel':'ध्यान रखें','sp.note':'प्रगति बनाए रखने के लिए वही ब्राउज़र और डिवाइस उपयोग करें। ईमेल पहचाना न जाए तो वर्कशॉप होस्ट से संपर्क करें।',
+      'sm.k':'मेकर मार्गदर्शिका','sm.h':'ग्राहक वर्कशॉप कॉन्फ़िगर, बनाएँ और <span class="grad">प्रकाशित</span> करें','sm.lede':'स्थानीय रूप से एंगेजमेंट तैयार करें, निर्देशित सामग्री बनाएँ, और ब्रांडिंग व लैब दोनों को GitHub Pages से प्रकाशित करें।',
+      'sm.t1':'स्थानीय रूप से चलाएँ और अनलॉक करें','sm.d1':'<code>npm run dev</code> चलाएँ, <code>localhost:5173</code> खोलें, गियर या पेंसिल चुनें और मेकर पासवर्ड दर्ज करें।','sm.t2':'एंगेजमेंट ब्रांड बनाएँ','sm.d2':'होस्ट और ग्राहक नाम, लोगो URL या अपलोड, तैयारकर्ता/तारीख और होस्ट संपर्क सेट करें। दोबारा उपयोग के लिए इतिहास में सहेजें।','sm.t3':'प्रतिभागी पंजीकृत करें','sm.d3':'ईमेल एक-एक करके जोड़ें या कॉमा, स्पेस, टैब या नई पंक्ति से अलग सूची पेस्ट करें। चिप्स जाँचें, फिर <code>branding.json</code> लिखने के लिए लागू करें चुनें।','sm.t4':'लैब सामग्री को बेहतर बनाएँ','sm.d4':'पेंसिल मेकर मोड खोलें। लैब, चरण, पृष्ठ, स्थानीयकृत पाठ, प्रॉम्प्ट और स्क्रीनशॉट जोड़ें या क्रम बदलें; केवल तैयार लैब प्रकाशित करें।','sm.t5':'सहेजें, जाँचें और प्रकाशित करें','sm.d5':'<code>labs.json</code> लिखने के लिए सहेजें चुनें, हर भाषा में स्थानीय परीक्षण करें, फिर ब्रांडिंग और लैब सामग्री कमिट व पुश करने के लिए प्रकाशित करें चुनें।','sm.t6':'GitHub Pages की पुष्टि करें','sm.d6':'GitHub Actions Deploy वर्कफ़्लो की प्रतीक्षा करें, फिर लाइव URL हार्ड-रिफ्रेश करके ब्रांडिंग, ईमेल प्रवेश, भाषाएँ और लैब प्रवाह जाँचें।','sm.noteLabel':'मैनुअल विकल्प','sm.note':'<code>git add public/content/branding.json public/content/labs.json</code> &rarr; कमिट &rarr; <code>git push origin main</code>',
       's8.k':'⚡ फ़ास्ट स्टार्ट','s8.h':'JumpStart v2 है एक <span class="grad">फ़ास्ट स्टार्ट</span>',
       's8.b1':'लिंक खोलें','s8.s1':'एक URL, कोई भी आधुनिक ब्राउज़र। शुरू करने के लिए न इंस्टॉल, न साइन-इन।','s8.b2':'एक भाषा चुनें','s8.s2':'कवर पर EN / 中文 / 日本語 / 한국어 / ไทย / हिन्दी पर स्विच करें।','s8.b3':'प्रवेश करें &amp; बनाएँ','s8.s3':'लैब दर लैब काम करें, प्रॉम्प्ट कॉपी करें, प्रगति ट्रैक करें, जश्न मनाएँ।','s8.url':'लाइव वर्कशॉप','s8.lede':'एक लिंक। कोई भी भाषा। मिनटों में असली Agent — न इंस्टॉल, न इंतज़ार।','s8.c1':'शुरू करना बेहद आसान','s8.c2':'सेल्फ-सर्व','s8.c3':'अपनी गति से','s8.c4':'कॉपी करें और बनाएँ','s8.c5':'बहुभाषी तैयार',
       's9.badge':'जब आप तैयार हों','s9.live':'लाइव वर्कशॉप','s9.thanks':'JumpStart v-Team टीम के योगदान के लिए हार्दिक धन्यवाद','s9.h':'JumpStart v2 को अपनी<br><span class="grad">अगली ग्राहक वर्कशॉप</span> में लाएँ','s9.lede':'आंतरिक सक्षमता हो या बाहरी ग्राहक कार्यक्रम &mdash; इसे को-ब्रांड करें, लिंक साझा करें, और प्रतिभागियों को असली Agent व्यावहारिक रूप से बनाने दें।','s10.k':'⚡ JumpStart V2','s10.h':'<span class="grad">लैब से प्रभाव</span> तक','s10.t1':'फ़ास्ट स्टार्ट','s10.d1':'एक लिंक खोलें और शुरू करें — न इंस्टॉल, न सेटअप।','s10.t2':'सेल्फ-सर्व और अपनी गति','s10.d2':'प्रतिभागी खुद आगे बढ़ते हैं, आप सहायक बनते हैं।','s10.t3':'कॉपी करें और बनाएँ','s10.d3':'कॉपी-तैयार प्रॉम्प्ट हर चरण को असली, काम करते Agent में बदलते हैं।','s10.t4':'बहुभाषी तैयार','s10.d4':'छह भाषाएँ, एक साझा लिंक।','s10.t5':'लैब से प्रभाव तक','s10.d5':'असली व्यावसायिक मूल्य देने वाले Agent तेज़ी से पहुँचाएँ।',
