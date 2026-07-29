@@ -571,6 +571,15 @@ html[data-theme="dark"] .detail-section li { color: var(--cp-text-soft); }
 .history-del { flex: 0 0 auto; width: 40px; display: grid; place-items: center; color: var(--cp-text-muted); background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 10px; cursor: pointer; transition: color .15s ease, border-color .15s ease; }
 .history-del:hover { color: var(--cp-danger); border-color: var(--cp-danger); }
 
+/* Desktop: two-column layout — history on the left, branding form on the right */
+@media (min-width: 860px) {
+  .settings-card { width: min(960px, 100%); }
+  .settings-body { display: grid; grid-template-columns: minmax(280px, 340px) 1fr; gap: 26px; align-items: start; }
+  .settings-body .settings-form { order: 2; min-width: 0; }
+  .settings-body .history-section { order: 1; margin-top: 0; padding-top: 0; border-top: 0; }
+  .settings-body .history-list { max-height: 62vh; }
+}
+
 /* ============================================================
    Print / Export to PDF — scopes output to the active lab only.
    Triggered by the topbar "Export this lab to PDF" button

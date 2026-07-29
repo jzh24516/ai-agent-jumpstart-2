@@ -267,6 +267,8 @@ function BrandingSettings({ value, locale, onApply, onClose }: { value: Branding
       <div className="settings-card">
         <div className="settings-head"><strong>{text(ui.workshopBranding, locale)}</strong><button className="icon-button" type="button" onClick={onClose} aria-label={text(ui.closeDialog, locale)}><X size={18} /></button></div>
         <p className="settings-hint">{text(ui.brandingHint, locale)}</p>
+        <div className="settings-body">
+        <div className="settings-form">
         <div className="settings-grid">
           <label>{text(ui.hostName, locale)}<input type="text" value={draft.hostName} onChange={(e) => setDraft({ ...draft, hostName: e.target.value })} placeholder="Microsoft" /></label>
           <label>{text(ui.hostLogoUrl, locale)}<input type="text" value={draft.hostLogo.startsWith('data:') ? '' : draft.hostLogo} onChange={(e) => setDraft({ ...draft, hostLogo: e.target.value })} placeholder={text(ui.logoUrlHint, locale)} /></label>
@@ -317,6 +319,7 @@ function BrandingSettings({ value, locale, onApply, onClose }: { value: Branding
           <button className="primary" type="button" onClick={async () => { setFlash(text(ui.applying, locale)); const s = await onApply(draft); setFlash(text(s === 'published' ? ui.brandingPublished : ui.brandingOffline, locale)) }}>{text(ui.apply, locale)}</button>
         </div>
         {flash && <div className="settings-flash" role="status">{flash}</div>}
+        </div>
         <div className="history-section">
           <div className="history-head"><strong>{text(ui.workshopHistory, locale)}</strong><span className="history-count">{history.length}</span></div>
           <div className="history-search"><Search size={15} /><input type="text" value={query} onChange={(e) => setQuery(e.target.value)} placeholder={text(ui.searchWorkshops, locale)} /></div>
@@ -332,6 +335,7 @@ function BrandingSettings({ value, locale, onApply, onClose }: { value: Branding
               </div>
             ))}
           </div>
+        </div>
         </div>
       </div>
     </div>
@@ -429,7 +433,7 @@ function CoverPage({ onEnter, dark, onToggleTheme, locale, onLocaleChange, brand
           <a className="cover-deck-link" href={`${import.meta.env.BASE_URL}promo/JumpStart-v2-Workshop-Highlights.html?lang=${locale}`} target="_blank" rel="noreferrer">{text(cover.deck, locale)} <ExternalLink size={16} /></a>
         </div>
       </div>
-      <div className="cover-footer">&copy; Microsoft &middot; MCAPS Core — Agent Asia Team</div>
+      <div className="cover-footer">&copy; Microsoft &middot; GBB Sales Solution Advisory — Agent Asia Team</div>
     </div>
   )
 }
