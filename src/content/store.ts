@@ -51,8 +51,35 @@ const normalizeStep = (step: LabStep): LabStep => {
       }]
   return {
     id: step.id || uid('step'),
+    isVisible: step.isVisible !== false,
     title: cloneText(step.title),
     pages: pages.map(normalizePage),
+  }
+}
+
+// A step is shown to lab users unless it is explicitly flagged hidden (isVisible === false).
+export const isStepVisible = (step: LabStep): boolean => step.isVisible !== false
+
+// Deep-copies a step with fresh ids for the step, its pages, and their prompts.
+export const cloneStep = (step: LabStep): LabStep => {
+  const source = normalizeStep(step)
+  return {
+    id: uid('step'),
+    isVisible: source.isVisible,
+    title: cloneText(source.title),
+    pages: (source.pages ?? []).map((page) => ({
+      id: uid('page'),
+      title: page.title ? cloneText(page.title) : undefined,
+      paragraphs: page.paragraphs.map(cloneText),
+      markdown: page.markdown ? cloneText(page.markdown) : undefined,
+      highlight: page.highlight ? cloneText(page.highlight) : undefined,
+      prompts: (page.prompts ?? []).map((prompt) => ({
+        id: uid('prompt'),
+        title: prompt.title ? cloneText(prompt.title) : undefined,
+        content: prompt.content,
+      })),
+      imageKeys: [...(page.imageKeys ?? [])],
+    })),
   }
 }
 

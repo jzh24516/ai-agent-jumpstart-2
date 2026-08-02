@@ -3,7 +3,7 @@ import {
   ArrowDown, ArrowUp, ChevronDown, ChevronRight, Copy, Lock, Plus, Save, Trash2, UploadCloud, X,
 } from 'lucide-react'
 import { localeNames, text, ui } from '../content/ui'
-import { applyNumbers, authenticateMaker, emptyText, newLab, newPage, newPrompt, newStep, publishLabs, saveLabs } from '../content/store'
+import { applyNumbers, authenticateMaker, cloneStep, emptyText, newLab, newPage, newPrompt, newStep, publishLabs, saveLabs } from '../content/store'
 import type { Lab, LabIconName, Locale, LocalizedText } from '../content/types'
 
 const editLocales = Object.keys(localeNames) as Locale[]
@@ -247,15 +247,34 @@ export default function MakerEditor({
                     {stepCollapsed ? <ChevronRight size={15} /> : <ChevronDown size={15} />}
                     <span className="editor-badge">{text(ui.step, locale)} {stepIndex + 1}</span>
                     <span className="editor-step-preview">{text(step.title, editLocale) || text(step.title, locale)}</span>
+                    {step.isVisible === false && <span className="editor-private-tag">{text(ui.stepHidden, locale)}</span>}
                   </button>
                   <div className="editor-lab-tools">
                     <button type="button" title={text(ui.moveUp, locale)} onClick={() => update((d) => moveItem(d[selected].steps, stepIndex, -1))}><ArrowUp size={14} /></button>
                     <button type="button" title={text(ui.moveDown, locale)} onClick={() => update((d) => moveItem(d[selected].steps, stepIndex, 1))}><ArrowDown size={14} /></button>
+                    <button type="button" title={text(ui.cloneStep, locale)} onClick={() => update((d) => { const steps = d[selected].steps; steps.splice(stepIndex + 1, 0, cloneStep(steps[stepIndex])) })}><Copy size={14} /></button>
                     <button type="button" title={text(ui.remove, locale)} onClick={() => update((d) => { if (d[selected].steps.length > 1) d[selected].steps.splice(stepIndex, 1) })}><Trash2 size={14} /></button>
                   </div>
                 </div>
                 {!stepCollapsed && <>
                 <LocalizedField label={text(ui.stepTitle, locale)} value={step.title} locale={editLocale} onChange={(next) => update((d) => { d[selected].steps[stepIndex].title = next })} />
+
+                <div className="editor-visibility">
+                  <div className="editor-visibility-head">
+                    <span className="editor-field-label">{text(ui.stepVisibility, locale)}</span>
+                    <label className="editor-toggle">
+                      <input
+                        type="checkbox"
+                        checked={step.isVisible !== false}
+                        onChange={(event) => update((d) => { d[selected].steps[stepIndex].isVisible = event.target.checked })}
+                      />
+                      <span className={step.isVisible !== false ? 'editor-toggle-pill on' : 'editor-toggle-pill'}>
+                        {text(step.isVisible !== false ? ui.stepVisible : ui.stepHidden, locale)}
+                      </span>
+                    </label>
+                  </div>
+                  <p className="editor-visibility-hint">{text(step.isVisible !== false ? ui.stepVisibleHint : ui.stepHiddenHint, locale)}</p>
+                </div>
 
                 {(step.pages ?? []).map((page, pageIndex) => (
                   <div className="editor-page" key={page.id}>

@@ -7,7 +7,7 @@ import {
   Clipboard, Database, FileSpreadsheet, Languages, Lock, Mail, MailCheck, Menu, Mic2,
   ExternalLink, Moon, Network, PanelLeft, PanelLeftClose, PencilLine, Printer, Save, Search, Settings, Sparkles, Star, Sun, ThumbsUp, Trash2, Users, X,
 } from 'lucide-react'
-import { defaultContent, isLabPublic, loadLabs } from './content/store'
+import { defaultContent, isLabPublic, isStepVisible, loadLabs } from './content/store'
 import MakerEditor from './editor/MakerEditor'
 import Fireworks from './Fireworks'
 import { localeNames, text, ui } from './content/ui'
@@ -558,14 +558,18 @@ function App() {
   const publicLabs = labs.filter(isLabPublic)
   const visibleLabs = makerEnabled ? labs : publicLabs
   const lab = visibleLabs[labIndex] ?? visibleLabs[0] ?? labs[0]
+  // The reader (document, header step nav, scroll sync, counts) always reflects
+  // step visibility — hidden steps are edited via the maker overlay, not previewed here.
+  const stepsFor = (item: Lab): LabStep[] => item.steps.filter(isStepVisible)
+  const labSteps = stepsFor(lab)
   // Effective progress counts only public labs; private build-only labs are excluded.
-  const totalSteps = publicLabs.reduce((sum, item) => sum + item.steps.length, 0)
-  const publicStepKeys = new Set(publicLabs.flatMap((item) => item.steps.map((step) => `${item.id}:${step.id}`)))
+  const totalSteps = publicLabs.reduce((sum, item) => sum + item.steps.filter(isStepVisible).length, 0)
+  const publicStepKeys = new Set(publicLabs.flatMap((item) => item.steps.filter(isStepVisible).map((step) => `${item.id}:${step.id}`)))
   const completedPublic = [...completed].filter((key) => publicStepKeys.has(key)).length
   const overallPercent = totalSteps ? Math.round((completedPublic / totalSteps) * 100) : 0
   const sections = [
     { id: `${lab.id}-overview`, label: text(ui.overview, locale) },
-    ...lab.steps.map((item, index) => ({ id: `${lab.id}-${item.id}`, label: `${index + 1}. ${stripMarkdown(text(item.title, locale))}` })),
+    ...labSteps.map((item, index) => ({ id: `${lab.id}-${item.id}`, label: `${index + 1}. ${stripMarkdown(text(item.title, locale))}` })),
   ]
 
   useEffect(() => { loadLabs().then(setLabs).catch(() => {}) }, [])
@@ -596,7 +600,7 @@ function App() {
 
   // Track which lab section is in view so the breadcrumb stays in sync while scrolling.
   useEffect(() => {
-    const ids = [`${lab.id}-overview`, ...lab.steps.map((item) => `${lab.id}-${item.id}`)]
+    const ids = [`${lab.id}-overview`, ...stepsFor(lab).map((item) => `${lab.id}-${item.id}`)]
     const elements = ids.map((id) => document.getElementById(id)).filter((el): el is HTMLElement => !!el)
     if (!elements.length) return
     const observer = new IntersectionObserver((entries) => {
@@ -652,7 +656,7 @@ function App() {
       updated.add(key)
       // Celebrate only when a step transitions to complete.
       const newCompletedPublic = [...updated].filter((completedKey) => publicStepKeys.has(completedKey)).length
-      const labComplete = lab.steps.every((labStep) => updated.has(`${lab.id}:${labStep.id}`))
+      const labComplete = stepsFor(lab).every((labStep) => updated.has(`${lab.id}:${labStep.id}`))
       const allComplete = totalSteps > 0 && newCompletedPublic === totalSteps
       setCelebrateIntensity(allComplete ? 2.6 : 1)
       setCelebrate((value) => value + 1)
@@ -710,9 +714,10 @@ function App() {
       <nav className="lab-nav" aria-label="Labs">
         {visibleLabs.map((item, index) => {
           const Icon = iconMap[item.icon]
-          const labDone = item.steps.filter((itemStep) => completed.has(`${item.id}:${itemStep.id}`)).length
+          const labStepsForItem = stepsFor(item)
+          const labDone = labStepsForItem.filter((itemStep) => completed.has(`${item.id}:${itemStep.id}`)).length
           return <button className={index === labIndex ? 'lab-link active' : 'lab-link'} type="button" onClick={() => selectLab(index)} key={item.id}>
-            <span className="lab-icon"><Icon size={19} /></span><span className="lab-link-copy"><small>{text(ui.lab, locale)} {index + 1}{item.isPublic === false && <span className="lab-private-badge">{text(ui.privateBadge, locale)}</span>}</small><strong>{text(item.title, locale)}</strong></span><span className={labDone === item.steps.length ? 'lab-count done' : 'lab-count'}>{labDone}/{item.steps.length}</span>
+            <span className="lab-icon"><Icon size={19} /></span><span className="lab-link-copy"><small>{text(ui.lab, locale)} {index + 1}{item.isPublic === false && <span className="lab-private-badge">{text(ui.privateBadge, locale)}</span>}</small><strong>{text(item.title, locale)}</strong></span><span className={labDone === labStepsForItem.length ? 'lab-count done' : 'lab-count'}>{labDone}/{labStepsForItem.length}</span>
           </button>
         })}
       </nav>
@@ -752,11 +757,11 @@ function App() {
           <span className="eyebrow">{text(ui.guide, locale)}</span>
           <h2>{text(ui.contents, locale)}</h2>
           <nav className="document-toc" aria-label={text(ui.contents, locale)}>
-            {lab.steps.map((item, index) => <a href={`#${lab.id}-${item.id}`} key={item.id}><span>{String(index + 1).padStart(2, '0')}</span><strong>{stripMarkdown(text(item.title, locale))}</strong><ArrowRight size={18} /></a>)}
+            {labSteps.map((item, index) => <a href={`#${lab.id}-${item.id}`} key={item.id}><span>{String(index + 1).padStart(2, '0')}</span><strong>{stripMarkdown(text(item.title, locale))}</strong><ArrowRight size={18} /></a>)}
           </nav>
         </section>
 
-        {lab.steps.map((item, index) => <DocumentStep
+        {labSteps.map((item, index) => <DocumentStep
           lab={lab}
           step={item}
           stepNumber={index + 1}

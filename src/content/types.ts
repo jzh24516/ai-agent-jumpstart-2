@@ -24,6 +24,9 @@ export interface LabStepPage {
 
 export interface LabStep {
   id: string
+  // When false the step is hidden from lab users: excluded from the reader,
+  // navigation, and progress. Missing/true means visible.
+  isVisible?: boolean
   title: LocalizedText
   body?: LocalizedText
   highlight?: LocalizedText
