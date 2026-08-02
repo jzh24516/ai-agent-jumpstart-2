@@ -206,6 +206,7 @@ const slides = /* html */ `
     <div class="col"><img class="framed shot-solo" src="${IMG.coverLenovo}" alt="Microsoft x Lenovo co-branded cover" /></div>
     <div class="col feat">
       <div class="frow"><div class="fi">◇</div><div><b data-i18n="s6.b1">Microsoft &times; Customer</b><span data-i18n="s6.s1">Set a customer name or logo, and register participants' emails to validate lab access &mdash; the cover instantly co-brands.</span></div></div>
+      <div class="frow"><div class="fi">📥</div><div><b data-i18n="s6.b5">Import the attendee email list</b><span data-i18n="s6.s5">Bulk-paste or upload the customer's registered attendees &mdash; only matching emails can enter and validate each lab.</span></div></div>
       <div class="frow"><div class="fi">⤓</div><div><b data-i18n="s6.b2">Save &amp; reuse</b><span data-i18n="s6.s2">Workshop history: save, retrieve, and quick-search past setups.</span></div></div>
       <div class="frow"><div class="fi">⌘</div><div><b data-i18n="s6.b3">Logos by URL or upload</b><span data-i18n="s6.s3">Self-contained &mdash; no external image hosting needed.</span></div></div>
       <div class="frow"><div class="fi">🔒</div><div><b data-i18n="s6.b4">Password-gated</b><span data-i18n="s6.s4">Only facilitators can change branding &mdash; same gate as edit mode.</span></div></div>
@@ -426,8 +427,16 @@ const html = /* html */ `<!doctype html>
   .participant-head .kicker{margin-bottom:10px;padding-top:6px;padding-bottom:6px}
   .participant-head h2{font-size:2.55rem;line-height:1.08}
   .participant-head p{margin-top:8px;max-width:58ch;color:var(--muted);font-size:.96rem;line-height:1.35}
-  .participant-shot{min-height:0;margin-top:16px;padding:8px;border-radius:15px;background:rgba(255,255,255,.045);border:1px solid var(--cardbrd);box-shadow:0 24px 56px rgba(0,0,0,.38)}
-  .participant-shot img{display:block;width:100%;height:20.5rem;object-fit:cover;object-position:center 50%;border-radius:10px}
+  .participant-shot{min-height:0;margin-top:16px;padding:8px;border-radius:15px;background:rgba(255,255,255,.045);border:1px solid var(--cardbrd);box-shadow:0 24px 56px rgba(0,0,0,.38);transform-origin:center;will-change:transform;cursor:pointer}
+  .participant-shot img{display:block;width:100%;height:20.5rem;object-fit:cover;object-position:center 50%;border-radius:10px;transform-origin:center;transition:transform .3s ease}
+  /* slide 8: playful "peek-a-boo" entrance + idle bob to draw the eye */
+  .slide.active .participant-shot{animation:pShotPop 1s cubic-bezier(.2,.8,.25,1.35) both}
+  .slide.active .participant-shot img{animation:pShotBob 3.8s ease-in-out 1.05s infinite}
+  .participant-shot:hover{animation:pShotWobble .6s ease-in-out both}
+  .participant-shot:hover img{transform:scale(1.05) rotate(-.8deg)}
+  @keyframes pShotPop{0%{opacity:0;transform:translateY(26px) scale(.82) rotate(-7deg)}55%{opacity:1;transform:translateY(-8px) scale(1.05) rotate(3.5deg)}72%{transform:translateY(2px) scale(.98) rotate(-2deg)}86%{transform:translateY(-2px) scale(1.01) rotate(1deg)}100%{opacity:1;transform:none}}
+  @keyframes pShotBob{0%,100%{transform:translateY(0) rotate(-1deg)}25%{transform:translateY(-7px) rotate(1.2deg)}50%{transform:translateY(-2px) rotate(-.6deg)}75%{transform:translateY(-10px) rotate(1.6deg)}}
+  @keyframes pShotWobble{0%,100%{transform:rotate(0) scale(1)}18%{transform:rotate(-4deg) scale(1.03)}38%{transform:rotate(3.5deg) scale(1.03)}58%{transform:rotate(-2.5deg) scale(1.02)}78%{transform:rotate(2deg) scale(1.01)}}
   .participant-url{margin-top:13px;display:flex;align-items:center;gap:12px;padding:11px 14px;text-decoration:none;color:inherit;
     background:linear-gradient(155deg,rgba(167,139,250,.16),rgba(34,211,238,.08));border:1px solid rgba(167,139,250,.4);border-radius:13px}
   .participant-url-icon{flex:0 0 auto;width:2.35rem;height:2.35rem;display:grid;place-items:center;border-radius:10px;font-size:1.35rem;font-weight:900;color:#fff;background:var(--grad)}
@@ -711,7 +720,7 @@ const html = /* html */ `<!doctype html>
       's5.k':'独特功能 02','s5.h':'边做边学、<span class="grad">真正愉悦</span>的体验',
       's5.b1':'丰富的 Markdown 步骤','s5.s1':'标题、表格、提示框与重点都渲染精美。','s5.b2':'可复制的提示词','s5.s2':'每条说明一键复制到剪贴板。','s5.b3':'进度跟踪','s5.s3':'全部 29 个步骤逐步完成，本地保存。','s5.b4':'完成时的烟花','s5.s4':'每完成一步都有庆祝的烟花奖励。','s5.b5':'玻璃拟态界面，明暗主题','s5.s5':'现代磨砂玻璃设计，处处适配主题。',
       's6.k':'独特功能 03','s6.h':'几秒钟即可联合品牌化一个<span class="grad">专属研讨会</span>',
-      's6.b1':'Microsoft × 客户','s6.s1':'设置客户名称或徽标，并登记参与者邮箱以验证实验访问权限 &mdash; 封面即刻联合品牌化。','s6.b2':'保存与复用','s6.s2':'研讨会历史：保存、检索并快速搜索过往配置。','s6.b3':'徽标可用 URL 或上传','s6.s3':'自包含 &mdash; 无需外部图片托管。','s6.b4':'密码保护','s6.s4':'仅主持人可更改品牌设置 &mdash; 与编辑模式同一道门槛。',
+      's6.b1':'Microsoft × 客户','s6.s1':'设置客户名称或徽标，并登记参与者邮箱以验证实验访问权限 &mdash; 封面即刻联合品牌化。','s6.b2':'保存与复用','s6.s2':'研讨会历史：保存、检索并快速搜索过往配置。','s6.b3':'徽标可用 URL 或上传','s6.s3':'自包含 &mdash; 无需外部图片托管。','s6.b4':'密码保护','s6.s4':'仅主持人可更改品牌设置 &mdash; 与编辑模式同一道门槛。','s6.b5':'导入参会者邮箱列表','s6.s5':'批量粘贴或上传客户已登记的参会者名单 &mdash; 仅匹配的邮箱可进入并验证每个实验。',
       's7.k':'独特功能 04','s7.h':'发布一次 &mdash; <span class="grad">人人可见</span>',
       's7.b1':'本地配置','s7.s1':'在创作者视图中设置品牌并编辑实验内容。','s7.b2':'应用并提交','s7.s2':'品牌与内容以 <code>branding.json</code> + <code>labs.json</code> 形式发布。','s7.b3':'自动部署','s7.s3':'每次推送时 GitHub Actions 自动构建并发布到 GitHub Pages。','s7.b4':'人人可见','s7.s4':'参与者打开在线 URL &mdash; 相同内容、相同品牌。',
       's7.note':'无需逐个用户配置。发布的文件是每位访问者的唯一可信来源。',
@@ -744,7 +753,7 @@ const html = /* html */ `<!doctype html>
       's5.k':'独自機能 02','s5.h':'<span class="grad">本当に楽しい</span>、手を動かして学ぶ UX',
       's5.b1':'Markdown 対応の充実した手順','s5.s1':'見出し・表・コールアウト・ハイライトが美しく表示。','s5.b2':'コピーしてすぐ使えるプロンプト','s5.s2':'すべての指示がワンクリックでクリップボードへ。','s5.b3':'進捗トラッキング','s5.s3':'全 29 手順の完了状況を手順ごとに、ローカル保存。','s5.b4':'完了時の花火','s5.s4':'手順を終えるたびにお祝いの演出。','s5.b5':'グラス UI、ライト＆ダーク','s5.s5':'モダンなすりガラス デザイン、全体がテーマ対応。',
       's6.k':'独自機能 03','s6.h':'数秒で<span class="grad">専用ワークショップ</span>を共同ブランド化',
-      's6.b1':'Microsoft × 顧客','s6.s1':'顧客名またはロゴを設定し、参加者のメールを登録してラボへのアクセスを検証 &mdash; 表紙が即座に共同ブランド化。','s6.b2':'保存＆再利用','s6.s2':'ワークショップ履歴：過去の設定を保存・呼び出し・クイック検索。','s6.b3':'ロゴは URL またはアップロード','s6.s3':'自己完結 &mdash; 外部の画像ホスティング不要。','s6.b4':'パスワード保護','s6.s4':'ブランディング変更はファシリテーターのみ &mdash; 編集モードと同じゲート。',
+      's6.b1':'Microsoft × 顧客','s6.s1':'顧客名またはロゴを設定し、参加者のメールを登録してラボへのアクセスを検証 &mdash; 表紙が即座に共同ブランド化。','s6.b2':'保存＆再利用','s6.s2':'ワークショップ履歴：過去の設定を保存・呼び出し・クイック検索。','s6.b3':'ロゴは URL またはアップロード','s6.s3':'自己完結 &mdash; 外部の画像ホスティング不要。','s6.b4':'パスワード保護','s6.s4':'ブランディング変更はファシリテーターのみ &mdash; 編集モードと同じゲート。','s6.b5':'参加者メールリストを取り込み','s6.s5':'顧客が登録した参加者を一括貼り付けまたはアップロード &mdash; 一致するメールのみが各ラボに入り検証できます。',
       's7.k':'独自機能 04','s7.h':'一度公開すれば &mdash; <span class="grad">全員に反映</span>',
       's7.b1':'ローカルで設定','s7.s1':'メーカー ビューでブランディング設定とラボ編集。','s7.b2':'適用してコミット','s7.s2':'ブランディングとコンテンツは <code>branding.json</code> + <code>labs.json</code> として配信。','s7.b3':'自動デプロイ','s7.s3':'プッシュのたびに GitHub Actions がビルドして GitHub Pages に公開。','s7.b4':'全員が閲覧','s7.s4':'参加者はライブ URL を開くだけ &mdash; 同じ内容・同じブランド。',
       's7.note':'ユーザーごとの設定は不要。公開ファイルがすべての訪問者にとって唯一の信頼できる情報源です。',
@@ -777,7 +786,7 @@ const html = /* html */ `<!doctype html>
       's5.k':'고유 기능 02','s5.h':'직접 해보며 배우는, <span class="grad">정말 즐거운</span> UX',
       's5.b1':'Markdown이 풍부한 단계','s5.s1':'제목, 표, 콜아웃, 강조가 아름답게 렌더링.','s5.b2':'복사해 바로 쓰는 프롬프트','s5.s2':'모든 지침을 클릭 한 번으로 클립보드에.','s5.b3':'진행 상황 추적','s5.s3':'전체 29단계의 단계별 완료를 로컬 저장.','s5.b4':'완료 시 불꽃놀이','s5.s4':'단계를 마칠 때마다 축하 연출로 보상.','s5.b5':'글래스 UI, 라이트 & 다크','s5.s5':'모던한 프로스트 글래스 디자인, 어디서나 테마 대응.',
       's6.k':'고유 기능 03','s6.h':'몇 초 만에 <span class="grad">전용 워크숍</span>을 공동 브랜딩',
-      's6.b1':'Microsoft × 고객','s6.s1':'고객 이름이나 로고를 설정하고 참가자 이메일을 등록해 랩 접근을 확인 &mdash; 표지가 즉시 공동 브랜딩.','s6.b2':'저장 및 재사용','s6.s2':'워크숍 기록: 과거 설정을 저장, 불러오기, 빠른 검색.','s6.b3':'로고는 URL 또는 업로드','s6.s3':'자체 완결 &mdash; 외부 이미지 호스팅 불필요.','s6.b4':'비밀번호 보호','s6.s4':'브랜딩 변경은 퍼실리테이터만 &mdash; 편집 모드와 동일한 게이트.',
+      's6.b1':'Microsoft × 고객','s6.s1':'고객 이름이나 로고를 설정하고 참가자 이메일을 등록해 랩 접근을 확인 &mdash; 표지가 즉시 공동 브랜딩.','s6.b2':'저장 및 재사용','s6.s2':'워크숍 기록: 과거 설정을 저장, 불러오기, 빠른 검색.','s6.b3':'로고는 URL 또는 업로드','s6.s3':'자체 완결 &mdash; 외부 이미지 호스팅 불필요.','s6.b4':'비밀번호 보호','s6.s4':'브랜딩 변경은 퍼실리테이터만 &mdash; 편집 모드와 동일한 게이트.','s6.b5':'참석자 이메일 목록 가져오기','s6.s5':'고객이 등록한 참석자를 일괄 붙여넣기 또는 업로드 &mdash; 일치하는 이메일만 각 랩에 입장해 검증할 수 있습니다.',
       's7.k':'고유 기능 04','s7.h':'한 번 게시하면 &mdash; <span class="grad">모두가 봅니다</span>',
       's7.b1':'로컬에서 구성','s7.s1':'메이커 뷰에서 브랜딩 설정 및 랩 콘텐츠 편집.','s7.b2':'적용 및 커밋','s7.s2':'브랜딩과 콘텐츠는 <code>branding.json</code> + <code>labs.json</code>으로 배포.','s7.b3':'자동 배포','s7.s3':'푸시할 때마다 GitHub Actions가 빌드하여 GitHub Pages에 게시.','s7.b4':'모두가 봅니다','s7.s4':'참가자는 라이브 URL만 열면 &mdash; 같은 콘텐츠, 같은 브랜드.',
       's7.note':'사용자별 설정이 필요 없습니다. 게시된 파일이 모든 방문자의 단일 진실 소스입니다.',
@@ -810,7 +819,7 @@ const html = /* html */ `<!doctype html>
       's5.k':'คุณสมบัติเฉพาะ 02','s5.h':'UX เรียนรู้ด้วยการลงมือทำที่<span class="grad">สนุกอย่างแท้จริง</span>',
       's5.b1':'ขั้นตอนที่เต็มไปด้วย Markdown','s5.s1':'หัวข้อ ตาราง คำอธิบาย &amp; ไฮไลต์แสดงผลอย่างสวยงาม','s5.b2':'พรอมป์คัดลอกใช้ได้ทันที','s5.s2':'ทุกคำสั่งคัดลอกไปยังคลิปบอร์ดได้ในคลิกเดียว','s5.b3':'การติดตามความคืบหน้า','s5.s3':'ความสำเร็จรายขั้นครบทั้ง 29 ขั้นตอน บันทึกไว้ในเครื่อง','s5.b4':'พลุเมื่อทำสำเร็จ','s5.s4':'พลุเฉลิมฉลองเป็นรางวัลทุกครั้งที่ทำขั้นตอนเสร็จ','s5.b5':'Glass UI ทั้งสว่าง &amp; มืด','s5.s5':'ดีไซน์กระจกฝ้าสมัยใหม่ รองรับธีมทุกที่',
       's6.k':'คุณสมบัติเฉพาะ 03','s6.h':'ร่วมแบรนด์<span class="grad">เวิร์กช็อปเฉพาะ</span>ได้ในไม่กี่วินาที',
-      's6.b1':'Microsoft &times; ลูกค้า','s6.s1':'ตั้งชื่อหรือโลโก้ลูกค้า และลงทะเบียนอีเมลผู้เข้าร่วมเพื่อตรวจสอบสิทธิ์เข้าแล็บ &mdash; หน้าปกร่วมแบรนด์ทันที','s6.b2':'บันทึก &amp; นำกลับมาใช้','s6.s2':'ประวัติเวิร์กช็อป: บันทึก เรียกคืน และค้นหาการตั้งค่าเดิมอย่างรวดเร็ว','s6.b3':'โลโก้ด้วย URL หรืออัปโหลด','s6.s3':'อยู่ในตัวเอง &mdash; ไม่ต้องมีโฮสต์รูปภาพภายนอก','s6.b4':'ป้องกันด้วยรหัสผ่าน','s6.s4':'เฉพาะผู้อำนวยความสะดวกเท่านั้นที่เปลี่ยนแบรนด์ได้ &mdash; ประตูเดียวกับโหมดแก้ไข',
+      's6.b1':'Microsoft &times; ลูกค้า','s6.s1':'ตั้งชื่อหรือโลโก้ลูกค้า และลงทะเบียนอีเมลผู้เข้าร่วมเพื่อตรวจสอบสิทธิ์เข้าแล็บ &mdash; หน้าปกร่วมแบรนด์ทันที','s6.b2':'บันทึก &amp; นำกลับมาใช้','s6.s2':'ประวัติเวิร์กช็อป: บันทึก เรียกคืน และค้นหาการตั้งค่าเดิมอย่างรวดเร็ว','s6.b3':'โลโก้ด้วย URL หรืออัปโหลด','s6.s3':'อยู่ในตัวเอง &mdash; ไม่ต้องมีโฮสต์รูปภาพภายนอก','s6.b4':'ป้องกันด้วยรหัสผ่าน','s6.s4':'เฉพาะผู้อำนวยความสะดวกเท่านั้นที่เปลี่ยนแบรนด์ได้ &mdash; ประตูเดียวกับโหมดแก้ไข','s6.b5':'นำเข้ารายชื่ออีเมลผู้เข้าร่วม','s6.s5':'วางหรืออัปโหลดรายชื่อผู้เข้าร่วมที่ลูกค้าลงทะเบียนแบบกลุ่ม &mdash; เฉพาะอีเมลที่ตรงกันเท่านั้นที่เข้าและตรวจสอบแต่ละแล็บได้',
       's7.k':'คุณสมบัติเฉพาะ 04','s7.h':'เผยแพร่ครั้งเดียว &mdash; <span class="grad">ทุกคนเห็น</span>',
       's7.b1':'ตั้งค่าในเครื่อง','s7.s1':'ตั้งแบรนด์ &amp; แก้ไขเนื้อหาแล็บในมุมมองผู้สร้าง','s7.b2':'ใช้งาน &amp; คอมมิต','s7.s2':'แบรนด์ &amp; เนื้อหาถูกส่งเป็น <code>branding.json</code> + <code>labs.json</code>','s7.b3':'ปรับใช้อัตโนมัติ','s7.s3':'GitHub Actions สร้าง &amp; เผยแพร่ไปยัง GitHub Pages ทุกครั้งที่พุช','s7.b4':'ทุกคนเห็น','s7.s4':'ผู้เข้าร่วมเปิด URL สด &mdash; เนื้อหาเดียวกัน แบรนด์เดียวกัน',
       's7.note':'ไม่ต้องตั้งค่ารายบุคคล ไฟล์ที่เผยแพร่คือแหล่งข้อมูลจริงเพียงหนึ่งเดียวสำหรับผู้เยี่ยมชมทุกคน',
@@ -843,7 +852,7 @@ const html = /* html */ `<!doctype html>
       's5.k':'अद्वितीय सुविधा 02','s5.h':'करके-सीखने वाला UX जो <span class="grad">वाकई आनंददायक</span> है',
       's5.b1':'Markdown-समृद्ध चरण','s5.s1':'शीर्षक, तालिकाएँ, कॉलआउट &amp; हाइलाइट सुंदर ढंग से प्रस्तुत होते हैं।','s5.b2':'कॉपी-तैयार प्रॉम्प्ट','s5.s2':'हर निर्देश एक क्लिक में क्लिपबोर्ड पर।','s5.b3':'प्रगति ट्रैकिंग','s5.s3':'सभी 29 चरणों में प्रति-चरण पूर्णता, स्थानीय रूप से सहेजी गई।','s5.b4':'पूर्ण होने पर आतिशबाज़ी','s5.s4':'हर पूरा हुआ चरण एक उत्सवी आतिशबाज़ी से पुरस्कृत होता है।','s5.b5':'Glass UI, हल्का &amp; गहरा','s5.s5':'आधुनिक फ्रॉस्टेड-ग्लास डिज़ाइन, हर जगह थीम-अनुरूप।',
       's6.k':'अद्वितीय सुविधा 03','s6.h':'सेकंडों में एक <span class="grad">समर्पित वर्कशॉप</span> को को-ब्रांड करें',
-      's6.b1':'Microsoft &times; ग्राहक','s6.s1':'ग्राहक का नाम या लोगो सेट करें, और लैब पहुँच सत्यापित करने के लिए प्रतिभागियों के ईमेल पंजीकृत करें &mdash; कवर तुरंत को-ब्रांड हो जाता है।','s6.b2':'सहेजें &amp; पुनः उपयोग करें','s6.s2':'वर्कशॉप इतिहास: पिछले सेटअप सहेजें, पुनः प्राप्त करें, और त्वरित खोजें।','s6.b3':'URL या अपलोड द्वारा लोगो','s6.s3':'स्व-निहित &mdash; किसी बाहरी छवि होस्टिंग की आवश्यकता नहीं।','s6.b4':'पासवर्ड-संरक्षित','s6.s4':'केवल सूत्रधार ही ब्रांडिंग बदल सकते हैं &mdash; संपादन मोड जैसा ही गेट।',
+      's6.b1':'Microsoft &times; ग्राहक','s6.s1':'ग्राहक का नाम या लोगो सेट करें, और लैब पहुँच सत्यापित करने के लिए प्रतिभागियों के ईमेल पंजीकृत करें &mdash; कवर तुरंत को-ब्रांड हो जाता है।','s6.b2':'सहेजें &amp; पुनः उपयोग करें','s6.s2':'वर्कशॉप इतिहास: पिछले सेटअप सहेजें, पुनः प्राप्त करें, और त्वरित खोजें।','s6.b3':'URL या अपलोड द्वारा लोगो','s6.s3':'स्व-निहित &mdash; किसी बाहरी छवि होस्टिंग की आवश्यकता नहीं।','s6.b4':'पासवर्ड-संरक्षित','s6.s4':'केवल सूत्रधार ही ब्रांडिंग बदल सकते हैं &mdash; संपादन मोड जैसा ही गेट।','s6.b5':'उपस्थित लोगों की ईमेल सूची आयात करें','s6.s5':'ग्राहक द्वारा पंजीकृत उपस्थित लोगों को थोक में पेस्ट करें या अपलोड करें &mdash; केवल मेल खाते ईमेल ही प्रत्येक लैब में प्रवेश और सत्यापन कर सकते हैं।',
       's7.k':'अद्वितीय सुविधा 04','s7.h':'एक बार प्रकाशित करें &mdash; <span class="grad">सब देखते हैं</span>',
       's7.b1':'स्थानीय रूप से कॉन्फ़िगर करें','s7.s1':'मेकर व्यू में ब्रांडिंग सेट करें &amp; लैब सामग्री संपादित करें।','s7.b2':'लागू करें &amp; कमिट करें','s7.s2':'ब्रांडिंग &amp; सामग्री <code>branding.json</code> + <code>labs.json</code> के रूप में भेजी जाती है।','s7.b3':'स्वतः-डिप्लॉय','s7.s3':'हर पुश पर GitHub Actions बनाकर GitHub Pages पर प्रकाशित करता है।','s7.b4':'सब देखते हैं','s7.s4':'प्रतिभागी लाइव URL खोलते हैं &mdash; वही सामग्री, वही ब्रांड।',
       's7.note':'कोई प्रति-उपयोगकर्ता सेटअप नहीं। प्रकाशित फ़ाइलें हर आगंतुक के लिए एकमात्र विश्वसनीय स्रोत हैं।',
