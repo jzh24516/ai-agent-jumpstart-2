@@ -150,7 +150,6 @@ const defaultBranding: Branding = { hostName: 'Microsoft', hostLogo: '', custome
 const isEmail = (value: string): boolean => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())
 // Splits a pasted blob on commas, semicolons, or any whitespace (space/tab/newline).
 const parseEmails = (raw: string): string[] => raw.split(/[\s,;]+/).map((e) => e.trim().toLowerCase()).filter(Boolean)
-const PARTICIPANT_KEY = 'jumpstart-participant-email'
 
 // Published branding ships with the site (public/content/branding.json) so every visitor
 // of the hosted app sees the same cover. Falls back to the built-in default when absent.
@@ -342,15 +341,14 @@ function BrandingSettings({ value, locale, onApply, onClose }: { value: Branding
   )
 }
 
-function EmailGate({ locale, attendees, onVerified, onClose }: { locale: Locale; attendees: string[]; onVerified: (email: string) => void; onClose: () => void }) {
+function EmailGate({ locale, attendees, onVerified, onClose }: { locale: Locale; attendees: string[]; onVerified: () => void; onClose: () => void }) {
   const [email, setEmail] = useState('')
   const [error, setError] = useState<'invalid' | 'denied' | null>(null)
   const verify = () => {
     const value = email.trim().toLowerCase()
     if (!isEmail(value)) { setError('invalid'); return }
     if (!attendees.some((a) => a.toLowerCase() === value)) { setError('denied'); return }
-    try { localStorage.setItem(PARTICIPANT_KEY, value) } catch { /* storage unavailable */ }
-    onVerified(value)
+    onVerified()
   }
   return (
     <div className="email-gate-scrim" role="dialog" aria-modal="true" aria-label={text(ui.attendeeGateTitle, locale)}>
@@ -373,9 +371,9 @@ function EmailGate({ locale, attendees, onVerified, onClose }: { locale: Locale;
   )
 }
 
-function CoverPage({ onEnter, dark, onToggleTheme, locale, onLocaleChange, branding, canConfigure, onOpenSettings }: {
+function CoverPage({ onEnter, dark, onToggleTheme, locale, onLocaleChange, branding, entryReady, canConfigure, onOpenSettings }: {
   onEnter: () => void; dark: boolean; onToggleTheme: () => void;
-  locale: Locale; onLocaleChange: (l: Locale) => void; branding: Branding; canConfigure: boolean; onOpenSettings: () => void;
+  locale: Locale; onLocaleChange: (l: Locale) => void; branding: Branding; entryReady: boolean; canConfigure: boolean; onOpenSettings: () => void;
 }) {
   const hasCustomer = !!(branding.customerName.trim() || branding.customerLogo.trim())
   const [languageOpen, setLanguageOpen] = useState(false)
@@ -429,7 +427,7 @@ function CoverPage({ onEnter, dark, onToggleTheme, locale, onLocaleChange, brand
           <div className="cover-meta-row"><span className="cover-meta-icon"><Mail size={18} /></span><div><small>{text(cover.contact, locale)}</small><strong className="cover-contacts">{(branding.contacts.length ? branding.contacts : defaultContacts).map((c, idx) => (<a key={idx} href={`mailto:${c.email}`}>{c.name} &middot; {c.email}</a>))}</strong></div></div>
         </div>
         <div className="cover-actions">
-          <button className="cover-cta" type="button" onClick={onEnter}>{text(cover.cta, locale)} <ArrowRight size={18} /></button>
+          <button className="cover-cta" type="button" onClick={onEnter} disabled={!entryReady}>{text(cover.cta, locale)} <ArrowRight size={18} /></button>
           <a className="cover-deck-link" href={`${import.meta.env.BASE_URL}promo/JumpStart-v2-Workshop-Highlights.html?lang=${locale}`} target="_blank" rel="noreferrer">{text(cover.deck, locale)} <ExternalLink size={16} /></a>
         </div>
       </div>
@@ -549,6 +547,7 @@ function App() {
   const [emailGateOpen, setEmailGateOpen] = useState(false)
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [pendingUnlock, setPendingUnlock] = useState<'editor' | 'settings' | null>(null)
+  const [brandingReady, setBrandingReady] = useState(false)
   const [branding, setBranding] = useState<Branding>(() => {
     try { return { ...defaultBranding, ...JSON.parse(localStorage.getItem('jumpstart-branding') || '{}') } }
     catch { return defaultBranding }
@@ -574,7 +573,13 @@ function App() {
 
   useEffect(() => { loadLabs().then(setLabs).catch(() => {}) }, [])
 
-  useEffect(() => { loadPublishedBranding().then((published) => { if (published) setBranding(published) }) }, [])
+  useEffect(() => {
+    let cancelled = false
+    loadPublishedBranding()
+      .then((published) => { if (!cancelled && published) setBranding(published) })
+      .finally(() => { if (!cancelled) setBrandingReady(true) })
+    return () => { cancelled = true }
+  }, [])
 
   useEffect(() => {
     document.documentElement.classList.toggle('cover-open', showCover)
@@ -685,15 +690,12 @@ function App() {
     setBranding(next)
     return saveBrandingToFile(next)
   }
-  // Entry gate: when an attendee list is configured, a participant must validate their
-  // email on the welcome page before the lab content is revealed. A previously verified
-  // email (still on the list) skips the prompt on return visits.
+  // Entry gate: once published branding has loaded, workshops with an attendee list
+  // require email validation every time the participant enters the lab content.
   const enterWorkshop = () => {
+    if (!brandingReady) return
     const list = branding.attendees ?? []
     if (list.length === 0) { setShowCover(false); return }
-    let saved = ''
-    try { saved = localStorage.getItem(PARTICIPANT_KEY) || '' } catch { /* storage unavailable */ }
-    if (saved && list.some((a) => a.toLowerCase() === saved.toLowerCase())) { setShowCover(false); return }
     setEmailGateOpen(true)
   }
   const submitFeedback = (data: { overall: number; effort: number; recommend: number; comments: string }) => {
@@ -703,7 +705,7 @@ function App() {
 
   return <div className={collapsed ? 'app-shell sidebar-collapsed' : 'app-shell'}>
     <Fireworks trigger={celebrate} intensity={celebrateIntensity} />
-    {showCover && <CoverPage onEnter={enterWorkshop} dark={dark} onToggleTheme={toggleTheme} locale={locale} onLocaleChange={setLocale} branding={branding} canConfigure={makerEnabled} onOpenSettings={openSettings} />}
+    {showCover && <CoverPage onEnter={enterWorkshop} dark={dark} onToggleTheme={toggleTheme} locale={locale} onLocaleChange={setLocale} branding={branding} entryReady={brandingReady} canConfigure={makerEnabled} onOpenSettings={openSettings} />}
     {showCover && emailGateOpen && <EmailGate locale={locale} attendees={branding.attendees ?? []} onVerified={() => { setEmailGateOpen(false); setShowCover(false) }} onClose={() => setEmailGateOpen(false)} />}
     {settingsOpen && <BrandingSettings value={branding} locale={locale} onApply={applyBranding} onClose={() => setSettingsOpen(false)} />}
     <button className="mobile-menu" type="button" onClick={() => setMenuOpen(true)} title={text(ui.menu, locale)} aria-label={text(ui.menu, locale)}><Menu /></button>
