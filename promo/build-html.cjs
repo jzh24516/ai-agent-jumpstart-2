@@ -1,6 +1,7 @@
 // Builds a single self-contained HTML deck with screenshots embedded as base64.
 const fs = require('fs')
 const path = require('path')
+const { DECK_LOCALES, LANGUAGE_COPY_UPDATES, LOCALE_LABELS, LOCALE_TITLES, prepareTranslations } = require('./deck-locales.cjs')
 
 const imgDir = path.join(__dirname, 'img')
 const MIME = { '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.avif': 'image/avif', '.gif': 'image/gif' }
@@ -16,6 +17,16 @@ const firstImg = (names) => {
   for (const n of names) { if (fs.existsSync(path.join(imgDir, n))) return b64(n) }
   return ''
 }
+const sourceTranslations = (() => {
+  const source = fs.readFileSync(__filename, 'utf8')
+  const match = source.match(/const T=\{[\s\S]*?\n {2}\};/)
+  if (!match) throw new Error('Unable to read the HTML deck translation table')
+  return new Function('return (' + match[0].replace(/^const T=/, '').replace(/;\s*$/, '') + ')')()
+})()
+const preparedTranslations = prepareTranslations(sourceTranslations)
+const regionalTranslations = Object.fromEntries(
+  ['zh-HK', 'zh-TW'].map((locale) => [locale, preparedTranslations[locale]]),
+)
 const IMG = {
   cover: b64('cover-en.png'),
   coverJa: b64('cover-ja.png'),
@@ -26,6 +37,8 @@ const IMG = {
   blueprint: {
     en: b64('agent-platform-blueprint-en.webp'),
     zh: b64('agent-platform-blueprint-zh.webp'),
+    'zh-HK': b64('agent-platform-blueprint-zh-HK.webp') || b64('agent-platform-blueprint-zh.webp'),
+    'zh-TW': b64('agent-platform-blueprint-zh-TW.webp') || b64('agent-platform-blueprint-zh.webp'),
     ja: b64('agent-platform-blueprint-ja.webp'),
     ko: b64('agent-platform-blueprint-ko.webp'),
     th: b64('agent-platform-blueprint-th.webp'),
@@ -38,6 +51,8 @@ const IMG = {
   jumpstart: {
     en: b64('jumpstart-english.png'),
     zh: b64('jumpstart-chinese.png'),
+    'zh-HK': b64('jumpstart-chinese-hk.png') || b64('jumpstart-chinese.png'),
+    'zh-TW': b64('jumpstart-chinese-tw.png') || b64('jumpstart-chinese.png'),
     ja: b64('jumpstart-japanese.png'),
     ko: b64('jumpstart-korean.png'),
     th: b64('jumpstart-thai.png'),
@@ -77,7 +92,7 @@ const slides = /* html */ `
     <div class="pillrow">
       <span class="pill" data-i18n="c.p1">6 guided labs</span>
       <span class="pill" data-i18n="c.p2">29 steps</span>
-      <span class="pill" data-i18n="c.p3">6 languages</span>
+      <span class="pill" data-i18n="c.p3">8 languages</span>
       <span class="pill" data-i18n="c.p4">1 shareable link</span>
     </div>
   </div>
@@ -104,7 +119,7 @@ const slides = /* html */ `
     <div class="col stats">
       <div class="stat"><div class="se">🧪</div><div class="num">6</div><div class="lbl" data-i18n="s2.l1">hands-on labs</div></div>
       <div class="stat"><div class="se">👣</div><div class="num">29</div><div class="lbl" data-i18n="s2.l2">guided steps</div></div>
-      <div class="stat"><div class="se">🌍</div><div class="num">6</div><div class="lbl" data-i18n="s2.l3">languages</div></div>
+      <div class="stat"><div class="se">🌍</div><div class="num">8</div><div class="lbl" data-i18n="s2.l3">languages</div></div>
       <div class="stat"><div class="se">🔁</div><div class="num">&infin;</div><div class="lbl" data-i18n="s2.l4">reuse, any customer</div></div>
     </div>
   </div>
@@ -135,13 +150,13 @@ const slides = /* html */ `
   <div class="s-head"><span class="kicker" data-i18n="s4.k">Unique feature 01</span><h2 data-i18n="s4.h">Multilingual <span class="grad">by design</span></h2></div>
   <div class="two shots-row">
     <div class="col">
-      <p class="big" data-i18n="s4.big">One click switches the <b>entire lab experience</b> — the same page, instructions, sidebar, and UI — between <b>English, 中文, 日本語, 한국어, ไทย, हिन्दी</b>.</p>
+      <p class="big" data-i18n="s4.big">One click switches the <b>entire lab experience</b> — the same page, instructions, sidebar, and UI — between <b>English, 简体中文, 廣東話 (香港), 繁體中文 (台灣), 日本語, 한국어, ไทย, हिन्दी</b>.</p>
       <ul class="ticks">
         <li data-i18n="s4.t1">Product names, prompts &amp; tool names stay in English on purpose</li>
         <li data-i18n="s4.t2">Copy-ready prompts never get "lost in translation"</li>
         <li data-i18n="s4.t3">Screenshots fall back to English automatically when a localized one isn't provided</li>
       </ul>
-      <div class="chips"><span>EN</span><span>中文</span><span>日本語</span><span>한국어</span><span>ไทย</span><span>हिन्दी</span></div>
+      <div class="chips">${DECK_LOCALES.map((locale) => `<span>${LOCALE_LABELS[locale]}</span>`).join('')}</div>
     </div>
     <div class="col">
       <div class="shotwrap">
@@ -258,7 +273,7 @@ const slides = /* html */ `
         <div class="vstep"><span class="vi">⚡</span><div class="vt"><b data-i18n="s10.t1">Fast Start</b><span data-i18n="s10.d1">Open one link and go &mdash; zero install, zero setup.</span></div></div>
         <div class="vstep"><span class="vi">🙌</span><div class="vt"><b data-i18n="s10.t2">Self-Serve &amp; Self-Paced</b><span data-i18n="s10.d2">Attendees drive their own journey while you facilitate.</span></div></div>
         <div class="vstep"><span class="vi">📋</span><div class="vt"><b data-i18n="s10.t3">Copy &amp; Build</b><span data-i18n="s10.d3">Copy-ready prompts turn each step into a real, working agent.</span></div></div>
-        <div class="vstep"><span class="vi">🌍</span><div class="vt"><b data-i18n="s10.t4">Multilingual Ready</b><span data-i18n="s10.d4">Six languages, one shareable link.</span></div></div>
+        <div class="vstep"><span class="vi">🌍</span><div class="vt"><b data-i18n="s10.t4">Multilingual Ready</b><span data-i18n="s10.d4">Eight languages, one shareable link.</span></div></div>
         <div class="vstep hot"><span class="vi">🚀</span><div class="vt"><b data-i18n="s10.t5">From Lab to Impact</b><span data-i18n="s10.d5">Ship agents that deliver real business value &mdash; fast.</span></div></div>
       </div>
     </div>
@@ -457,7 +472,7 @@ const html = /* html */ `<!doctype html>
   .participant-step-no{flex:0 0 auto;color:var(--purple);font-size:.7rem;font-weight:900;letter-spacing:.12em}
   .participant-step b{color:#F7F5FF;font-size:1.13rem;line-height:1.15;font-weight:900}
   .participant-step p{margin-top:3px;color:#CBC8DC;font-size:.88rem;line-height:1.28}
-  html[lang="zh-CN"] .participant-step b{font-size:1.12rem}
+  html[lang^="zh-"] .participant-step b{font-size:1.12rem}
   html[lang="ja"] .participant-step b,html[lang="ko"] .participant-step b{font-size:1.05rem}
   html[lang="ja"] .participant-step p,html[lang="ko"] .participant-step p{font-size:.81rem}
   html[lang="th"] .participant-step b,html[lang="hi"] .participant-step b{font-size:1rem}
@@ -487,8 +502,8 @@ const html = /* html */ `<!doctype html>
   .guide-note span{min-width:0;color:#E0DEEB;font-size:.9rem;line-height:1.3}
   .maker-guide .guide-card:nth-child(-n+3){border-top-color:rgba(167,139,250,.58)}
   .maker-guide .guide-card:nth-child(n+4){border-top-color:rgba(34,211,238,.48)}
-  html[lang="zh-CN"] .guide-card h3{font-size:1.42rem}
-  html[lang="zh-CN"] .guide-card p{font-size:1.05rem}
+  html[lang^="zh-"] .guide-card h3{font-size:1.42rem}
+  html[lang^="zh-"] .guide-card p{font-size:1.05rem}
   html[lang="ja"] .guide-card h3,html[lang="ko"] .guide-card h3{font-size:1.22rem}
   html[lang="ja"] .guide-card p,html[lang="ko"] .guide-card p{font-size:.93rem}
   html[lang="th"] .guide-card h3,html[lang="hi"] .guide-card h3{font-size:1.18rem}
@@ -625,6 +640,13 @@ const html = /* html */ `<!doctype html>
     padding:6px 13px;border-radius:999px;cursor:pointer;font-family:inherit;transition:.15s}
   .langbar button.on{background:var(--grad);color:#fff}
   .langbar button:hover:not(.on){color:var(--txt)}
+  @media (max-width:900px){.langbar button{padding:6px 8px;font-size:.75rem}}
+  @media (max-width:360px){
+    .langbar{left:8px;right:56px;transform:none;overflow-x:auto;justify-content:flex-start;scrollbar-width:none}
+    .langbar::-webkit-scrollbar{display:none}
+    .langbar button{flex:0 0 auto}
+    .hint{display:none}
+  }
   @media (max-width:640px){h2{font-size:1.7rem}.hero{font-size:2.5rem}.two,.labgrid{grid-template-columns:1fr}.cover-shot{display:none}.cover-wrap{width:100%}}
 </style>
 </head>
@@ -632,12 +654,7 @@ const html = /* html */ `<!doctype html>
   <div class="pbar" id="pbar"></div>
   <button class="fs" id="fs" title="Fullscreen (F)">⛶</button>
   <div class="langbar" id="langbar">
-    <button data-lang="en">EN</button>
-    <button data-lang="zh">中文</button>
-    <button data-lang="ja">日本語</button>
-    <button data-lang="ko">한국어</button>
-    <button data-lang="th">ไทย</button>
-    <button data-lang="hi">हिन्दी</button>
+    ${DECK_LOCALES.map((locale) => `<button data-lang="${locale}" title="${LOCALE_TITLES[locale]}">${LOCALE_LABELS[locale]}</button>`).join('\n    ')}
   </div>
   <div class="hint" data-i18n="ui.hint">← → to navigate · F fullscreen</div>
   <div id="stage"><div class="deck" id="deck">${slides}</div></div>
@@ -694,6 +711,8 @@ const html = /* html */ `<!doctype html>
   const blueprintAlt={
     en:'Copilot Studio Agent Platform Blueprint: six labs mapped from use case through agent mode, architecture, tools, and business value',
     zh:'Copilot Studio Agent 平台蓝图：六个实验映射用例、Agent 模式、架构、工具与业务价值',
+    'zh-HK':'Copilot Studio Agent 平台藍圖：六個實驗映射用例、Agent 模式、架構、工具與業務價值',
+    'zh-TW':'Copilot Studio Agent 平台藍圖：六個實驗映射使用案例、Agent 模式、架構、工具與商務價值',
     ja:'Copilot Studio Agent プラットフォーム設計図：6 つのラボをユースケース、Agent モード、アーキテクチャ、ツール、ビジネス価値で整理',
     ko:'Copilot Studio Agent 플랫폼 블루프린트: 6개 랩의 사용 사례, Agent 모드, 아키텍처, 도구, 비즈니스 가치',
     th:'Copilot Studio Agent Platform Blueprint: 6 แล็บที่เชื่อมกรณีใช้งาน โหมด Agent สถาปัตยกรรม เครื่องมือ และคุณค่าทางธุรกิจ',
@@ -866,7 +885,10 @@ const html = /* html */ `<!doctype html>
       'ui.hint':'← → नेविगेट · F पूर्ण स्क्रीन',
     },
   };
-  const LANGS=['en','zh','ja','ko','th','hi'];
+  const languageCopyUpdates=${JSON.stringify(LANGUAGE_COPY_UPDATES)};
+  Object.entries(languageCopyUpdates).forEach(([locale,values])=>Object.assign(T[locale]||(T[locale]={}),values));
+  Object.assign(T,${JSON.stringify(regionalTranslations)});
+  const LANGS=${JSON.stringify(DECK_LOCALES)};
   const i18nEls=[...document.querySelectorAll('[data-i18n]')];
   i18nEls.forEach(el=>{el.dataset.en=el.innerHTML;});
   const langBtns=[...document.querySelectorAll('#langbar button')];

@@ -5,6 +5,7 @@
 const pptxgen = require('pptxgenjs')
 const path = require('path')
 const fs = require('fs')
+const { DECK_LOCALES, LOCALE_LABELS, prepareTranslations } = require('./deck-locales.cjs')
 
 const IMG = (n) => path.join(__dirname, 'img', n)
 const imgExists = (n) => fs.existsSync(IMG(n))
@@ -18,6 +19,7 @@ if (tMatch) {
   // eslint-disable-next-line no-new-func
   T = new Function('return (' + literal + ')')()
 }
+T = prepareTranslations(T)
 
 const strip = (s) => (s == null ? '' : String(s)
   .replace(/<br\s*\/?>/gi, ' ')
@@ -29,7 +31,7 @@ const strip = (s) => (s == null ? '' : String(s)
 // English strings (authoritative for en, fallback for any missing translation).
 const EN = {
   'c.lede': 'A hands-on, self-guided, multilingual lab experience for building the full breadth of custom agents in Microsoft Copilot Studio.',
-  'c.p1': '6 guided labs', 'c.p2': '29 steps', 'c.p3': '6 languages', 'c.p4': '1 shareable link',
+  'c.p1': '6 guided labs', 'c.p2': '29 steps', 'c.p3': '8 languages', 'c.p4': '1 shareable link',
   's2.k': '\uD83C\uDFAC The one-liner',
   's2.h': 'A workshop that runs itself \u2014 learners just press play  \u25B6\uFE0F',
   's2.big': 'JumpStart v2 turns a slide-and-demo session into a living, do-it-yourself lab app. Attendees open one link, pick their language, and build real agents step by step \u2014 while you facilitate instead of babysit.',
@@ -46,7 +48,7 @@ const EN = {
   's3.t5': 'Multi-agent email Workflow', 's3.d5': 'Classify inbound email, route to the right agent, personalized reply.',
   's3.t6': 'Real-time voice agent', 's3.d6': 'Classic agent + real-time voice, multilingual, tested live in the Test window.',
   's4.k': 'Unique feature 01', 's4.h': 'Multilingual by design',
-  's4.big': 'One click switches the entire experience \u2014 cover, labs, instructions, and UI \u2014 between English, \u4E2D\u6587, \u65E5\u672C\u8A9E, \uD55C\uAD6D\uC5B4, \u0E44\u0E17\u0E22, and \u0939\u093F\u0928\u094D\u0926\u0940.',
+  's4.big': 'One click switches the entire experience \u2014 cover, labs, instructions, and UI \u2014 between English, \u7B80\u4F53\u4E2D\u6587, \u5EE3\u6771\u8A71 (\u9999\u6E2F), \u7E41\u9AD4\u4E2D\u6587 (\u53F0\u7063), \u65E5\u672C\u8A9E, \uD55C\uAD6D\uC5B4, \u0E44\u0E17\u0E22, and \u0939\u093F\u0928\u094D\u0926\u0940.',
   's4.t1': 'Product names, prompts & tool names stay in English on purpose',
   's4.t2': 'Copy-ready prompts never get "lost in translation"',
   's4.t3': 'Screenshots fall back to English automatically',
@@ -71,7 +73,7 @@ const EN = {
   's10.t1': 'Fast Start', 's10.d1': 'Open one link and go \u2014 zero install, zero setup.',
   's10.t2': 'Self-Serve & Self-Paced', 's10.d2': 'Attendees drive their own journey while you facilitate.',
   's10.t3': 'Copy & Build', 's10.d3': 'Copy-ready prompts turn each step into a real, working agent.',
-  's10.t4': 'Multilingual Ready', 's10.d4': 'Six languages, one shareable link.',
+  's10.t4': 'Multilingual Ready', 's10.d4': 'Eight languages, one shareable link.',
   's10.t5': 'From Lab to Impact', 's10.d5': 'Ship agents that deliver real business value \u2014 fast.',
   's9.badge': 'Ready when you are', 's9.h': 'Bring JumpStart v2 to your next customer workshop',
   's9.lede': 'Internal enablement or external customer event \u2014 co-brand it, share the link, and let attendees build real agents hands-on.',
@@ -87,6 +89,8 @@ const C = {
 const FONTS = {
   en: { h: 'Segoe UI Semibold', b: 'Segoe UI' },
   zh: { h: 'Microsoft YaHei', b: 'Microsoft YaHei' },
+  'zh-HK': { h: 'Microsoft JhengHei', b: 'Microsoft JhengHei' },
+  'zh-TW': { h: 'Microsoft JhengHei', b: 'Microsoft JhengHei' },
   ja: { h: 'Yu Gothic', b: 'Yu Gothic' },
   ko: { h: 'Malgun Gothic', b: 'Malgun Gothic' },
   th: { h: 'Leelawadee UI', b: 'Leelawadee UI' },
@@ -95,10 +99,23 @@ const FONTS = {
 
 const JUMP = {
   en: 'jumpstart-english.png', zh: 'jumpstart-chinese.png', ja: 'jumpstart-japanese.png',
+  'zh-HK': imgExists('jumpstart-chinese-hk.png') ? 'jumpstart-chinese-hk.png' : 'jumpstart-chinese.png',
+  'zh-TW': imgExists('jumpstart-chinese-tw.png') ? 'jumpstart-chinese-tw.png' : 'jumpstart-chinese.png',
   ko: 'jumpstart-korean.png', th: 'jumpstart-thai.png', hi: 'jumpstart-hindi.png',
 }
 
-const WIDE = { zh: 1, ja: 1, ko: 1 } // rough per-char width class for pill sizing
+const WIDE = { zh: 1, 'zh-HK': 1, 'zh-TW': 1, ja: 1, ko: 1 } // rough per-char width class for pill sizing
+
+const BLUEPRINT = {
+  en: 'agent-platform-blueprint-en.png',
+  zh: 'agent-platform-blueprint-zh.png',
+  'zh-HK': imgExists('agent-platform-blueprint-zh-HK.png') ? 'agent-platform-blueprint-zh-HK.png' : 'agent-platform-blueprint-zh.png',
+  'zh-TW': imgExists('agent-platform-blueprint-zh-TW.png') ? 'agent-platform-blueprint-zh-TW.png' : 'agent-platform-blueprint-zh.png',
+  ja: 'agent-platform-blueprint-ja.png',
+  ko: 'agent-platform-blueprint-ko.png',
+  th: 'agent-platform-blueprint-th.png',
+  hi: 'agent-platform-blueprint-hi.png',
+}
 
 function build (lang) {
   const p = new pptxgen()
@@ -106,11 +123,13 @@ function build (lang) {
   p.layout = 'W'
   p.author = 'Microsoft MCAPS Core - Agent Asia Team'
   p.title = 'AI Agent JumpStart Workshop v2 - Highlights'
+  p.lang = lang === 'zh' ? 'zh-CN' : lang
 
   const FH = FONTS[lang].h
   const FB = FONTS[lang].b
   const t = (k) => (lang === 'en' ? (EN[k] != null ? EN[k] : '') : (T[lang] && T[lang][k] != null ? strip(T[lang][k]) : (EN[k] != null ? EN[k] : '')))
   const charW = WIDE[lang] ? 0.155 : 0.098
+  const isRegionalChinese = lang === 'zh-HK' || lang === 'zh-TW'
 
   const bgFill = (s) => {
     s.background = { color: C.bg }
@@ -160,21 +179,22 @@ function build (lang) {
     px += w + 0.18
   })
   urlBadge(s, 0.7, 6.4)
-  const coverImg = imgExists('cover-' + lang + '.png') ? 'cover-' + lang + '.png' : 'cover-en.png'
+  const regionalCover = (lang === 'zh-HK' || lang === 'zh-TW') && imgExists('cover-zh.png') ? 'cover-zh.png' : 'cover-en.png'
+  const coverImg = imgExists('cover-' + lang + '.png') ? 'cover-' + lang + '.png' : regionalCover
   s.addImage({ path: IMG(coverImg), x: 8.0, y: 1.6, w: 5.05, h: 3.56, rounding: true })
   frame(s, 8.0, 1.6, 5.05, 3.56)
 
   // ---------- Slide 2: What it is ----------
   s = p.addSlide(); s.background = { color: C.bg2 }
   kicker(s, t('s2.k'))
-  H(s, t('s2.h'), 1.0, 7.1, 30)
+  H(s, t('s2.h'), 1.0, 7.3, isRegionalChinese ? 26 : 30)
   s.addText(t('s2.big'), { x: 0.7, y: 2.5, w: 6.7, h: 2.0, fontFace: FB, fontSize: 18, color: 'E4E2F0', align: 'left', lineSpacingMultiple: 1.16 })
   ;[t('s2.t1'), t('s2.t2'), t('s2.t3')].forEach((txt, i) => {
     const y = 4.7 + i * 0.72
     s.addShape(p.shapes.OVAL, { x: 0.74, y: y + 0.09, w: 0.2, h: 0.2, fill: { color: C.pur }, line: { type: 'none' } })
     s.addText(txt, { x: 1.14, y, w: 6.3, h: 0.55, fontFace: FB, fontSize: 16, color: 'D7D5E6', align: 'left', valign: 'top', margin: 0 })
   })
-  ;[['6', t('s2.l1'), '\uD83E\uDDEA'], ['29', t('s2.l2'), '\uD83D\uDC63'], ['6', t('s2.l3'), '\uD83C\uDF0D'], ['\u221E', t('s2.l4'), '\uD83D\uDD01']].forEach((st, i) => {
+  ;[['6', t('s2.l1'), '\uD83E\uDDEA'], ['29', t('s2.l2'), '\uD83D\uDC63'], ['8', t('s2.l3'), '\uD83C\uDF0D'], ['\u221E', t('s2.l4'), '\uD83D\uDD01']].forEach((st, i) => {
     const x = 8.0 + (i % 2) * 2.72; const y = 2.15 + Math.floor(i / 2) * 2.55
     card(s, x, y, 2.5, 2.3)
     s.addText(st[2], { x, y: y + 0.2, w: 2.5, h: 0.5, fontSize: 22, align: 'center', margin: 0 })
@@ -204,20 +224,20 @@ function build (lang) {
 
   // ---------- Slide 4: Agent platform blueprint ----------
   s = p.addSlide(); s.background = { color: '0F0D1A' }
-  s.addImage({ path: IMG('agent-platform-blueprint-' + lang + '.png'), x: 0.302, y: 0.17, w: 12.729, h: 7.16 })
+  s.addImage({ path: IMG(BLUEPRINT[lang]), x: 0.302, y: 0.17, w: 12.729, h: 7.16 })
 
   // ---------- Slide 5: Multilingual ----------
   s = p.addSlide(); s.background = { color: C.bg2 }
   kicker(s, t('s4.k'))
   H(s, t('s4.h'), 1.0, 6.3, 30)
-  s.addText(t('s4.big'), { x: 0.7, y: 2.4, w: 5.95, h: 1.9, fontFace: FB, fontSize: 18, color: 'E4E2F0', align: 'left', lineSpacingMultiple: 1.16 })
+  s.addText(t('s4.big'), { x: 0.7, y: 2.4, w: 5.95, h: 1.9, fontFace: FB, fontSize: isRegionalChinese ? 16.5 : 18, color: 'E4E2F0', align: 'left', lineSpacingMultiple: 1.16 })
   ;[t('s4.t1'), t('s4.t2'), t('s4.t3')].forEach((txt, i) => {
     const y = 4.5 + i * 0.72
     s.addShape(p.shapes.OVAL, { x: 0.74, y: y + 0.08, w: 0.2, h: 0.2, fill: { color: C.pink }, line: { type: 'none' } })
     s.addText(txt, { x: 1.14, y, w: 5.6, h: 0.55, fontFace: FB, fontSize: 16, color: 'D7D5E6', align: 'left', valign: 'top', margin: 0 })
   })
   let lx = 0.7
-  ;['EN', '\u4E2D\u6587', '\u65E5\u672C\u8A9E', '\uD55C\uAD6D\uC5B4', '\u0E44\u0E17\u0E22', '\u0939\u093F\u0928\u094D\u0926\u0940'].forEach((txt) => {
+  ;DECK_LOCALES.map((locale) => LOCALE_LABELS[locale]).forEach((txt) => {
     const w = 1.15
     s.addShape(p.shapes.ROUNDED_RECTANGLE, { x: lx, y: 6.55, w, h: 0.72, rectRadius: 0.1, fill: { color: C.panelHi }, line: { color: C.brd, width: 1 } })
     s.addText(txt, { x: lx, y: 6.55, w, h: 0.72, fontFace: FH, fontSize: 18, bold: true, color: 'EFEDFA', align: 'center', valign: 'middle', margin: 0 })
@@ -277,7 +297,7 @@ function build (lang) {
 
   // ---------- Slide 9: From Lab to Impact ----------
   s = p.addSlide(); s.background = { color: C.bg2 }
-  s.addImage({ path: IMG(JUMP[lang]), x: 0.75, y: 0.62, w: 4.17, h: 6.26, rounding: true }); frame(s, 0.75, 0.62, 4.17, 6.26)
+  s.addImage({ path: IMG(JUMP[lang]), x: 0.75, y: 0.62, w: 4.17, h: 6.26 }); frame(s, 0.75, 0.62, 4.17, 6.26)
   kicker(s, t('s10.k'), 5.5, 0.6)
   H(s, t('s10.h'), 1.05, 7.2, 32, 5.5)
   ;[
@@ -311,8 +331,8 @@ function build (lang) {
   let tx = 0.7
   ;['Nalin Shukla', 'Scott Berry', 'Steve Ng', 'Jalilah Halim', 'Anand Ponnusamy'].forEach((name) => {
     const w = 0.5 + name.length * 0.1
-    s.addShape(p.shapes.ROUNDED_RECTANGLE, { x: tx, y: 6.42, w, h: 0.5, rectRadius: 0.1, fill: { color: C.panelHi }, line: { color: C.brd, width: 1 } })
-    s.addText(name, { x: tx, y: 6.42, w, h: 0.5, fontFace: FH, fontSize: 12.5, bold: true, color: 'EFEDFA', align: 'center', valign: 'middle', margin: 0 })
+    s.addShape(p.shapes.ROUNDED_RECTANGLE, { x: tx, y: 6.82, w, h: 0.38, rectRadius: 0.1, fill: { color: C.panelHi }, line: { color: C.brd, width: 1 } })
+    s.addText(name, { x: tx, y: 6.82, w, h: 0.38, fontFace: FH, fontSize: 11, bold: true, color: 'EFEDFA', align: 'center', valign: 'middle', margin: 0 })
     tx += w + 0.18
   })
 
@@ -321,7 +341,7 @@ function build (lang) {
 }
 
 ;(async () => {
-  for (const lang of ['en', 'zh', 'ja', 'ko', 'th', 'hi']) {
+  for (const lang of DECK_LOCALES) {
     await build(lang)
   }
   console.log('All language decks generated.')

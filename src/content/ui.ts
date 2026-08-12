@@ -2,7 +2,9 @@ import type { Locale, LocalizedText } from './types'
 
 export const localeNames: Record<Locale, string> = {
   en: 'English',
-  zh: '中文',
+  zh: '简体中文',
+  'zh-HK': '廣東話（香港）',
+  'zh-TW': '繁體中文（台灣）',
   ja: '日本語',
   ko: '한국어',
   th: 'ไทย',
@@ -31,6 +33,10 @@ export const ui = {
   next: { en: 'Next', zh: '下一步', ja: '次へ', ko: '다음', th: 'ถัดไป', hi: 'अगला' },
   screenshot: { en: 'Screenshot placeholder', zh: '截图占位', ja: 'スクリーンショット予定', ko: '스크린샷 자리', th: 'ตัวอย่างภาพหน้าจอ', hi: 'स्क्रीनशॉट प्लेसहोल्डर' },
   screenshotHint: { en: 'Replace this file with the localized product screenshot.', zh: '请用对应语言的产品截图替换此文件。', ja: '該当言語の製品スクリーンショットに置き換えてください。', ko: '해당 언어의 제품 스크린샷으로 교체하세요.', th: 'แทนที่ไฟล์นี้ด้วยภาพหน้าจอผลิตภัณฑ์ในภาษาที่ต้องการ', hi: 'इस फ़ाइल को स्थानीयकृत उत्पाद स्क्रीनशॉट से बदलें।' },
+  viewFullscreen: { en: 'View full screen', zh: '全屏查看', ja: '全画面で表示', ko: '전체 화면으로 보기', th: 'ดูแบบเต็มหน้าจอ', hi: 'पूर्ण स्क्रीन में देखें' },
+  closeFullscreen: { en: 'Close full-screen image', zh: '关闭全屏图片', ja: '全画面画像を閉じる', ko: '전체 화면 이미지 닫기', th: 'ปิดภาพเต็มหน้าจอ', hi: 'पूर्ण-स्क्रीन छवि बंद करें' },
+  previousScreenshot: { en: 'Previous screenshot', zh: '上一张截图', ja: '前のスクリーンショット', ko: '이전 스크린샷', th: 'ภาพหน้าจอก่อนหน้า', hi: 'पिछला स्क्रीनशॉट' },
+  nextScreenshot: { en: 'Next screenshot', zh: '下一张截图', ja: '次のスクリーンショット', ko: '다음 스크린샷', th: 'ภาพหน้าจอถัดไป', hi: 'अगला स्क्रीनशॉट' },
   overview: { en: 'Overview', zh: '概览', ja: '概要', ko: '개요', th: 'ภาพรวม', hi: 'अवलोकन' },
   guide: { en: 'Lab guide', zh: '实验手册', ja: 'ラボ ガイド', ko: '랩 가이드', th: 'คู่มือแล็บ', hi: 'लैब गाइड' },
   contents: { en: 'In this lab', zh: '本实验内容', ja: 'このラボの内容', ko: '이 랩의 내용', th: 'ในแล็บนี้', hi: 'इस लैब में' },
@@ -163,8 +169,39 @@ export const ui = {
   attendeeGateDenied: { en: 'This email isn’t on the attendee list. Please check with your workshop host.', zh: '此邮箱不在参会者名单中。请与研讨会主办方确认。', ja: 'このメールは参加者リストにありません。ワークショップ主催者にご確認ください。', ko: '이 이메일은 참석자 목록에 없습니다. 워크숍 주최자에게 문의하세요.', th: 'อีเมลนี้ไม่อยู่ในรายชื่อผู้เข้าร่วม โปรดตรวจสอบกับผู้จัดเวิร์กช็อป', hi: 'यह ईमेल उपस्थित सूची में नहीं है। कृपया अपने वर्कशॉप होस्ट से जांचें।' },
 } satisfies Record<string, LocalizedText>
 
+const regionalChineseConverters: Partial<Record<Locale, (value: string) => string>> = {}
+const regionalChineseCache = new Map<string, string>()
+let regionalChineseLoader: Promise<void> | undefined
+
+export const prepareLocale = (locale: Locale): Promise<void> => {
+  if (locale !== 'zh-HK' && locale !== 'zh-TW') return Promise.resolve()
+  if (regionalChineseConverters[locale]) return Promise.resolve()
+
+  regionalChineseLoader ??= import('opencc-js/cn2t').then(({ default: OpenCC }) => {
+    regionalChineseConverters['zh-HK'] = OpenCC.Converter({ from: 'cn', to: 'hk' })
+    regionalChineseConverters['zh-TW'] = OpenCC.Converter({ from: 'cn', to: 'twp' })
+  })
+  return regionalChineseLoader
+}
+
+const regionalChineseText = (value: LocalizedText, locale: Locale): string => {
+  const source = value.zh?.trim()
+  const converter = regionalChineseConverters[locale]
+  if (!source) return ''
+  if (!converter) return source
+
+  const cacheKey = `${locale}\u0000${source}`
+  const cached = regionalChineseCache.get(cacheKey)
+  if (cached) return cached
+
+  const converted = converter(source)
+  regionalChineseCache.set(cacheKey, converted)
+  return converted
+}
+
 export const text = (value: LocalizedText | undefined, locale: Locale): string => {
   if (!value) return ''
   const localized = value[locale]
-  return localized && localized.trim() ? localized : value.en
+  if (localized && localized.trim()) return localized
+  return regionalChineseText(value, locale) || value.en
 }

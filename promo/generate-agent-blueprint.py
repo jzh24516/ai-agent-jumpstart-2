@@ -1,4 +1,4 @@
-"""Render six localized Copilot Studio Agent Platform Blueprint infographics.
+"""Render eight localized Copilot Studio Agent Platform Blueprint infographics.
 
 The asset is intentionally a bitmap: it is presentation-ready when embedded in
 the self-contained HTML deck, and it has no runtime dependency on page CSS.
@@ -9,6 +9,7 @@ from __future__ import annotations
 import json
 import random
 import re
+import subprocess
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
@@ -22,6 +23,8 @@ W, H = 2400, 1350
 FONTS = {
     "en": (r"C:\Windows\Fonts\segoeui.ttf", r"C:\Windows\Fonts\segoeuib.ttf"),
     "zh": (r"C:\Windows\Fonts\msyh.ttc", r"C:\Windows\Fonts\msyhbd.ttc"),
+    "zh-HK": (r"C:\Windows\Fonts\msjh.ttc", r"C:\Windows\Fonts\msjhbd.ttc"),
+    "zh-TW": (r"C:\Windows\Fonts\msjh.ttc", r"C:\Windows\Fonts\msjhbd.ttc"),
     "ja": (r"C:\Windows\Fonts\YuGothM.ttc", r"C:\Windows\Fonts\YuGothB.ttc"),
     "ko": (r"C:\Windows\Fonts\malgun.ttf", r"C:\Windows\Fonts\malgunbd.ttf"),
     "th": (r"C:\Windows\Fonts\LeelawUI.ttf", r"C:\Windows\Fonts\LeelaUIb.ttf"),
@@ -252,6 +255,59 @@ SPECS = [
 ]
 
 
+def add_regional_chinese(labs: list[dict]) -> None:
+    payload = {
+        "text": TEXT["zh"],
+        "rows": ROW_LABELS["zh"],
+        "styles": {str(key): value["zh"] for key, value in STYLES.items()},
+        "channels": {str(key): value["zh"] for key, value in CHANNELS.items()},
+        "specs": [
+            {"usecase": spec["usecase"]["zh"], "mode": spec["mode"]["zh"], "value": spec["value"]["zh"]}
+            for spec in SPECS
+        ],
+        "titles": [lab["title"]["zh"] for lab in labs],
+    }
+
+    for locale, target in {"zh-HK": "hk", "zh-TW": "twp"}.items():
+        script = f"""
+const OpenCC = require('opencc-js/cn2t');
+const convert = OpenCC.Converter({{ from: 'cn', to: {json.dumps(target)} }});
+const walk = value => typeof value === 'string'
+  ? convert(value)
+  : Array.isArray(value)
+    ? value.map(walk)
+    : value && typeof value === 'object'
+      ? Object.fromEntries(Object.entries(value).map(([key, item]) => [key, walk(item)]))
+      : value;
+let input = '';
+process.stdin.setEncoding('utf8');
+process.stdin.on('data', chunk => input += chunk);
+process.stdin.on('end', () => process.stdout.write(JSON.stringify(walk(JSON.parse(input)))));
+"""
+        result = subprocess.run(
+            ["node", "-e", script],
+            cwd=ROOT,
+            input=json.dumps(payload, ensure_ascii=False),
+            text=True,
+            encoding="utf-8",
+            capture_output=True,
+            check=True,
+        )
+        converted = json.loads(result.stdout)
+        TEXT[locale] = converted["text"]
+        ROW_LABELS[locale] = converted["rows"]
+        for key, value in converted["styles"].items():
+            STYLES[int(key)][locale] = value
+        for key, value in converted["channels"].items():
+            CHANNELS[int(key)][locale] = value
+        for spec, values in zip(SPECS, converted["specs"], strict=True):
+            spec["usecase"][locale] = values["usecase"]
+            spec["mode"][locale] = values["mode"]
+            spec["value"][locale] = values["value"]
+        for lab, title in zip(labs, converted["titles"], strict=True):
+            lab["title"][locale] = title
+
+
 def icon(draw: ImageDraw.ImageDraw, name: str, x: int, y: int, color: tuple[int, int, int, int]):
     width = 6
     if name == "shield":
@@ -451,6 +507,7 @@ def render(locale, labs):
 
 def main():
     data = json.loads(LABS_PATH.read_text(encoding="utf-8"))
+    add_regional_chinese(data["labs"])
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     for locale in FONTS:
         image = render(locale, data["labs"])

@@ -1,16 +1,17 @@
-import { Fragment, useEffect, useRef, useState } from 'react'
+import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
+import { createPortal } from 'react-dom'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import {
-  ArrowRight, BookOpenCheck, CalendarDays, Check, ChevronDown, ChevronUp,
+  ArrowRight, BookOpenCheck, CalendarDays, Check, ChevronDown, ChevronLeft, ChevronRight, ChevronUp,
   Clipboard, Database, FileSpreadsheet, Languages, Lock, Mail, MailCheck, Menu, Mic2,
-  ExternalLink, Moon, Network, PanelLeft, PanelLeftClose, PencilLine, Printer, Save, Search, Settings, Sparkles, Star, Sun, ThumbsUp, Trash2, Users, X,
+  ExternalLink, Maximize2, Moon, Network, PanelLeft, PanelLeftClose, PencilLine, Printer, Save, Search, Settings, Sparkles, Star, Sun, ThumbsUp, Trash2, Users, X,
 } from 'lucide-react'
 import { defaultContent, isLabPublic, isStepVisible, loadLabs } from './content/store'
 import MakerEditor from './editor/MakerEditor'
 import Fireworks from './Fireworks'
-import { localeNames, text, ui } from './content/ui'
+import { localeNames, prepareLocale, text, ui } from './content/ui'
 import type { Lab, LabStep, Locale, LocalizedText } from './content/types'
 
 const locales = Object.keys(localeNames) as Locale[]
@@ -39,6 +40,13 @@ function stripMarkdown(value: string): string {
     .trim()
 }
 
+// Numbered screenshots with the same base key form one sequence. Candidate
+// images are still collected from the owning LabStep, so navigation cannot
+// cross a step boundary.
+function screenshotSeriesKey(value: string): string {
+  return value.replace(/-\d+$/, '')
+}
+
 function PromptBlock({ title, content, locale }: { title?: string; content: string; locale: Locale }) {
   const [expanded, setExpanded] = useState(false)
   const [copied, setCopied] = useState(false)
@@ -65,27 +73,114 @@ function PromptBlock({ title, content, locale }: { title?: string; content: stri
   )
 }
 
-function Screenshot({ lab, imageKey, locale }: { lab: Lab; imageKey: string; locale: Locale }) {
+function Screenshot({ lab, imageKey, galleryKeys, locale }: { lab: Lab; imageKey: string; galleryKeys: string[]; locale: Locale }) {
   const localeSource = `${import.meta.env.BASE_URL}labs/${lab.id}/images/${locale}/${imageKey}.png`
+  const zhSource = `${import.meta.env.BASE_URL}labs/${lab.id}/images/zh/${imageKey}.png`
   const enSource = `${import.meta.env.BASE_URL}labs/${lab.id}/images/en/${imageKey}.png`
   const [source, setSource] = useState(localeSource)
   const [missing, setMissing] = useState(false)
+  const [viewerOpen, setViewerOpen] = useState(false)
+  const [viewerImageKey, setViewerImageKey] = useState(imageKey)
+  const [viewerSource, setViewerSource] = useState(localeSource)
+  const [viewerMissing, setViewerMissing] = useState(false)
+  const triggerRef = useRef<HTMLButtonElement>(null)
+  const closeButtonRef = useRef<HTMLButtonElement>(null)
+  const alt = `${text(lab.title, locale)} — ${imageKey}`
+  const viewerAlt = `${text(lab.title, locale)} — ${viewerImageKey}`
+  const viewerIndex = Math.max(0, galleryKeys.indexOf(viewerImageKey))
+  const hasNavigation = galleryKeys.length > 1
+  const viewerLocaleSource = `${import.meta.env.BASE_URL}labs/${lab.id}/images/${locale}/${viewerImageKey}.png`
+  const viewerZhSource = `${import.meta.env.BASE_URL}labs/${lab.id}/images/zh/${viewerImageKey}.png`
+  const viewerEnSource = `${import.meta.env.BASE_URL}labs/${lab.id}/images/en/${viewerImageKey}.png`
   // Reset to the locale image whenever the language or image changes.
   useEffect(() => { setSource(localeSource); setMissing(false) }, [localeSource])
-  // If the locale image is missing, fall back to the English image before showing the placeholder.
+  useEffect(() => {
+    setViewerImageKey(imageKey)
+    setViewerSource(localeSource)
+    setViewerMissing(false)
+  }, [imageKey, localeSource])
+  const moveViewer = useCallback((delta: number) => {
+    if (galleryKeys.length < 2) return
+    const currentIndex = Math.max(0, galleryKeys.indexOf(viewerImageKey))
+    const nextIndex = (currentIndex + delta + galleryKeys.length) % galleryKeys.length
+    const nextImageKey = galleryKeys[nextIndex]
+    setViewerImageKey(nextImageKey)
+    setViewerSource(`${import.meta.env.BASE_URL}labs/${lab.id}/images/${locale}/${nextImageKey}.png`)
+    setViewerMissing(false)
+  }, [galleryKeys, lab.id, locale, viewerImageKey])
+  useEffect(() => {
+    if (!viewerOpen) return
+    const previousOverflow = document.body.style.overflow
+    const trigger = triggerRef.current
+    document.body.style.overflow = 'hidden'
+    const focusFrame = window.requestAnimationFrame(() => closeButtonRef.current?.focus())
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setViewerOpen(false)
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => {
+      window.cancelAnimationFrame(focusFrame)
+      document.removeEventListener('keydown', onKeyDown)
+      document.body.style.overflow = previousOverflow
+      trigger?.focus()
+    }
+  }, [viewerOpen])
+  useEffect(() => {
+    if (!viewerOpen || !hasNavigation) return
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'ArrowLeft') { event.preventDefault(); moveViewer(-1) }
+      else if (event.key === 'ArrowRight') { event.preventDefault(); moveViewer(1) }
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [hasNavigation, moveViewer, viewerOpen])
+  // Regional Chinese reuses the base Chinese screenshot before falling back to English.
   const handleError = () => {
-    if (source !== enSource) setSource(enSource)
+    if ((locale === 'zh-HK' || locale === 'zh-TW') && source === localeSource) setSource(zhSource)
+    else if (source !== enSource) setSource(enSource)
     else setMissing(true)
   }
+  const handleViewerError = () => {
+    if ((locale === 'zh-HK' || locale === 'zh-TW') && viewerSource === viewerLocaleSource) setViewerSource(viewerZhSource)
+    else if (viewerSource !== viewerEnSource) setViewerSource(viewerEnSource)
+    else setViewerMissing(true)
+  }
+  const openViewer = () => {
+    setViewerImageKey(imageKey)
+    setViewerSource(localeSource)
+    setViewerMissing(false)
+    setViewerOpen(true)
+  }
   return (
-    <figure className="screenshot-frame">
-      {!missing && <img src={source} alt={`${text(lab.title, locale)} — ${imageKey}`} onError={handleError} />}
-      {missing && <div className="screenshot-placeholder">
-        <div className="placeholder-mark"><Sparkles size={28} /></div>
-        <strong>{text(ui.screenshot, locale)}</strong><span>{text(ui.screenshotHint, locale)}</span><code>{enSource}</code>
-      </div>}
-      <figcaption>{source}</figcaption>
-    </figure>
+    <>
+      <figure className="screenshot-frame">
+        {!missing && <button ref={triggerRef} className="screenshot-media" type="button" onClick={openViewer} aria-label={`${text(ui.viewFullscreen, locale)}: ${alt}`} title={text(ui.viewFullscreen, locale)}>
+          <img src={source} alt={alt} onError={handleError} />
+          <span className="screenshot-open-indicator" aria-hidden="true"><Maximize2 size={19} /></span>
+        </button>}
+        {missing && <div className="screenshot-placeholder">
+          <div className="placeholder-mark"><Sparkles size={28} /></div>
+          <strong>{text(ui.screenshot, locale)}</strong><span>{text(ui.screenshotHint, locale)}</span><code>{enSource}</code>
+        </div>}
+        <figcaption>{source}</figcaption>
+      </figure>
+      {viewerOpen && !missing && createPortal(
+        <div className={hasNavigation ? 'screenshot-lightbox has-navigation' : 'screenshot-lightbox'} role="dialog" aria-modal="true" aria-label={`${text(ui.viewFullscreen, locale)}: ${viewerAlt}`}>
+          <div className="screenshot-lightbox-backdrop" role="presentation" onClick={() => setViewerOpen(false)} />
+          <button ref={closeButtonRef} className="screenshot-lightbox-close" type="button" onClick={() => setViewerOpen(false)} aria-label={text(ui.closeFullscreen, locale)} title={text(ui.closeFullscreen, locale)}><X size={22} /></button>
+          {hasNavigation && <button className="screenshot-lightbox-nav previous" type="button" onClick={() => moveViewer(-1)} aria-label={text(ui.previousScreenshot, locale)} title={text(ui.previousScreenshot, locale)}><ChevronLeft size={29} /></button>}
+          {hasNavigation && <button className="screenshot-lightbox-nav next" type="button" onClick={() => moveViewer(1)} aria-label={text(ui.nextScreenshot, locale)} title={text(ui.nextScreenshot, locale)}><ChevronRight size={29} /></button>}
+          <div className="screenshot-lightbox-toolbar">
+            <div className="screenshot-lightbox-title"><strong>{text(lab.title, locale)}</strong><span>{viewerImageKey}{hasNavigation && ` · ${viewerIndex + 1} / ${galleryKeys.length}`}</span></div>
+          </div>
+          <div className="screenshot-lightbox-stage">
+            {!viewerMissing && <img key={viewerImageKey} src={viewerSource} alt={viewerAlt} onError={handleViewerError} />}
+            {viewerMissing && <div className="screenshot-lightbox-missing"><Sparkles size={30} /><strong>{text(ui.screenshot, locale)}</strong><span>{viewerEnSource}</span></div>}
+          </div>
+        </div>,
+        document.body,
+      )}
+    </>
   )
 }
 
@@ -111,6 +206,11 @@ function DocumentStep({
     prompts: step.prompt ? [{ id: 'main-prompt', content: step.prompt }] : [],
     imageKeys: step.imageKey ? [step.imageKey] : [],
   }]
+  const stepImageKeys = [...new Set(pages.flatMap((page) => (page.imageKeys ?? []).filter(Boolean)))]
+  const galleryKeysFor = (imageKey: string) => {
+    const seriesKey = screenshotSeriesKey(imageKey)
+    return stepImageKeys.filter((candidate) => screenshotSeriesKey(candidate) === seriesKey)
+  }
 
   return (
     <section className="document-step" id={`${lab.id}-${step.id}`}>
@@ -128,7 +228,7 @@ function DocumentStep({
           </div>
           {page.highlight && text(page.highlight, locale).trim() && <aside className="highlight"><Sparkles size={20} /><div className="highlight-content"><strong className="highlight-label">{text(ui.highlight, locale)}</strong><ReactMarkdown remarkPlugins={[remarkGfm]}>{text(page.highlight, locale)}</ReactMarkdown></div></aside>}
           {page.prompts?.map((promptItem) => <PromptBlock key={promptItem.id} title={text(promptItem.title, locale)} content={promptItem.content} locale={locale} />)}
-          {!!page.imageKeys?.filter(Boolean).length && <div className="embedded-figures">{page.imageKeys.filter(Boolean).map((imageKey) => <Screenshot lab={lab} imageKey={imageKey} locale={locale} key={imageKey} />)}</div>}
+          {!!page.imageKeys?.filter(Boolean).length && <div className="embedded-figures">{page.imageKeys.filter(Boolean).map((imageKey) => <Screenshot lab={lab} imageKey={imageKey} galleryKeys={galleryKeysFor(imageKey)} locale={locale} key={imageKey} />)}</div>}
         </article>
       ))}
       <button className={completed ? 'step-complete-action checked' : 'step-complete-action'} type="button" onClick={onToggleComplete}>
@@ -204,8 +304,10 @@ const cover: Record<string, LocalizedText> = {
 }
 const dedicatedText = (locale: Locale, name: string): string => {
   const n = name.trim()
-  if (n) return ({ en: `A dedicated JumpStart workshop for ${n}.`, zh: `专为 ${n} 定制的 JumpStart 研讨会。`, ja: `${n} 向けの専用 JumpStart ワークショップ。`, ko: `${n}를 위한 전용 JumpStart 워크숍.`, th: `เวิร์กช็อป JumpStart เฉพาะสำหรับ ${n}`, hi: `${n} के लिए एक समर्पित JumpStart वर्कशॉप।` } as Record<Locale, string>)[locale]
-  return ({ en: 'A dedicated JumpStart workshop.', zh: '定制的 JumpStart 研讨会。', ja: '専用の JumpStart ワークショップ。', ko: '전용 JumpStart 워크숍.', th: 'เวิร์กช็อป JumpStart เฉพาะทาง', hi: 'एक समर्पित JumpStart वर्कशॉप।' } as Record<Locale, string>)[locale]
+  const localized: LocalizedText = n
+    ? { en: 'A dedicated JumpStart workshop for {name}.', zh: '专为 {name} 定制的 JumpStart 研讨会。', ja: '{name} 向けの専用 JumpStart ワークショップ。', ko: '{name}를 위한 전용 JumpStart 워크숍.', th: 'เวิร์กช็อป JumpStart เฉพาะสำหรับ {name}', hi: '{name} के लिए एक समर्पित JumpStart वर्कशॉप।' }
+    : { en: 'A dedicated JumpStart workshop.', zh: '定制的 JumpStart 研讨会。', ja: '専用の JumpStart ワークショップ。', ko: '전용 JumpStart 워크숍.', th: 'เวิร์กช็อป JumpStart เฉพาะทาง', hi: 'एक समर्पित JumpStart वर्कशॉप।' }
+  return text(localized, locale).replace('{name}', () => n)
 }
 
 function BrandLogo({ name, logo }: { name: string; logo: string }) {
@@ -523,7 +625,11 @@ function AllCompleteModal({ locale, onClose, onSubmit }: { locale: Locale; onClo
 
 function App() {
   const makerEnabled = import.meta.env.DEV
-  const [locale, setLocale] = useState<Locale>(() => (localStorage.getItem('jumpstart-locale') as Locale) || 'en')
+  const [locale, setLocale] = useState<Locale>(() => {
+    const saved = localStorage.getItem('jumpstart-locale') as Locale | null
+    return saved && locales.includes(saved) ? saved : 'en'
+  })
+  const [, refreshLocaleText] = useState(0)
   const [labs, setLabs] = useState<Lab[]>(() => defaultContent())
   const [labIndex, setLabIndex] = useState(0)
   const [menuOpen, setMenuOpen] = useState(false)
@@ -593,6 +699,12 @@ function App() {
   useEffect(() => {
     localStorage.setItem('jumpstart-locale', locale)
     document.documentElement.lang = locale === 'zh' ? 'zh-CN' : locale
+  }, [locale])
+
+  useEffect(() => {
+    let cancelled = false
+    prepareLocale(locale).then(() => { if (!cancelled) refreshLocaleText((version) => version + 1) })
+    return () => { cancelled = true }
   }, [locale])
 
   useEffect(() => {

@@ -239,7 +239,12 @@ h1 { max-width: 850px; margin: 22px 0 20px; color: var(--cp-text); font-size: cl
 .prompt.expanded { max-height: 560px; overflow: auto; mask-image: none; }
 .prompt code { font: inherit; }
 .screenshot-frame { min-width: 0; margin: 0; overflow: hidden; background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 10px; box-shadow: 0 2px 0 var(--cp-border); }
-.screenshot-frame img { width: 100%; aspect-ratio: 16 / 10; display: block; object-fit: contain; background: var(--cp-surface-soft); }
+.screenshot-media { position: relative; width: 100%; display: block; overflow: hidden; padding: 0; color: inherit; background: transparent; border: 0; cursor: zoom-in; }
+.screenshot-media:focus-visible { outline: 3px solid var(--cp-accent); outline-offset: -4px; }
+.screenshot-frame img { width: 100%; aspect-ratio: 16 / 10; display: block; object-fit: contain; background: var(--cp-surface-soft); transition: filter .2s ease, transform .25s ease; }
+.screenshot-open-indicator { position: absolute; top: 14px; right: 14px; width: 42px; height: 42px; display: grid; place-items: center; color: var(--cp-text); background: var(--cp-panel-strong); border: 1px solid var(--glass-border); border-radius: 10px; box-shadow: var(--glass-shadow); opacity: 0; transform: translateY(-5px); transition: opacity .18s ease, transform .18s ease; }
+.screenshot-media:hover img { filter: brightness(.86); transform: scale(1.012); }
+.screenshot-media:hover .screenshot-open-indicator, .screenshot-media:focus-visible .screenshot-open-indicator { opacity: 1; transform: none; }
 .screenshot-placeholder { aspect-ratio: 16 / 10; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 9px; padding: 28px; text-align: center; background: var(--cp-surface-soft); }
 .placeholder-mark { width: 62px; height: 62px; display: grid; place-items: center; margin-bottom: 5px; color: var(--cp-accent); background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 50%; }
 .screenshot-placeholder strong { font-size: 18px; }
@@ -247,6 +252,38 @@ h1 { max-width: 850px; margin: 22px 0 20px; color: var(--cp-text); font-size: cl
 .screenshot-placeholder code, .screenshot-frame figcaption { color: var(--cp-text-muted); font-size: 10px; }
 .screenshot-placeholder code { max-width: 100%; overflow-wrap: anywhere; padding: 6px 9px; background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 5px; }
 .screenshot-frame figcaption { padding: 9px 12px; overflow-wrap: anywhere; border-top: 1px solid var(--cp-border); }
+.screenshot-lightbox { position: fixed; inset: 0; z-index: 12000; display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 12px; padding: max(14px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) max(14px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left)); background: color-mix(in srgb, #080612 92%, transparent); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); pointer-events: none; animation: screenshotLightboxIn .18s ease-out both; }
+.screenshot-lightbox-backdrop { position: absolute; inset: 0; z-index: 0; cursor: zoom-out; pointer-events: auto; }
+.screenshot-lightbox-toolbar { position: relative; z-index: 1; width: min(1500px, 100%); min-width: 0; display: flex; align-items: center; gap: 18px; margin: 0 auto; padding-right: 58px; pointer-events: none; }
+.screenshot-lightbox-title { min-width: 0; display: flex; flex-direction: column; gap: 3px; color: #fff; }
+.screenshot-lightbox-title strong { overflow: hidden; font-size: clamp(14px, 2vw, 18px); text-overflow: ellipsis; white-space: nowrap; }
+.screenshot-lightbox-title span { overflow: hidden; color: rgba(255, 255, 255, .62); font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+.screenshot-lightbox-close { position: absolute; z-index: 2; top: max(14px, env(safe-area-inset-top)); right: max(14px, env(safe-area-inset-right)); width: 44px; height: 44px; display: grid; place-items: center; color: #fff; background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .2); border-radius: 12px; cursor: pointer; pointer-events: auto; transition: background .15s ease, transform .15s ease; }
+.screenshot-lightbox-close:hover { background: rgba(255, 255, 255, .18); transform: scale(1.04); }
+.screenshot-lightbox-close:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.screenshot-lightbox-nav { position: absolute; z-index: 2; top: 50%; width: 48px; height: 58px; display: grid; place-items: center; color: rgba(255, 255, 255, .9); background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .16); border-radius: 14px; box-shadow: 0 14px 38px rgba(0, 0, 0, .28); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); cursor: pointer; pointer-events: auto; transform: translateY(-50%); transition: color .15s ease, background .15s ease, border-color .15s ease, transform .15s ease; }
+.screenshot-lightbox-nav.previous { left: max(14px, env(safe-area-inset-left)); }
+.screenshot-lightbox-nav.next { right: max(14px, env(safe-area-inset-right)); }
+.screenshot-lightbox-nav:hover { color: #fff; background: rgba(255, 255, 255, .16); border-color: rgba(255, 255, 255, .3); transform: translateY(-50%) scale(1.04); }
+.screenshot-lightbox-nav:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.screenshot-lightbox-stage { position: relative; z-index: 1; min-width: 0; min-height: 0; display: grid; place-items: center; pointer-events: none; }
+.screenshot-lightbox.has-navigation .screenshot-lightbox-stage { padding-inline: clamp(46px, 7vw, 76px); }
+.screenshot-lightbox-stage img { width: auto; height: auto; max-width: 100%; max-height: 100%; display: block; object-fit: contain; border-radius: 8px; box-shadow: 0 28px 90px rgba(0, 0, 0, .5); pointer-events: auto; animation: screenshotLightboxImageIn .22s cubic-bezier(.2, .8, .2, 1) both; }
+.screenshot-lightbox-missing { max-width: min(520px, 100%); display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 28px; color: rgba(255, 255, 255, .76); text-align: center; pointer-events: auto; }
+.screenshot-lightbox-missing strong { color: #fff; }
+.screenshot-lightbox-missing span { max-width: 100%; overflow-wrap: anywhere; font-size: 11px; }
+@keyframes screenshotLightboxIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes screenshotLightboxImageIn { from { opacity: 0; transform: scale(.975); } to { opacity: 1; transform: none; } }
+@media (hover: none) { .screenshot-open-indicator { opacity: 1; transform: none; } }
+@media (max-width: 600px) {
+  .screenshot-open-indicator { top: 9px; right: 9px; width: 38px; height: 38px; }
+  .screenshot-lightbox { gap: 8px; }
+  .screenshot-lightbox-close { width: 42px; height: 42px; }
+  .screenshot-lightbox-nav { width: 40px; height: 50px; border-radius: 12px; }
+  .screenshot-lightbox-nav.previous { left: max(8px, env(safe-area-inset-left)); }
+  .screenshot-lightbox-nav.next { right: max(8px, env(safe-area-inset-right)); }
+  .screenshot-lightbox.has-navigation .screenshot-lightbox-stage { padding-inline: 34px; }
+}
 
 .nav-scrim { display: none; }
 
@@ -456,6 +493,9 @@ html[data-theme="dark"] .detail-section li { color: var(--cp-text-soft); }
   .cover-langbar { min-width: 150px; padding: 6px; flex-direction: column; align-items: stretch; border-radius: 14px; }
   .cover-langbar button { width: 100%; padding: 10px 14px; text-align: left; border-radius: 9px; }
 }
+@media (max-width: 360px) {
+  .cover-langbar { right: -5px; }
+}
 .cover-cobrand { display: inline-flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 18px; margin-bottom: 22px; }
 .cover-brand-logo { height: 46px; max-width: 220px; object-fit: contain; }
 .cover-brand-name { font-size: 22px; font-weight: 700; color: var(--cp-text); }
@@ -600,7 +640,7 @@ html[data-theme="dark"] .detail-section li { color: var(--cp-text-soft); }
   body { background: #ffffff !important; }
 
   /* Hide app chrome — keep only the lab document. */
-  .sidebar, .nav-scrim, .topbar, .rail-toggle, .settings-scrim, .password-scrim, .cover-hero, .fireworks-canvas, canvas { display: none !important; }
+  .sidebar, .nav-scrim, .topbar, .rail-toggle, .settings-scrim, .password-scrim, .cover-hero, .fireworks-canvas, .screenshot-lightbox, canvas { display: none !important; }
 
   .app-shell { display: block !important; }
   .main-stage { margin: 0 !important; padding: 0 !important; width: auto !important; overflow: visible !important; }
@@ -611,7 +651,7 @@ html[data-theme="dark"] .detail-section li { color: var(--cp-text-soft); }
   .lab-document td, .lab-document th, .lab-document a { color: #1b1b1f !important; }
 
   /* Hide interactive-only controls; keep the content they wrap. */
-  .prompt-toolbar .toolbar-actions, .step-complete-action, .screenshot-frame figcaption { display: none !important; }
+  .prompt-toolbar .toolbar-actions, .step-complete-action, .screenshot-open-indicator, .screenshot-frame figcaption { display: none !important; }
 
   /* Force truncated prompts to show in full and wrap. */
   .prompt, .prompt.expanded { max-height: none !important; overflow: visible !important; background: #f4f4f6 !important; color: #16161a !important; }
