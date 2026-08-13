@@ -1,10 +1,10 @@
 {
   "hostName": "Microsoft",
   "hostLogo": "https://uhf.microsoft.com/images/microsoft/RE1Mu3b.png",
-  "customerName": "Lenovo",
-  "customerLogo": "https://p4.lefile.cn/fes/cms/2021/09/24/skz7mq0zavm0hd8xfaq0nrofxcwje3959207.png",
-  "preparedBy": "Microsoft GBB Solution Advisory Agent Team",
-  "preparedDate": "July 23rd, 2026",
+  "customerName": "HKJC",
+  "customerLogo": "https://consvc.hkjc.com/-/media/Sites/JCEW/Homepage/icon/logo/hkjc-logo-tc-black.svg?rev=51af8053f5364823b724afe738492553&sc_lang=en-US",
+  "preparedBy": "Microsoft Global Solution Advisory Agent - Asia Team",
+  "preparedDate": "July 16, 2026",
   "contacts": [
     {
       "name": "Nalin Shukla",
@@ -13,20 +13,7 @@
     {
       "name": "Michael Jiang",
       "email": "zhijian@microsoft.com"
-    },
-    {
-      "name": "Scott Berry",
-      "email": "scott.berry@microsoft.com"
     }
   ],
-  "attendees": [
-    "scott.berry@microsoft.com",
-    "anand.ponnusamy@microsoft.com",
-    "michael.jiang@microsoft.com",
-    "stuart.moore@microsoft.com",
-    "maurorelva@microsoft.com",
-    "ngsteve@microsoft.com",
-    "michael.douglas@microsoft.com",
-    "nshukla@microsoft.com"
-  ]
+  "attendees": []
 }
