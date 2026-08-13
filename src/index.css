@@ -525,10 +525,42 @@ html[data-theme="dark"] .detail-section li { color: var(--cp-text-soft); }
 .cover-deck-link { display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 0 18px; color: var(--cp-text); background: var(--glass); border: 1px solid var(--glass-border); border-radius: 14px; font-size: 14px; font-weight: 650; text-decoration: none; transition: color .15s ease, border-color .15s ease, transform .15s ease; }
 .cover-deck-link:hover { color: var(--cp-accent); border-color: var(--cp-accent); transform: translateY(-2px); }
 .cover-footer { position: absolute; bottom: 18px; left: 0; right: 0; z-index: 2; text-align: center; color: var(--cp-text-muted); font-size: 12px; }
+.access-welcome-card { width: min(700px, 100%); padding: clamp(30px, 4.5vw, 50px); }
+.access-microsoft-logo { display: block; width: 164px; height: auto; margin: 0 auto 28px; object-fit: contain; }
+.access-welcome-card .cover-title { margin-bottom: 14px; font-size: clamp(34px, 5.5vw, 56px); }
+.access-welcome-card .cover-tagline { margin-bottom: 0; }
+.access-divider { width: min(520px, 100%); height: 1px; margin: 28px auto 22px; background: var(--cp-border); }
+.access-form { width: min(560px, 100%); margin: 0 auto; text-align: left; }
+.access-prompt { margin: 0 0 14px; color: var(--cp-text-muted); font-size: 14px; line-height: 1.55; text-align: center; }
+.access-email-field { display: flex; flex-direction: column; gap: 7px; color: var(--cp-text-muted); font-size: 12px; font-weight: 700; }
+.access-email-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; }
+.access-email-row input { min-width: 0; height: 48px; padding: 0 14px; color: var(--cp-text); background: var(--glass); border: 1px solid var(--glass-border); border-radius: 12px; font: inherit; font-size: 15px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04); }
+.access-email-row input:focus { outline: 2px solid color-mix(in srgb, var(--cp-accent) 28%, transparent); outline-offset: 1px; border-color: var(--cp-accent); }
+.access-verify { min-height: 48px; padding: 0 22px; border-radius: 12px; white-space: nowrap; }
+.access-verify:disabled { cursor: wait; opacity: .62; box-shadow: none; }
+.access-error { display: block; margin-top: 9px; color: var(--cp-danger); font-size: 13px; font-weight: 650; }
+.access-blocked { width: min(520px, 100%); margin: 0 auto; }
+.access-blocked-icon { display: inline-grid; place-items: center; width: 44px; height: 44px; margin-bottom: 10px; color: var(--cp-accent); background: var(--cp-accent-soft); border: 1px solid var(--glass-border); border-radius: 12px; }
+.access-blocked h2 { margin: 0 0 8px; color: var(--cp-text); font-size: 20px; }
+.access-blocked > p { margin: 0 auto; max-width: 48ch; color: var(--cp-text-muted); font-size: 14px; line-height: 1.55; }
+.access-window-summary { max-width: 420px; margin: 18px auto 0; }
 @keyframes coverFade { from { opacity: 0; } to { opacity: 1; } }
 @keyframes coverRise { from { opacity: 0; transform: translateY(26px) scale(.98); } to { opacity: 1; transform: none; } }
 @keyframes coverFloat { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(2vmax, -2vmax); } }
-@media (max-width: 600px) { .cover-meta-row strong { font-size: 14px; } .cover-actions { align-items: stretch; flex-direction: column; } .cover-cta, .cover-deck-link { justify-content: center; width: 100%; } }
+@media (max-width: 600px) {
+  .cover-meta-row strong { font-size: 14px; }
+  .cover-actions { align-items: stretch; flex-direction: column; }
+  .cover-cta, .cover-deck-link { justify-content: center; width: 100%; }
+  .cover-hero.access-welcome { align-items: start; padding: 76px 16px 54px; overflow-y: auto; }
+  .access-welcome-card { padding: 28px 20px; border-radius: 20px; }
+  .access-microsoft-logo { width: 142px; margin-bottom: 22px; }
+  .access-welcome-card .cover-title { font-size: 36px; }
+  .access-welcome-card .cover-tagline { font-size: 15px; line-height: 1.5; }
+  .access-divider { margin: 22px auto 18px; }
+  .access-email-row { grid-template-columns: 1fr; }
+  .access-verify { width: 100%; }
+  .access-welcome .cover-footer { position: relative; margin-top: 28px; bottom: auto; }
+}
 
 /* Workshop branding settings */
 .settings-scrim { position: fixed; inset: 0; z-index: 210; display: grid; place-items: center; padding: 20px; background: var(--cp-panel); backdrop-filter: blur(6px); animation: coverFade .25s ease both; }
@@ -547,10 +579,19 @@ html[data-theme="dark"] .detail-section li { color: var(--cp-text-soft); }
 .settings-contacts { margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
 .settings-contacts-head { display: flex; align-items: center; justify-content: space-between; color: var(--cp-text-muted); font-size: 12px; font-weight: 700; }
 .settings-contacts-head .ghost { height: 30px; padding: 0 12px; color: var(--cp-text); background: transparent; border: 1px solid var(--cp-border); border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: 650; }
+.settings-contacts-head .ghost { display: inline-flex; align-items: center; gap: 6px; }
 .settings-contacts-head .ghost:hover { border-color: var(--cp-accent); color: var(--cp-accent); }
+.settings-contacts-head .ghost:disabled { color: var(--cp-text-muted); border-color: var(--cp-border); cursor: not-allowed; opacity: .55; }
 .settings-contact-row { display: grid; grid-template-columns: 1fr 1.2fr auto; gap: 8px; align-items: center; }
 .settings-contact-row input { height: 38px; padding: 0 11px; color: var(--cp-text); background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 8px; font-size: 14px; }
 .settings-contact-row input:focus { outline: none; border-color: var(--cp-accent); }
+.settings-window { margin-top: 18px; display: flex; flex-direction: column; gap: 10px; }
+.settings-window-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.settings-window-grid label { display: flex; flex-direction: column; gap: 6px; color: var(--cp-text-muted); font-size: 12px; font-weight: 700; }
+.settings-window-grid input { height: 40px; padding: 0 10px; color: var(--cp-text); color-scheme: light dark; background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 8px; font: inherit; font-size: 13px; }
+.settings-window-grid input:focus { outline: none; border-color: var(--cp-accent); }
+.settings-window-error { margin: 0; color: var(--cp-danger); font-size: 12.5px; font-weight: 650; line-height: 1.4; }
+@media (max-width: 520px) { .settings-window-grid { grid-template-columns: 1fr; } }
 /* Attendee email list */
 .settings-attendees { margin-top: 18px; display: flex; flex-direction: column; gap: 10px; }
 .settings-subhint { color: var(--cp-text-muted); font-size: 12.5px; line-height: 1.5; margin: -2px 0 2px; }
@@ -568,20 +609,11 @@ html[data-theme="dark"] .detail-section li { color: var(--cp-text-soft); }
 .attendee-chip button { display: inline-grid; place-items: center; width: 18px; height: 18px; color: var(--cp-text-muted); background: transparent; border: 0; border-radius: 999px; cursor: pointer; }
 .attendee-chip button:hover { color: var(--cp-danger); background: var(--cp-accent-soft); }
 
-/* Email verification gate on the welcome page */
-.email-gate-scrim { position: fixed; inset: 0; z-index: 240; display: grid; place-items: center; padding: 20px; background: rgba(8, 6, 18, 0.74); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); animation: emailGateFade 0.18s ease-out; }
-.email-gate-card { width: min(420px, 100%); display: flex; flex-direction: column; gap: 12px; padding: 32px; text-align: center; background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 20px; box-shadow: 0 0 0 1px rgba(124, 58, 237, 0.35), 0 30px 80px rgba(0, 0, 0, 0.55); animation: emailGatePop 0.2s cubic-bezier(0.2, 0.9, 0.3, 1.2); }
-@keyframes emailGateFade { from { opacity: 0; } to { opacity: 1; } }
-@keyframes emailGatePop { from { opacity: 0; transform: translateY(10px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
-.email-gate-icon { display: inline-grid; place-items: center; width: 54px; height: 54px; margin: 0 auto; color: #fff; background: var(--grad-btn); border-radius: 16px; box-shadow: var(--glow); }
-.email-gate-title { margin: 4px 0 0; font-size: 20px; }
-.email-gate-intro { margin: 0; color: var(--cp-text-muted); font-size: 14px; line-height: 1.55; }
-.email-gate-field { display: flex; flex-direction: column; gap: 6px; text-align: left; font-size: 12.5px; font-weight: 650; color: var(--cp-text-muted); }
-.email-gate-field input { height: 44px; padding: 0 13px; color: var(--cp-text); background: var(--cp-surface-soft); border: 1px solid var(--cp-border); border-radius: 10px; font-size: 15px; }
-.email-gate-field input:focus { outline: none; border-color: var(--cp-accent); }
-.email-gate-error { color: var(--cp-danger); font-size: 13px; font-weight: 600; text-align: left; }
-.email-gate-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 6px; }
-.email-gate-verify { height: 42px; padding: 0 22px; color: #fff; background: var(--grad-btn); border: 0; border-radius: 10px; box-shadow: var(--glow); cursor: pointer; font-size: 14px; font-weight: 650; }
+.workshop-window-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 4px; text-align: left; }
+.workshop-window-summary span { min-width: 0; padding: 10px 11px; background: var(--cp-surface-soft); border: 1px solid var(--cp-border); border-radius: 9px; }
+.workshop-window-summary small { display: block; margin-bottom: 4px; color: var(--cp-text-muted); font-size: 10.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.workshop-window-summary strong { display: block; color: var(--cp-text); font-size: 12.5px; line-height: 1.35; }
+@media (max-width: 420px) { .workshop-window-summary { grid-template-columns: 1fr; } }
 .settings-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 22px; }
 .settings-actions button { height: 40px; padding: 0 22px; border-radius: 10px; cursor: pointer; font-size: 14px; font-weight: 650; }
 .settings-actions .ghost { display: inline-flex; align-items: center; gap: 7px; color: var(--cp-text); background: transparent; border: 1px solid var(--cp-border); }

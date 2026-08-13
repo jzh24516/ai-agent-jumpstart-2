@@ -8,7 +8,7 @@ import {
   Clipboard, Database, FileSpreadsheet, Languages, Lock, Mail, MailCheck, Menu, Mic2,
   ExternalLink, Maximize2, Moon, Network, PanelLeft, PanelLeftClose, PencilLine, Printer, Save, Search, Settings, Sparkles, Star, Sun, ThumbsUp, Trash2, Users, X,
 } from 'lucide-react'
-import { defaultContent, isLabPublic, isStepVisible, loadLabs } from './content/store'
+import { authenticateMaker, defaultContent, isLabPublic, isStepVisible, loadLabs } from './content/store'
 import MakerEditor from './editor/MakerEditor'
 import Fireworks from './Fireworks'
 import { localeNames, prepareLocale, text, ui } from './content/ui'
@@ -239,17 +239,65 @@ function DocumentStep({
 }
 
 type BrandingContact = { name: string; email: string }
-type Branding = { hostName: string; hostLogo: string; customerName: string; customerLogo: string; preparedBy: string; preparedDate: string; contacts: BrandingContact[]; attendees: string[] }
+type Branding = { hostName: string; hostLogo: string; customerName: string; customerLogo: string; preparedBy: string; preparedDate: string; workshopStart: string; workshopEnd: string; contacts: BrandingContact[]; attendees: string[] }
 const defaultContacts: BrandingContact[] = [
   { name: 'Nalin Shukla', email: 'nshukla@microsoft.com' },
   { name: 'Michael Jiang', email: 'zhijian@microsoft.com' },
 ]
-const defaultBranding: Branding = { hostName: 'Microsoft', hostLogo: '', customerName: '', customerLogo: '', preparedBy: 'Microsoft Global Solution Advisory Agent - Asia Team', preparedDate: 'July 16, 2026', contacts: defaultContacts, attendees: [] }
+const defaultBranding: Branding = { hostName: 'Microsoft', hostLogo: '', customerName: '', customerLogo: '', preparedBy: 'Microsoft Global Solution Advisory Agent - Asia Team', preparedDate: 'July 16, 2026', workshopStart: '', workshopEnd: '', contacts: defaultContacts, attendees: [] }
 
 // Attendee email helpers. Emails are stored lowercased so validation is case-insensitive.
 const isEmail = (value: string): boolean => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())
 // Splits a pasted blob on commas, semicolons, or any whitespace (space/tab/newline).
 const parseEmails = (raw: string): string[] => raw.split(/[\s,;]+/).map((e) => e.trim().toLowerCase()).filter(Boolean)
+
+type WorkshopWindowStatus = 'open' | 'not-started' | 'ended' | 'invalid'
+type WorkshopWindow = Pick<Branding, 'workshopStart' | 'workshopEnd'>
+const dateOnlyPattern = /^(\d{4})-(\d{2})-(\d{2})$/
+const toWorkshopDate = (value: string): string => {
+  const trimmed = value.trim()
+  if (!trimmed) return ''
+  const date = new Date(dateOnlyPattern.test(trimmed) ? `${trimmed}T00:00:00` : trimmed)
+  if (!Number.isFinite(date.getTime())) return ''
+  const normalized = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+  return dateOnlyPattern.test(trimmed) && normalized !== trimmed ? '' : normalized
+}
+const normalizeBrandingWorkshopDates = (branding: Branding): Branding => ({
+  ...branding,
+  workshopStart: toWorkshopDate(branding.workshopStart),
+  workshopEnd: toWorkshopDate(branding.workshopEnd),
+})
+const workshopDateBoundary = (value: string, endOfDay: boolean): number | null => {
+  const date = toWorkshopDate(value)
+  if (!date) return null
+  const boundary = new Date(`${date}T${endOfDay ? '23:59:59.999' : '00:00:00.000'}`)
+  return Number.isFinite(boundary.getTime()) ? boundary.getTime() : null
+}
+const isWorkshopWindowValid = ({ workshopStart, workshopEnd }: WorkshopWindow): boolean => {
+  const startValue = workshopStart.trim()
+  const endValue = workshopEnd.trim()
+  if (!startValue && !endValue) return true
+  if (!startValue || !endValue) return false
+  const start = workshopDateBoundary(startValue, false)
+  const end = workshopDateBoundary(endValue, true)
+  return start !== null && end !== null && start <= end
+}
+const workshopWindowStatus = (window: WorkshopWindow, now = Date.now()): WorkshopWindowStatus => {
+  const { workshopStart, workshopEnd } = window
+  if (!workshopStart.trim() && !workshopEnd.trim()) return 'open'
+  if (!isWorkshopWindowValid(window)) return 'invalid'
+  const start = workshopDateBoundary(workshopStart, false) as number
+  const end = workshopDateBoundary(workshopEnd, true) as number
+  if (now < start) return 'not-started'
+  if (now > end) return 'ended'
+  return 'open'
+}
+const formatWorkshopDate = (value: string, locale: Locale): string => {
+  const normalized = toWorkshopDate(value)
+  if (!normalized) return value
+  const date = new Date(`${normalized}T12:00:00`)
+  return date.toLocaleDateString(locale === 'zh' ? 'zh-CN' : locale, { dateStyle: 'medium' })
+}
 
 // Published branding ships with the site (public/content/branding.json) so every visitor
 // of the hosted app sees the same cover. Falls back to the built-in default when absent.
@@ -266,23 +314,16 @@ async function loadPublishedBranding(): Promise<Branding | null> {
   return null
 }
 // Dev-only: writes the applied branding to the published file so it can be committed + pushed.
-async function saveBrandingToFile(b: Branding): Promise<'published' | 'offline'> {
-  try {
-    const res = await fetch('/api/branding', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(b, null, 2) })
-    return res.ok ? 'published' : 'offline'
-  } catch { return 'offline' }
-}
-
-async function verifyMakerPassword(password: string): Promise<boolean> {
-  try {
-    const response = await fetch('/api/maker-auth', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password }),
-    })
-    return response.ok
-  } catch {
-    return false
+async function saveBrandingToFile(branding: Branding): Promise<void> {
+  const response = await fetch('/api/branding', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(branding, null, 2),
+  })
+  if (!response.ok) {
+    const error = new Error(await response.text() || `Branding save failed (${response.status})`)
+    if (response.status === 401 || response.status === 503) error.name = 'AuthRequired'
+    throw error
   }
 }
 
@@ -315,20 +356,30 @@ function BrandLogo({ name, logo }: { name: string; logo: string }) {
   return <span className="cover-brand-name">{name || 'Microsoft'}</span>
 }
 
-type Workshop = { id: string; name: string; hostName: string; hostLogo: string; customerName: string; customerLogo: string; preparedBy?: string; preparedDate?: string; contacts?: BrandingContact[]; attendees?: string[]; savedAt: number }
+type Workshop = { id: string; name: string; hostName: string; hostLogo: string; customerName: string; customerLogo: string; preparedBy?: string; preparedDate?: string; workshopStart?: string; workshopEnd?: string; contacts?: BrandingContact[]; attendees?: string[]; savedAt: number }
 const loadWorkshops = (): Workshop[] => {
   try { const v = JSON.parse(localStorage.getItem('jumpstart-workshops') || '[]'); return Array.isArray(v) ? v : [] }
   catch { return [] }
 }
 const newWorkshopId = () => (typeof crypto !== 'undefined' && 'randomUUID' in crypto ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(36).slice(2, 8))
 
-function BrandingSettings({ value, locale, onApply, onClose }: { value: Branding; locale: Locale; onApply: (b: Branding) => Promise<'published' | 'offline'>; onClose: () => void }) {
+function BrandingSettings({ value, locale, onApply, onClose }: { value: Branding; locale: Locale; onApply: (b: Branding) => Promise<void>; onClose: () => void }) {
   const [draft, setDraft] = useState<Branding>(value)
   const [history, setHistory] = useState<Workshop[]>(() => loadWorkshops())
   const [query, setQuery] = useState('')
   const [flash, setFlash] = useState('')
   const [attendeeInput, setAttendeeInput] = useState('')
   const [attendeeBulk, setAttendeeBulk] = useState('')
+  const [saving, setSaving] = useState(false)
+  const [reauth, setReauth] = useState(false)
+  const [reauthPassword, setReauthPassword] = useState('')
+  const [reauthError, setReauthError] = useState(false)
+  const [pendingSave, setPendingSave] = useState<Branding | null>(null)
+  const windowValid = isWorkshopWindowValid(draft)
+  const showWindowError = () => {
+    setFlash(text(ui.workshopWindowInvalid, locale))
+    window.setTimeout(() => setFlash(''), 2600)
+  }
   const addEmails = (raw: string) => {
     const parsed = parseEmails(raw)
     const valid = parsed.filter(isEmail)
@@ -343,6 +394,62 @@ function BrandingSettings({ value, locale, onApply, onClose }: { value: Branding
       return { ...d, attendees: merged }
     })
   }
+  const completeDraft = (): Branding | null => {
+    const pendingRaw = [attendeeInput, attendeeBulk].filter((value) => value.trim()).join(' ')
+    const pendingEmails = parseEmails(pendingRaw).filter(isEmail)
+    if (pendingRaw && !pendingEmails.length) {
+      setFlash(text(ui.attendeesNoneAdded, locale))
+      window.setTimeout(() => setFlash(''), 2200)
+      return null
+    }
+    const seen = new Set(draft.attendees.map((email) => email.toLowerCase()))
+    const attendees = [...draft.attendees]
+    pendingEmails.forEach((email) => { if (!seen.has(email)) { seen.add(email); attendees.push(email) } })
+    const completed = normalizeBrandingWorkshopDates({ ...draft, attendees })
+    setDraft(completed)
+    setAttendeeInput('')
+    setAttendeeBulk('')
+    return completed
+  }
+  const persistBranding = async (completed: Branding) => {
+    setSaving(true)
+    setFlash(text(ui.applying, locale))
+    try {
+      await onApply(completed)
+      setPendingSave(null)
+      setFlash(text(ui.brandingPublished, locale))
+    } catch (error) {
+      if ((error as Error).name === 'AuthRequired') {
+        setPendingSave(completed)
+        setReauthPassword('')
+        setReauthError(false)
+        setReauth(true)
+      } else {
+        setFlash(text(ui.brandingSaveFailed, locale))
+      }
+    } finally {
+      setSaving(false)
+    }
+  }
+  const applyDraft = () => {
+    if (!windowValid) { showWindowError(); return }
+    const completed = completeDraft()
+    if (completed) void persistBranding(completed)
+  }
+  const submitReauth = async () => {
+    const authenticated = await authenticateMaker(reauthPassword)
+    if (!authenticated) { setReauthError(true); return }
+    setReauth(false)
+    const completed = pendingSave
+    setPendingSave(null)
+    if (completed) await persistBranding(completed)
+  }
+  const clearAllAttendees = () => {
+    setDraft((current) => ({ ...current, attendees: [] }))
+    setAttendeeInput('')
+    setAttendeeBulk('')
+  }
+  const hasAttendeeEntries = draft.attendees.length > 0 || attendeeInput.trim().length > 0 || attendeeBulk.trim().length > 0
   const removeAttendee = (email: string) => setDraft((d) => ({ ...d, attendees: d.attendees.filter((e) => e !== email) }))
   const readFile = (file: File | undefined, key: 'hostLogo' | 'customerLogo') => {
     if (!file) return
@@ -352,14 +459,18 @@ function BrandingSettings({ value, locale, onApply, onClose }: { value: Branding
   }
   const persist = (next: Workshop[]) => { setHistory(next); localStorage.setItem('jumpstart-workshops', JSON.stringify(next)) }
   const saveToHistory = () => {
-    const name = draft.customerName.trim() || draft.hostName.trim() || 'Untitled workshop'
+    if (!windowValid) { showWindowError(); return }
+    const normalizedDraft = completeDraft()
+    if (!normalizedDraft) return
+    const name = normalizedDraft.customerName.trim() || normalizedDraft.hostName.trim() || 'Untitled workshop'
     const existing = history.find((w) => w.name.toLowerCase() === name.toLowerCase())
-    const entry: Workshop = { id: existing?.id || newWorkshopId(), name, hostName: draft.hostName, hostLogo: draft.hostLogo, customerName: draft.customerName, customerLogo: draft.customerLogo, preparedBy: draft.preparedBy, preparedDate: draft.preparedDate, contacts: draft.contacts, attendees: draft.attendees, savedAt: Date.now() }
+    const entry: Workshop = { id: existing?.id || newWorkshopId(), name, hostName: normalizedDraft.hostName, hostLogo: normalizedDraft.hostLogo, customerName: normalizedDraft.customerName, customerLogo: normalizedDraft.customerLogo, preparedBy: normalizedDraft.preparedBy, preparedDate: normalizedDraft.preparedDate, workshopStart: normalizedDraft.workshopStart, workshopEnd: normalizedDraft.workshopEnd, contacts: normalizedDraft.contacts, attendees: normalizedDraft.attendees, savedAt: Date.now() }
+    setDraft(normalizedDraft)
     persist(existing ? history.map((w) => (w.id === existing.id ? entry : w)) : [entry, ...history])
     setFlash(text(existing ? ui.updatedWorkshop : ui.savedWorkshop, locale).replace('{name}', name))
     window.setTimeout(() => setFlash(''), 2200)
   }
-  const loadWorkshop = (w: Workshop) => { setDraft({ hostName: w.hostName, hostLogo: w.hostLogo, customerName: w.customerName, customerLogo: w.customerLogo, preparedBy: w.preparedBy ?? defaultBranding.preparedBy, preparedDate: w.preparedDate ?? defaultBranding.preparedDate, contacts: w.contacts && w.contacts.length ? w.contacts : defaultContacts, attendees: Array.isArray(w.attendees) ? w.attendees : [] }); setFlash(text(ui.loadedWorkshop, locale).replace('{name}', w.name)); window.setTimeout(() => setFlash(''), 2600) }
+  const loadWorkshop = (w: Workshop) => { setDraft({ hostName: w.hostName, hostLogo: w.hostLogo, customerName: w.customerName, customerLogo: w.customerLogo, preparedBy: w.preparedBy ?? defaultBranding.preparedBy, preparedDate: w.preparedDate ?? defaultBranding.preparedDate, workshopStart: w.workshopStart ?? '', workshopEnd: w.workshopEnd ?? '', contacts: w.contacts && w.contacts.length ? w.contacts : defaultContacts, attendees: Array.isArray(w.attendees) ? w.attendees : [] }); setFlash(text(ui.loadedWorkshop, locale).replace('{name}', w.name)); window.setTimeout(() => setFlash(''), 2600) }
   const removeWorkshop = (id: string) => persist(history.filter((w) => w.id !== id))
   const q = query.trim().toLowerCase()
   const filtered = [...history].sort((a, b) => b.savedAt - a.savedAt).filter((w) => !q || w.name.toLowerCase().includes(q) || w.customerName.toLowerCase().includes(q) || w.hostName.toLowerCase().includes(q))
@@ -382,6 +493,15 @@ function BrandingSettings({ value, locale, onApply, onClose }: { value: Branding
           <label>{text(ui.preparedByField, locale)}<input type="text" value={draft.preparedBy} onChange={(e) => setDraft({ ...draft, preparedBy: e.target.value })} placeholder="Microsoft Global Solution Advisory Agent - Asia Team" /></label>
           <label>{text(ui.preparedDateField, locale)}<input type="text" value={draft.preparedDate} onChange={(e) => setDraft({ ...draft, preparedDate: e.target.value })} placeholder="July 16, 2026" /></label>
         </div>
+        <div className="settings-window">
+          <div className="settings-contacts-head"><span>{text(ui.workshopAccessWindow, locale)}</span></div>
+          <p className="settings-subhint">{text(ui.workshopAccessWindowHint, locale)}</p>
+          <div className="settings-window-grid">
+            <label>{text(ui.workshopStartDate, locale)}<input type="date" value={toWorkshopDate(draft.workshopStart)} onChange={(e) => setDraft({ ...draft, workshopStart: e.target.value })} /></label>
+            <label>{text(ui.workshopEndDate, locale)}<input type="date" min={toWorkshopDate(draft.workshopStart)} value={toWorkshopDate(draft.workshopEnd)} onChange={(e) => setDraft({ ...draft, workshopEnd: e.target.value })} /></label>
+          </div>
+          {!windowValid && <p className="settings-window-error" role="alert">{text(ui.workshopWindowInvalid, locale)}</p>}
+        </div>
         <div className="settings-contacts">
           <div className="settings-contacts-head"><span>{text(ui.contactsField, locale)}</span><button type="button" className="ghost" onClick={() => setDraft({ ...draft, contacts: [...draft.contacts, { name: '', email: '' }] })}>+ {text(ui.addContact, locale)}</button></div>
           {draft.contacts.map((c, idx) => (
@@ -395,7 +515,7 @@ function BrandingSettings({ value, locale, onApply, onClose }: { value: Branding
         <div className="settings-attendees">
           <div className="settings-contacts-head">
             <span>{text(ui.attendeesField, locale)}{draft.attendees.length > 0 && <em className="attendee-count">{draft.attendees.length}</em>}</span>
-            {draft.attendees.length > 0 && <button type="button" className="ghost" onClick={() => setDraft({ ...draft, attendees: [] })}>{text(ui.clearAll, locale)}</button>}
+            <button type="button" className="ghost" disabled={!hasAttendeeEntries} onClick={clearAllAttendees}><Trash2 size={14} /> {text(ui.clearAll, locale)}</button>
           </div>
           <p className="settings-subhint">{text(ui.attendeesHint, locale)}</p>
           <div className="attendee-add-row">
@@ -417,7 +537,7 @@ function BrandingSettings({ value, locale, onApply, onClose }: { value: Branding
         <div className="settings-actions">
           <button className="ghost" type="button" onClick={() => setDraft(defaultBranding)}>{text(ui.reset, locale)}</button>
           <button className="ghost" type="button" onClick={saveToHistory}><Save size={15} /> {text(ui.saveToHistory, locale)}</button>
-          <button className="primary" type="button" onClick={async () => { setFlash(text(ui.applying, locale)); const s = await onApply(draft); setFlash(text(s === 'published' ? ui.brandingPublished : ui.brandingOffline, locale)) }}>{text(ui.apply, locale)}</button>
+          <button className="primary" type="button" aria-disabled={!windowValid} disabled={saving} onClick={applyDraft}>{text(saving ? ui.applying : ui.apply, locale)}</button>
         </div>
         {flash && <div className="settings-flash" role="status">{flash}</div>}
         </div>
@@ -439,45 +559,28 @@ function BrandingSettings({ value, locale, onApply, onClose }: { value: Branding
         </div>
         </div>
       </div>
-    </div>
-  )
-}
-
-function EmailGate({ locale, attendees, onVerified, onClose }: { locale: Locale; attendees: string[]; onVerified: () => void; onClose: () => void }) {
-  const [email, setEmail] = useState('')
-  const [error, setError] = useState<'invalid' | 'denied' | null>(null)
-  const verify = () => {
-    const value = email.trim().toLowerCase()
-    if (!isEmail(value)) { setError('invalid'); return }
-    if (!attendees.some((a) => a.toLowerCase() === value)) { setError('denied'); return }
-    onVerified()
-  }
-  return (
-    <div className="email-gate-scrim" role="dialog" aria-modal="true" aria-label={text(ui.attendeeGateTitle, locale)}>
-      <div className="email-gate-card">
-        <div className="email-gate-icon"><MailCheck size={26} /></div>
-        <h2 className="email-gate-title">{text(ui.attendeeGateTitle, locale)}</h2>
-        <p className="email-gate-intro">{text(ui.attendeeGateIntro, locale)}</p>
-        <label className="email-gate-field">{text(ui.attendeeGateLabel, locale)}
-          <input type="email" autoFocus value={email} placeholder={text(ui.attendeeAddHint, locale)}
-            onChange={(e) => { setEmail(e.target.value); setError(null) }}
-            onKeyDown={(e) => { if (e.key === 'Enter') verify() }} />
-        </label>
-        {error && <span className="email-gate-error">{text(error === 'invalid' ? ui.attendeeGateInvalid : ui.attendeeGateDenied, locale)}</span>}
-        <div className="email-gate-actions">
-          <button type="button" className="ghost-button" onClick={onClose}>{text(ui.close, locale)}</button>
-          <button type="button" className="email-gate-verify" onClick={verify}>{text(ui.attendeeGateVerify, locale)}</button>
+      {reauth && <div className="password-scrim" role="dialog" aria-label={text(ui.makerUnlock, locale)}>
+        <div className="password-card">
+          <div className="password-icon"><Lock size={22} /></div>
+          <strong>{text(ui.makerUnlock, locale)}</strong>
+          <span className="reauth-hint">{text(ui.reauthHint, locale)}</span>
+          <input type="password" autoFocus value={reauthPassword}
+            onChange={(event) => { setReauthPassword(event.target.value); setReauthError(false) }}
+            onKeyDown={(event) => { if (event.key === 'Enter') void submitReauth() }} />
+          {reauthError && <span className="password-error">{text(ui.makerWrong, locale)}</span>}
+          <div className="password-actions">
+            <button type="button" className="ghost-button" onClick={() => { setReauth(false); setPendingSave(null) }}>{text(ui.close, locale)}</button>
+            <button type="button" className="copy-button" onClick={() => void submitReauth()}>{text(ui.unlock, locale)}</button>
+          </div>
         </div>
-      </div>
+      </div>}
     </div>
   )
 }
 
-function CoverPage({ onEnter, dark, onToggleTheme, locale, onLocaleChange, branding, entryReady, canConfigure, onOpenSettings }: {
-  onEnter: () => void; dark: boolean; onToggleTheme: () => void;
-  locale: Locale; onLocaleChange: (l: Locale) => void; branding: Branding; entryReady: boolean; canConfigure: boolean; onOpenSettings: () => void;
+function CoverControls({ dark, locale, onToggleTheme, onLocaleChange, canConfigure, onOpenSettings }: {
+  dark: boolean; locale: Locale; onToggleTheme: () => void; onLocaleChange: (locale: Locale) => void; canConfigure: boolean; onOpenSettings: () => void;
 }) {
-  const hasCustomer = !!(branding.customerName.trim() || branding.customerLogo.trim())
   const [languageOpen, setLanguageOpen] = useState(false)
   const languageRef = useRef<HTMLDivElement>(null)
   const selectLocale = (nextLocale: Locale) => {
@@ -498,21 +601,96 @@ function CoverPage({ onEnter, dark, onToggleTheme, locale, onLocaleChange, brand
     }
   }, [languageOpen])
   return (
-    <div className="cover-hero">
-      <div className="cover-controls">
-        <div className={languageOpen ? 'cover-language open' : 'cover-language'} ref={languageRef}>
-          <button className="cover-lang-toggle" type="button" aria-expanded={languageOpen} aria-controls="cover-language-options" onClick={() => setLanguageOpen((open) => !open)}>
-            <Languages size={17} /><span>{localeNames[locale]}</span><ChevronDown size={15} />
-          </button>
-          <div className="cover-langbar" id="cover-language-options" role="group" aria-label={text(ui.language, locale)}>
-            {locales.map((item) => (
-              <button key={item} type="button" className={item === locale ? 'on' : ''} aria-pressed={item === locale} onClick={() => selectLocale(item)}>{item === 'en' ? 'EN' : localeNames[item]}</button>
-            ))}
-          </div>
+    <div className="cover-controls">
+      <div className={languageOpen ? 'cover-language open' : 'cover-language'} ref={languageRef}>
+        <button className="cover-lang-toggle" type="button" aria-expanded={languageOpen} aria-controls="cover-language-options" onClick={() => setLanguageOpen((open) => !open)}>
+          <Languages size={17} /><span>{localeNames[locale]}</span><ChevronDown size={15} />
+        </button>
+        <div className="cover-langbar" id="cover-language-options" role="group" aria-label={text(ui.language, locale)}>
+          {locales.map((item) => (
+            <button key={item} type="button" className={item === locale ? 'on' : ''} aria-pressed={item === locale} onClick={() => selectLocale(item)}>{item === 'en' ? 'EN' : localeNames[item]}</button>
+          ))}
         </div>
-        {canConfigure && <button className="icon-button" type="button" onClick={onOpenSettings} title={text(ui.workshopBranding, locale)} aria-label={text(ui.workshopBranding, locale)}><Settings size={18} /></button>}
-        <button className="icon-button" type="button" onClick={onToggleTheme} title={text(ui.theme, locale)} aria-label={text(ui.theme, locale)}>{dark ? <Sun size={19} /> : <Moon size={19} />}</button>
       </div>
+      {canConfigure && <button className="icon-button" type="button" onClick={onOpenSettings} title={text(ui.workshopBranding, locale)} aria-label={text(ui.workshopBranding, locale)}><Settings size={18} /></button>}
+      <button className="icon-button" type="button" onClick={onToggleTheme} title={text(ui.theme, locale)} aria-label={text(ui.theme, locale)}>{dark ? <Sun size={19} /> : <Moon size={19} />}</button>
+    </div>
+  )
+}
+
+const microsoftLogoUrl = 'https://uhf.microsoft.com/images/microsoft/RE1Mu3b.png'
+
+function AccessWelcomePage({ dark, locale, attendees, workshopStart, workshopEnd, entryReady, canConfigure, onToggleTheme, onLocaleChange, onOpenSettings, onVerified }: {
+  dark: boolean; locale: Locale; attendees: string[]; workshopStart: string; workshopEnd: string; entryReady: boolean; canConfigure: boolean;
+  onToggleTheme: () => void; onLocaleChange: (locale: Locale) => void; onOpenSettings: () => void; onVerified: () => void;
+}) {
+  const [email, setEmail] = useState('')
+  const [error, setError] = useState<'invalid' | 'denied' | null>(null)
+  const [now, setNow] = useState(Date.now())
+  const status = workshopWindowStatus({ workshopStart, workshopEnd }, now)
+  useEffect(() => {
+    const timer = window.setInterval(() => setNow(Date.now()), 15_000)
+    return () => window.clearInterval(timer)
+  }, [])
+  const verify = () => {
+    if (!entryReady) return
+    if (workshopWindowStatus({ workshopStart, workshopEnd }) !== 'open') { setNow(Date.now()); return }
+    const value = email.trim().toLowerCase()
+    if (!isEmail(value)) { setError('invalid'); return }
+    if (attendees.length > 0 && !attendees.some((a) => a.toLowerCase() === value)) { setError('denied'); return }
+    onVerified()
+  }
+  const blockedTitle = status === 'not-started' ? ui.workshopNotStartedTitle : status === 'ended' ? ui.workshopEndedTitle : ui.workshopWindowUnavailableTitle
+  const blockedIntro = status === 'not-started'
+    ? text(ui.workshopNotStartedIntro, locale).replace('{date}', formatWorkshopDate(workshopStart, locale))
+    : status === 'ended'
+      ? text(ui.workshopEndedIntro, locale).replace('{date}', formatWorkshopDate(workshopEnd, locale))
+      : text(ui.workshopWindowUnavailableIntro, locale)
+  return (
+    <div className="cover-hero access-welcome">
+      <CoverControls dark={dark} locale={locale} onToggleTheme={onToggleTheme} onLocaleChange={onLocaleChange} canConfigure={canConfigure} onOpenSettings={onOpenSettings} />
+      <span className="cover-orb one" aria-hidden="true" />
+      <span className="cover-orb two" aria-hidden="true" />
+      <span className="cover-orb three" aria-hidden="true" />
+      <div className="cover-card access-welcome-card">
+        <img className="access-microsoft-logo" src={microsoftLogoUrl} alt="Microsoft" />
+        <h1 className="cover-title">Jumpstart v2<br />AI Agent Workshop</h1>
+        <p className="cover-tagline">{text(cover.tagline, locale)}</p>
+        <div className="access-divider" aria-hidden="true" />
+        {status === 'open' ? <div className="access-form">
+          <p className="access-prompt">{text(ui.accessWelcomePrompt, locale)}</p>
+          <label className="access-email-field"><span>{text(ui.attendeeGateLabel, locale)}</span>
+            <div className="access-email-row">
+              <input type="email" autoFocus value={email} placeholder={text(ui.attendeeAddHint, locale)}
+                onChange={(event) => { setEmail(event.target.value); setError(null) }}
+                onKeyDown={(event) => { if (event.key === 'Enter') verify() }} />
+              <button type="button" className="cover-cta access-verify" disabled={!entryReady} onClick={verify}>{text(ui.attendeeGateContinue, locale)} <ArrowRight size={18} /></button>
+            </div>
+          </label>
+          {error && <span className="access-error" role="alert">{text(error === 'invalid' ? ui.attendeeGateInvalid : ui.attendeeGateDenied, locale)}</span>}
+        </div> : <div className="access-blocked">
+          <span className="access-blocked-icon"><CalendarDays size={22} /></span>
+          <h2>{text(blockedTitle, locale)}</h2>
+          <p>{blockedIntro}</p>
+          {status !== 'invalid' && <div className="workshop-window-summary access-window-summary">
+            <span><small>{text(ui.workshopStartDate, locale)}</small><strong>{formatWorkshopDate(workshopStart, locale)}</strong></span>
+            <span><small>{text(ui.workshopEndDate, locale)}</small><strong>{formatWorkshopDate(workshopEnd, locale)}</strong></span>
+          </div>}
+        </div>}
+      </div>
+      <div className="cover-footer">&copy; Microsoft &middot; GBB Sales Solution Advisory — Agent Asia Team</div>
+    </div>
+  )
+}
+
+function CoverPage({ onEnter, dark, onToggleTheme, locale, onLocaleChange, branding, entryReady, canConfigure, onOpenSettings }: {
+  onEnter: () => void; dark: boolean; onToggleTheme: () => void;
+  locale: Locale; onLocaleChange: (l: Locale) => void; branding: Branding; entryReady: boolean; canConfigure: boolean; onOpenSettings: () => void;
+}) {
+  const hasCustomer = !!(branding.customerName.trim() || branding.customerLogo.trim())
+  return (
+    <div className="cover-hero">
+      <CoverControls dark={dark} locale={locale} onToggleTheme={onToggleTheme} onLocaleChange={onLocaleChange} canConfigure={canConfigure} onOpenSettings={onOpenSettings} />
       <span className="cover-orb one" aria-hidden="true" />
       <span className="cover-orb two" aria-hidden="true" />
       <span className="cover-orb three" aria-hidden="true" />
@@ -649,8 +827,8 @@ function App() {
   const [celebrateIntensity, setCelebrateIntensity] = useState(1)
   const [labDoneTitle, setLabDoneTitle] = useState<string | null>(null)
   const [allDoneOpen, setAllDoneOpen] = useState(false)
+  const [accessVerified, setAccessVerified] = useState(false)
   const [showCover, setShowCover] = useState(true)
-  const [emailGateOpen, setEmailGateOpen] = useState(false)
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [pendingUnlock, setPendingUnlock] = useState<'editor' | 'settings' | null>(null)
   const [brandingReady, setBrandingReady] = useState(false)
@@ -688,9 +866,9 @@ function App() {
   }, [])
 
   useEffect(() => {
-    document.documentElement.classList.toggle('cover-open', showCover)
+    document.documentElement.classList.toggle('cover-open', !accessVerified || showCover)
     return () => document.documentElement.classList.remove('cover-open')
-  }, [showCover])
+  }, [accessVerified, showCover])
 
   useEffect(() => {
     if (labIndex > visibleLabs.length - 1) setLabIndex(Math.max(0, visibleLabs.length - 1))
@@ -742,7 +920,7 @@ function App() {
     setPendingUnlock('settings'); setAskPassword(true); setPasswordValue(''); setPasswordError(false)
   }
   const submitPassword = async () => {
-    if (await verifyMakerPassword(passwordValue)) {
+    if (await authenticateMaker(passwordValue)) {
       sessionStorage.setItem('jumpstart-maker', '1')
       setMakerUnlocked(true); setAskPassword(false)
       if (pendingUnlock === 'settings') setSettingsOpen(true)
@@ -798,18 +976,11 @@ function App() {
     window.addEventListener('afterprint', restore)
     window.print()
   }
-  const applyBranding = async (next: Branding): Promise<'published' | 'offline'> => {
+  const applyBranding = async (next: Branding): Promise<void> => {
+    await saveBrandingToFile(next)
     setBranding(next)
-    return saveBrandingToFile(next)
   }
-  // Entry gate: once published branding has loaded, workshops with an attendee list
-  // require email validation every time the participant enters the lab content.
-  const enterWorkshop = () => {
-    if (!brandingReady) return
-    const list = branding.attendees ?? []
-    if (list.length === 0) { setShowCover(false); return }
-    setEmailGateOpen(true)
-  }
+  const enterWorkshop = () => { if (brandingReady) setShowCover(false) }
   const submitFeedback = (data: { overall: number; effort: number; recommend: number; comments: string }) => {
     void saveFeedback({ ...data, locale, at: Date.now() })
   }
@@ -817,8 +988,8 @@ function App() {
 
   return <div className={collapsed ? 'app-shell sidebar-collapsed' : 'app-shell'}>
     <Fireworks trigger={celebrate} intensity={celebrateIntensity} />
-    {showCover && <CoverPage onEnter={enterWorkshop} dark={dark} onToggleTheme={toggleTheme} locale={locale} onLocaleChange={setLocale} branding={branding} entryReady={brandingReady} canConfigure={makerEnabled} onOpenSettings={openSettings} />}
-    {showCover && emailGateOpen && <EmailGate locale={locale} attendees={branding.attendees ?? []} onVerified={() => { setEmailGateOpen(false); setShowCover(false) }} onClose={() => setEmailGateOpen(false)} />}
+    {!accessVerified && <AccessWelcomePage dark={dark} locale={locale} attendees={branding.attendees ?? []} workshopStart={branding.workshopStart} workshopEnd={branding.workshopEnd} entryReady={brandingReady} canConfigure={makerEnabled} onToggleTheme={toggleTheme} onLocaleChange={setLocale} onOpenSettings={openSettings} onVerified={() => setAccessVerified(true)} />}
+    {accessVerified && showCover && <CoverPage onEnter={enterWorkshop} dark={dark} onToggleTheme={toggleTheme} locale={locale} onLocaleChange={setLocale} branding={branding} entryReady={brandingReady} canConfigure={makerEnabled} onOpenSettings={openSettings} />}
     {settingsOpen && <BrandingSettings value={branding} locale={locale} onApply={applyBranding} onClose={() => setSettingsOpen(false)} />}
     <button className="mobile-menu" type="button" onClick={() => setMenuOpen(true)} title={text(ui.menu, locale)} aria-label={text(ui.menu, locale)}><Menu /></button>
     {menuOpen && <button className="nav-scrim" type="button" onClick={() => setMenuOpen(false)} aria-label={text(ui.close, locale)} />}
