@@ -1,8 +1,8 @@
 {
   "hostName": "Microsoft",
   "hostLogo": "https://uhf.microsoft.com/images/microsoft/RE1Mu3b.png",
-  "customerName": "HKJC",
-  "customerLogo": "https://consvc.hkjc.com/-/media/Sites/JCEW/Homepage/icon/logo/hkjc-logo-tc-black.svg?rev=51af8053f5364823b724afe738492553&sc_lang=en-US",
+  "customerName": "LENOVO",
+  "customerLogo": "https://p4-ofp.static.pub/fes/cms/2022/11/14/h82es5y402b4rh1089sf86ay7n9sdl721044.png",
   "preparedBy": "Microsoft Global Solution Advisory Agent - Asia Team",
   "preparedDate": "July 16, 2026",
   "contacts": [
@@ -15,5 +15,27 @@
       "email": "zhijian@microsoft.com"
     }
   ],
-  "attendees": []
+  "attendees": [
+    "zhougb1@lenovo.com",
+    "zhangyue8@lenovo.com",
+    "frankliu@lenovo.com",
+    "xugw3@lenovo.com",
+    "linjh8@lenovo.com",
+    "duanjj4@lenovo.com",
+    "lichen8@lenovo.com",
+    "wangmh18@lenovo.com",
+    "qinqian2@lenovo.com",
+    "wangrh11@lenovo.com",
+    "mengzh3@lenovo.com",
+    "wangsy108@lenovo.com",
+    "gengsy2@lenovo.com",
+    "liuxy135@lenovo.com",
+    "yangyang75@lenovo.com",
+    "dingyf4@lenovo.com",
+    "sunyy13@lenovo.com",
+    "zhangyu108@lenovo.com",
+    "dongyy11@lenovo.com",
+    "lilw8@lenovo.com",
+    "wsiong@lenovo.com"
+  ]
 }
