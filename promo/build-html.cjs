@@ -125,7 +125,7 @@ const slides = /* html */ `
   </div>
 </section>
 
-<!-- 3. THE 6 LABS -->
+<!-- 4. THE 6 LABS -->
 <section class="slide saga-slide" data-title="The 6 labs">
   <div class="saga-bg" style="background:${STARS}, radial-gradient(ellipse 85% 60% at 50% -12%, rgba(124,58,237,.24), transparent 60%), radial-gradient(ellipse 95% 75% at 50% 118%, rgba(34,211,238,.16), transparent 60%), #05030f"></div>
   <div class="saga-glow" aria-hidden="true"></div>
@@ -140,12 +140,40 @@ const slides = /* html */ `
   </div>
 </section>
 
-<!-- 4. AGENT PLATFORM BLUEPRINT -->
+<!-- 5. AGENT PLATFORM BLUEPRINT -->
 <section class="slide blueprint-slide" data-title="Agent platform blueprint">
   <img class="blueprint-img" data-blueprint src="${IMG.blueprint.en}" alt="Copilot Studio Agent Platform Blueprint: six labs mapped from use case through agent mode, architecture, tools, and business value" />
 </section>
 
-<!-- 5. MULTILINGUAL -->
+<!-- 6. LEARNER EXPERIENCE -->
+<section class="slide maker-cover learner-cover" data-title="Learner Experience">
+  <div class="maker-cover-grid">
+    <div class="maker-cover-copy">
+      <span class="kicker" data-i18n="slc.k">JumpStart Learner</span>
+      <h2 data-i18n="slc.h"><span class="grad">Learner Experience</span></h2>
+      <p class="maker-cover-lede" data-i18n="slc.lede">Open one link, choose your language, and build real agents at your own pace with guided steps, copy-ready prompts, screenshots, and progress celebrations.</p>
+      <div class="maker-capabilities">
+        <div class="maker-capability"><span class="maker-capability-icon">文</span><div><b data-i18n="slc.t1">Choose your language</b><span data-i18n="slc.d1">Eight localized experiences</span></div></div>
+        <div class="maker-capability"><span class="maker-capability-icon">→</span><div><b data-i18n="slc.t2">Follow the guide</b><span data-i18n="slc.d2">Six labs &amp; 29 structured steps</span></div></div>
+        <div class="maker-capability"><span class="maker-capability-icon">⧉</span><div><b data-i18n="slc.t3">Copy and build</b><span data-i18n="slc.d3">Prompts, callouts &amp; screenshots</span></div></div>
+        <div class="maker-capability"><span class="maker-capability-icon">✦</span><div><b data-i18n="slc.t4">Celebrate progress</b><span data-i18n="slc.d4">Completion tracking &amp; fireworks</span></div></div>
+      </div>
+      <div class="maker-cover-signal"><span></span><strong data-i18n="slc.signal">One guided journey &middot; real agents built hands-on</strong></div>
+    </div>
+    <div class="maker-cover-visual">
+      <div class="maker-preview-frame">
+        <div class="maker-preview-bar"><span></span><span></span><span></span><b>JumpStart Learner</b></div>
+        <img src="${IMG.labFireworks}" alt="JumpStart learner experience with guided labs and completion fireworks" />
+      </div>
+      <span class="maker-float maker-float-content" data-i18n="slc.t1">Choose your language</span>
+      <span class="maker-float maker-float-brand" data-i18n="slc.t2">Follow the guide</span>
+      <span class="maker-float maker-float-access" data-i18n="slc.t3">Copy and build</span>
+      <span class="maker-float maker-float-publish" data-i18n="slc.t4">Celebrate progress</span>
+    </div>
+  </div>
+</section>
+
+<!-- 7. MULTILINGUAL -->
 <section class="slide" data-title="Multilingual">
   <div class="s-head"><span class="kicker" data-i18n="s4.k">Unique feature 01</span><h2 data-i18n="s4.h">Multilingual <span class="grad">by design</span></h2></div>
   <div class="two shots-row">
@@ -170,7 +198,7 @@ const slides = /* html */ `
   </div>
 </section>
 
-<!-- 6. LEARN BY DOING -->
+<!-- 8. LEARN BY DOING -->
 <section class="slide" data-title="Learn by doing">
   <div class="s-head"><span class="kicker" data-i18n="s5.k">Unique feature 02</span><h2 data-i18n="s5.h">A learn-by-doing UX that's <span class="grad">actually joyful</span></h2></div>
   <div class="two">
@@ -185,7 +213,7 @@ const slides = /* html */ `
   </div>
 </section>
 
-<!-- 7. PARTICIPANT GUIDELINE -->
+<!-- 9. PARTICIPANT GUIDELINE -->
 <section class="slide participant-guide" data-title="Participant guideline">
   <div class="participant-layout">
     <div class="participant-visual">
@@ -214,7 +242,7 @@ const slides = /* html */ `
   </div>
 </section>
 
-<!-- 7. CO-BRANDING -->
+<!-- 10. CO-BRANDING -->
 <section class="slide" data-title="Co-branding">
   <div class="s-head"><span class="kicker" data-i18n="s6.k">Unique feature 03</span><h2 data-i18n="s6.h">Co-brand a <span class="grad">dedicated workshop</span> in seconds</h2></div>
   <div class="two wide-right">
@@ -229,7 +257,35 @@ const slides = /* html */ `
   </div>
 </section>
 
-<!-- 10. MAKER GUIDANCE -->
+<!-- 11. MAKER EXPERIENCE -->
+<section class="slide maker-cover" data-title="Maker Experience">
+  <div class="maker-cover-grid">
+    <div class="maker-cover-copy">
+      <span class="kicker" data-i18n="smc.k">JumpStart Maker</span>
+      <h2 data-i18n="smc.h"><span class="grad">Maker Experience</span></h2>
+      <p class="maker-cover-lede" data-i18n="smc.lede">Adjust the learning content, shape a customer-ready workshop theme and brand, gate access with the attendee email list, and publish the finished experience.</p>
+      <div class="maker-capabilities">
+        <div class="maker-capability"><span class="maker-capability-icon">✎</span><div><b data-i18n="smc.t1">Tune content</b><span data-i18n="smc.d1">Labs, steps, prompts &amp; screenshots</span></div></div>
+        <div class="maker-capability"><span class="maker-capability-icon">◇</span><div><b data-i18n="smc.t2">Brand the workshop</b><span data-i18n="smc.d2">Theme, customer identity &amp; host details</span></div></div>
+        <div class="maker-capability"><span class="maker-capability-icon">✉</span><div><b data-i18n="smc.t3">Gate attendance</b><span data-i18n="smc.d3">Approved customer email list</span></div></div>
+        <div class="maker-capability"><span class="maker-capability-icon">↗</span><div><b data-i18n="smc.t4">Publish with confidence</b><span data-i18n="smc.d4">Test, commit &amp; deploy</span></div></div>
+      </div>
+      <div class="maker-cover-signal"><span></span><strong data-i18n="smc.signal">One maker flow &middot; one attendee-ready workshop</strong></div>
+    </div>
+    <div class="maker-cover-visual">
+      <div class="maker-preview-frame">
+        <div class="maker-preview-bar"><span></span><span></span><span></span><b>JumpStart Maker</b></div>
+        <img src="${IMG.branding}" alt="JumpStart Maker workshop branding editor" />
+      </div>
+      <span class="maker-float maker-float-content" data-i18n="smc.t1">Tune content</span>
+      <span class="maker-float maker-float-brand" data-i18n="smc.t2">Brand the workshop</span>
+      <span class="maker-float maker-float-access" data-i18n="smc.t3">Gate attendance</span>
+      <span class="maker-float maker-float-publish" data-i18n="smc.t4">Publish with confidence</span>
+    </div>
+  </div>
+</section>
+
+<!-- 12. MAKER GUIDANCE -->
 <section class="slide guide-slide maker-guide" data-title="Maker guidance">
   <div class="s-head guide-head">
     <span class="kicker" data-i18n="sm.k">Maker guidance</span>
@@ -247,7 +303,7 @@ const slides = /* html */ `
   <div class="guide-note"><strong data-i18n="sm.noteLabel">Manual fallback</strong><span data-i18n="sm.note"><code>git add public/content/branding.json public/content/labs.json</code> &rarr; commit &rarr; <code>git push origin main</code></span></div>
 </section>
 
-<!-- 11. PUBLISH ONCE -->
+<!-- 13. PUBLISH ONCE -->
 <section class="slide" data-title="Publish once">
   <div class="s-head"><span class="kicker" data-i18n="s7.k">Unique feature 04</span><h2 data-i18n="s7.h">Publish once &mdash; <span class="grad">everyone sees it</span></h2></div>
   <div class="flow">
@@ -262,7 +318,7 @@ const slides = /* html */ `
   <p class="note" data-i18n="s7.note">No per-user setup. The published files are the single source of truth for every visitor.</p>
 </section>
 
-<!-- 9. FAST START — FROM LAB TO IMPACT -->
+<!-- 14. FAST START — FROM LAB TO IMPACT -->
 <section class="slide vp-slide" data-title="From Lab to Impact">
   <div class="vp-grid">
     <div class="vp-art"><img data-jumpstart class="vp-img" src="${IMG.jumpstart.en}" alt="JumpStart — Fast Start" /></div>
@@ -280,7 +336,7 @@ const slides = /* html */ `
   </div>
 </section>
 
-<!-- 10. CLOSING -->
+<!-- 15. CLOSING -->
 <section class="slide closing" data-title="Bring it to your workshop">
   <div class="orb o1"></div><div class="orb o2"></div>
   <div class="close-grid">
@@ -435,6 +491,50 @@ const html = /* html */ `<!doctype html>
   .frow b{display:block;font-size:1.34rem}
   .frow span{display:block;color:var(--muted);font-size:1.16rem;line-height:1.4;margin-top:3px}
 
+  /* maker experience chapter cover */
+  .maker-cover{padding:0;overflow:hidden;background:
+    linear-gradient(120deg,rgba(15,13,26,.98) 0%,rgba(23,20,48,.98) 54%,rgba(15,13,26,.96) 100%)}
+  .maker-cover::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.24;background-image:
+    linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:44px 44px}
+  .maker-cover::after{content:"";position:absolute;right:-8%;top:-25%;width:58%;height:150%;pointer-events:none;
+    background:linear-gradient(145deg,rgba(167,139,250,.22),rgba(236,72,153,.16) 48%,rgba(34,211,238,.12));transform:skewX(-10deg)}
+  .maker-cover-grid{position:relative;z-index:2;height:100%;display:grid;grid-template-columns:1.08fr .92fr;gap:3.5%;align-items:center;padding:5.2% 5.2% 5.2% 6%}
+  .maker-cover-copy{min-width:0}
+  .maker-cover .kicker{margin-bottom:18px;color:#F1EEFF;background:rgba(167,139,250,.16);border-color:rgba(167,139,250,.4);letter-spacing:.13em}
+  .maker-cover h2{font-size:5.2rem;line-height:.96;letter-spacing:0}
+  .maker-cover-lede{margin-top:22px;max-width:52ch;color:#D5D2E3;font-size:1.34rem;line-height:1.48}
+  .maker-capabilities{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px 18px;margin-top:30px}
+  .maker-capability{min-width:0;display:grid;grid-template-columns:2.75rem 1fr;gap:11px;align-items:center;padding:10px 0;border-top:1px solid rgba(255,255,255,.12)}
+  .maker-capability-icon{width:2.75rem;height:2.75rem;display:grid;place-items:center;border-radius:11px;color:#fff;font-size:1.35rem;font-weight:900;
+    background:linear-gradient(145deg,rgba(167,139,250,.62),rgba(236,72,153,.5));border:1px solid rgba(255,255,255,.18);box-shadow:0 8px 18px rgba(124,58,237,.24)}
+  .maker-capability b{display:block;color:#F7F5FF;font-size:1.08rem;line-height:1.18;font-weight:900}
+  .maker-capability div span{display:block;margin-top:4px;color:#AAA7BE;font-size:.85rem;line-height:1.3}
+  .maker-cover-signal{display:flex;align-items:center;gap:10px;margin-top:24px;color:#C9C6DA;font-size:.88rem;text-transform:uppercase;letter-spacing:.09em}
+  .maker-cover-signal span{width:9px;height:9px;border-radius:50%;background:#22d3ee;box-shadow:0 0 18px rgba(34,211,238,.8);animation:makerPulse 1.8s ease-in-out infinite}
+  .maker-cover-visual{position:relative;height:78%;min-width:0;display:flex;align-items:center;justify-content:center}
+  .maker-preview-frame{position:relative;width:92%;height:100%;overflow:hidden;border-radius:18px;background:#1D1A2D;border:1px solid rgba(255,255,255,.18);
+    box-shadow:0 34px 90px rgba(0,0,0,.58),0 0 55px rgba(124,58,237,.24);transform:perspective(1400px) rotateY(-4deg) rotateZ(1deg)}
+  .maker-preview-bar{height:3rem;display:flex;align-items:center;gap:7px;padding:0 15px;background:rgba(15,13,26,.94);border-bottom:1px solid rgba(255,255,255,.1)}
+  .maker-preview-bar span{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.24)}
+  .maker-preview-bar span:nth-child(1){background:#f472b6}.maker-preview-bar span:nth-child(2){background:#a78bfa}.maker-preview-bar span:nth-child(3){background:#22d3ee}
+  .maker-preview-bar b{margin-left:auto;color:#DCD9EB;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}
+  .maker-preview-frame img{display:block;width:100%;height:calc(100% - 3rem);object-fit:cover;object-position:49% 11%}
+  .learner-cover .maker-preview-frame img{object-position:44% center}
+  .maker-float{position:absolute;z-index:3;padding:9px 13px;border-radius:999px;color:#F8F6FF;font-size:.76rem;font-weight:900;white-space:nowrap;
+    background:rgba(23,20,48,.92);border:1px solid rgba(167,139,250,.52);box-shadow:0 12px 28px rgba(0,0,0,.42);animation:makerFloat 3.6s ease-in-out infinite}
+  .maker-float-content{left:-2%;top:13%}.maker-float-brand{right:-1%;top:29%;animation-delay:.45s}.maker-float-access{left:-5%;bottom:24%;animation-delay:.9s}.maker-float-publish{right:-2%;bottom:9%;animation-delay:1.35s;border-color:rgba(34,211,238,.58)}
+  .slide.active .maker-cover-copy>*{animation:makerRise .6s ease both}.slide.active .maker-cover-copy>*:nth-child(2){animation-delay:.08s}.slide.active .maker-cover-copy>*:nth-child(3){animation-delay:.16s}.slide.active .maker-cover-copy>*:nth-child(4){animation-delay:.24s}.slide.active .maker-cover-copy>*:nth-child(5){animation-delay:.32s}
+  .slide.active .maker-preview-frame{animation:makerPreviewIn .7s cubic-bezier(.2,.75,.2,1) .12s both}
+  @keyframes makerRise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  @keyframes makerPreviewIn{from{opacity:0;transform:perspective(1400px) rotateY(-9deg) rotateZ(2deg) translateX(36px)}to{opacity:1;transform:perspective(1400px) rotateY(-4deg) rotateZ(1deg)}}
+  @keyframes makerFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+  @keyframes makerPulse{0%,100%{opacity:.55;transform:scale(.82)}50%{opacity:1;transform:scale(1.15)}}
+  html[lang^="zh-"] .maker-cover h2,html[lang="ja"] .maker-cover h2,html[lang="ko"] .maker-cover h2{font-size:4.7rem}
+  html[lang="th"] .maker-cover h2,html[lang="hi"] .maker-cover h2{font-size:4.1rem}
+  html[lang="th"] .maker-cover-lede,html[lang="hi"] .maker-cover-lede{font-size:1.17rem}
+  html[lang="th"] .maker-capability b,html[lang="hi"] .maker-capability b{font-size:.96rem}
+  html[lang="th"] .maker-capability div span,html[lang="hi"] .maker-capability div span{font-size:.77rem}
+
   /* participant + maker guidance */
   .participant-guide{padding:3.8% 4.8%}
   .participant-layout{flex:1;min-height:0;display:grid;grid-template-columns:.95fr 1.05fr;gap:4.4%;align-items:stretch}
@@ -500,6 +600,7 @@ const html = /* html */ `<!doctype html>
   .guide-note{display:flex;align-items:center;gap:12px;margin-top:9px;padding:8px 13px;background:rgba(34,211,238,.07);border:1px solid var(--cardbrd);border-radius:11px}
   .guide-note strong{flex:0 0 auto;color:var(--cyan);font-size:.9rem;letter-spacing:.08em;text-transform:uppercase}
   .guide-note span{min-width:0;color:#E0DEEB;font-size:.9rem;line-height:1.3}
+  .maker-guide .guide-card::after{display:none}
   .maker-guide .guide-card:nth-child(-n+3){border-top-color:rgba(167,139,250,.58)}
   .maker-guide .guide-card:nth-child(n+4){border-top-color:rgba(34,211,238,.48)}
   html[lang^="zh-"] .guide-card h3{font-size:1.42rem}
@@ -745,6 +846,8 @@ const html = /* html */ `<!doctype html>
       's7.note':'无需逐个用户配置。发布的文件是每位访问者的唯一可信来源。',
       'sp.k':'参与者指南','sp.h':'从注册邮箱开始，完成<span class="grad">实验 6</span>','sp.lede':'按照以下引导流程安全进入、浏览每个实验，并把每条可复制的说明转化为动手实践。',
       'sp.t1':'打开在线研讨会','sp.d1':'访问 <code>aka.ms/ai-agent-jumpstart-v2</code>，并在欢迎页选择首选语言。','sp.t2':'验证注册邮箱','sp.d2':'使用主办方登记的邮箱。匹配不区分大小写（ABC = abc）；未登记的邮箱无法进入。','sp.t3':'从实验 1 开始','sp.d3':'选择“进入研讨会”。使用左侧实验菜单（或移动端菜单）打开实验 1，然后查看成果、目标和先决条件。','sp.t4':'跟随引导步骤','sp.d4':'使用目录或顶部步骤选择器。按顺序完成每个编号页面，并遵循其中的截图与提示。','sp.t5':'复制、切换、操作、返回','sp.d5':'在提示词上选择“复制”，切换到 Copilot Studio 或指定应用，执行活动，然后返回指南。','sp.t6':'完成并继续到实验 6','sp.d6':'将每一步标记为“完成”。选择“继续前进”或从菜单选择下一个实验；重复直到实验 6。进度保存在此浏览器。','sp.noteLabel':'温馨提示','sp.note':'使用同一浏览器和设备以保留进度。如果邮箱无法识别，请联系研讨会主办方。',
+      'slc.k':'JumpStart Learner','slc.h':'<span class="grad">学习者体验</span>','slc.lede':'打开一个链接，选择语言，按照引导步骤以自己的节奏构建真实 Agent；复制现成提示词、查看截图，并在进度庆祝中持续前进。','slc.t1':'选择语言','slc.d1':'8 种本地化体验','slc.t2':'跟随指南','slc.d2':'6 个实验与 29 个结构化步骤','slc.t3':'复制并构建','slc.d3':'提示词、提示框与截图','slc.t4':'庆祝进度','slc.d4':'完成跟踪与烟花效果','slc.signal':'一条引导旅程 · 动手构建真实 Agent',
+      'smc.k':'JumpStart Maker','smc.h':'<span class="grad">创作者体验</span>','smc.lede':'调整学习内容，塑造面向客户的研讨会主题与品牌，使用参会者邮箱列表控制访问，然后发布完整体验。','smc.t1':'调整内容','smc.d1':'实验、步骤、提示词与截图','smc.t2':'打造研讨会品牌','smc.d2':'主题、客户标识与主办方信息','smc.t3':'控制参会权限','smc.d3':'已批准的客户邮箱列表','smc.t4':'放心发布','smc.d4':'测试、提交并部署','smc.signal':'一个创作者流程 · 一场准备就绪的研讨会',
       'sm.k':'创作者指南','sm.h':'配置、构建并<span class="grad">发布</span>客户研讨会','sm.lede':'在本地准备活动、构建引导内容，并通过 GitHub Pages 发布品牌和实验。',
       'sm.t1':'在本地运行并解锁','sm.d1':'运行 <code>npm run dev</code>，打开 <code>localhost:5173</code>，选择齿轮或铅笔图标，然后输入创作者密码。','sm.t2':'创建活动品牌','sm.d2':'设置主办方和客户名称、徽标 URL 或上传、准备者/日期及主办方联系人。保存到历史记录以便复用。','sm.t3':'登记参与者','sm.d3':'逐个添加邮箱，或粘贴以逗号、空格、制表符或换行分隔的列表。检查邮箱标签，然后选择“应用”写入 <code>branding.json</code>。','sm.t4':'优化实验内容','sm.d4':'打开铅笔图标的创作者模式。添加或重排实验、步骤、页面、本地化文本、提示词和截图；仅发布已就绪的实验。','sm.t5':'保存、测试并发布','sm.d5':'选择“保存”写入 <code>labs.json</code>，用每种语言进行本地测试，然后选择“发布”提交并推送品牌与实验内容。','sm.t6':'确认 GitHub Pages','sm.d6':'等待 GitHub Actions 的 Deploy 工作流完成，然后强制刷新在线 URL，验证品牌、邮箱访问、语言和实验流程。','sm.noteLabel':'手动备用方式','sm.note':'<code>git add public/content/branding.json public/content/labs.json</code> &rarr; 提交 &rarr; <code>git push origin main</code>',
       's8.k':'⚡ 快速起步','s8.h':'JumpStart v2 就是<span class="grad">快速起步</span>',
@@ -778,6 +881,8 @@ const html = /* html */ `<!doctype html>
       's7.note':'ユーザーごとの設定は不要。公開ファイルがすべての訪問者にとって唯一の信頼できる情報源です。',
       'sp.k':'参加者ガイド','sp.h':'登録メールから<span class="grad">ラボ 6</span>まで','sp.lede':'次のガイドに従って安全に入場し、すべてのラボを移動し、コピー対応の手順を実際の操作に変えます。',
       'sp.t1':'ライブ ワークショップを開く','sp.d1':'<code>aka.ms/ai-agent-jumpstart-v2</code> を開き、ウェルカム ページで使用する言語を選びます。','sp.t2':'登録メールを確認する','sp.d2':'主催者が登録したメールを使用します。大文字と小文字は区別されず（ABC = abc）、未登録のメールでは入場できません。','sp.t3':'ラボ 1 から開始する','sp.d3':'「ワークショップを開く」を選択します。左のラボ メニュー（モバイルではメニュー）からラボ 1 を開き、成果・目標・前提条件を確認します。','sp.t4':'ガイド付き手順に従う','sp.d4':'目次または上部の手順セレクターを使用します。番号順に各ページを進め、スクリーンショットとコールアウトに従います。','sp.t5':'コピー、切替、実行、戻る','sp.d5':'プロンプトで「コピー」を選び、Copilot Studio または指定アプリへ切り替えて操作し、ガイドに戻ります。','sp.t6':'完了してラボ 6 まで進む','sp.d6':'各手順を「完了」にします。「続ける」またはメニューの次のラボを選び、ラボ 6 まで繰り返します。進捗はこのブラウザーに保存されます。','sp.noteLabel':'ヒント','sp.note':'進捗を保持するには同じブラウザーと端末を使用します。メールが認識されない場合は主催者に連絡してください。',
+      'slc.k':'JumpStart Learner','slc.h':'<span class="grad">学習者体験</span>','slc.lede':'リンクを 1 つ開き、言語を選び、ガイド付き手順に沿って自分のペースで実際の Agent を構築。コピー対応のプロンプト、画像、進捗のお祝いが学習を支えます。','slc.t1':'言語を選ぶ','slc.d1':'8 つのローカライズ体験','slc.t2':'ガイドに従う','slc.d2':'6 ラボ・29 の構造化ステップ','slc.t3':'コピーして構築','slc.d3':'プロンプト、コールアウト、画像','slc.t4':'進捗を祝う','slc.d4':'完了トラッキングと花火','slc.signal':'1 つのガイド旅程 · 実際の Agent をハンズオン構築',
+      'smc.k':'JumpStart Maker','smc.h':'<span class="grad">メーカー体験</span>','smc.lede':'学習コンテンツを調整し、顧客向けのテーマとブランドを整え、参加者メール リストでアクセスを制御して、完成した体験を公開します。','smc.t1':'コンテンツを調整','smc.d1':'ラボ、手順、プロンプト、画像','smc.t2':'ワークショップをブランド化','smc.d2':'テーマ、顧客 ID、主催者情報','smc.t3':'参加者アクセスを制御','smc.d3':'承認済みの顧客メール リスト','smc.t4':'安心して公開','smc.d4':'テスト、コミット、デプロイ','smc.signal':'1 つのメーカー フロー · 参加準備が整ったワークショップ',
       'sm.k':'メーカー ガイド','sm.h':'顧客ワークショップを設定・構築・<span class="grad">公開</span>','sm.lede':'ローカルでイベントを準備し、ガイド コンテンツを構築して、ブランディングとラボを GitHub Pages に公開します。',
       'sm.t1':'ローカル実行とロック解除','sm.d1':'<code>npm run dev</code> を実行し、<code>localhost:5173</code> を開き、歯車または鉛筆を選んでメーカー パスワードを入力します。','sm.t2':'イベント ブランドを作成','sm.d2':'主催者名・顧客名、ロゴ URL またはアップロード、作成者/日付、主催者の連絡先を設定します。再利用するには履歴に保存します。','sm.t3':'参加者を登録','sm.d3':'メールを 1 件ずつ追加するか、カンマ・スペース・タブ・改行区切りのリストを貼り付けます。チップを確認し、「適用」で <code>branding.json</code> に書き込みます。','sm.t4':'ラボ コンテンツを微調整','sm.d4':'鉛筆のメーカー モードを開きます。ラボ、手順、ページ、多言語テキスト、プロンプト、画像を追加・並べ替えし、準備済みのラボだけを公開します。','sm.t5':'保存、テスト、公開','sm.d5':'「保存」で <code>labs.json</code> に書き込み、各言語をローカル テストしてから、「公開」でブランドとラボ内容をコミットしてプッシュします。','sm.t6':'GitHub Pages を確認','sm.d6':'GitHub Actions の Deploy ワークフローを待ち、ライブ URL を強制更新して、ブランド、メール アクセス、言語、ラボ フローを確認します。','sm.noteLabel':'手動フォールバック','sm.note':'<code>git add public/content/branding.json public/content/labs.json</code> &rarr; コミット &rarr; <code>git push origin main</code>',
       's8.k':'⚡ ファストスタート','s8.h':'JumpStart v2 は<span class="grad">ファストスタート</span>',
@@ -811,6 +916,8 @@ const html = /* html */ `<!doctype html>
       's7.note':'사용자별 설정이 필요 없습니다. 게시된 파일이 모든 방문자의 단일 진실 소스입니다.',
       'sp.k':'참가자 가이드','sp.h':'등록 이메일부터 <span class="grad">랩 6</span>까지','sp.lede':'아래 여정에 따라 안전하게 입장하고 모든 랩을 탐색하며 복사 가능한 안내를 실제 실습으로 전환하세요.',
       'sp.t1':'라이브 워크숍 열기','sp.d1':'<code>aka.ms/ai-agent-jumpstart-v2</code>로 이동하고 환영 페이지에서 원하는 언어를 선택합니다.','sp.t2':'등록 이메일 확인','sp.d2':'주최자가 등록한 이메일을 사용합니다. 대소문자를 구분하지 않으며(ABC = abc), 목록에 없는 이메일은 입장할 수 없습니다.','sp.t3':'랩 1에서 시작','sp.d3':'“워크숍 시작”을 선택합니다. 왼쪽 랩 메뉴(모바일 메뉴)에서 랩 1을 열고 결과, 목표, 필수 조건을 확인합니다.','sp.t4':'가이드 단계 따르기','sp.d4':'목차 또는 상단 단계 선택기를 사용합니다. 번호 순서대로 각 페이지를 진행하고 스크린샷과 콜아웃을 따릅니다.','sp.t5':'복사, 전환, 실행, 복귀','sp.d5':'프롬프트에서 복사를 선택하고 Copilot Studio 또는 지정된 앱으로 전환해 활동을 수행한 다음 가이드로 돌아옵니다.','sp.t6':'완료하고 랩 6까지 계속','sp.d6':'각 단계를 완료로 표시합니다. 계속 진행을 선택하거나 메뉴에서 다음 랩을 선택하고 랩 6까지 반복합니다. 진행 상황은 이 브라우저에 저장됩니다.','sp.noteLabel':'알아두기','sp.note':'진행 상황을 유지하려면 같은 브라우저와 기기를 사용하세요. 이메일이 인식되지 않으면 워크숍 주최자에게 문의하세요.',
+      'slc.k':'JumpStart Learner','slc.h':'<span class="grad">학습자 경험</span>','slc.lede':'링크 하나를 열고 언어를 선택한 뒤 가이드 단계에 따라 자기 속도로 실제 Agent를 구축하세요. 복사 가능한 프롬프트, 스크린샷, 진행 축하가 여정을 돕습니다.','slc.t1':'언어 선택','slc.d1':'8개 현지화 경험','slc.t2':'가이드 따르기','slc.d2':'6개 랩과 29개 구조화 단계','slc.t3':'복사하고 구축','slc.d3':'프롬프트, 콜아웃, 스크린샷','slc.t4':'진행 상황 축하','slc.d4':'완료 추적과 불꽃놀이','slc.signal':'하나의 가이드 여정 · 실제 Agent를 직접 구축',
+      'smc.k':'JumpStart Maker','smc.h':'<span class="grad">메이커 경험</span>','smc.lede':'학습 콘텐츠를 조정하고 고객용 워크숍 테마와 브랜드를 구성하며 참석자 이메일 목록으로 접근을 제한한 뒤 완성된 경험을 게시합니다.','smc.t1':'콘텐츠 조정','smc.d1':'랩, 단계, 프롬프트, 스크린샷','smc.t2':'워크숍 브랜딩','smc.d2':'테마, 고객 정체성, 주최자 정보','smc.t3':'참석자 접근 제어','smc.d3':'승인된 고객 이메일 목록','smc.t4':'안심하고 게시','smc.d4':'테스트, 커밋, 배포','smc.signal':'하나의 메이커 흐름 · 참석 준비가 끝난 워크숍',
       'sm.k':'메이커 가이드','sm.h':'고객 워크숍 구성, 구축 및 <span class="grad">게시</span>','sm.lede':'로컬에서 행사를 준비하고 가이드 콘텐츠를 구축한 뒤 브랜딩과 랩을 GitHub Pages에 게시합니다.',
       'sm.t1':'로컬 실행 및 잠금 해제','sm.d1':'<code>npm run dev</code>를 실행하고 <code>localhost:5173</code>을 연 뒤 톱니바퀴나 연필을 선택하고 메이커 암호를 입력합니다.','sm.t2':'행사 브랜드 만들기','sm.d2':'주최자와 고객 이름, 로고 URL 또는 업로드, 작성자/날짜, 주최자 연락처를 설정합니다. 재사용하려면 기록에 저장합니다.','sm.t3':'참가자 등록','sm.d3':'이메일을 하나씩 추가하거나 쉼표, 공백, 탭 또는 줄바꿈으로 구분된 목록을 붙여넣습니다. 칩을 검토한 뒤 적용을 선택해 <code>branding.json</code>에 씁니다.','sm.t4':'랩 콘텐츠 미세 조정','sm.d4':'연필 메이커 모드를 엽니다. 랩, 단계, 페이지, 현지화 텍스트, 프롬프트, 스크린샷을 추가하거나 재정렬하고 준비된 랩만 공개합니다.','sm.t5':'저장, 테스트 및 게시','sm.d5':'저장을 선택해 <code>labs.json</code>에 쓰고 각 언어로 로컬 테스트한 다음, 게시를 선택해 브랜드와 랩 콘텐츠를 커밋하고 푸시합니다.','sm.t6':'GitHub Pages 확인','sm.d6':'GitHub Actions Deploy 워크플로를 기다린 후 라이브 URL을 강력 새로고침하고 브랜딩, 이메일 액세스, 언어, 랩 흐름을 확인합니다.','sm.noteLabel':'수동 대안','sm.note':'<code>git add public/content/branding.json public/content/labs.json</code> &rarr; 커밋 &rarr; <code>git push origin main</code>',
       's8.k':'⚡ 빠른 시작','s8.h':'JumpStart v2는 <span class="grad">빠른 시작</span>',
@@ -844,6 +951,8 @@ const html = /* html */ `<!doctype html>
       's7.note':'ไม่ต้องตั้งค่ารายบุคคล ไฟล์ที่เผยแพร่คือแหล่งข้อมูลจริงเพียงหนึ่งเดียวสำหรับผู้เยี่ยมชมทุกคน',
       'sp.k':'คู่มือผู้เข้าร่วม','sp.h':'จากอีเมลที่ลงทะเบียนถึง<span class="grad">แล็บ 6</span>','sp.lede':'ทำตามเส้นทางด้านล่างเพื่อเข้าใช้อย่างปลอดภัย ไปยังทุกแล็บ และเปลี่ยนคำแนะนำที่พร้อมคัดลอกเป็นการลงมือทำจริง',
       'sp.t1':'เปิดเวิร์กช็อปสด','sp.d1':'ไปที่ <code>aka.ms/ai-agent-jumpstart-v2</code> และเลือกภาษาที่ต้องการในหน้าต้อนรับ','sp.t2':'ยืนยันอีเมลที่ลงทะเบียน','sp.d2':'ใช้อีเมลที่ผู้จัดลงทะเบียนไว้ ระบบไม่แยกตัวพิมพ์ใหญ่-เล็ก (ABC = abc) และอีเมลที่ไม่อยู่ในรายการจะเข้าไม่ได้','sp.t3':'เริ่มที่แล็บ 1','sp.d3':'เลือก “เข้าสู่เวิร์กช็อป” ใช้เมนูแล็บด้านซ้าย (หรือเมนูมือถือ) เปิดแล็บ 1 แล้วทบทวนผลลัพธ์ เป้าหมาย และข้อกำหนดเบื้องต้น','sp.t4':'ทำตามขั้นตอนแนะนำ','sp.d4':'ใช้สารบัญหรือตัวเลือกขั้นตอนด้านบน ทำแต่ละหน้าตามลำดับหมายเลขและทำตามภาพหน้าจอและคำแนะนำ','sp.t5':'คัดลอก สลับ ทำ แล้วกลับ','sp.d5':'เลือกคัดลอกที่พรอมป์ สลับไป Copilot Studio หรือแอปที่ระบุ ทำกิจกรรม แล้วกลับมาที่คู่มือ','sp.t6':'ทำให้เสร็จและไปต่อถึงแล็บ 6','sp.d6':'ทำเครื่องหมายแต่ละขั้นตอนว่าเสร็จ เลือกไปต่อหรือเลือกแล็บถัดไปจากเมนู แล้วทำซ้ำถึงแล็บ 6 ความคืบหน้าเก็บในเบราว์เซอร์นี้','sp.noteLabel':'ควรรู้','sp.note':'ใช้เบราว์เซอร์และอุปกรณ์เดิมเพื่อเก็บความคืบหน้า หากระบบไม่รู้จักอีเมล ให้ติดต่อผู้จัดเวิร์กช็อป',
+      'slc.k':'JumpStart Learner','slc.h':'<span class="grad">ประสบการณ์ผู้เรียน</span>','slc.lede':'เปิดลิงก์เดียว เลือกภาษา และสร้าง Agent จริงตามจังหวะของคุณด้วยขั้นตอนแนะนำ พรอมป์พร้อมคัดลอก ภาพหน้าจอ และการเฉลิมฉลองความคืบหน้า','slc.t1':'เลือกภาษา','slc.d1':'ประสบการณ์แปล 8 ภาษา','slc.t2':'ทำตามคำแนะนำ','slc.d2':'6 แล็บและ 29 ขั้นตอนที่เป็นระบบ','slc.t3':'คัดลอกแล้วสร้าง','slc.d3':'พรอมป์ คำแนะนำ และภาพหน้าจอ','slc.t4':'ฉลองความคืบหน้า','slc.d4':'ติดตามการทำเสร็จและพลุ','slc.signal':'เส้นทางแนะนำเดียว · ลงมือสร้าง Agent จริง',
+      'smc.k':'JumpStart Maker','smc.h':'<span class="grad">ประสบการณ์ผู้สร้าง</span>','smc.lede':'ปรับเนื้อหาการเรียนรู้ ออกแบบธีมและแบรนด์เวิร์กช็อปสำหรับลูกค้า จำกัดการเข้าถึงด้วยรายชื่ออีเมลผู้เข้าร่วม แล้วเผยแพร่ประสบการณ์ที่เสร็จสมบูรณ์','smc.t1':'ปรับเนื้อหา','smc.d1':'แล็บ ขั้นตอน พรอมป์ และภาพหน้าจอ','smc.t2':'สร้างแบรนด์เวิร์กช็อป','smc.d2':'ธีม ตัวตนลูกค้า และข้อมูลผู้จัด','smc.t3':'ควบคุมการเข้าร่วม','smc.d3':'รายชื่ออีเมลลูกค้าที่อนุมัติ','smc.t4':'เผยแพร่อย่างมั่นใจ','smc.d4':'ทดสอบ คอมมิต และปรับใช้','smc.signal':'ขั้นตอนผู้สร้างเดียว · เวิร์กช็อปพร้อมสำหรับผู้เข้าร่วม',
       'sm.k':'คู่มือผู้สร้าง','sm.h':'กำหนดค่า สร้าง และ<span class="grad">เผยแพร่</span>เวิร์กช็อปลูกค้า','sm.lede':'เตรียมงานในเครื่อง สร้างเนื้อหาแนะนำ และเผยแพร่ทั้งแบรนด์และแล็บผ่าน GitHub Pages',
       'sm.t1':'รันในเครื่องและปลดล็อก','sm.d1':'รัน <code>npm run dev</code> เปิด <code>localhost:5173</code> เลือกไอคอนเฟืองหรือดินสอ แล้วป้อนรหัสผ่านผู้สร้าง','sm.t2':'สร้างแบรนด์ของงาน','sm.d2':'ตั้งชื่อผู้จัดและลูกค้า URL โลโก้หรืออัปโหลด ผู้จัดทำ/วันที่ และผู้ติดต่อของผู้จัด บันทึกในประวัติเพื่อนำกลับมาใช้','sm.t3':'ลงทะเบียนผู้เข้าร่วม','sm.d3':'เพิ่มอีเมลทีละรายการ หรือวางรายการที่คั่นด้วยจุลภาค เว้นวรรค แท็บ หรือขึ้นบรรทัดใหม่ ตรวจสอบชิป แล้วเลือกใช้งานเพื่อเขียน <code>branding.json</code>','sm.t4':'ปรับแต่งเนื้อหาแล็บ','sm.d4':'เปิดโหมดผู้สร้างด้วยดินสอ เพิ่มหรือเรียงแล็บ ขั้นตอน หน้า ข้อความหลายภาษา พรอมป์ และภาพหน้าจอใหม่ และเผยแพร่เฉพาะแล็บที่พร้อม','sm.t5':'บันทึก ทดสอบ และเผยแพร่','sm.d5':'เลือกบันทึกเพื่อเขียน <code>labs.json</code> ทดสอบแต่ละภาษาในเครื่อง แล้วเลือกเผยแพร่เพื่อคอมมิตและพุชแบรนด์กับเนื้อหาแล็บ','sm.t6':'ยืนยัน GitHub Pages','sm.d6':'รอเวิร์กโฟลว์ Deploy ของ GitHub Actions จากนั้นรีเฟรช URL สดแบบไม่ใช้แคช และตรวจสอบแบรนด์ การเข้าใช้อีเมล ภาษา และเส้นทางแล็บ','sm.noteLabel':'ทางเลือกแบบทำเอง','sm.note':'<code>git add public/content/branding.json public/content/labs.json</code> &rarr; คอมมิต &rarr; <code>git push origin main</code>',
       's8.k':'⚡ เริ่มเร็ว','s8.h':'JumpStart v2 คือ<span class="grad">การเริ่มต้นที่รวดเร็ว</span>',
@@ -877,6 +986,8 @@ const html = /* html */ `<!doctype html>
       's7.note':'कोई प्रति-उपयोगकर्ता सेटअप नहीं। प्रकाशित फ़ाइलें हर आगंतुक के लिए एकमात्र विश्वसनीय स्रोत हैं।',
       'sp.k':'प्रतिभागी मार्गदर्शिका','sp.h':'पंजीकृत ईमेल से <span class="grad">लैब 6</span> तक','sp.lede':'सुरक्षित रूप से प्रवेश करने, हर लैब में जाने, और कॉपी-तैयार निर्देशों को व्यावहारिक कार्य में बदलने के लिए नीचे की यात्रा अपनाएँ।',
       'sp.t1':'लाइव वर्कशॉप खोलें','sp.d1':'<code>aka.ms/ai-agent-jumpstart-v2</code> खोलें और स्वागत पृष्ठ पर अपनी पसंदीदा भाषा चुनें।','sp.t2':'पंजीकृत ईमेल सत्यापित करें','sp.d2':'होस्ट द्वारा पंजीकृत ईमेल का उपयोग करें। मिलान केस-असंवेदनशील है (ABC = abc); सूची से बाहर ईमेल प्रवेश नहीं कर सकते।','sp.t3':'लैब 1 से शुरू करें','sp.d3':'“वर्कशॉप में प्रवेश करें” चुनें। बाएँ लैब मेनू (या मोबाइल मेनू) से लैब 1 खोलें, फिर परिणाम, उद्देश्य और पूर्वापेक्षाएँ देखें।','sp.t4':'निर्देशित चरणों का पालन करें','sp.d4':'विषय-सूची या ऊपर के चरण चयनकर्ता का उपयोग करें। हर क्रमांकित पृष्ठ को क्रम में पूरा करें और स्क्रीनशॉट व कॉलआउट का पालन करें।','sp.t5':'कॉपी, स्विच, करें, वापस आएँ','sp.d5':'प्रॉम्प्ट पर कॉपी चुनें, Copilot Studio या बताए गए ऐप पर जाएँ, गतिविधि करें, फिर गाइड पर लौटें।','sp.t6':'पूरा करें और लैब 6 तक जारी रखें','sp.d6':'हर चरण को पूर्ण चिह्नित करें। आगे बढ़ें चुनें या मेनू में अगली लैब चुनें; लैब 6 तक दोहराएँ। प्रगति इसी ब्राउज़र में रहती है।','sp.noteLabel':'ध्यान रखें','sp.note':'प्रगति बनाए रखने के लिए वही ब्राउज़र और डिवाइस उपयोग करें। ईमेल पहचाना न जाए तो वर्कशॉप होस्ट से संपर्क करें।',
+      'slc.k':'JumpStart Learner','slc.h':'<span class="grad">शिक्षार्थी अनुभव</span>','slc.lede':'एक लिंक खोलें, भाषा चुनें, और निर्देशित चरणों, कॉपी-तैयार प्रॉम्प्ट, स्क्रीनशॉट और प्रगति के उत्सव के साथ अपनी गति से असली Agent बनाएँ।','slc.t1':'भाषा चुनें','slc.d1':'आठ स्थानीयकृत अनुभव','slc.t2':'गाइड का पालन करें','slc.d2':'छह लैब और 29 संरचित चरण','slc.t3':'कॉपी करें और बनाएँ','slc.d3':'प्रॉम्प्ट, कॉलआउट और स्क्रीनशॉट','slc.t4':'प्रगति का उत्सव','slc.d4':'पूर्णता ट्रैकिंग और आतिशबाज़ी','slc.signal':'एक निर्देशित यात्रा · असली Agent का व्यावहारिक निर्माण',
+      'smc.k':'JumpStart Maker','smc.h':'<span class="grad">मेकर अनुभव</span>','smc.lede':'सीखने की सामग्री समायोजित करें, ग्राहक के लिए वर्कशॉप थीम और ब्रांड तैयार करें, उपस्थित लोगों की ईमेल सूची से प्रवेश नियंत्रित करें, और पूरा अनुभव प्रकाशित करें।','smc.t1':'सामग्री समायोजित करें','smc.d1':'लैब, चरण, प्रॉम्प्ट और स्क्रीनशॉट','smc.t2':'वर्कशॉप को ब्रांड करें','smc.d2':'थीम, ग्राहक पहचान और होस्ट विवरण','smc.t3':'उपस्थिति नियंत्रित करें','smc.d3':'स्वीकृत ग्राहक ईमेल सूची','smc.t4':'विश्वास से प्रकाशित करें','smc.d4':'परीक्षण, कमिट और डिप्लॉय','smc.signal':'एक मेकर प्रवाह · उपस्थित लोगों के लिए तैयार वर्कशॉप',
       'sm.k':'मेकर मार्गदर्शिका','sm.h':'ग्राहक वर्कशॉप कॉन्फ़िगर, बनाएँ और <span class="grad">प्रकाशित</span> करें','sm.lede':'स्थानीय रूप से एंगेजमेंट तैयार करें, निर्देशित सामग्री बनाएँ, और ब्रांडिंग व लैब दोनों को GitHub Pages से प्रकाशित करें।',
       'sm.t1':'स्थानीय रूप से चलाएँ और अनलॉक करें','sm.d1':'<code>npm run dev</code> चलाएँ, <code>localhost:5173</code> खोलें, गियर या पेंसिल चुनें और मेकर पासवर्ड दर्ज करें।','sm.t2':'एंगेजमेंट ब्रांड बनाएँ','sm.d2':'होस्ट और ग्राहक नाम, लोगो URL या अपलोड, तैयारकर्ता/तारीख और होस्ट संपर्क सेट करें। दोबारा उपयोग के लिए इतिहास में सहेजें।','sm.t3':'प्रतिभागी पंजीकृत करें','sm.d3':'ईमेल एक-एक करके जोड़ें या कॉमा, स्पेस, टैब या नई पंक्ति से अलग सूची पेस्ट करें। चिप्स जाँचें, फिर <code>branding.json</code> लिखने के लिए लागू करें चुनें।','sm.t4':'लैब सामग्री को बेहतर बनाएँ','sm.d4':'पेंसिल मेकर मोड खोलें। लैब, चरण, पृष्ठ, स्थानीयकृत पाठ, प्रॉम्प्ट और स्क्रीनशॉट जोड़ें या क्रम बदलें; केवल तैयार लैब प्रकाशित करें।','sm.t5':'सहेजें, जाँचें और प्रकाशित करें','sm.d5':'<code>labs.json</code> लिखने के लिए सहेजें चुनें, हर भाषा में स्थानीय परीक्षण करें, फिर ब्रांडिंग और लैब सामग्री कमिट व पुश करने के लिए प्रकाशित करें चुनें।','sm.t6':'GitHub Pages की पुष्टि करें','sm.d6':'GitHub Actions Deploy वर्कफ़्लो की प्रतीक्षा करें, फिर लाइव URL हार्ड-रिफ्रेश करके ब्रांडिंग, ईमेल प्रवेश, भाषाएँ और लैब प्रवाह जाँचें।','sm.noteLabel':'मैनुअल विकल्प','sm.note':'<code>git add public/content/branding.json public/content/labs.json</code> &rarr; कमिट &rarr; <code>git push origin main</code>',
       's8.k':'⚡ फ़ास्ट स्टार्ट','s8.h':'JumpStart v2 है एक <span class="grad">फ़ास्ट स्टार्ट</span>',
