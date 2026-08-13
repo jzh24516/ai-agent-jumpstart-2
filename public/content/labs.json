@@ -2911,7 +2911,7 @@
       "number": 6,
       "icon": "mic",
       "duration": 30,
-      "isPublic": false,
+      "isPublic": true,
       "title": {
         "en": "Build a real-time voice agent",
         "zh": "构建实时语音 Agent",
