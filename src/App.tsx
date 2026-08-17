@@ -346,8 +346,8 @@ const cover: Record<string, LocalizedText> = {
 const dedicatedText = (locale: Locale, name: string): string => {
   const n = name.trim()
   const localized: LocalizedText = n
-    ? { en: 'A dedicated JumpStart workshop for {name}.', zh: '专为 {name} 定制的 JumpStart 研讨会。', ja: '{name} 向けの専用 JumpStart ワークショップ。', ko: '{name}를 위한 전용 JumpStart 워크숍.', th: 'เวิร์กช็อป JumpStart เฉพาะสำหรับ {name}', hi: '{name} के लिए एक समर्पित JumpStart वर्कशॉप।' }
-    : { en: 'A dedicated JumpStart workshop.', zh: '定制的 JumpStart 研讨会。', ja: '専用の JumpStart ワークショップ。', ko: '전용 JumpStart 워크숍.', th: 'เวิร์กช็อป JumpStart เฉพาะทาง', hi: 'एक समर्पित JumpStart वर्कशॉप।' }
+    ? { en: 'A dedicated AI Agent workshop for {name}.', zh: '专为 {name} 定制的 AI Agent 研讨会。', ja: '{name} 向けの専用 AI Agent ワークショップ。', ko: '{name}를 위한 전용 AI Agent 워크숍.', th: 'เวิร์กช็อป AI Agent เฉพาะสำหรับ {name}', hi: '{name} के लिए एक समर्पित AI Agent वर्कशॉप।' }
+    : { en: 'A dedicated AI Agent workshop.', zh: '定制的 AI Agent 研讨会。', ja: '専用の AI Agent ワークショップ。', ko: '전용 AI Agent 워크숍.', th: 'เวิร์กช็อป AI Agent เฉพาะทาง', hi: 'एक समर्पित AI Agent वर्कशॉप।' }
   return text(localized, locale).replace('{name}', () => n)
 }
 
@@ -620,6 +620,10 @@ function CoverControls({ dark, locale, onToggleTheme, onLocaleChange, canConfigu
 
 const microsoftLogoUrl = 'https://uhf.microsoft.com/images/microsoft/RE1Mu3b.png'
 
+function WorkshopHeroTitle() {
+  return <h1 className="cover-title">AI Agent Workshop<br /><span className="cover-title-byline">by Microsoft Agent GBB</span></h1>
+}
+
 function AccessWelcomePage({ dark, locale, attendees, workshopStart, workshopEnd, entryReady, canConfigure, onToggleTheme, onLocaleChange, onOpenSettings, onVerified }: {
   dark: boolean; locale: Locale; attendees: string[]; workshopStart: string; workshopEnd: string; entryReady: boolean; canConfigure: boolean;
   onToggleTheme: () => void; onLocaleChange: (locale: Locale) => void; onOpenSettings: () => void; onVerified: () => void;
@@ -654,7 +658,7 @@ function AccessWelcomePage({ dark, locale, attendees, workshopStart, workshopEnd
       <span className="cover-orb three" aria-hidden="true" />
       <div className="cover-card access-welcome-card">
         <img className="access-microsoft-logo" src={microsoftLogoUrl} alt="Microsoft" />
-        <h1 className="cover-title">Jumpstart v2<br />AI Agent Workshop</h1>
+        <WorkshopHeroTitle />
         <p className="cover-tagline">{text(cover.tagline, locale)}</p>
         <div className="access-divider" aria-hidden="true" />
         {status === 'open' ? <div className="access-form">
@@ -698,7 +702,7 @@ function CoverPage({ onEnter, dark, onToggleTheme, locale, onLocaleChange, brand
         {hasCustomer
           ? <div className="cover-cobrand"><BrandLogo name={branding.hostName} logo={branding.hostLogo} /><span className="cover-cobrand-x" aria-hidden="true">×</span><BrandLogo name={branding.customerName} logo={branding.customerLogo} /></div>
           : <div className="cover-badge"><Sparkles size={16} /><span>Microsoft Copilot Studio</span></div>}
-        <h1 className="cover-title">Jumpstart v2<br />AI Agent Workshop</h1>
+        <WorkshopHeroTitle />
         <p className="cover-tagline">{text(cover.tagline, locale)}</p>
         {hasCustomer && <p className="cover-dedicated">{dedicatedText(locale, branding.customerName)}</p>}
         <div className="cover-meta">
@@ -971,7 +975,7 @@ function App() {
   // Only the active lab is in the DOM, and an @media print stylesheet scopes output to it.
   const exportLabPdf = () => {
     const previousTitle = document.title
-    document.title = `AI Agent JumpStart — ${stripMarkdown(text(lab.title, locale))}`
+    document.title = `AI Agent Workshop by Microsoft Agent GBB — ${stripMarkdown(text(lab.title, locale))}`
     const restore = () => { document.title = previousTitle; window.removeEventListener('afterprint', restore) }
     window.addEventListener('afterprint', restore)
     window.print()

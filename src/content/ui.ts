@@ -12,7 +12,7 @@ export const localeNames: Record<Locale, string> = {
 }
 
 export const ui = {
-  program: { en: 'AI Agent JumpStart 2', zh: 'AI Agent 动手起步营 2', ja: 'AI Agent JumpStart 2', ko: 'AI Agent JumpStart 2', th: 'AI Agent JumpStart 2', hi: 'AI Agent JumpStart 2' },
+  program: { en: 'AI Agent Workshop by Microsoft Agent GBB', zh: 'AI Agent Workshop by Microsoft Agent GBB', ja: 'AI Agent Workshop by Microsoft Agent GBB', ko: 'AI Agent Workshop by Microsoft Agent GBB', th: 'AI Agent Workshop by Microsoft Agent GBB', hi: 'AI Agent Workshop by Microsoft Agent GBB' },
   kicker: { en: 'Hands-on learning path', zh: '动手学习路径', ja: 'ハンズオン学習パス', ko: '실습 학습 경로', th: 'เส้นทางการเรียนรู้แบบลงมือทำ', hi: 'हैंड्स-ऑन लर्निंग पाथ' },
   progress: { en: 'Overall progress', zh: '总体进度', ja: '全体の進捗', ko: '전체 진행률', th: 'ความคืบหน้าโดยรวม', hi: 'कुल प्रगति' },
   lab: { en: 'Lab', zh: '实验', ja: 'ラボ', ko: '랩', th: 'แล็บ', hi: 'लैब' },

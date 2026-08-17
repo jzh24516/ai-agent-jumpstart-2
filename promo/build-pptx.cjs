@@ -75,9 +75,9 @@ const EN = {
   's10.t3': 'Copy & Build', 's10.d3': 'Copy-ready prompts turn each step into a real, working agent.',
   's10.t4': 'Multilingual Ready', 's10.d4': 'Eight languages, one shareable link.',
   's10.t5': 'From Lab to Impact', 's10.d5': 'Ship agents that deliver real business value \u2014 fast.',
-  's9.badge': 'Ready when you are', 's9.h': 'Bring JumpStart v2 to your next customer workshop',
+  's9.badge': 'Ready when you are', 's9.h': 'Bring AI Agent Workshop to your next customer workshop',
   's9.lede': 'Internal enablement or external customer event \u2014 co-brand it, share the link, and let attendees build real agents hands-on.',
-  's9.thanks': 'With thanks to the contribution of JumpStart v-Team',
+  's9.thanks': 'With thanks to the contribution of AI Agent Workshop v-Team',
   's9.live': 'Live workshop',
 }
 
@@ -122,7 +122,7 @@ function build (lang) {
   p.defineLayout({ name: 'W', width: 13.333, height: 7.5 })
   p.layout = 'W'
   p.author = 'Microsoft MCAPS Core - Agent Asia Team'
-  p.title = 'AI Agent JumpStart Workshop v2 - Highlights'
+  p.title = 'AI Agent Workshop by Microsoft Agent GBB - Highlights'
   p.lang = lang === 'zh' ? 'zh-CN' : lang
 
   const FH = FONTS[lang].h
@@ -145,6 +145,7 @@ function build (lang) {
   const frame = (s, x, y, w, h) =>
     s.addShape(p.shapes.ROUNDED_RECTANGLE, { x, y, w, h, rectRadius: 0.06, fill: { type: 'none' }, line: { color: C.brd, width: 1.25 } })
   const LIVE_URL = 'aka.ms/ai-agent-jumpstart-v2'
+  const CLOSING_URL = 'aka.ms/ai-agent-workshop-v2'
   // Horizontal "LIVE WORKSHOP  aka.ms/..." pill (single line).
   const urlBadge = (s, x, y, w = 6.5) => {
     const h = 0.66
@@ -157,7 +158,7 @@ function build (lang) {
     const h = 1.02
     s.addShape(p.shapes.ROUNDED_RECTANGLE, { x, y, w, h, rectRadius: 0.12, fill: { color: C.panel }, line: { color: C.brd, width: 1 } })
     s.addText(t('s9.live').toUpperCase(), { x: x + 0.2, y: y + 0.16, w: w - 0.4, h: 0.3, fontFace: FH, fontSize: 11, bold: true, color: C.pur, charSpacing: 2, align: 'center', valign: 'middle', margin: 0 })
-    s.addText(LIVE_URL, { x: x + 0.2, y: y + 0.46, w: w - 0.4, h: 0.44, fontFace: 'Consolas', fontSize: 17, bold: true, color: 'EFEDFA', align: 'center', valign: 'middle', margin: 0 })
+    s.addText(CLOSING_URL, { x: x + 0.2, y: y + 0.46, w: w - 0.4, h: 0.44, fontFace: 'Consolas', fontSize: 17, bold: true, color: 'EFEDFA', align: 'center', valign: 'middle', margin: 0 })
   }
 
   // ---------- Slide 1: Cover ----------
@@ -165,8 +166,8 @@ function build (lang) {
   s.addText([{ text: '\u25CF ', options: { color: C.pink } }, { text: 'Microsoft Copilot Studio', options: { color: 'E9E6FF' } }],
     { x: 0.7, y: 0.7, w: 5, h: 0.4, fontFace: FB, fontSize: 12, bold: true, align: 'left' })
   s.addText([
-    { text: 'AI Agent JumpStart', options: { color: C.white, breakLine: true } },
-    { text: 'Workshop v2', options: { color: C.pur } },
+    { text: 'AI Agent Workshop', options: { color: C.white, breakLine: true } },
+    { text: 'by Microsoft Agent GBB', options: { color: C.pur, fontSize: 34 } },
   ], { x: 0.66, y: 1.5, w: 7.2, h: 1.9, fontFace: FH, fontSize: 46, bold: true, align: 'left', lineSpacingMultiple: 0.98, margin: 0 })
   s.addText(t('c.lede'), { x: 0.7, y: 3.55, w: 6.6, h: 1.25, fontFace: FB, fontSize: 15, color: 'CFCDE0', align: 'left', lineSpacingMultiple: 1.06 })
   s.addText('Microsoft MCAPS Core \u2014 Agent Asia Team   \u00B7   July 16, 2026',
@@ -329,7 +330,7 @@ function build (lang) {
   urlBadgeStacked(s, 8.425, 5.5, 4.6)
   s.addText(t('s9.thanks'), { x: 0.7, y: 5.98, w: 12, h: 0.35, fontFace: FH, fontSize: 12, bold: true, color: C.mut, charSpacing: 1, align: 'left', margin: 0 })
   let tx = 0.7
-  ;['Nalin Shukla', 'Scott Berry', 'Steve Ng', 'Jalilah Halim', 'Anand Ponnusamy'].forEach((name) => {
+  ;['Nalin Shukla', 'Scott Berry', 'Steve Ng', 'Anand Ponnusamy'].forEach((name) => {
     const w = 0.5 + name.length * 0.1
     s.addShape(p.shapes.ROUNDED_RECTANGLE, { x: tx, y: 6.82, w, h: 0.38, rectRadius: 0.1, fill: { color: C.panelHi }, line: { color: C.brd, width: 1 } })
     s.addText(name, { x: tx, y: 6.82, w, h: 0.38, fontFace: FH, fontSize: 11, bold: true, color: 'EFEDFA', align: 'center', valign: 'middle', margin: 0 })

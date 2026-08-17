@@ -84,7 +84,7 @@ const slides = /* html */ `
   <div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
   <div class="cover-wrap">
     <div class="badge"><span class="dot"></span> Microsoft Copilot Studio</div>
-    <h1 class="hero">AI Agent JumpStart<br><span class="grad">Workshop v2</span></h1>
+    <h1 class="hero">AI Agent Workshop<br><span class="grad">by Microsoft Agent GBB</span></h1>
     <p class="lede" data-i18n="c.lede">A hands-on, self-guided, multilingual lab experience for building the full breadth of custom agents in Microsoft Copilot Studio.</p>
     <div class="cover-meta">
       <span>Microsoft Global Solution Advisor - Agent GBB Asia Team</span><span class="sep">&middot;</span><span>July 16, 2026</span>
@@ -105,7 +105,7 @@ const slides = /* html */ `
 </section>
 
 <!-- 3. WHAT IT IS -->
-<section class="slide" data-title="What it is">
+<section class="slide one-liner-slide" data-title="What it is">
   <div class="s-head"><span class="kicker" data-i18n="s2.k">🎬 The one-liner</span><h2 data-i18n="s2.h">A workshop that runs itself &mdash; <span class="grad">learners just press play</span> ▶️</h2></div>
   <div class="two">
     <div class="col">
@@ -342,19 +342,19 @@ const slides = /* html */ `
   <div class="close-grid">
     <div class="close-wrap">
       <div class="badge"><span class="dot"></span> <span data-i18n="s9.badge">Ready when you are</span></div>
-      <h2 class="hero sm" data-i18n="s9.h">Bring JumpStart v2 to your<br><span class="grad">next customer workshop</span></h2>
+      <h2 class="hero sm" data-i18n="s9.h">Bring AI Agent Workshop to your<br><span class="grad">next customer workshop</span></h2>
       <p class="lede" data-i18n="s9.lede">Internal enablement or external customer event &mdash; co-brand it, share the link, and let attendees build real agents hands-on.</p>
-      <a class="urlbar" href="https://aka.ms/ai-agent-jumpstart-v2" target="_blank" rel="noreferrer" style="text-decoration:none">
+      <a class="urlbar" href="https://aka.ms/ai-agent-workshop-v2" target="_blank" rel="noreferrer" style="text-decoration:none">
         <span class="urllbl" data-i18n="s9.live">Live workshop</span>
-        <code>aka.ms/ai-agent-jumpstart-v2</code>
+        <code>aka.ms/ai-agent-workshop-v2</code>
       </a>
       <div class="contacts">
         <a href="mailto:zhijian@microsoft.com"><img class="contact-photo" src="${IMG.avatar}" alt="Michael Jiang" /><span class="contact-info"><b>Michael Jiang</b><span>zhijian@microsoft.com</span></span></a>
       </div>
       <div class="madeby">Microsoft Global Solution Advisor - Agent GBB Asia Team</div>
       <div class="thanks">
-        <span class="thanks-label" data-i18n="s9.thanks">With thanks to the contribution of JumpStart v-Team</span>
-        <div class="thanks-names"><span>Nalin Shukla</span><span>Scott Berry</span><span>Steve Ng</span><span>Jalilah Halim</span><span>Anand Ponnusamy</span></div>
+        <span class="thanks-label" data-i18n="s9.thanks">With thanks to the contribution of AI Agent Workshop v-Team</span>
+        <div class="thanks-names"><span>Nalin Shukla</span><span>Scott Berry</span><span>Steve Ng</span><span>Anand Ponnusamy</span></div>
       </div>
     </div>
     <div class="close-avatar close-logo">
@@ -369,7 +369,7 @@ const html = /* html */ `<!doctype html>
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>AI Agent JumpStart Workshop v2 — Highlights</title>
+<title>AI Agent Workshop by Microsoft Agent GBB — Highlights</title>
 <style>
   :root{
     --bg:#0f0d1a; --bg2:#171430; --card:rgba(255,255,255,.05); --cardbrd:rgba(255,255,255,.12);
@@ -400,6 +400,7 @@ const html = /* html */ `<!doctype html>
     color:var(--purple);background:rgba(167,139,250,.14);border:1px solid var(--cardbrd);
     padding:7px 15px;border-radius:999px;margin-bottom:16px}
   h2{font-size:3.4rem;line-height:1.05;letter-spacing:-.022em;font-weight:800}
+  .one-liner-slide h2{font-size:3.15rem;white-space:nowrap}
   .big{font-size:1.82rem;line-height:1.48;color:#DEDCEC}
   .note{margin-top:auto;color:var(--muted);font-size:1.28rem;padding-top:18px}
 
@@ -411,6 +412,7 @@ const html = /* html */ `<!doctype html>
   .badge .dot{width:9px;height:9px;border-radius:50%;background:var(--grad)}
   .hero{font-size:4.6rem;line-height:1.01;letter-spacing:-.032em;font-weight:900}
   .hero.sm{font-size:3.5rem}
+  .cover .hero .grad{display:inline-block;font-size:.76em;line-height:1.12;white-space:nowrap}
   .lede{margin-top:20px;max-width:30ch;color:#CFCDE0;font-size:1.32rem;line-height:1.48}
   .cover-meta{margin-top:22px;color:var(--muted);font-size:.98rem;display:flex;gap:10px;align-items:center}
   .cover-meta .sep{opacity:.5}
@@ -696,6 +698,7 @@ const html = /* html */ `<!doctype html>
   .closing{align-items:center;justify-content:center}
   .close-grid{position:relative;z-index:2;width:100%;display:grid;grid-template-columns:1.35fr .75fr;gap:5%;align-items:center}
   .close-wrap{min-width:0}
+  .closing .hero.sm{font-size:3.35rem}
   .close-avatar{display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px}
   .close-avatar img{width:min(320px,90%);aspect-ratio:1;object-fit:cover;object-position:center;border-radius:50%;box-shadow:0 30px 80px rgba(124,58,237,.55)}
   .close-logo img{width:min(400px,98%);aspect-ratio:1;object-fit:contain;border-radius:26px;background:#fff;box-shadow:0 30px 80px rgba(124,58,237,.45)}
@@ -852,7 +855,7 @@ const html = /* html */ `<!doctype html>
       'sm.t1':'在本地运行并解锁','sm.d1':'运行 <code>npm run dev</code>，打开 <code>localhost:5173</code>，选择齿轮或铅笔图标，然后输入创作者密码。','sm.t2':'创建活动品牌','sm.d2':'设置主办方和客户名称、徽标 URL 或上传、准备者/日期及主办方联系人。保存到历史记录以便复用。','sm.t3':'登记参与者','sm.d3':'逐个添加邮箱，或粘贴以逗号、空格、制表符或换行分隔的列表。检查邮箱标签，然后选择“应用”写入 <code>branding.json</code>。','sm.t4':'优化实验内容','sm.d4':'打开铅笔图标的创作者模式。添加或重排实验、步骤、页面、本地化文本、提示词和截图；仅发布已就绪的实验。','sm.t5':'保存、测试并发布','sm.d5':'选择“保存”写入 <code>labs.json</code>，用每种语言进行本地测试，然后选择“发布”提交并推送品牌与实验内容。','sm.t6':'确认 GitHub Pages','sm.d6':'等待 GitHub Actions 的 Deploy 工作流完成，然后强制刷新在线 URL，验证品牌、邮箱访问、语言和实验流程。','sm.noteLabel':'手动备用方式','sm.note':'<code>git add public/content/branding.json public/content/labs.json</code> &rarr; 提交 &rarr; <code>git push origin main</code>',
       's8.k':'⚡ 快速起步','s8.h':'JumpStart v2 就是<span class="grad">快速起步</span>',
       's8.b1':'打开链接','s8.s1':'一个 URL，任意现代浏览器。开始无需安装、无需登录。','s8.b2':'选择语言','s8.s2':'在封面切换 EN / 中文 / 日本語 / 한국어 / ไทย / हिन्दी。','s8.b3':'进入并构建','s8.s3':'逐个实验推进，复制提示词，跟踪进度，尽情庆祝。','s8.url':'在线研讨会','s8.lede':'一个链接。任意语言。几分钟内构建真实 Agent — 无需安装、无需等待。','s8.c1':'上手超简单','s8.c2':'自助服务','s8.c3':'自定进度','s8.c4':'复制即构建','s8.c5':'多语言就绪',
-      's9.badge':'随时可以开始','s9.live':'在线研讨会','s9.thanks':'特别感谢 JumpStart v-Team 团队的贡献','s9.h':'把 JumpStart v2 带到你的<br><span class="grad">下一场客户研讨会</span>','s9.lede':'无论是内部赋能还是外部客户活动 &mdash; 联合品牌化、分享链接，让参与者亲手构建真实 Agent。','s10.k':'⚡ JumpStart V2','s10.h':'从<span class="grad">实验到影响</span>','s10.t1':'快速起步','s10.d1':'打开一个链接即可开始 — 无需安装、无需配置。','s10.t2':'自助 & 自定进度','s10.d2':'参与者自主推进，你只需引导。','s10.t3':'复制即构建','s10.d3':'可复制的提示词，将每一步变成真正可用的 Agent。','s10.t4':'多语言就绪','s10.d4':'六种语言，一个可分享链接。','s10.t5':'从实验到影响','s10.d5':'快速交付带来真实业务价值的 Agent。',
+      's9.badge':'随时可以开始','s9.live':'在线研讨会','s9.thanks':'特别感谢 AI Agent Workshop v-Team 团队的贡献','s9.h':'把 AI Agent Workshop 带到你的<br><span class="grad">下一场客户研讨会</span>','s9.lede':'无论是内部赋能还是外部客户活动 &mdash; 联合品牌化、分享链接，让参与者亲手构建真实 Agent。','s10.k':'⚡ JumpStart V2','s10.h':'从<span class="grad">实验到影响</span>','s10.t1':'快速起步','s10.d1':'打开一个链接即可开始 — 无需安装、无需配置。','s10.t2':'自助 & 自定进度','s10.d2':'参与者自主推进，你只需引导。','s10.t3':'复制即构建','s10.d3':'可复制的提示词，将每一步变成真正可用的 Agent。','s10.t4':'多语言就绪','s10.d4':'六种语言，一个可分享链接。','s10.t5':'从实验到影响','s10.d5':'快速交付带来真实业务价值的 Agent。',
       'ui.hint':'← → 切换 · F 全屏',
     },
     ja:{
@@ -887,7 +890,7 @@ const html = /* html */ `<!doctype html>
       'sm.t1':'ローカル実行とロック解除','sm.d1':'<code>npm run dev</code> を実行し、<code>localhost:5173</code> を開き、歯車または鉛筆を選んでメーカー パスワードを入力します。','sm.t2':'イベント ブランドを作成','sm.d2':'主催者名・顧客名、ロゴ URL またはアップロード、作成者/日付、主催者の連絡先を設定します。再利用するには履歴に保存します。','sm.t3':'参加者を登録','sm.d3':'メールを 1 件ずつ追加するか、カンマ・スペース・タブ・改行区切りのリストを貼り付けます。チップを確認し、「適用」で <code>branding.json</code> に書き込みます。','sm.t4':'ラボ コンテンツを微調整','sm.d4':'鉛筆のメーカー モードを開きます。ラボ、手順、ページ、多言語テキスト、プロンプト、画像を追加・並べ替えし、準備済みのラボだけを公開します。','sm.t5':'保存、テスト、公開','sm.d5':'「保存」で <code>labs.json</code> に書き込み、各言語をローカル テストしてから、「公開」でブランドとラボ内容をコミットしてプッシュします。','sm.t6':'GitHub Pages を確認','sm.d6':'GitHub Actions の Deploy ワークフローを待ち、ライブ URL を強制更新して、ブランド、メール アクセス、言語、ラボ フローを確認します。','sm.noteLabel':'手動フォールバック','sm.note':'<code>git add public/content/branding.json public/content/labs.json</code> &rarr; コミット &rarr; <code>git push origin main</code>',
       's8.k':'⚡ ファストスタート','s8.h':'JumpStart v2 は<span class="grad">ファストスタート</span>',
       's8.b1':'リンクを開く','s8.s1':'URL 1 つ、モダンなブラウザで。インストールもサインインも不要。','s8.b2':'言語を選ぶ','s8.s2':'表紙で EN / 中文 / 日本語 / 한국어 / ไทย / हिन्दी に切り替え。','s8.b3':'入って構築','s8.s3':'ラボごとに進め、プロンプトをコピー、進捗を記録、お祝い。','s8.url':'ライブ ワークショップ','s8.lede':'リンク 1 つ。どの言語でも。数分で本物の Agent — インストールも待ち時間もなし。','s8.c1':'起動は超かんたん','s8.c2':'セルフサービス','s8.c3':'自分のペースで','s8.c4':'コピーして構築','s8.c5':'多言語対応',
-      's9.badge':'準備はいつでも','s9.live':'ライブ ワークショップ','s9.thanks':'JumpStart v-Team の皆さんの貢献に感謝します','s9.h':'JumpStart v2 を<br><span class="grad">次の顧客ワークショップ</span>へ','s9.lede':'社内イネーブルメントでも外部の顧客イベントでも &mdash; 共同ブランド化してリンクを共有し、参加者に実際の Agent を手を動かして構築してもらいましょう。','s10.k':'⚡ JumpStart V2','s10.h':'<span class="grad">ラボからインパクト</span>へ','s10.t1':'ファストスタート','s10.d1':'リンク 1 つで開始 — インストールも設定も不要。','s10.t2':'セルフサービス & 自分のペース','s10.d2':'参加者が自ら進め、あなたはファシリテート。','s10.t3':'コピーして構築','s10.d3':'コピーできるプロンプトで、各ステップを本物の Agent に。','s10.t4':'多言語対応','s10.d4':'6 言語、共有リンク 1 つ。','s10.t5':'ラボからインパクトへ','s10.d5':'実際のビジネス価値を生む Agent を、素早く届ける。',
+      's9.badge':'準備はいつでも','s9.live':'ライブ ワークショップ','s9.thanks':'AI Agent Workshop v-Team の皆さんの貢献に感謝します','s9.h':'AI Agent Workshop を<br><span class="grad">次の顧客ワークショップ</span>へ','s9.lede':'社内イネーブルメントでも外部の顧客イベントでも &mdash; 共同ブランド化してリンクを共有し、参加者に実際の Agent を手を動かして構築してもらいましょう。','s10.k':'⚡ JumpStart V2','s10.h':'<span class="grad">ラボからインパクト</span>へ','s10.t1':'ファストスタート','s10.d1':'リンク 1 つで開始 — インストールも設定も不要。','s10.t2':'セルフサービス & 自分のペース','s10.d2':'参加者が自ら進め、あなたはファシリテート。','s10.t3':'コピーして構築','s10.d3':'コピーできるプロンプトで、各ステップを本物の Agent に。','s10.t4':'多言語対応','s10.d4':'6 言語、共有リンク 1 つ。','s10.t5':'ラボからインパクトへ','s10.d5':'実際のビジネス価値を生む Agent を、素早く届ける。',
       'ui.hint':'← → で移動 · F 全画面',
     },
     ko:{
@@ -922,7 +925,7 @@ const html = /* html */ `<!doctype html>
       'sm.t1':'로컬 실행 및 잠금 해제','sm.d1':'<code>npm run dev</code>를 실행하고 <code>localhost:5173</code>을 연 뒤 톱니바퀴나 연필을 선택하고 메이커 암호를 입력합니다.','sm.t2':'행사 브랜드 만들기','sm.d2':'주최자와 고객 이름, 로고 URL 또는 업로드, 작성자/날짜, 주최자 연락처를 설정합니다. 재사용하려면 기록에 저장합니다.','sm.t3':'참가자 등록','sm.d3':'이메일을 하나씩 추가하거나 쉼표, 공백, 탭 또는 줄바꿈으로 구분된 목록을 붙여넣습니다. 칩을 검토한 뒤 적용을 선택해 <code>branding.json</code>에 씁니다.','sm.t4':'랩 콘텐츠 미세 조정','sm.d4':'연필 메이커 모드를 엽니다. 랩, 단계, 페이지, 현지화 텍스트, 프롬프트, 스크린샷을 추가하거나 재정렬하고 준비된 랩만 공개합니다.','sm.t5':'저장, 테스트 및 게시','sm.d5':'저장을 선택해 <code>labs.json</code>에 쓰고 각 언어로 로컬 테스트한 다음, 게시를 선택해 브랜드와 랩 콘텐츠를 커밋하고 푸시합니다.','sm.t6':'GitHub Pages 확인','sm.d6':'GitHub Actions Deploy 워크플로를 기다린 후 라이브 URL을 강력 새로고침하고 브랜딩, 이메일 액세스, 언어, 랩 흐름을 확인합니다.','sm.noteLabel':'수동 대안','sm.note':'<code>git add public/content/branding.json public/content/labs.json</code> &rarr; 커밋 &rarr; <code>git push origin main</code>',
       's8.k':'⚡ 빠른 시작','s8.h':'JumpStart v2는 <span class="grad">빠른 시작</span>',
       's8.b1':'링크 열기','s8.s1':'URL 하나, 최신 브라우저면 됩니다. 설치·로그인 없이 시작.','s8.b2':'언어 선택','s8.s2':'표지에서 EN / 中文 / 日本語 / 한국어 / ไทย / हिन्दी로 전환.','s8.b3':'입장 후 구축','s8.s3':'랩을 차례로 진행하고 프롬프트 복사, 진행 추적, 축하까지.','s8.url':'라이브 워크숍','s8.lede':'링크 하나. 어떤 언어든. 몇 분 만에 진짜 Agent — 설치도 대기도 없이.','s8.c1':'시작이 매우 쉬움','s8.c2':'셀프 서비스','s8.c3':'자기 주도 학습','s8.c4':'복사하고 빌드','s8.c5':'다국어 지원',
-      's9.badge':'언제든 준비 완료','s9.live':'라이브 워크숍','s9.thanks':'JumpStart v-Team의 기여에 감사드립니다','s9.h':'JumpStart v2를<br><span class="grad">다음 고객 워크숍</span>으로','s9.lede':'내부 역량 강화든 외부 고객 행사든 &mdash; 공동 브랜딩하고 링크를 공유해 참가자가 실제 Agent를 직접 만들게 하세요.','s10.k':'⚡ JumpStart V2','s10.h':'<span class="grad">랩에서 임팩트</span>로','s10.t1':'빠른 시작','s10.d1':'링크 하나로 시작 — 설치도 설정도 없이.','s10.t2':'셀프 서비스 & 자기 주도','s10.d2':'참가자가 스스로 진행하고 당신은 퍼실리테이션.','s10.t3':'복사하고 빌드','s10.d3':'복사 가능한 프롬프트로 각 단계를 진짜 작동하는 Agent로.','s10.t4':'다국어 지원','s10.d4':'여섯 개 언어, 하나의 공유 링크.','s10.t5':'랩에서 임팩트로','s10.d5':'실제 비즈니스 가치를 주는 Agent를 빠르게 제공.',
+      's9.badge':'언제든 준비 완료','s9.live':'라이브 워크숍','s9.thanks':'AI Agent Workshop v-Team의 기여에 감사드립니다','s9.h':'AI Agent Workshop을<br><span class="grad">다음 고객 워크숍</span>으로','s9.lede':'내부 역량 강화든 외부 고객 행사든 &mdash; 공동 브랜딩하고 링크를 공유해 참가자가 실제 Agent를 직접 만들게 하세요.','s10.k':'⚡ JumpStart V2','s10.h':'<span class="grad">랩에서 임팩트</span>로','s10.t1':'빠른 시작','s10.d1':'링크 하나로 시작 — 설치도 설정도 없이.','s10.t2':'셀프 서비스 & 자기 주도','s10.d2':'참가자가 스스로 진행하고 당신은 퍼실리테이션.','s10.t3':'복사하고 빌드','s10.d3':'복사 가능한 프롬프트로 각 단계를 진짜 작동하는 Agent로.','s10.t4':'다국어 지원','s10.d4':'여섯 개 언어, 하나의 공유 링크.','s10.t5':'랩에서 임팩트로','s10.d5':'실제 비즈니스 가치를 주는 Agent를 빠르게 제공.',
       'ui.hint':'← → 이동 · F 전체화면',
     },
     th:{
@@ -957,7 +960,7 @@ const html = /* html */ `<!doctype html>
       'sm.t1':'รันในเครื่องและปลดล็อก','sm.d1':'รัน <code>npm run dev</code> เปิด <code>localhost:5173</code> เลือกไอคอนเฟืองหรือดินสอ แล้วป้อนรหัสผ่านผู้สร้าง','sm.t2':'สร้างแบรนด์ของงาน','sm.d2':'ตั้งชื่อผู้จัดและลูกค้า URL โลโก้หรืออัปโหลด ผู้จัดทำ/วันที่ และผู้ติดต่อของผู้จัด บันทึกในประวัติเพื่อนำกลับมาใช้','sm.t3':'ลงทะเบียนผู้เข้าร่วม','sm.d3':'เพิ่มอีเมลทีละรายการ หรือวางรายการที่คั่นด้วยจุลภาค เว้นวรรค แท็บ หรือขึ้นบรรทัดใหม่ ตรวจสอบชิป แล้วเลือกใช้งานเพื่อเขียน <code>branding.json</code>','sm.t4':'ปรับแต่งเนื้อหาแล็บ','sm.d4':'เปิดโหมดผู้สร้างด้วยดินสอ เพิ่มหรือเรียงแล็บ ขั้นตอน หน้า ข้อความหลายภาษา พรอมป์ และภาพหน้าจอใหม่ และเผยแพร่เฉพาะแล็บที่พร้อม','sm.t5':'บันทึก ทดสอบ และเผยแพร่','sm.d5':'เลือกบันทึกเพื่อเขียน <code>labs.json</code> ทดสอบแต่ละภาษาในเครื่อง แล้วเลือกเผยแพร่เพื่อคอมมิตและพุชแบรนด์กับเนื้อหาแล็บ','sm.t6':'ยืนยัน GitHub Pages','sm.d6':'รอเวิร์กโฟลว์ Deploy ของ GitHub Actions จากนั้นรีเฟรช URL สดแบบไม่ใช้แคช และตรวจสอบแบรนด์ การเข้าใช้อีเมล ภาษา และเส้นทางแล็บ','sm.noteLabel':'ทางเลือกแบบทำเอง','sm.note':'<code>git add public/content/branding.json public/content/labs.json</code> &rarr; คอมมิต &rarr; <code>git push origin main</code>',
       's8.k':'⚡ เริ่มเร็ว','s8.h':'JumpStart v2 คือ<span class="grad">การเริ่มต้นที่รวดเร็ว</span>',
       's8.b1':'เปิดลิงก์','s8.s1':'URL เดียว เบราว์เซอร์สมัยใหม่ใดก็ได้ เริ่มได้โดยไม่ต้องติดตั้งหรือลงชื่อเข้าใช้','s8.b2':'เลือกภาษา','s8.s2':'สลับเป็น EN / 中文 / 日本語 / 한국어 / ไทย / हिन्दी ที่หน้าปก','s8.b3':'เข้าสู่ระบบ &amp; สร้าง','s8.s3':'ทำทีละแล็บ คัดลอกพรอมป์ ติดตามความคืบหน้า และเฉลิมฉลอง','s8.url':'เวิร์กช็อปสด','s8.lede':'ลิงก์เดียว ทุกภาษา สร้าง Agent จริงในไม่กี่นาที — ไม่ต้องติดตั้ง ไม่ต้องรอ','s8.c1':'เริ่มง่ายสุด ๆ','s8.c2':'บริการตนเอง','s8.c3':'เรียนตามจังหวะตัวเอง','s8.c4':'คัดลอกแล้วสร้าง','s8.c5':'พร้อมหลายภาษา',
-      's9.badge':'พร้อมเมื่อคุณพร้อม','s9.live':'เวิร์กช็อปสด','s9.thanks':'ขอขอบคุณการมีส่วนร่วมจากทีม JumpStart v-Team','s9.h':'นำ JumpStart v2 ไปสู่<br><span class="grad">เวิร์กช็อปลูกค้าครั้งถัดไป</span>','s9.lede':'ไม่ว่าจะเป็นการเสริมศักยภาพภายในหรืออีเวนต์ลูกค้าภายนอก &mdash; ร่วมแบรนด์ แชร์ลิงก์ และให้ผู้เข้าร่วมสร้าง Agent จริงด้วยตนเอง','s10.k':'⚡ JumpStart V2','s10.h':'จาก<span class="grad">แล็บสู่ผลลัพธ์</span>','s10.t1':'เริ่มเร็ว','s10.d1':'เปิดลิงก์เดียวก็เริ่มได้ — ไม่ต้องติดตั้ง ไม่ต้องตั้งค่า','s10.t2':'บริการตนเอง & ตามจังหวะ','s10.d2':'ผู้เข้าร่วมขับเคลื่อนเอง ส่วนคุณเป็นผู้อำนวยความสะดวก','s10.t3':'คัดลอกแล้วสร้าง','s10.d3':'พรอมป์ที่คัดลอกได้ เปลี่ยนแต่ละขั้นตอนเป็น Agent ที่ใช้งานได้จริง','s10.t4':'พร้อมหลายภาษา','s10.d4':'หกภาษา ลิงก์แชร์เดียว','s10.t5':'จากแล็บสู่ผลลัพธ์','s10.d5':'ส่งมอบ Agent ที่สร้างคุณค่าทางธุรกิจจริง — อย่างรวดเร็ว',
+      's9.badge':'พร้อมเมื่อคุณพร้อม','s9.live':'เวิร์กช็อปสด','s9.thanks':'ขอขอบคุณการมีส่วนร่วมจากทีม AI Agent Workshop v-Team','s9.h':'นำ AI Agent Workshop ไปสู่<br><span class="grad">เวิร์กช็อปลูกค้าครั้งถัดไป</span>','s9.lede':'ไม่ว่าจะเป็นการเสริมศักยภาพภายในหรืออีเวนต์ลูกค้าภายนอก &mdash; ร่วมแบรนด์ แชร์ลิงก์ และให้ผู้เข้าร่วมสร้าง Agent จริงด้วยตนเอง','s10.k':'⚡ JumpStart V2','s10.h':'จาก<span class="grad">แล็บสู่ผลลัพธ์</span>','s10.t1':'เริ่มเร็ว','s10.d1':'เปิดลิงก์เดียวก็เริ่มได้ — ไม่ต้องติดตั้ง ไม่ต้องตั้งค่า','s10.t2':'บริการตนเอง & ตามจังหวะ','s10.d2':'ผู้เข้าร่วมขับเคลื่อนเอง ส่วนคุณเป็นผู้อำนวยความสะดวก','s10.t3':'คัดลอกแล้วสร้าง','s10.d3':'พรอมป์ที่คัดลอกได้ เปลี่ยนแต่ละขั้นตอนเป็น Agent ที่ใช้งานได้จริง','s10.t4':'พร้อมหลายภาษา','s10.d4':'หกภาษา ลิงก์แชร์เดียว','s10.t5':'จากแล็บสู่ผลลัพธ์','s10.d5':'ส่งมอบ Agent ที่สร้างคุณค่าทางธุรกิจจริง — อย่างรวดเร็ว',
       'ui.hint':'← → เลื่อน · F เต็มจอ',
     },
     hi:{
@@ -992,7 +995,7 @@ const html = /* html */ `<!doctype html>
       'sm.t1':'स्थानीय रूप से चलाएँ और अनलॉक करें','sm.d1':'<code>npm run dev</code> चलाएँ, <code>localhost:5173</code> खोलें, गियर या पेंसिल चुनें और मेकर पासवर्ड दर्ज करें।','sm.t2':'एंगेजमेंट ब्रांड बनाएँ','sm.d2':'होस्ट और ग्राहक नाम, लोगो URL या अपलोड, तैयारकर्ता/तारीख और होस्ट संपर्क सेट करें। दोबारा उपयोग के लिए इतिहास में सहेजें।','sm.t3':'प्रतिभागी पंजीकृत करें','sm.d3':'ईमेल एक-एक करके जोड़ें या कॉमा, स्पेस, टैब या नई पंक्ति से अलग सूची पेस्ट करें। चिप्स जाँचें, फिर <code>branding.json</code> लिखने के लिए लागू करें चुनें।','sm.t4':'लैब सामग्री को बेहतर बनाएँ','sm.d4':'पेंसिल मेकर मोड खोलें। लैब, चरण, पृष्ठ, स्थानीयकृत पाठ, प्रॉम्प्ट और स्क्रीनशॉट जोड़ें या क्रम बदलें; केवल तैयार लैब प्रकाशित करें।','sm.t5':'सहेजें, जाँचें और प्रकाशित करें','sm.d5':'<code>labs.json</code> लिखने के लिए सहेजें चुनें, हर भाषा में स्थानीय परीक्षण करें, फिर ब्रांडिंग और लैब सामग्री कमिट व पुश करने के लिए प्रकाशित करें चुनें।','sm.t6':'GitHub Pages की पुष्टि करें','sm.d6':'GitHub Actions Deploy वर्कफ़्लो की प्रतीक्षा करें, फिर लाइव URL हार्ड-रिफ्रेश करके ब्रांडिंग, ईमेल प्रवेश, भाषाएँ और लैब प्रवाह जाँचें।','sm.noteLabel':'मैनुअल विकल्प','sm.note':'<code>git add public/content/branding.json public/content/labs.json</code> &rarr; कमिट &rarr; <code>git push origin main</code>',
       's8.k':'⚡ फ़ास्ट स्टार्ट','s8.h':'JumpStart v2 है एक <span class="grad">फ़ास्ट स्टार्ट</span>',
       's8.b1':'लिंक खोलें','s8.s1':'एक URL, कोई भी आधुनिक ब्राउज़र। शुरू करने के लिए न इंस्टॉल, न साइन-इन।','s8.b2':'एक भाषा चुनें','s8.s2':'कवर पर EN / 中文 / 日本語 / 한국어 / ไทย / हिन्दी पर स्विच करें।','s8.b3':'प्रवेश करें &amp; बनाएँ','s8.s3':'लैब दर लैब काम करें, प्रॉम्प्ट कॉपी करें, प्रगति ट्रैक करें, जश्न मनाएँ।','s8.url':'लाइव वर्कशॉप','s8.lede':'एक लिंक। कोई भी भाषा। मिनटों में असली Agent — न इंस्टॉल, न इंतज़ार।','s8.c1':'शुरू करना बेहद आसान','s8.c2':'सेल्फ-सर्व','s8.c3':'अपनी गति से','s8.c4':'कॉपी करें और बनाएँ','s8.c5':'बहुभाषी तैयार',
-      's9.badge':'जब आप तैयार हों','s9.live':'लाइव वर्कशॉप','s9.thanks':'JumpStart v-Team टीम के योगदान के लिए हार्दिक धन्यवाद','s9.h':'JumpStart v2 को अपनी<br><span class="grad">अगली ग्राहक वर्कशॉप</span> में लाएँ','s9.lede':'आंतरिक सक्षमता हो या बाहरी ग्राहक कार्यक्रम &mdash; इसे को-ब्रांड करें, लिंक साझा करें, और प्रतिभागियों को असली Agent व्यावहारिक रूप से बनाने दें।','s10.k':'⚡ JumpStart V2','s10.h':'<span class="grad">लैब से प्रभाव</span> तक','s10.t1':'फ़ास्ट स्टार्ट','s10.d1':'एक लिंक खोलें और शुरू करें — न इंस्टॉल, न सेटअप।','s10.t2':'सेल्फ-सर्व और अपनी गति','s10.d2':'प्रतिभागी खुद आगे बढ़ते हैं, आप सहायक बनते हैं।','s10.t3':'कॉपी करें और बनाएँ','s10.d3':'कॉपी-तैयार प्रॉम्प्ट हर चरण को असली, काम करते Agent में बदलते हैं।','s10.t4':'बहुभाषी तैयार','s10.d4':'छह भाषाएँ, एक साझा लिंक।','s10.t5':'लैब से प्रभाव तक','s10.d5':'असली व्यावसायिक मूल्य देने वाले Agent तेज़ी से पहुँचाएँ।',
+      's9.badge':'जब आप तैयार हों','s9.live':'लाइव वर्कशॉप','s9.thanks':'AI Agent Workshop v-Team टीम के योगदान के लिए हार्दिक धन्यवाद','s9.h':'AI Agent Workshop को अपनी<br><span class="grad">अगली ग्राहक वर्कशॉप</span> में लाएँ','s9.lede':'आंतरिक सक्षमता हो या बाहरी ग्राहक कार्यक्रम &mdash; इसे को-ब्रांड करें, लिंक साझा करें, और प्रतिभागियों को असली Agent व्यावहारिक रूप से बनाने दें।','s10.k':'⚡ JumpStart V2','s10.h':'<span class="grad">लैब से प्रभाव</span> तक','s10.t1':'फ़ास्ट स्टार्ट','s10.d1':'एक लिंक खोलें और शुरू करें — न इंस्टॉल, न सेटअप।','s10.t2':'सेल्फ-सर्व और अपनी गति','s10.d2':'प्रतिभागी खुद आगे बढ़ते हैं, आप सहायक बनते हैं।','s10.t3':'कॉपी करें और बनाएँ','s10.d3':'कॉपी-तैयार प्रॉम्प्ट हर चरण को असली, काम करते Agent में बदलते हैं।','s10.t4':'बहुभाषी तैयार','s10.d4':'छह भाषाएँ, एक साझा लिंक।','s10.t5':'लैब से प्रभाव तक','s10.d5':'असली व्यावसायिक मूल्य देने वाले Agent तेज़ी से पहुँचाएँ।',
       'ui.hint':'← → नेविगेट · F पूर्ण स्क्रीन',
     },
   };
