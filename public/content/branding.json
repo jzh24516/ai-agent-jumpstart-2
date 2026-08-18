@@ -9,16 +9,57 @@
   "workshopEnd": "2026-08-21",
   "contacts": [
     {
-      "name": "Nalin Shukla",
-      "email": "nshukla@microsoft.com"
-    },
-    {
       "name": "Michael Jiang",
       "email": "zhijian@microsoft.com"
+    },
+    {
+      "name": "Scott Berry",
+      "email": "scberr@microsoft.com"
     }
   ],
   "attendees": [
-    "michael.jiang@microsoft.com",
-    "lilw8@lenovo.com"
+    "lilw8@lenovo.com",
+    "zhougb1@lenovo.com",
+    "zhangyue8@lenovo.com",
+    "frankliu@lenovo.com",
+    "xugw3@lenovo.com",
+    "linjh8@lenovo.com",
+    "duanjj4@lenovo.com",
+    "lichen8@lenovo.com",
+    "wangmh18@lenovo.com",
+    "qinqian2@lenovo.com",
+    "wangrh11@lenovo.com",
+    "mengzh3@lenovo.com",
+    "wangsy108@lenovo.com",
+    "gengsy2@lenovo.com",
+    "liuxy135@lenovo.com",
+    "yangyang75@lenovo.com",
+    "dingyf4@lenovo.com",
+    "sunyy13@lenovo.com",
+    "zhangyu108@lenovo.com",
+    "dongyy11@lenovo.com",
+    "wsiong@lenovo.com"
+  ],
+  "labUsers": [
+    {
+      "userName": "student01@D365DemoTSCE02668770.onmicrosoft.com",
+      "accessCode": "Y$+AqUfq"
+    },
+    {
+      "userName": "student02@D365DemoTSCE02668770.onmicrosoft.com",
+      "accessCode": "H2#H&%YL"
+    },
+    {
+      "userName": "student03@D365DemoTSCE02668770.onmicrosoft.com",
+      "accessCode": "$t=HD+-="
+    },
+    {
+      "userName": "student04@D365DemoTSCE02668770.onmicrosoft.com",
+      "accessCode": "+$8hsmw@"
+    },
+    {
+      "userName": "student05@D365DemoTSCE02668770.onmicrosoft.com",
+      "accessCode": "7dz-$g=%"
+    }
   ]
 }

@@ -6,7 +6,7 @@ import remarkGfm from 'remark-gfm'
 import {
   ArrowRight, BookOpenCheck, CalendarDays, Check, ChevronDown, ChevronLeft, ChevronRight, ChevronUp,
   Clipboard, Database, FileSpreadsheet, Languages, Lock, Mail, MailCheck, Menu, Mic2,
-  ExternalLink, Maximize2, Moon, Network, PanelLeft, PanelLeftClose, PencilLine, Printer, Save, Search, Settings, Sparkles, Star, Sun, ThumbsUp, Trash2, Users, X,
+  ExternalLink, KeyRound, Maximize2, Moon, Network, PanelLeft, PanelLeftClose, PencilLine, Printer, Save, Search, Settings, Sparkles, Star, Sun, ThumbsUp, Trash2, Users, X,
 } from 'lucide-react'
 import { authenticateMaker, defaultContent, isLabPublic, isStepVisible, loadLabs } from './content/store'
 import MakerEditor from './editor/MakerEditor'
@@ -239,17 +239,44 @@ function DocumentStep({
 }
 
 type BrandingContact = { name: string; email: string }
-type Branding = { hostName: string; hostLogo: string; customerName: string; customerLogo: string; preparedBy: string; preparedDate: string; workshopStart: string; workshopEnd: string; contacts: BrandingContact[]; attendees: string[] }
+type LabUser = { userName: string; accessCode: string }
+type Branding = { hostName: string; hostLogo: string; customerName: string; customerLogo: string; preparedBy: string; preparedDate: string; workshopStart: string; workshopEnd: string; contacts: BrandingContact[]; attendees: string[]; labUsers: LabUser[] }
 const defaultContacts: BrandingContact[] = [
   { name: 'Nalin Shukla', email: 'nshukla@microsoft.com' },
   { name: 'Michael Jiang', email: 'zhijian@microsoft.com' },
 ]
-const defaultBranding: Branding = { hostName: 'Microsoft', hostLogo: '', customerName: '', customerLogo: '', preparedBy: 'Microsoft Global Solution Advisory Agent - Asia Team', preparedDate: 'July 16, 2026', workshopStart: '', workshopEnd: '', contacts: defaultContacts, attendees: [] }
+const defaultBranding: Branding = { hostName: 'Microsoft', hostLogo: '', customerName: '', customerLogo: '', preparedBy: 'Microsoft Global Solution Advisory Agent - Asia Team', preparedDate: 'July 16, 2026', workshopStart: '', workshopEnd: '', contacts: defaultContacts, attendees: [], labUsers: [] }
 
 // Attendee email helpers. Emails are stored lowercased so validation is case-insensitive.
 const isEmail = (value: string): boolean => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())
 // Splits a pasted blob on commas, semicolons, or any whitespace (space/tab/newline).
 const parseEmails = (raw: string): string[] => raw.split(/[\s,;]+/).map((e) => e.trim().toLowerCase()).filter(Boolean)
+const brandingAccessEmails = ({ attendees, contacts }: Pick<Branding, 'attendees' | 'contacts'>): string[] => {
+  const seen = new Set<string>()
+  return [...attendees, ...contacts.map(({ email }) => email)]
+    .map((email) => email.trim().toLowerCase())
+    .filter((email) => isEmail(email) && !seen.has(email) && Boolean(seen.add(email)))
+}
+const labUserForEmail = (branding: Branding, email: string): LabUser | null => {
+  const labUsers = branding.labUsers.filter(({ userName, accessCode }) => userName.trim() && accessCode.trim())
+  if (!labUsers.length) return null
+  const emailIndex = brandingAccessEmails(branding).indexOf(email.trim().toLowerCase())
+  return emailIndex >= 0 ? labUsers[emailIndex % labUsers.length] : null
+}
+const isLabUserHeader = ([userName, accessCode]: string[]): boolean => {
+  const first = userName.toLowerCase().replace(/[^a-z]/g, '')
+  const second = accessCode.toLowerCase().replace(/[^a-z]/g, '')
+  return ['labusername', 'labuser', 'username', 'user'].includes(first) && ['accesscode', 'code', 'password'].includes(second)
+}
+const parseLabUsers = (raw: string): LabUser[] => {
+  const rows = raw.replace(/^\uFEFF/, '').split(/\r?\n/)
+    .map((line) => line.split('\t').map((cell) => cell.trim()))
+    .filter((cells) => cells.some(Boolean))
+  if (rows[0] && isLabUserHeader(rows[0])) rows.shift()
+  return rows
+    .filter(([userName, accessCode]) => Boolean(userName && accessCode))
+    .map(([userName, accessCode]) => ({ userName, accessCode }))
+}
 
 type WorkshopWindowStatus = 'open' | 'not-started' | 'ended' | 'invalid'
 type WorkshopWindow = Pick<Branding, 'workshopStart' | 'workshopEnd'>
@@ -308,6 +335,7 @@ async function loadPublishedBranding(): Promise<Branding | null> {
       const merged = { ...defaultBranding, ...(await res.json()) }
       if (!Array.isArray(merged.contacts) || merged.contacts.length === 0) merged.contacts = defaultContacts
       if (!Array.isArray(merged.attendees)) merged.attendees = []
+      if (!Array.isArray(merged.labUsers)) merged.labUsers = []
       return merged
     }
   } catch { /* no published branding yet */ }
@@ -356,7 +384,7 @@ function BrandLogo({ name, logo }: { name: string; logo: string }) {
   return <span className="cover-brand-name">{name || 'Microsoft'}</span>
 }
 
-type Workshop = { id: string; name: string; hostName: string; hostLogo: string; customerName: string; customerLogo: string; preparedBy?: string; preparedDate?: string; workshopStart?: string; workshopEnd?: string; contacts?: BrandingContact[]; attendees?: string[]; savedAt: number }
+type Workshop = { id: string; name: string; hostName: string; hostLogo: string; customerName: string; customerLogo: string; preparedBy?: string; preparedDate?: string; workshopStart?: string; workshopEnd?: string; contacts?: BrandingContact[]; attendees?: string[]; labUsers?: LabUser[]; savedAt: number }
 const loadWorkshops = (): Workshop[] => {
   try { const v = JSON.parse(localStorage.getItem('jumpstart-workshops') || '[]'); return Array.isArray(v) ? v : [] }
   catch { return [] }
@@ -370,6 +398,7 @@ function BrandingSettings({ value, locale, onApply, onClose }: { value: Branding
   const [flash, setFlash] = useState('')
   const [attendeeInput, setAttendeeInput] = useState('')
   const [attendeeBulk, setAttendeeBulk] = useState('')
+  const [generatingMapping, setGeneratingMapping] = useState(false)
   const [saving, setSaving] = useState(false)
   const [reauth, setReauth] = useState(false)
   const [reauthPassword, setReauthPassword] = useState('')
@@ -405,7 +434,13 @@ function BrandingSettings({ value, locale, onApply, onClose }: { value: Branding
     const seen = new Set(draft.attendees.map((email) => email.toLowerCase()))
     const attendees = [...draft.attendees]
     pendingEmails.forEach((email) => { if (!seen.has(email)) { seen.add(email); attendees.push(email) } })
-    const completed = normalizeBrandingWorkshopDates({ ...draft, attendees })
+    const labUsers = draft.labUsers.map(({ userName, accessCode }) => ({ userName: userName.trim(), accessCode: accessCode.trim() })).filter(({ userName, accessCode }) => userName || accessCode)
+    if (labUsers.some(({ userName, accessCode }) => !userName || !accessCode)) {
+      setFlash(text(ui.labUsersIncomplete, locale))
+      window.setTimeout(() => setFlash(''), 2600)
+      return null
+    }
+    const completed = normalizeBrandingWorkshopDates({ ...draft, attendees, labUsers })
     setDraft(completed)
     setAttendeeInput('')
     setAttendeeBulk('')
@@ -449,7 +484,75 @@ function BrandingSettings({ value, locale, onApply, onClose }: { value: Branding
     setAttendeeInput('')
     setAttendeeBulk('')
   }
+  const importLabUsers = (raw: string) => {
+    const labUsers = parseLabUsers(raw)
+    if (!labUsers.length) {
+      setFlash(text(ui.labUsersNoneAdded, locale))
+      window.setTimeout(() => setFlash(''), 2400)
+      return
+    }
+    setDraft((current) => ({ ...current, labUsers }))
+    setFlash(text(ui.labUsersImported, locale).replace('{n}', String(labUsers.length)))
+    window.setTimeout(() => setFlash(''), 2200)
+  }
+  const generateUserMapping = async () => {
+    const completed = completeDraft()
+    if (!completed || !completed.attendees.length || !completed.labUsers.length) return
+    setGeneratingMapping(true)
+    try {
+      const { Workbook } = await import('exceljs')
+      const workbook = new Workbook()
+      workbook.creator = 'AI Agent JumpStart'
+      workbook.created = new Date()
+      const worksheet = workbook.addWorksheet('User Mapping', { views: [{ state: 'frozen', ySplit: 1 }] })
+      worksheet.addTable({
+        name: 'UserMapping',
+        ref: 'A1',
+        headerRow: true,
+        totalsRow: false,
+        style: { theme: 'TableStyleMedium2', showRowStripes: true },
+        columns: [
+          { name: text(ui.attendeeEmailColumn, locale) },
+          { name: text(ui.labUserNameColumn, locale) },
+          { name: text(ui.accessCodeColumn, locale) },
+        ],
+        rows: completed.attendees.map((email, index) => {
+          const labUser = completed.labUsers[index % completed.labUsers.length]
+          return [email, labUser.userName, labUser.accessCode]
+        }),
+      })
+      worksheet.columns = [{ width: 36 }, { width: 25 }, { width: 22 }]
+      worksheet.eachRow((row, rowNumber) => {
+        row.height = rowNumber === 1 ? 24 : 20
+        row.eachCell((cell) => {
+          cell.font = { name: 'Arial', size: 10, bold: rowNumber === 1 }
+          cell.alignment = { vertical: 'middle' }
+        })
+      })
+      worksheet.getColumn(3).numFmt = '@'
+      const buffer = await workbook.xlsx.writeBuffer()
+      const blob = new Blob([new Uint8Array(buffer)], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
+      const url = URL.createObjectURL(blob)
+      const anchor = document.createElement('a')
+      const workshopName = completed.customerName.trim() || completed.hostName.trim() || 'workshop'
+      anchor.href = url
+      anchor.download = `${workshopName.replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '').toLowerCase() || 'workshop'}-user-mapping.xlsx`
+      document.body.appendChild(anchor)
+      anchor.click()
+      anchor.remove()
+      URL.revokeObjectURL(url)
+      setFlash(text(ui.userMappingGenerated, locale).replace('{n}', String(completed.attendees.length)))
+      window.setTimeout(() => setFlash(''), 2600)
+    } catch {
+      setFlash(text(ui.userMappingFailed, locale))
+      window.setTimeout(() => setFlash(''), 2600)
+    } finally {
+      setGeneratingMapping(false)
+    }
+  }
   const hasAttendeeEntries = draft.attendees.length > 0 || attendeeInput.trim().length > 0 || attendeeBulk.trim().length > 0
+  const hasMappingAttendees = draft.attendees.length > 0 || [attendeeInput, attendeeBulk].some((raw) => parseEmails(raw).some(isEmail))
+  const hasCompleteLabUsers = draft.labUsers.length > 0 && draft.labUsers.every(({ userName, accessCode }) => userName.trim() && accessCode.trim())
   const removeAttendee = (email: string) => setDraft((d) => ({ ...d, attendees: d.attendees.filter((e) => e !== email) }))
   const readFile = (file: File | undefined, key: 'hostLogo' | 'customerLogo') => {
     if (!file) return
@@ -464,13 +567,13 @@ function BrandingSettings({ value, locale, onApply, onClose }: { value: Branding
     if (!normalizedDraft) return
     const name = normalizedDraft.customerName.trim() || normalizedDraft.hostName.trim() || 'Untitled workshop'
     const existing = history.find((w) => w.name.toLowerCase() === name.toLowerCase())
-    const entry: Workshop = { id: existing?.id || newWorkshopId(), name, hostName: normalizedDraft.hostName, hostLogo: normalizedDraft.hostLogo, customerName: normalizedDraft.customerName, customerLogo: normalizedDraft.customerLogo, preparedBy: normalizedDraft.preparedBy, preparedDate: normalizedDraft.preparedDate, workshopStart: normalizedDraft.workshopStart, workshopEnd: normalizedDraft.workshopEnd, contacts: normalizedDraft.contacts, attendees: normalizedDraft.attendees, savedAt: Date.now() }
+    const entry: Workshop = { id: existing?.id || newWorkshopId(), name, hostName: normalizedDraft.hostName, hostLogo: normalizedDraft.hostLogo, customerName: normalizedDraft.customerName, customerLogo: normalizedDraft.customerLogo, preparedBy: normalizedDraft.preparedBy, preparedDate: normalizedDraft.preparedDate, workshopStart: normalizedDraft.workshopStart, workshopEnd: normalizedDraft.workshopEnd, contacts: normalizedDraft.contacts, attendees: normalizedDraft.attendees, labUsers: normalizedDraft.labUsers, savedAt: Date.now() }
     setDraft(normalizedDraft)
     persist(existing ? history.map((w) => (w.id === existing.id ? entry : w)) : [entry, ...history])
     setFlash(text(existing ? ui.updatedWorkshop : ui.savedWorkshop, locale).replace('{name}', name))
     window.setTimeout(() => setFlash(''), 2200)
   }
-  const loadWorkshop = (w: Workshop) => { setDraft({ hostName: w.hostName, hostLogo: w.hostLogo, customerName: w.customerName, customerLogo: w.customerLogo, preparedBy: w.preparedBy ?? defaultBranding.preparedBy, preparedDate: w.preparedDate ?? defaultBranding.preparedDate, workshopStart: w.workshopStart ?? '', workshopEnd: w.workshopEnd ?? '', contacts: w.contacts && w.contacts.length ? w.contacts : defaultContacts, attendees: Array.isArray(w.attendees) ? w.attendees : [] }); setFlash(text(ui.loadedWorkshop, locale).replace('{name}', w.name)); window.setTimeout(() => setFlash(''), 2600) }
+  const loadWorkshop = (w: Workshop) => { setDraft({ hostName: w.hostName, hostLogo: w.hostLogo, customerName: w.customerName, customerLogo: w.customerLogo, preparedBy: w.preparedBy ?? defaultBranding.preparedBy, preparedDate: w.preparedDate ?? defaultBranding.preparedDate, workshopStart: w.workshopStart ?? '', workshopEnd: w.workshopEnd ?? '', contacts: w.contacts && w.contacts.length ? w.contacts : defaultContacts, attendees: Array.isArray(w.attendees) ? w.attendees : [], labUsers: Array.isArray(w.labUsers) ? w.labUsers : [] }); setFlash(text(ui.loadedWorkshop, locale).replace('{name}', w.name)); window.setTimeout(() => setFlash(''), 2600) }
   const removeWorkshop = (id: string) => persist(history.filter((w) => w.id !== id))
   const q = query.trim().toLowerCase()
   const filtered = [...history].sort((a, b) => b.savedAt - a.savedAt).filter((w) => !q || w.name.toLowerCase().includes(q) || w.customerName.toLowerCase().includes(q) || w.hostName.toLowerCase().includes(q))
@@ -533,6 +636,29 @@ function BrandingSettings({ value, locale, onApply, onClose }: { value: Branding
               ))}
             </div>
           )}
+        </div>
+        <div className="settings-lab-users">
+          <div className="settings-contacts-head">
+            <span>{text(ui.labUsersField, locale)}{draft.labUsers.length > 0 && <em className="attendee-count">{draft.labUsers.length}</em>}</span>
+            <button type="button" className="ghost" disabled={!draft.labUsers.length} onClick={() => setDraft({ ...draft, labUsers: [] })}><Trash2 size={14} /> {text(ui.clearAll, locale)}</button>
+          </div>
+          <p className="settings-subhint">{text(ui.labUsersHint, locale)}</p>
+          <textarea className="lab-users-paste" rows={3} placeholder={text(ui.labUsersPasteHint, locale)}
+            onPaste={(event) => { const raw = event.clipboardData.getData('text'); if (raw) { event.preventDefault(); importLabUsers(raw) } }} />
+          {draft.labUsers.length > 0 && <div className="lab-users-table-wrap">
+            <table className="lab-users-table">
+              <thead><tr><th>{text(ui.labUserNameColumn, locale)}</th><th>{text(ui.accessCodeColumn, locale)}</th><th><span className="sr-only">{text(ui.remove, locale)}</span></th></tr></thead>
+              <tbody>{draft.labUsers.map((labUser, index) => <tr key={index}>
+                <td><input type="text" value={labUser.userName} aria-label={`${text(ui.labUserNameColumn, locale)} ${index + 1}`} onChange={(event) => setDraft({ ...draft, labUsers: draft.labUsers.map((item, itemIndex) => itemIndex === index ? { ...item, userName: event.target.value } : item) })} /></td>
+                <td><input type="text" value={labUser.accessCode} aria-label={`${text(ui.accessCodeColumn, locale)} ${index + 1}`} onChange={(event) => setDraft({ ...draft, labUsers: draft.labUsers.map((item, itemIndex) => itemIndex === index ? { ...item, accessCode: event.target.value } : item) })} /></td>
+                <td><button type="button" className="icon-button" aria-label={`${text(ui.remove, locale)} ${labUser.userName || index + 1}`} onClick={() => setDraft({ ...draft, labUsers: draft.labUsers.filter((_, itemIndex) => itemIndex !== index) })}><Trash2 size={15} /></button></td>
+              </tr>)}</tbody>
+            </table>
+          </div>}
+          <div className="lab-users-actions">
+            <button type="button" className="ghost" onClick={() => setDraft({ ...draft, labUsers: [...draft.labUsers, { userName: '', accessCode: '' }] })}>+ {text(ui.addLabUser, locale)}</button>
+            <button type="button" className="mapping-generate" disabled={generatingMapping || !hasMappingAttendees || !hasCompleteLabUsers} onClick={() => void generateUserMapping()}><FileSpreadsheet size={16} /> {text(generatingMapping ? ui.generatingUserMapping : ui.generateUserMapping, locale)}</button>
+          </div>
         </div>
         <div className="settings-actions">
           <button className="ghost" type="button" onClick={() => setDraft(defaultBranding)}>{text(ui.reset, locale)}</button>
@@ -624,9 +750,9 @@ function WorkshopHeroTitle() {
   return <h1 className="cover-title">AI Agent Workshop<br /><span className="cover-title-byline">by Microsoft Agent GBB</span></h1>
 }
 
-function AccessWelcomePage({ dark, locale, attendees, workshopStart, workshopEnd, entryReady, canConfigure, onToggleTheme, onLocaleChange, onOpenSettings, onVerified }: {
-  dark: boolean; locale: Locale; attendees: string[]; workshopStart: string; workshopEnd: string; entryReady: boolean; canConfigure: boolean;
-  onToggleTheme: () => void; onLocaleChange: (locale: Locale) => void; onOpenSettings: () => void; onVerified: () => void;
+function AccessWelcomePage({ dark, locale, attendees, contacts, workshopStart, workshopEnd, entryReady, canConfigure, onToggleTheme, onLocaleChange, onOpenSettings, onVerified }: {
+  dark: boolean; locale: Locale; attendees: string[]; contacts: BrandingContact[]; workshopStart: string; workshopEnd: string; entryReady: boolean; canConfigure: boolean;
+  onToggleTheme: () => void; onLocaleChange: (locale: Locale) => void; onOpenSettings: () => void; onVerified: (email: string) => void;
 }) {
   const [email, setEmail] = useState('')
   const [error, setError] = useState<'invalid' | 'denied' | null>(null)
@@ -641,8 +767,8 @@ function AccessWelcomePage({ dark, locale, attendees, workshopStart, workshopEnd
     if (workshopWindowStatus({ workshopStart, workshopEnd }) !== 'open') { setNow(Date.now()); return }
     const value = email.trim().toLowerCase()
     if (!isEmail(value)) { setError('invalid'); return }
-    if (attendees.length > 0 && !attendees.some((a) => a.toLowerCase() === value)) { setError('denied'); return }
-    onVerified()
+    if (attendees.length > 0 && !brandingAccessEmails({ attendees, contacts }).includes(value)) { setError('denied'); return }
+    onVerified(value)
   }
   const blockedTitle = status === 'not-started' ? ui.workshopNotStartedTitle : status === 'ended' ? ui.workshopEndedTitle : ui.workshopWindowUnavailableTitle
   const blockedIntro = status === 'not-started'
@@ -718,6 +844,45 @@ function CoverPage({ onEnter, dark, onToggleTheme, locale, onLocaleChange, brand
       <div className="cover-footer">&copy; Microsoft &middot; GBB Sales Solution Advisory — Agent Asia Team</div>
     </div>
   )
+}
+
+function LabCredentialsFlyout({ email, branding, locale }: { email: string; branding: Branding; locale: Locale }) {
+  const [open, setOpen] = useState(false)
+  const [copied, setCopied] = useState<keyof LabUser | null>(null)
+  const menuRef = useRef<HTMLDivElement>(null)
+  const labUser = labUserForEmail(branding, email)
+  useEffect(() => {
+    if (!open) return
+    const onPointerDown = (event: PointerEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) setOpen(false)
+    }
+    const onKeyDown = (event: KeyboardEvent) => { if (event.key === 'Escape') setOpen(false) }
+    document.addEventListener('pointerdown', onPointerDown)
+    document.addEventListener('keydown', onKeyDown)
+    return () => {
+      document.removeEventListener('pointerdown', onPointerDown)
+      document.removeEventListener('keydown', onKeyDown)
+    }
+  }, [open])
+  const copyCredential = async (key: keyof LabUser, value: string) => {
+    await navigator.clipboard.writeText(value)
+    setCopied(key)
+    window.setTimeout(() => setCopied((current) => current === key ? null : current), 1800)
+  }
+  const credentialRows: { key: keyof LabUser; label: string; value: string }[] = labUser ? [
+    { key: 'userName', label: text(ui.labUserNameColumn, locale), value: labUser.userName },
+    { key: 'accessCode', label: text(ui.accessKey, locale), value: labUser.accessCode },
+  ] : []
+  return <div className="lab-credentials-menu" ref={menuRef}>
+    <button className={open ? 'icon-button credentials-trigger open' : 'icon-button credentials-trigger'} type="button" aria-expanded={open} aria-controls="lab-credentials-flyout" onClick={() => setOpen((current) => !current)} title={text(ui.viewLabCredentials, locale)} aria-label={text(ui.viewLabCredentials, locale)}><KeyRound size={18} /></button>
+    {open && <div className="lab-credentials-flyout" id="lab-credentials-flyout" role="dialog" aria-label={text(ui.labCredentialsTitle, locale)}>
+      <div className="lab-credentials-head"><span className="lab-credentials-icon"><KeyRound size={18} /></span><div><strong>{text(ui.labCredentialsTitle, locale)}</strong><small>{email}</small></div></div>
+      {credentialRows.length ? <div className="lab-credential-list">{credentialRows.map(({ key, label, value }) => <div className="lab-credential-row" key={key}>
+        <div><small>{label}</small><code>{value}</code></div>
+        <button type="button" onClick={() => void copyCredential(key, value)} title={`${text(copied === key ? ui.copied : ui.copy, locale)} ${label}`}><span>{text(copied === key ? ui.copied : ui.copy, locale)}</span>{copied === key ? <Check size={15} /> : <Clipboard size={15} />}</button>
+      </div>)}</div> : <div className="lab-credentials-empty"><KeyRound size={20} /><span>{text(ui.labCredentialsUnavailable, locale)}</span></div>}
+    </div>}
+  </div>
 }
 
 type Feedback = { overall: number; effort: number; recommend: number; comments: string; locale: Locale; at: number }
@@ -831,7 +996,8 @@ function App() {
   const [celebrateIntensity, setCelebrateIntensity] = useState(1)
   const [labDoneTitle, setLabDoneTitle] = useState<string | null>(null)
   const [allDoneOpen, setAllDoneOpen] = useState(false)
-  const [accessVerified, setAccessVerified] = useState(false)
+  const [verifiedEmail, setVerifiedEmail] = useState<string | null>(null)
+  const accessVerified = verifiedEmail !== null
   const [showCover, setShowCover] = useState(true)
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [pendingUnlock, setPendingUnlock] = useState<'editor' | 'settings' | null>(null)
@@ -992,7 +1158,7 @@ function App() {
 
   return <div className={collapsed ? 'app-shell sidebar-collapsed' : 'app-shell'}>
     <Fireworks trigger={celebrate} intensity={celebrateIntensity} />
-    {!accessVerified && <AccessWelcomePage dark={dark} locale={locale} attendees={branding.attendees ?? []} workshopStart={branding.workshopStart} workshopEnd={branding.workshopEnd} entryReady={brandingReady} canConfigure={makerEnabled} onToggleTheme={toggleTheme} onLocaleChange={setLocale} onOpenSettings={openSettings} onVerified={() => setAccessVerified(true)} />}
+    {!accessVerified && <AccessWelcomePage dark={dark} locale={locale} attendees={branding.attendees ?? []} contacts={branding.contacts ?? []} workshopStart={branding.workshopStart} workshopEnd={branding.workshopEnd} entryReady={brandingReady} canConfigure={makerEnabled} onToggleTheme={toggleTheme} onLocaleChange={setLocale} onOpenSettings={openSettings} onVerified={setVerifiedEmail} />}
     {accessVerified && showCover && <CoverPage onEnter={enterWorkshop} dark={dark} onToggleTheme={toggleTheme} locale={locale} onLocaleChange={setLocale} branding={branding} entryReady={brandingReady} canConfigure={makerEnabled} onOpenSettings={openSettings} />}
     {settingsOpen && <BrandingSettings value={branding} locale={locale} onApply={applyBranding} onClose={() => setSettingsOpen(false)} />}
     <button className="mobile-menu" type="button" onClick={() => setMenuOpen(true)} title={text(ui.menu, locale)} aria-label={text(ui.menu, locale)}><Menu /></button>
@@ -1031,7 +1197,7 @@ function App() {
             </div>
           </div>
         </div>
-        <div className="top-actions"><label className="language-select"><Languages size={17} /><select value={locale} onChange={(event) => setLocale(event.target.value as Locale)} aria-label={text(ui.language, locale)}>{locales.map((item) => <option value={item} key={item}>{localeNames[item]}</option>)}</select></label><button className="icon-button" type="button" onClick={exportLabPdf} title={text(ui.exportPdf, locale)} aria-label={text(ui.exportPdf, locale)}><Printer size={18} /></button>{makerEnabled && <button className="icon-button" type="button" onClick={openMaker} title={text(ui.maker, locale)} aria-label={text(ui.maker, locale)}>{makerUnlocked ? <PencilLine size={19} /> : <Lock size={18} />}</button>}<button className="icon-button" type="button" onClick={toggleTheme} title={text(ui.theme, locale)} aria-label={text(ui.theme, locale)}>{dark ? <Sun size={19} /> : <Moon size={19} />}</button></div>
+        <div className="top-actions"><label className="language-select"><Languages size={17} /><select value={locale} onChange={(event) => setLocale(event.target.value as Locale)} aria-label={text(ui.language, locale)}>{locales.map((item) => <option value={item} key={item}>{localeNames[item]}</option>)}</select></label>{verifiedEmail && <LabCredentialsFlyout email={verifiedEmail} branding={branding} locale={locale} />}<button className="icon-button" type="button" onClick={exportLabPdf} title={text(ui.exportPdf, locale)} aria-label={text(ui.exportPdf, locale)}><Printer size={18} /></button>{makerEnabled && <button className="icon-button" type="button" onClick={openMaker} title={text(ui.maker, locale)} aria-label={text(ui.maker, locale)}>{makerUnlocked ? <PencilLine size={19} /> : <Lock size={18} />}</button>}<button className="icon-button" type="button" onClick={toggleTheme} title={text(ui.theme, locale)} aria-label={text(ui.theme, locale)}>{dark ? <Sun size={19} /> : <Moon size={19} />}</button></div>
       </header>
 
       <article className="lab-document">
