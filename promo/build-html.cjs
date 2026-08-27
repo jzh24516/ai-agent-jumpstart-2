@@ -46,7 +46,6 @@ const IMG = {
   },
   coverLenovo: b64('cover-lenovo.png'),
   branding: b64('branding.png'),
-  journey: b64('customer-agentic-ai-journey.png'),
   emailValidate: b64('email-validate-form-before-lab.png'),
   jumpstart: {
     en: b64('jumpstart-english.png'),
@@ -99,12 +98,7 @@ const slides = /* html */ `
   <img class="cover-shot" src="${IMG.cover}" alt="JumpStart cover page" />
 </section>
 
-<!-- 2. CUSTOMER AGENTIC AI JOURNEY -->
-<section class="slide blueprint-slide" data-title="Customer Agentic AI Journey">
-  <img class="blueprint-img" src="${IMG.journey}" alt="Customer Agentic AI Journey v1 — Agents Workshop overview, Asia roadshow, and the six Copilot Studio labs" />
-</section>
-
-<!-- 3. WHAT IT IS -->
+<!-- 2. WHAT IT IS -->
 <section class="slide one-liner-slide" data-title="What it is">
   <div class="s-head"><span class="kicker" data-i18n="s2.k">🎬 The one-liner</span><h2 data-i18n="s2.h">A workshop that runs itself &mdash; <span class="grad">learners just press play</span> ▶️</h2></div>
   <div class="two">
@@ -125,7 +119,7 @@ const slides = /* html */ `
   </div>
 </section>
 
-<!-- 4. THE 6 LABS -->
+<!-- 3. THE 6 LABS -->
 <section class="slide saga-slide" data-title="The 6 labs">
   <div class="saga-bg" style="background:${STARS}, radial-gradient(ellipse 85% 60% at 50% -12%, rgba(124,58,237,.24), transparent 60%), radial-gradient(ellipse 95% 75% at 50% 118%, rgba(34,211,238,.16), transparent 60%), #05030f"></div>
   <div class="saga-glow" aria-hidden="true"></div>
@@ -140,12 +134,12 @@ const slides = /* html */ `
   </div>
 </section>
 
-<!-- 5. AGENT PLATFORM BLUEPRINT -->
+<!-- 4. AGENT PLATFORM BLUEPRINT -->
 <section class="slide blueprint-slide" data-title="Agent platform blueprint">
   <img class="blueprint-img" data-blueprint src="${IMG.blueprint.en}" alt="Copilot Studio Agent Platform Blueprint: six labs mapped from use case through agent mode, architecture, tools, and business value" />
 </section>
 
-<!-- 6. LEARNER EXPERIENCE -->
+<!-- 5. LEARNER EXPERIENCE -->
 <section class="slide maker-cover learner-cover" data-title="Learner Experience">
   <div class="maker-cover-grid">
     <div class="maker-cover-copy">
@@ -173,7 +167,7 @@ const slides = /* html */ `
   </div>
 </section>
 
-<!-- 7. MULTILINGUAL -->
+<!-- 6. MULTILINGUAL -->
 <section class="slide" data-title="Multilingual">
   <div class="s-head"><span class="kicker" data-i18n="s4.k">Unique feature 01</span><h2 data-i18n="s4.h">Multilingual <span class="grad">by design</span></h2></div>
   <div class="two shots-row">
@@ -198,7 +192,7 @@ const slides = /* html */ `
   </div>
 </section>
 
-<!-- 8. LEARN BY DOING -->
+<!-- 7. LEARN BY DOING -->
 <section class="slide" data-title="Learn by doing">
   <div class="s-head"><span class="kicker" data-i18n="s5.k">Unique feature 02</span><h2 data-i18n="s5.h">A learn-by-doing UX that's <span class="grad">actually joyful</span></h2></div>
   <div class="two">
@@ -213,7 +207,7 @@ const slides = /* html */ `
   </div>
 </section>
 
-<!-- 9. PARTICIPANT GUIDELINE -->
+<!-- 8. PARTICIPANT GUIDELINE -->
 <section class="slide participant-guide" data-title="Participant guideline">
   <div class="participant-layout">
     <div class="participant-visual">
@@ -242,7 +236,7 @@ const slides = /* html */ `
   </div>
 </section>
 
-<!-- 10. CO-BRANDING -->
+<!-- 9. CO-BRANDING -->
 <section class="slide" data-title="Co-branding">
   <div class="s-head"><span class="kicker" data-i18n="s6.k">Unique feature 03</span><h2 data-i18n="s6.h">Co-brand a <span class="grad">dedicated workshop</span> in seconds</h2></div>
   <div class="two wide-right">
@@ -257,7 +251,7 @@ const slides = /* html */ `
   </div>
 </section>
 
-<!-- 11. MAKER EXPERIENCE -->
+<!-- 10. MAKER EXPERIENCE -->
 <section class="slide maker-cover" data-title="Maker Experience">
   <div class="maker-cover-grid">
     <div class="maker-cover-copy">
@@ -285,7 +279,7 @@ const slides = /* html */ `
   </div>
 </section>
 
-<!-- 12. MAKER GUIDANCE -->
+<!-- 11. MAKER GUIDANCE -->
 <section class="slide guide-slide maker-guide" data-title="Maker guidance">
   <div class="s-head guide-head">
     <span class="kicker" data-i18n="sm.k">Maker guidance</span>
@@ -303,7 +297,7 @@ const slides = /* html */ `
   <div class="guide-note"><strong data-i18n="sm.noteLabel">Manual fallback</strong><span data-i18n="sm.note"><code>git add public/content/branding.json public/content/labs.json</code> &rarr; commit &rarr; <code>git push origin main</code></span></div>
 </section>
 
-<!-- 13. PUBLISH ONCE -->
+<!-- 12. PUBLISH ONCE -->
 <section class="slide" data-title="Publish once">
   <div class="s-head"><span class="kicker" data-i18n="s7.k">Unique feature 04</span><h2 data-i18n="s7.h">Publish once &mdash; <span class="grad">everyone sees it</span></h2></div>
   <div class="flow">
@@ -318,7 +312,7 @@ const slides = /* html */ `
   <p class="note" data-i18n="s7.note">No per-user setup. The published files are the single source of truth for every visitor.</p>
 </section>
 
-<!-- 14. FAST START — FROM LAB TO IMPACT -->
+<!-- 13. FAST START — FROM LAB TO IMPACT -->
 <section class="slide vp-slide" data-title="From Lab to Impact">
   <div class="vp-grid">
     <div class="vp-art"><img data-jumpstart class="vp-img" src="${IMG.jumpstart.en}" alt="JumpStart — Fast Start" /></div>
@@ -336,7 +330,7 @@ const slides = /* html */ `
   </div>
 </section>
 
-<!-- 15. CLOSING -->
+<!-- 14. CLOSING -->
 <section class="slide closing" data-title="Bring it to your workshop">
   <div class="orb o1"></div><div class="orb o2"></div>
   <div class="close-grid">
