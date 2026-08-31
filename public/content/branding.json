@@ -1,22 +1,29 @@
 {
   "hostName": "Microsoft",
-  "hostLogo": "https://uhf.microsoft.com/images/microsoft/RE1Mu3b.png",
-  "customerName": "HKJC",
-  "customerLogo": "https://consvc.hkjc.com/-/media/Sites/JCEW/Homepage/icon/logo/hkjc-logo-tc-black.svg?rev=51af8053f5364823b724afe738492553&sc_lang=en-US",
+  "hostLogo": "",
+  "customerName": "New World Group",
+  "customerLogo": "",
   "preparedBy": "Microsoft Global Solution Advisory Agent - Asia Team",
-  "preparedDate": "July 16, 2026",
-  "workshopStart": "2026-08-24",
-  "workshopEnd": "2026-08-28",
+  "preparedDate": "Sep 3, 2026",
+  "workshopStart": "2026-08-31",
+  "workshopEnd": "2026-09-05",
   "contacts": [
     {
-      "name": "Nalin Shukla",
-      "email": "nshukla@microsoft.com"
+      "name": "Chris Lam",
+      "email": "chris.lam@microsoft.com"
     },
     {
       "name": "Michael Jiang",
       "email": "zhijian@microsoft.com"
     }
   ],
-  "attendees": [],
-  "labUsers": []
+  "attendees": [
+    "chris.lam@microsoft.com"
+  ],
+  "labUsers": [
+    {
+      "userName": "student01@D365DemoTSCE02668770.onmicrosoft.com",
+      "accessCode": "Y$+AqUfq"
+    }
+  ]
 }
