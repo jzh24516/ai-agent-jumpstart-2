@@ -2015,7 +2015,8 @@
                 "ja": "明示的な確認、監査、ロールバック要件が整うまでは書き込みを対象外にします。",
                 "ko": "명시적 확인, 감사 및 롤백 요구 사항이 마련될 때까지 쓰기 작업을 범위에서 제외하세요.",
                 "th": "",
-                "hi": ""
+                "hi": "",
+                "vi": "Không đưa các thao tác ghi dữ liệu vào phạm vi cho đến khi có yêu cầu rõ ràng về xác nhận, kiểm toán và khả năng khôi phục."
               },
               "prompts": [
                 {
@@ -3072,7 +3073,8 @@
                 "ja": "認証なしはラボ・デモ用のみです。本番の音声 Agent は適切な認証と DLP を使用してください。",
                 "ko": "인증 없음은 랩 및 데모 전용입니다. 프로덕션 음성 Agent는 적절한 인증과 DLP 정책을 사용해야 합니다.",
                 "th": "",
-                "hi": ""
+                "hi": "",
+                "vi": "No authentication chỉ dành cho bài thực hành và bản demo. Voice Agent trong môi trường production phải sử dụng cơ chế xác thực và chính sách DLP phù hợp."
               },
               "prompts": [],
               "imageKeys": [

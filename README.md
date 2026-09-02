@@ -27,7 +27,7 @@ npm run build
 
 ## Content structure
 
-Each lab is maintained independently under `src/content/labs/lab-XX/content.ts`. Every user-facing field contains `en`, `zh`, `ja`, and `ko` variants. Shared labels are in `src/content/ui.ts`.
+Each lab is maintained independently under `src/content/labs/lab-XX/content.ts`. The workshop supports English, Simplified Chinese, Hong Kong Cantonese, Traditional Chinese (Taiwan), Japanese, Korean, Thai, Hindi, and Vietnamese. Shared UI labels are in `src/content/ui.ts`; Vietnamese lab translations are in `src/content/labs/vi/` and apply to both published and bundled content. Regional Chinese text is derived from the Simplified Chinese source.
 
 A step can use the original `body`, `highlight`, `prompt`, and `imageKey` fields for a single-page instruction. For longer instructions, use `pages` instead; no legacy single-page fields are required. Each page accepts a localized title, any number of localized paragraphs, an optional highlight or prompt, and any number of embedded screenshot keys:
 
@@ -48,10 +48,10 @@ pages: [
 Screenshot paths are deterministic:
 
 ```text
-public/labs/lab-XX/images/{en|zh|ja|ko}/{imageKey}.png
+public/labs/lab-XX/images/{locale}/{imageKey}.png
 ```
 
-The exact image keys are listed in each lab's `public/labs/lab-XX/images/README.md`. Missing screenshots render as localized placeholders, so content authors can add images incrementally without changing React code. Use a 16:10 image ratio where possible.
+The exact image keys are listed in each lab's `public/labs/lab-XX/images/README.md`. Missing localized screenshots fall back to English before rendering a localized placeholder, so content authors can add images incrementally without changing React code. Use a 16:10 image ratio where possible.
 
 Learner progress and language preference are stored in browser local storage. No learner data is sent to a server.
 

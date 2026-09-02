@@ -1,4 +1,5 @@
 import { labs as defaultLabs } from './labs'
+import { vietnameseLabText } from './labs/vi'
 import type { Lab, LabPrompt, LabStep, LabStepPage, LocalizedText } from './types'
 
 const CONTENT_URL = `${import.meta.env.BASE_URL}content/labs.json`
@@ -14,7 +15,7 @@ const uid = (prefix: string) => {
 export const emptyText = (): LocalizedText => ({ en: '', zh: '', ja: '', ko: '', th: '', hi: '', vi: '' })
 
 const cloneText = (value?: LocalizedText): LocalizedText =>
-  value ? { en: value.en ?? '', zh: value.zh ?? '', ja: value.ja ?? '', ko: value.ko ?? '', th: value.th ?? '', hi: value.hi ?? '', vi: value.vi ?? '' } : emptyText()
+  value ? { en: value.en ?? '', zh: value.zh ?? '', ja: value.ja ?? '', ko: value.ko ?? '', th: value.th ?? '', hi: value.hi ?? '', vi: value.vi ?? vietnameseLabText[value.en] ?? '' } : emptyText()
 
 // Every step is normalized so the editor and reader only work with `pages`.
 const normalizePrompt = (prompt: LabPrompt): LabPrompt => ({
