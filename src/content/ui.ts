@@ -398,8 +398,11 @@ const regionalChineseConverters: Partial<Record<Locale, (value: string) => strin
 const regionalChineseCache = new Map<string, string>()
 let regionalChineseLoader: Promise<void> | undefined
 
+// Only these locales derive their text from the Simplified Chinese source.
+const isRegionalChinese = (locale: Locale): boolean => locale === 'zh-HK' || locale === 'zh-TW'
+
 export const prepareLocale = (locale: Locale): Promise<void> => {
-  if (locale !== 'zh-HK' && locale !== 'zh-TW') return Promise.resolve()
+  if (!isRegionalChinese(locale)) return Promise.resolve()
   if (regionalChineseConverters[locale]) return Promise.resolve()
 
   regionalChineseLoader ??= import('opencc-js/cn2t').then(({ default: OpenCC }) => {
@@ -410,9 +413,11 @@ export const prepareLocale = (locale: Locale): Promise<void> => {
 }
 
 const regionalChineseText = (value: LocalizedText, locale: Locale): string => {
+  if (!isRegionalChinese(locale)) return ''
   const source = value.zh?.trim()
   const converter = regionalChineseConverters[locale]
   if (!source) return ''
+  // Regional Chinese shows the Simplified source until the converter finishes loading.
   if (!converter) return source
 
   const cacheKey = `${locale}\u0000${source}`
