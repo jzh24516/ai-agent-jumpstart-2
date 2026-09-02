@@ -363,19 +363,20 @@ const cover: Record<string, LocalizedText> = {
     ko: 'Microsoft Copilot Studio의 사용자 지정 Agent 혁신의 모든 영역을 탐구하는 실습 학습 경로입니다.',
     th: 'เส้นทางการเรียนรู้แบบลงมือทำ ที่สำรวจนวัตกรรม custom agent ใน Microsoft Copilot Studio อย่างครบถ้วน',
     hi: 'Microsoft Copilot Studio में कस्टम एजेंट नवाचार की पूरी व्यापकता का अन्वेषण करने वाला एक हैंड्स-ऑन लर्निंग पाथ।',
+    vi: 'Lộ trình học thực hành, khám phá toàn diện cách đổi mới với agent tùy chỉnh trong Microsoft Copilot Studio.',
   },
-  preparedBy: { en: 'Prepared by', zh: '准备者', ja: '作成者', ko: '작성자', th: 'จัดทำโดย', hi: 'द्वारा तैयार' },
-  preparedIn: { en: 'Prepared in', zh: '编写时间', ja: '作成日', ko: '작성일', th: 'จัดทำเมื่อ', hi: 'तैयार किया गया' },
-  date: { en: 'July 16, 2026', zh: '2026年7月16日', ja: '2026年7月16日', ko: '2026년 7월 16일', th: '16 กรกฎาคม 2026', hi: '16 जुलाई 2026' },
-  contact: { en: 'Need help? Contact', zh: '需要帮助？请联系', ja: 'お困りですか？ お問い合わせ', ko: '도움이 필요하신가요? 문의', th: 'ต้องการความช่วยเหลือ? ติดต่อ', hi: 'मदद चाहिए? संपर्क करें' },
-  cta: { en: 'Enter workshop', zh: '进入研讨会', ja: 'ワークショップを開く', ko: '워크숍 시작', th: 'เข้าสู่เวิร์กช็อป', hi: 'वर्कशॉप में प्रवेश करें' },
-  deck: { en: 'Explore the workshop highlights', zh: '查看研讨会亮点', ja: 'ワークショップのハイライトを見る', ko: '워크숍 하이라이트 살펴보기', th: 'สำรวจไฮไลต์ของเวิร์กช็อป', hi: 'वर्कशॉप की मुख्य बातें देखें' },
+  preparedBy: { en: 'Prepared by', zh: '准备者', ja: '作成者', ko: '작성자', th: 'จัดทำโดย', hi: 'द्वारा तैयार', vi: 'Chuẩn bị bởi' },
+  preparedIn: { en: 'Prepared in', zh: '编写时间', ja: '作成日', ko: '작성일', th: 'จัดทำเมื่อ', hi: 'तैयार किया गया', vi: 'Chuẩn bị ngày' },
+  date: { en: 'July 16, 2026', zh: '2026年7月16日', ja: '2026年7月16日', ko: '2026년 7월 16일', th: '16 กรกฎาคม 2026', hi: '16 जुलाई 2026', vi: '16 tháng 7 năm 2026' },
+  contact: { en: 'Need help? Contact', zh: '需要帮助？请联系', ja: 'お困りですか？ お問い合わせ', ko: '도움이 필요하신가요? 문의', th: 'ต้องการความช่วยเหลือ? ติดต่อ', hi: 'मदद चाहिए? संपर्क करें', vi: 'Cần trợ giúp? Liên hệ' },
+  cta: { en: 'Enter workshop', zh: '进入研讨会', ja: 'ワークショップを開く', ko: '워크숍 시작', th: 'เข้าสู่เวิร์กช็อป', hi: 'वर्कशॉप में प्रवेश करें', vi: 'Vào hội thảo' },
+  deck: { en: 'Explore the workshop highlights', zh: '查看研讨会亮点', ja: 'ワークショップのハイライトを見る', ko: '워크숍 하이라이트 살펴보기', th: 'สำรวจไฮไลต์ของเวิร์กช็อป', hi: 'वर्कशॉप की मुख्य बातें देखें', vi: 'Khám phá các điểm nổi bật của hội thảo' },
 }
 const dedicatedText = (locale: Locale, name: string): string => {
   const n = name.trim()
   const localized: LocalizedText = n
-    ? { en: 'A dedicated AI Agent workshop for {name}.', zh: '专为 {name} 定制的 AI Agent 研讨会。', ja: '{name} 向けの専用 AI Agent ワークショップ。', ko: '{name}를 위한 전용 AI Agent 워크숍.', th: 'เวิร์กช็อป AI Agent เฉพาะสำหรับ {name}', hi: '{name} के लिए एक समर्पित AI Agent वर्कशॉप।' }
-    : { en: 'A dedicated AI Agent workshop.', zh: '定制的 AI Agent 研讨会。', ja: '専用の AI Agent ワークショップ。', ko: '전용 AI Agent 워크숍.', th: 'เวิร์กช็อป AI Agent เฉพาะทาง', hi: 'एक समर्पित AI Agent वर्कशॉप।' }
+    ? { en: 'A dedicated AI Agent workshop for {name}.', zh: '专为 {name} 定制的 AI Agent 研讨会。', ja: '{name} 向けの専用 AI Agent ワークショップ。', ko: '{name}를 위한 전용 AI Agent 워크숍.', th: 'เวิร์กช็อป AI Agent เฉพาะสำหรับ {name}', hi: '{name} के लिए एक समर्पित AI Agent वर्कशॉप।', vi: 'Hội thảo AI Agent được thiết kế riêng cho {name}.' }
+    : { en: 'A dedicated AI Agent workshop.', zh: '定制的 AI Agent 研讨会。', ja: '専用の AI Agent ワークショップ。', ko: '전용 AI Agent 워크숍.', th: 'เวิร์กช็อป AI Agent เฉพาะทาง', hi: 'एक समर्पित AI Agent वर्कशॉप।', vi: 'Hội thảo AI Agent được thiết kế riêng.' }
   return text(localized, locale).replace('{name}', () => n)
 }
 

@@ -11,10 +11,10 @@ const uid = (prefix: string) => {
   return `${prefix}-${random}`
 }
 
-export const emptyText = (): LocalizedText => ({ en: '', zh: '', ja: '', ko: '', th: '', hi: '' })
+export const emptyText = (): LocalizedText => ({ en: '', zh: '', ja: '', ko: '', th: '', hi: '', vi: '' })
 
 const cloneText = (value?: LocalizedText): LocalizedText =>
-  value ? { en: value.en ?? '', zh: value.zh ?? '', ja: value.ja ?? '', ko: value.ko ?? '', th: value.th ?? '', hi: value.hi ?? '' } : emptyText()
+  value ? { en: value.en ?? '', zh: value.zh ?? '', ja: value.ja ?? '', ko: value.ko ?? '', th: value.th ?? '', hi: value.hi ?? '', vi: value.vi ?? '' } : emptyText()
 
 // Every step is normalized so the editor and reader only work with `pages`.
 const normalizePrompt = (prompt: LabPrompt): LabPrompt => ({

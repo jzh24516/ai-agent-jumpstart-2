@@ -1,4 +1,4 @@
-export type Locale = 'en' | 'zh' | 'zh-HK' | 'zh-TW' | 'ja' | 'ko' | 'th' | 'hi'
+export type Locale = 'en' | 'zh' | 'zh-HK' | 'zh-TW' | 'ja' | 'ko' | 'th' | 'hi' | 'vi'
 
 // English is required; every other locale is optional and falls back to English.
 export type LocalizedText = { en: string } & Partial<Record<Exclude<Locale, 'en'>, string>>

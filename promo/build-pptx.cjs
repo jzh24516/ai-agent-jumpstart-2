@@ -31,7 +31,7 @@ const strip = (s) => (s == null ? '' : String(s)
 // English strings (authoritative for en, fallback for any missing translation).
 const EN = {
   'c.lede': 'A hands-on, self-guided, multilingual lab experience for building the full breadth of custom agents in Microsoft Copilot Studio.',
-  'c.p1': '6 guided labs', 'c.p2': '29 steps', 'c.p3': '8 languages', 'c.p4': '1 shareable link',
+  'c.p1': '6 guided labs', 'c.p2': '29 steps', 'c.p3': '9 languages', 'c.p4': '1 shareable link',
   's2.k': '\uD83C\uDFAC The one-liner',
   's2.h': 'A workshop that runs itself \u2014 learners just press play  \u25B6\uFE0F',
   's2.big': 'JumpStart v2 turns a slide-and-demo session into a living, do-it-yourself lab app. Attendees open one link, pick their language, and build real agents step by step \u2014 while you facilitate instead of babysit.',
@@ -48,7 +48,7 @@ const EN = {
   's3.t5': 'Multi-agent email Workflow', 's3.d5': 'Classify inbound email, route to the right agent, personalized reply.',
   's3.t6': 'Real-time voice agent', 's3.d6': 'Classic agent + real-time voice, multilingual, tested live in the Test window.',
   's4.k': 'Unique feature 01', 's4.h': 'Multilingual by design',
-  's4.big': 'One click switches the entire experience \u2014 cover, labs, instructions, and UI \u2014 between English, \u7B80\u4F53\u4E2D\u6587, \u5EE3\u6771\u8A71 (\u9999\u6E2F), \u7E41\u9AD4\u4E2D\u6587 (\u53F0\u7063), \u65E5\u672C\u8A9E, \uD55C\uAD6D\uC5B4, \u0E44\u0E17\u0E22, and \u0939\u093F\u0928\u094D\u0926\u0940.',
+  's4.big': 'One click switches the entire experience \u2014 cover, labs, instructions, and UI \u2014 between English, \u7B80\u4F53\u4E2D\u6587, \u5EE3\u6771\u8A71 (\u9999\u6E2F), \u7E41\u9AD4\u4E2D\u6587 (\u53F0\u7063), \u65E5\u672C\u8A9E, \uD55C\uAD6D\uC5B4, \u0E44\u0E17\u0E22, \u0939\u093F\u0928\u094D\u0926\u0940, and Ti\u1EBFng Vi\u1EC7t.',
   's4.t1': 'Product names, prompts & tool names stay in English on purpose',
   's4.t2': 'Copy-ready prompts never get "lost in translation"',
   's4.t3': 'Screenshots fall back to English automatically',
@@ -73,7 +73,7 @@ const EN = {
   's10.t1': 'Fast Start', 's10.d1': 'Open one link and go \u2014 zero install, zero setup.',
   's10.t2': 'Self-Serve & Self-Paced', 's10.d2': 'Attendees drive their own journey while you facilitate.',
   's10.t3': 'Copy & Build', 's10.d3': 'Copy-ready prompts turn each step into a real, working agent.',
-  's10.t4': 'Multilingual Ready', 's10.d4': 'Eight languages, one shareable link.',
+  's10.t4': 'Multilingual Ready', 's10.d4': 'Nine languages, one shareable link.',
   's10.t5': 'From Lab to Impact', 's10.d5': 'Ship agents that deliver real business value \u2014 fast.',
   's9.badge': 'Ready when you are', 's9.h': 'Bring AI Agent Workshop to your next customer workshop',
   's9.lede': 'Internal enablement or external customer event \u2014 co-brand it, share the link, and let attendees build real agents hands-on.',
@@ -95,6 +95,7 @@ const FONTS = {
   ko: { h: 'Malgun Gothic', b: 'Malgun Gothic' },
   th: { h: 'Leelawadee UI', b: 'Leelawadee UI' },
   hi: { h: 'Nirmala UI', b: 'Nirmala UI' },
+  vi: { h: 'Segoe UI Semibold', b: 'Segoe UI' },
 }
 
 const JUMP = {
@@ -102,6 +103,7 @@ const JUMP = {
   'zh-HK': imgExists('jumpstart-chinese-hk.png') ? 'jumpstart-chinese-hk.png' : 'jumpstart-chinese.png',
   'zh-TW': imgExists('jumpstart-chinese-tw.png') ? 'jumpstart-chinese-tw.png' : 'jumpstart-chinese.png',
   ko: 'jumpstart-korean.png', th: 'jumpstart-thai.png', hi: 'jumpstart-hindi.png',
+  vi: imgExists('jumpstart-vietnamese.png') ? 'jumpstart-vietnamese.png' : 'jumpstart-english.png',
 }
 
 const WIDE = { zh: 1, 'zh-HK': 1, 'zh-TW': 1, ja: 1, ko: 1 } // rough per-char width class for pill sizing
@@ -115,6 +117,7 @@ const BLUEPRINT = {
   ko: 'agent-platform-blueprint-ko.png',
   th: 'agent-platform-blueprint-th.png',
   hi: 'agent-platform-blueprint-hi.png',
+  vi: imgExists('agent-platform-blueprint-vi.png') ? 'agent-platform-blueprint-vi.png' : 'agent-platform-blueprint-en.png',
 }
 
 function build (lang) {
@@ -195,7 +198,7 @@ function build (lang) {
     s.addShape(p.shapes.OVAL, { x: 0.74, y: y + 0.09, w: 0.2, h: 0.2, fill: { color: C.pur }, line: { type: 'none' } })
     s.addText(txt, { x: 1.14, y, w: 6.3, h: 0.55, fontFace: FB, fontSize: 16, color: 'D7D5E6', align: 'left', valign: 'top', margin: 0 })
   })
-  ;[['6', t('s2.l1'), '\uD83E\uDDEA'], ['29', t('s2.l2'), '\uD83D\uDC63'], ['8', t('s2.l3'), '\uD83C\uDF0D'], ['\u221E', t('s2.l4'), '\uD83D\uDD01']].forEach((st, i) => {
+  ;[['6', t('s2.l1'), '\uD83E\uDDEA'], ['29', t('s2.l2'), '\uD83D\uDC63'], ['9', t('s2.l3'), '\uD83C\uDF0D'], ['\u221E', t('s2.l4'), '\uD83D\uDD01']].forEach((st, i) => {
     const x = 8.0 + (i % 2) * 2.72; const y = 2.15 + Math.floor(i / 2) * 2.55
     card(s, x, y, 2.5, 2.3)
     s.addText(st[2], { x, y: y + 0.2, w: 2.5, h: 0.5, fontSize: 22, align: 'center', margin: 0 })
