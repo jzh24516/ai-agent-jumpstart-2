@@ -65,7 +65,15 @@ Content authors can edit every lab directly in the browser — no code changes r
 4. **Save** writes your changes to `public/content/labs.json` and the reader updates immediately.
 5. **Publish to GitHub** saves, then `git add`/`commit`/`push`es `public/content/labs.json` to the current branch's remote. The command output (including any git errors) is shown in the editor.
 
-Maker mode and the branding settings are **dev-only** — they are not rendered or reachable in the built (GitHub Pages) site. The password is **never** stored in the codebase or the client bundle. It lives only in a git-ignored `.env` file as a salted scrypt hash, and the dev server verifies it server-side, issuing a short-lived signed `HttpOnly` session cookie. Every write endpoint (`/api/content`, `/api/branding`, `/api/publish`) requires that session.
+Maker mode and the branding settings are **dev-only** — they are not rendered or reachable in the built (GitHub Pages) site. The password is **never** stored in the codebase or the client bundle. It lives only in a git-ignored `.env` file as a salted scrypt hash, and the dev server verifies it server-side, issuing a short-lived signed `HttpOnly` session cookie. Every private endpoint (`/api/content`, `/api/branding`, `/api/workshops`, `/api/publish`) requires that session.
+
+### Workshop history persistence
+
+**Save to history** stores engagement configurations outside the project in the current user's local application-data directory through the authenticated local API. Browser `localStorage` is retained only as a fast cache and one-time migration source, so switching between `localhost` and `127.0.0.1`, clearing site data, or using another browser profile no longer removes the primary history. If the private file is missing, the development server rebuilds the latest named customer configurations from committed versions of `public/content/branding.json`. The private history may include attendee and lab credential data; it is never committed, copied to `dist`, or published to GitHub Pages.
+
+Use the clone action beside a saved configuration to create an independently named history record containing the same branding, dates, contacts, attendees, and lab credentials. The clone is loaded into the form for editing; select **Apply** separately when it should become the active published branding.
+
+**Apply** is separate from **Save to history**: it writes the active configuration to `public/content/branding.json` for the static workshop runtime. Everything in that active file is published with GitHub Pages, including attendee or lab-user fields. Use only temporary training credentials there, never production secrets, and rotate them after the engagement.
 
 ### Configure the maker password (local, one time)
 

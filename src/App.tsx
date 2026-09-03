@@ -5,7 +5,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import {
   ArrowRight, BookOpenCheck, CalendarDays, Check, ChevronDown, ChevronLeft, ChevronRight, ChevronUp,
-  Clipboard, Database, FileSpreadsheet, Languages, Lock, Mail, MailCheck, Menu, Mic2,
+  Clipboard, Copy, Database, FileSpreadsheet, Languages, Lock, Mail, MailCheck, Menu, Mic2,
   ExternalLink, KeyRound, Maximize2, Moon, Network, PanelLeft, PanelLeftClose, PencilLine, Printer, Save, Search, Settings, Sparkles, Star, Sun, ThumbsUp, Trash2, Users, X,
 } from 'lucide-react'
 import { authenticateMaker, defaultContent, isLabPublic, isStepVisible, loadLabs } from './content/store'
@@ -386,14 +386,121 @@ function BrandLogo({ name, logo }: { name: string; logo: string }) {
 }
 
 type Workshop = { id: string; name: string; hostName: string; hostLogo: string; customerName: string; customerLogo: string; preparedBy?: string; preparedDate?: string; workshopStart?: string; workshopEnd?: string; contacts?: BrandingContact[]; attendees?: string[]; labUsers?: LabUser[]; savedAt: number }
+type WorkshopMutation = { action: 'upsert'; workshop: Workshop } | { action: 'clone'; workshop: Workshop } | { action: 'delete'; id: string } | { action: 'import'; workshops: Workshop[] }
+type PendingWorkshopMutation = { mutation: WorkshopMutation; rollback: Workshop[] }
+type PendingWorkshopClone = { workshop: Workshop; sourceName: string }
+type WorkshopIdentity = Pick<Workshop, 'id' | 'name'>
+const WORKSHOP_HISTORY_KEY = 'jumpstart-workshops'
+const WORKSHOP_HISTORY_MIGRATION_KEY = 'jumpstart-workshops-migrated-v1'
+const normalizeWorkshopName = (value: string) => value.normalize('NFKC').trim().replace(/\s+/gu, ' ')
+const canonicalWorkshopName = (value: string) => normalizeWorkshopName(value).toLowerCase()
+
+const brandingFromWorkshop = (workshop: Workshop): Branding => ({
+  hostName: workshop.hostName,
+  hostLogo: workshop.hostLogo,
+  customerName: workshop.customerName,
+  customerLogo: workshop.customerLogo,
+  preparedBy: workshop.preparedBy ?? defaultBranding.preparedBy,
+  preparedDate: workshop.preparedDate ?? defaultBranding.preparedDate,
+  workshopStart: workshop.workshopStart ?? '',
+  workshopEnd: workshop.workshopEnd ?? '',
+  contacts: structuredClone(workshop.contacts ?? defaultContacts),
+  attendees: structuredClone(workshop.attendees ?? []),
+  labUsers: structuredClone(workshop.labUsers ?? []),
+})
+
+const hasStringProperties = (value: unknown, keys: string[]): value is Record<string, string> => {
+  if (!value || typeof value !== 'object') return false
+  const item = value as Record<string, unknown>
+  return keys.every((key) => typeof item[key] === 'string')
+}
+
+const isWorkshop = (value: unknown): value is Workshop => {
+  if (!value || typeof value !== 'object') return false
+  const item = value as Record<string, unknown>
+  return typeof item.id === 'string'
+    && item.id.trim().length > 0
+    && typeof item.name === 'string'
+    && item.name.trim().length > 0
+    && item.name.length <= 120
+    && typeof item.hostName === 'string'
+    && typeof item.hostLogo === 'string'
+    && typeof item.customerName === 'string'
+    && typeof item.customerLogo === 'string'
+    && typeof item.savedAt === 'number'
+    && Number.isFinite(item.savedAt)
+    && (item.preparedBy === undefined || typeof item.preparedBy === 'string')
+    && (item.preparedDate === undefined || typeof item.preparedDate === 'string')
+    && (item.workshopStart === undefined || typeof item.workshopStart === 'string')
+    && (item.workshopEnd === undefined || typeof item.workshopEnd === 'string')
+    && (item.contacts === undefined || (Array.isArray(item.contacts) && item.contacts.every((contact) => hasStringProperties(contact, ['name', 'email']))))
+    && (item.attendees === undefined || (Array.isArray(item.attendees) && item.attendees.every((email) => typeof email === 'string')))
+    && (item.labUsers === undefined || (Array.isArray(item.labUsers) && item.labUsers.every((labUser) => hasStringProperties(labUser, ['userName', 'accessCode']))))
+}
+
+const parseWorkshops = (value: unknown): Workshop[] => {
+  if (!Array.isArray(value) || !value.every(isWorkshop)) throw new Error('Invalid workshop history response.')
+  return value
+}
+
 const loadWorkshops = (): Workshop[] => {
-  try { const v = JSON.parse(localStorage.getItem('jumpstart-workshops') || '[]'); return Array.isArray(v) ? v : [] }
+  try {
+    const value = JSON.parse(localStorage.getItem(WORKSHOP_HISTORY_KEY) || '[]') as unknown
+    return Array.isArray(value) ? value.filter(isWorkshop) : []
+  }
   catch { return [] }
 }
+
+const cacheWorkshops = (history: Workshop[]) => {
+  try { localStorage.setItem(WORKSHOP_HISTORY_KEY, JSON.stringify(history)) }
+  catch { /* Disk persistence remains authoritative when browser storage is unavailable. */ }
+}
+
+const historyMigrationComplete = () => {
+  try { return localStorage.getItem(WORKSHOP_HISTORY_MIGRATION_KEY) === '1' }
+  catch { return true }
+}
+
+const markHistoryMigrationComplete = () => {
+  try { localStorage.setItem(WORKSHOP_HISTORY_MIGRATION_KEY, '1') }
+  catch { /* Migration is idempotent by workshop name on the server. */ }
+}
+
+const workshopRequestError = async (response: Response): Promise<Error> => {
+  const error = new Error(await response.text() || `Workshop history request failed (${response.status})`)
+  if (response.status === 401 || response.status === 503) error.name = 'AuthRequired'
+  if (response.status === 409) error.name = 'Conflict'
+  return error
+}
+
+const loadPersistedWorkshops = async (): Promise<Workshop[]> => {
+  const response = await fetch('/api/workshops', { cache: 'no-store' })
+  if (!response.ok) throw await workshopRequestError(response)
+  return parseWorkshops(await response.json())
+}
+
+const mutatePersistedWorkshops = async (mutation: WorkshopMutation): Promise<Workshop[]> => {
+  const response = await fetch('/api/workshops', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(mutation),
+  })
+  if (!response.ok) throw await workshopRequestError(response)
+  return parseWorkshops(await response.json())
+}
+
 const newWorkshopId = () => (typeof crypto !== 'undefined' && 'randomUUID' in crypto ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(36).slice(2, 8))
 
-function BrandingSettings({ value, locale, onApply, onClose }: { value: Branding; locale: Locale; onApply: (b: Branding) => Promise<void>; onClose: () => void }) {
+function BrandingSettings({ value, locale, initialWorkshopIdentity, onApply, onAppliedIdentity, onClose }: {
+  value: Branding
+  locale: Locale
+  initialWorkshopIdentity: WorkshopIdentity | null
+  onApply: (b: Branding) => Promise<void>
+  onAppliedIdentity: (identity: WorkshopIdentity | null) => void
+  onClose: () => void
+}) {
   const [draft, setDraft] = useState<Branding>(value)
+  const [activeWorkshopIdentity, setActiveWorkshopIdentity] = useState<WorkshopIdentity | null>(initialWorkshopIdentity)
   const [history, setHistory] = useState<Workshop[]>(() => loadWorkshops())
   const [query, setQuery] = useState('')
   const [flash, setFlash] = useState('')
@@ -404,8 +511,165 @@ function BrandingSettings({ value, locale, onApply, onClose }: { value: Branding
   const [reauth, setReauth] = useState(false)
   const [reauthPassword, setReauthPassword] = useState('')
   const [reauthError, setReauthError] = useState(false)
+  const [reauthSubmitting, setReauthSubmitting] = useState(false)
   const [pendingSave, setPendingSave] = useState<Branding | null>(null)
+  const [pendingHistoryMutation, setPendingHistoryMutation] = useState<PendingWorkshopMutation | null>(null)
+  const [pendingWorkshopClone, setPendingWorkshopClone] = useState<PendingWorkshopClone | null>(null)
+  const [reloadHistoryAfterAuth, setReloadHistoryAfterAuth] = useState(false)
+  const [historyReady, setHistoryReady] = useState(false)
+  const [historySaving, setHistorySaving] = useState(false)
+  const [cloneSource, setCloneSource] = useState<Workshop | null>(null)
+  const [cloneName, setCloneName] = useState('')
+  const [cloneError, setCloneError] = useState('')
+  const historySyncId = useRef(0)
+  const reauthAttemptId = useRef(0)
+  const reauthInFlight = useRef(false)
+  const cloneDialogRef = useRef<HTMLDivElement>(null)
+  const cloneNameInputRef = useRef<HTMLInputElement>(null)
+  const cloneTriggerRef = useRef<HTMLButtonElement>(null)
+  const activeRef = useRef(true)
   const windowValid = isWorkshopWindowValid(draft)
+
+  const dismissCloneDialog = useCallback(() => {
+    const trigger = cloneTriggerRef.current
+    setCloneSource(null)
+    setCloneName('')
+    setCloneError('')
+    window.requestAnimationFrame(() => trigger?.focus())
+  }, [])
+
+  useEffect(() => {
+    if (!cloneSource || reauth) return
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.isComposing || event.keyCode === 229) return
+      if (event.key === 'Escape' && !historySaving) {
+        event.preventDefault()
+        dismissCloneDialog()
+        return
+      }
+      if (event.key !== 'Tab') return
+      const focusable = [...(cloneDialogRef.current?.querySelectorAll<HTMLElement>('button:not(:disabled), input:not(:disabled)') ?? [])]
+      if (!focusable.length) return
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus() }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus() }
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [cloneSource, dismissCloneDialog, historySaving, reauth])
+
+  useEffect(() => {
+    activeRef.current = true
+    return () => {
+      activeRef.current = false
+      historySyncId.current += 1
+      reauthAttemptId.current += 1
+      reauthInFlight.current = false
+    }
+  }, [])
+
+  const runHistoryMutation = async (mutation: WorkshopMutation, rollback: Workshop[]) => {
+    setHistorySaving(true)
+    try {
+      const persisted = await mutatePersistedWorkshops(mutation)
+      if (!activeRef.current) return
+      setHistory(persisted)
+      cacheWorkshops(persisted)
+      setPendingHistoryMutation(null)
+    } catch (error) {
+      if (!activeRef.current) return
+      if ((error as Error).name === 'AuthRequired') {
+        setPendingHistoryMutation({ mutation, rollback })
+        setReauthPassword('')
+        setReauthError(false)
+        setReauth(true)
+      } else {
+        setHistory(rollback)
+        cacheWorkshops(rollback)
+        setFlash(text(ui.workshopHistorySaveFailed, locale))
+      }
+    } finally {
+      if (activeRef.current) setHistorySaving(false)
+    }
+  }
+
+  const persistWorkshopClone = async (workshop: Workshop, sourceName: string) => {
+    setHistorySaving(true)
+    try {
+      const persisted = await mutatePersistedWorkshops({ action: 'clone', workshop })
+      if (!activeRef.current) return
+      setHistory(persisted)
+      cacheWorkshops(persisted)
+      setPendingWorkshopClone(null)
+      setDraft(brandingFromWorkshop(workshop))
+      setActiveWorkshopIdentity({ id: workshop.id, name: workshop.name })
+      setFlash(text(ui.clonedWorkshop, locale).replace('{name}', () => workshop.name).replace('{source}', () => sourceName))
+      window.setTimeout(() => setFlash(''), 2600)
+      dismissCloneDialog()
+    } catch (error) {
+      if (!activeRef.current) return
+      if ((error as Error).name === 'AuthRequired') {
+        setPendingWorkshopClone({ workshop, sourceName })
+        setReauthPassword('')
+        setReauthError(false)
+        setReauth(true)
+      } else if ((error as Error).name === 'Conflict') {
+        setCloneError(text(ui.cloneWorkshopNameExists, locale).replace('{name}', () => workshop.name))
+        window.requestAnimationFrame(() => cloneNameInputRef.current?.focus())
+        try {
+          const persisted = await loadPersistedWorkshops()
+          if (activeRef.current) {
+            setHistory(persisted)
+            cacheWorkshops(persisted)
+          }
+        } catch { /* Keep the conflict visible even if refreshing history fails. */ }
+      } else {
+        setCloneError(text(ui.workshopHistorySaveFailed, locale))
+        window.requestAnimationFrame(() => cloneNameInputRef.current?.focus())
+      }
+    } finally {
+      if (activeRef.current) setHistorySaving(false)
+    }
+  }
+
+  const syncHistoryFromServer = useCallback(async () => {
+    const syncId = ++historySyncId.current
+    setHistoryReady(false)
+    try {
+      let persisted = await loadPersistedWorkshops()
+      if (!activeRef.current || syncId !== historySyncId.current) return
+      const cached = loadWorkshops()
+      if (!historyMigrationComplete() && cached.length) {
+        for (const workshop of cached) {
+          persisted = await mutatePersistedWorkshops({ action: 'import', workshops: [workshop] })
+          if (!activeRef.current || syncId !== historySyncId.current) return
+        }
+      }
+      markHistoryMigrationComplete()
+      setHistory(persisted)
+      cacheWorkshops(persisted)
+      setHistoryReady(true)
+      if (persisted.length && !cached.length) {
+        setFlash(text(ui.workshopHistoryRestored, locale).replace('{n}', String(persisted.length)))
+        window.setTimeout(() => setFlash(''), 2600)
+      }
+      setReloadHistoryAfterAuth(false)
+    } catch (error) {
+      if (!activeRef.current || syncId !== historySyncId.current) return
+      if ((error as Error).name === 'AuthRequired') {
+        setReloadHistoryAfterAuth(true)
+        setReauthPassword('')
+        setReauthError(false)
+        setReauth(true)
+      } else {
+        setFlash(text(ui.workshopHistoryLoadFailed, locale))
+      }
+    }
+  }, [locale])
+
+  useEffect(() => { void syncHistoryFromServer() }, [syncHistoryFromServer])
+
   const showWindowError = () => {
     setFlash(text(ui.workshopWindowInvalid, locale))
     window.setTimeout(() => setFlash(''), 2600)
@@ -452,6 +716,7 @@ function BrandingSettings({ value, locale, onApply, onClose }: { value: Branding
     setFlash(text(ui.applying, locale))
     try {
       await onApply(completed)
+      onAppliedIdentity(activeWorkshopIdentity)
       setPendingSave(null)
       setFlash(text(ui.brandingPublished, locale))
     } catch (error) {
@@ -473,12 +738,28 @@ function BrandingSettings({ value, locale, onApply, onClose }: { value: Branding
     if (completed) void persistBranding(completed)
   }
   const submitReauth = async () => {
+    if (reauthInFlight.current) return
+    reauthInFlight.current = true
+    const attemptId = ++reauthAttemptId.current
+    setReauthSubmitting(true)
     const authenticated = await authenticateMaker(reauthPassword)
+    if (!activeRef.current || attemptId !== reauthAttemptId.current) return
+    reauthInFlight.current = false
+    setReauthSubmitting(false)
     if (!authenticated) { setReauthError(true); return }
     setReauth(false)
     const completed = pendingSave
+    const historyOperation = pendingHistoryMutation
+    const cloneOperation = pendingWorkshopClone
+    const shouldReloadHistory = reloadHistoryAfterAuth
     setPendingSave(null)
+    setPendingHistoryMutation(null)
+    setPendingWorkshopClone(null)
+    setReloadHistoryAfterAuth(false)
     if (completed) await persistBranding(completed)
+    if (historyOperation) await runHistoryMutation(historyOperation.mutation, historyOperation.rollback)
+    if (cloneOperation) await persistWorkshopClone(cloneOperation.workshop, cloneOperation.sourceName)
+    if (shouldReloadHistory) await syncHistoryFromServer()
   }
   const clearAllAttendees = () => {
     setDraft((current) => ({ ...current, attendees: [] }))
@@ -561,26 +842,76 @@ function BrandingSettings({ value, locale, onApply, onClose }: { value: Branding
     reader.onload = () => setDraft((d) => ({ ...d, [key]: String(reader.result) }))
     reader.readAsDataURL(file)
   }
-  const persist = (next: Workshop[]) => { setHistory(next); localStorage.setItem('jumpstart-workshops', JSON.stringify(next)) }
+  const persist = (next: Workshop[], mutation: WorkshopMutation, rollback: Workshop[]) => {
+    setHistory(next)
+    cacheWorkshops(next)
+    void runHistoryMutation(mutation, rollback)
+  }
   const saveToHistory = () => {
+    if (!historyReady || historySaving) return
     if (!windowValid) { showWindowError(); return }
     const normalizedDraft = completeDraft()
     if (!normalizedDraft) return
-    const name = normalizedDraft.customerName.trim() || normalizedDraft.hostName.trim() || 'Untitled workshop'
-    const existing = history.find((w) => w.name.toLowerCase() === name.toLowerCase())
-    const entry: Workshop = { id: existing?.id || newWorkshopId(), name, hostName: normalizedDraft.hostName, hostLogo: normalizedDraft.hostLogo, customerName: normalizedDraft.customerName, customerLogo: normalizedDraft.customerLogo, preparedBy: normalizedDraft.preparedBy, preparedDate: normalizedDraft.preparedDate, workshopStart: normalizedDraft.workshopStart, workshopEnd: normalizedDraft.workshopEnd, contacts: normalizedDraft.contacts, attendees: normalizedDraft.attendees, labUsers: normalizedDraft.labUsers, savedAt: Date.now() }
+    const derivedName = normalizedDraft.customerName.trim() || normalizedDraft.hostName.trim() || 'Untitled workshop'
+    const name = activeWorkshopIdentity?.name ?? derivedName
+    const existing = activeWorkshopIdentity
+      ? history.find((w) => w.id === activeWorkshopIdentity.id)
+      : history.find((w) => canonicalWorkshopName(w.name) === canonicalWorkshopName(name))
+    const entry: Workshop = { id: existing?.id || activeWorkshopIdentity?.id || newWorkshopId(), name, hostName: normalizedDraft.hostName, hostLogo: normalizedDraft.hostLogo, customerName: normalizedDraft.customerName, customerLogo: normalizedDraft.customerLogo, preparedBy: normalizedDraft.preparedBy, preparedDate: normalizedDraft.preparedDate, workshopStart: normalizedDraft.workshopStart, workshopEnd: normalizedDraft.workshopEnd, contacts: normalizedDraft.contacts, attendees: normalizedDraft.attendees, labUsers: normalizedDraft.labUsers, savedAt: Date.now() }
+    const rollback = history
+    const next = existing ? history.map((w) => (w.id === existing.id ? entry : w)) : [entry, ...history]
     setDraft(normalizedDraft)
-    persist(existing ? history.map((w) => (w.id === existing.id ? entry : w)) : [entry, ...history])
+    setActiveWorkshopIdentity({ id: entry.id, name: entry.name })
+    persist(next, { action: 'upsert', workshop: entry }, rollback)
     setFlash(text(existing ? ui.updatedWorkshop : ui.savedWorkshop, locale).replace('{name}', name))
     window.setTimeout(() => setFlash(''), 2200)
   }
-  const loadWorkshop = (w: Workshop) => { setDraft({ hostName: w.hostName, hostLogo: w.hostLogo, customerName: w.customerName, customerLogo: w.customerLogo, preparedBy: w.preparedBy ?? defaultBranding.preparedBy, preparedDate: w.preparedDate ?? defaultBranding.preparedDate, workshopStart: w.workshopStart ?? '', workshopEnd: w.workshopEnd ?? '', contacts: w.contacts && w.contacts.length ? w.contacts : defaultContacts, attendees: Array.isArray(w.attendees) ? w.attendees : [], labUsers: Array.isArray(w.labUsers) ? w.labUsers : [] }); setFlash(text(ui.loadedWorkshop, locale).replace('{name}', w.name)); window.setTimeout(() => setFlash(''), 2600) }
-  const removeWorkshop = (id: string) => persist(history.filter((w) => w.id !== id))
-  const q = query.trim().toLowerCase()
-  const filtered = [...history].sort((a, b) => b.savedAt - a.savedAt).filter((w) => !q || w.name.toLowerCase().includes(q) || w.customerName.toLowerCase().includes(q) || w.hostName.toLowerCase().includes(q))
+  const loadWorkshop = (w: Workshop) => { setDraft(brandingFromWorkshop(w)); setActiveWorkshopIdentity({ id: w.id, name: w.name }); setFlash(text(ui.loadedWorkshop, locale).replace('{name}', w.name)); window.setTimeout(() => setFlash(''), 2600) }
+  const openCloneWorkshop = (workshop: Workshop, trigger: HTMLButtonElement) => {
+    const copySuffix = text(ui.cloneWorkshopSuffix, locale)
+    const candidateName = (index?: number) => {
+      const tail = ` ${copySuffix}${index ? ` ${index}` : ''}`
+      const available = Math.max(1, 120 - tail.length)
+      return `${normalizeWorkshopName(workshop.name).slice(0, available).trimEnd()}${tail}`
+    }
+    let candidate = candidateName()
+    let suffix = 2
+    while (history.some((item) => canonicalWorkshopName(item.name) === canonicalWorkshopName(candidate))) {
+      candidate = candidateName(suffix)
+      suffix += 1
+    }
+    cloneTriggerRef.current = trigger
+    setCloneSource(workshop)
+    setCloneName(candidate)
+    setCloneError('')
+  }
+  const cloneWorkshop = () => {
+    if (!cloneSource || !historyReady || historySaving) return
+    const name = normalizeWorkshopName(cloneName)
+    if (!name) { setCloneError(text(ui.cloneWorkshopNameRequired, locale)); return }
+    if (name.length > 120) { setCloneError(text(ui.cloneWorkshopNameTooLong, locale)); return }
+    if (history.some((item) => canonicalWorkshopName(item.name) === canonicalWorkshopName(name))) {
+      setCloneError(text(ui.cloneWorkshopNameExists, locale).replace('{name}', () => name))
+      return
+    }
+    const cloned: Workshop = {
+      ...structuredClone(cloneSource),
+      id: newWorkshopId(),
+      name,
+      savedAt: Date.now(),
+    }
+    void persistWorkshopClone(cloned, cloneSource.name)
+  }
+  const removeWorkshop = (id: string) => {
+    if (!historyReady || historySaving) return
+    const rollback = history
+    persist(history.filter((w) => w.id !== id), { action: 'delete', id }, rollback)
+  }
+  const q = canonicalWorkshopName(query)
+  const filtered = [...history].sort((a, b) => b.savedAt - a.savedAt).filter((w) => !q || canonicalWorkshopName(w.name).includes(q) || canonicalWorkshopName(w.customerName).includes(q) || canonicalWorkshopName(w.hostName).includes(q))
   return (
     <div className="settings-scrim" role="dialog" aria-label={text(ui.workshopBranding, locale)}>
-      <div className="settings-card">
+      <div className="settings-card" inert={cloneSource || reauth ? true : undefined}>
         <div className="settings-head"><strong>{text(ui.workshopBranding, locale)}</strong><button className="icon-button" type="button" onClick={onClose} aria-label={text(ui.closeDialog, locale)}><X size={18} /></button></div>
         <p className="settings-hint">{text(ui.brandingHint, locale)}</p>
         <div className="settings-body">
@@ -662,8 +993,8 @@ function BrandingSettings({ value, locale, onApply, onClose }: { value: Branding
           </div>
         </div>
         <div className="settings-actions">
-          <button className="ghost" type="button" onClick={() => setDraft(defaultBranding)}>{text(ui.reset, locale)}</button>
-          <button className="ghost" type="button" onClick={saveToHistory}><Save size={15} /> {text(ui.saveToHistory, locale)}</button>
+          <button className="ghost" type="button" onClick={() => { setDraft(defaultBranding); setActiveWorkshopIdentity(null) }}>{text(ui.reset, locale)}</button>
+          <button className="ghost" type="button" disabled={!historyReady || historySaving} onClick={saveToHistory}><Save size={15} /> {text(ui.saveToHistory, locale)}</button>
           <button className="primary" type="button" aria-disabled={!windowValid} disabled={saving} onClick={applyDraft}>{text(saving ? ui.applying : ui.apply, locale)}</button>
         </div>
         {flash && <div className="settings-flash" role="status">{flash}</div>}
@@ -675,17 +1006,34 @@ function BrandingSettings({ value, locale, onApply, onClose }: { value: Branding
             {filtered.length === 0 && <div className="history-empty">{text(history.length === 0 ? ui.noSavedWorkshops : ui.noMatchingWorkshops, locale)}</div>}
             {filtered.map((w) => (
               <div className="history-row" key={w.id}>
-                <button className="history-item" type="button" onClick={() => loadWorkshop(w)} title={text(ui.loadWorkshop, locale)}>
+                <button className="history-item" type="button" disabled={!historyReady || historySaving} onClick={() => loadWorkshop(w)} title={text(ui.loadWorkshop, locale)}>
                   <span className="history-logo">{(w.customerLogo || w.hostLogo) ? <img src={w.customerLogo || w.hostLogo} alt="" /> : <span className="history-initial">{(w.name[0] || '?').toUpperCase()}</span>}</span>
                   <span className="history-info"><strong>{w.name}</strong><small>{w.customerName ? `${w.hostName || 'Microsoft'} × ${w.customerName}` : (w.hostName || 'Microsoft')} · {new Date(w.savedAt).toLocaleDateString()}</small></span>
                 </button>
-                <button className="history-del" type="button" onClick={() => removeWorkshop(w.id)} aria-label={text(ui.deleteWorkshop, locale).replace('{name}', w.name)} title={text(ui.deleteWorkshop, locale).replace('{name}', w.name)}><Trash2 size={15} /></button>
+                <button className="history-clone" type="button" disabled={!historyReady || historySaving} onClick={(event) => openCloneWorkshop(w, event.currentTarget)} aria-label={text(ui.cloneWorkshop, locale).replace('{name}', () => w.name)} title={text(ui.cloneWorkshop, locale).replace('{name}', () => w.name)}><Copy size={15} /></button>
+                <button className="history-del" type="button" disabled={!historyReady || historySaving} onClick={() => removeWorkshop(w.id)} aria-label={text(ui.deleteWorkshop, locale).replace('{name}', w.name)} title={text(ui.deleteWorkshop, locale).replace('{name}', w.name)}><Trash2 size={15} /></button>
               </div>
             ))}
           </div>
         </div>
         </div>
       </div>
+      {cloneSource && <div className="password-scrim" role="dialog" aria-modal="true" aria-labelledby="clone-workshop-title">
+        <div ref={cloneDialogRef} className="password-card clone-workshop-card" inert={reauth ? true : undefined}>
+          <div className="password-icon"><Copy size={22} /></div>
+          <strong id="clone-workshop-title">{text(ui.cloneWorkshopTitle, locale)}</strong>
+          <span className="reauth-hint">{text(ui.cloneWorkshopHint, locale).replace('{name}', () => cloneSource.name)}</span>
+          <label className="clone-workshop-field">
+            <span>{text(ui.cloneWorkshopName, locale)}</span>
+            <input ref={cloneNameInputRef} type="text" autoFocus maxLength={120} value={cloneName} onChange={(event) => { setCloneName(event.target.value); setCloneError('') }} onKeyDown={(event) => { if (!event.nativeEvent.isComposing && event.keyCode !== 229 && event.key === 'Enter') cloneWorkshop() }} />
+          </label>
+          {cloneError && <span className="password-error" role="alert">{cloneError}</span>}
+          <div className="password-actions">
+            <button type="button" className="ghost-button" disabled={historySaving} onClick={dismissCloneDialog}>{text(ui.closeDialog, locale)}</button>
+            <button type="button" className="copy-button" disabled={!cloneName.trim() || historySaving} onClick={cloneWorkshop}><Copy size={15} />{text(ui.cloneWorkshopCreate, locale)}</button>
+          </div>
+        </div>
+      </div>}
       {reauth && <div className="password-scrim" role="dialog" aria-label={text(ui.makerUnlock, locale)}>
         <div className="password-card">
           <div className="password-icon"><Lock size={22} /></div>
@@ -696,8 +1044,22 @@ function BrandingSettings({ value, locale, onApply, onClose }: { value: Branding
             onKeyDown={(event) => { if (event.key === 'Enter') void submitReauth() }} />
           {reauthError && <span className="password-error">{text(ui.makerWrong, locale)}</span>}
           <div className="password-actions">
-            <button type="button" className="ghost-button" onClick={() => { setReauth(false); setPendingSave(null) }}>{text(ui.close, locale)}</button>
-            <button type="button" className="copy-button" onClick={() => void submitReauth()}>{text(ui.unlock, locale)}</button>
+            <button type="button" className="ghost-button" onClick={() => {
+              reauthAttemptId.current += 1
+              reauthInFlight.current = false
+              if (pendingHistoryMutation) {
+                setHistory(pendingHistoryMutation.rollback)
+                cacheWorkshops(pendingHistoryMutation.rollback)
+              }
+              setReauth(false)
+              setPendingSave(null)
+              setPendingHistoryMutation(null)
+              setPendingWorkshopClone(null)
+              setReloadHistoryAfterAuth(false)
+              setReauthSubmitting(false)
+              if (pendingWorkshopClone && cloneSource) window.requestAnimationFrame(() => cloneNameInputRef.current?.focus())
+            }}>{text(ui.close, locale)}</button>
+            <button type="button" className="copy-button" disabled={reauthSubmitting} onClick={() => void submitReauth()}>{text(ui.unlock, locale)}</button>
           </div>
         </div>
       </div>}
@@ -1007,6 +1369,7 @@ function App() {
     try { return { ...defaultBranding, ...JSON.parse(localStorage.getItem('jumpstart-branding') || '{}') } }
     catch { return defaultBranding }
   })
+  const [brandingWorkshopIdentity, setBrandingWorkshopIdentity] = useState<WorkshopIdentity | null>(null)
   // Public consumers (the published workshop) only ever see public labs. In maker
   // mode (dev) every lab stays visible so drafts can be edited before going public.
   const publicLabs = labs.filter(isLabPublic)
@@ -1161,7 +1524,7 @@ function App() {
     <Fireworks trigger={celebrate} intensity={celebrateIntensity} />
     {!accessVerified && <AccessWelcomePage dark={dark} locale={locale} attendees={branding.attendees ?? []} contacts={branding.contacts ?? []} workshopStart={branding.workshopStart} workshopEnd={branding.workshopEnd} entryReady={brandingReady} canConfigure={makerEnabled} onToggleTheme={toggleTheme} onLocaleChange={setLocale} onOpenSettings={openSettings} onVerified={setVerifiedEmail} />}
     {accessVerified && showCover && <CoverPage onEnter={enterWorkshop} dark={dark} onToggleTheme={toggleTheme} locale={locale} onLocaleChange={setLocale} branding={branding} entryReady={brandingReady} canConfigure={makerEnabled} onOpenSettings={openSettings} />}
-    {settingsOpen && <BrandingSettings value={branding} locale={locale} onApply={applyBranding} onClose={() => setSettingsOpen(false)} />}
+    {settingsOpen && <BrandingSettings value={branding} locale={locale} initialWorkshopIdentity={brandingWorkshopIdentity} onApply={applyBranding} onAppliedIdentity={setBrandingWorkshopIdentity} onClose={() => setSettingsOpen(false)} />}
     <button className="mobile-menu" type="button" onClick={() => setMenuOpen(true)} title={text(ui.menu, locale)} aria-label={text(ui.menu, locale)}><Menu /></button>
     {menuOpen && <button className="nav-scrim" type="button" onClick={() => setMenuOpen(false)} aria-label={text(ui.close, locale)} />}
     <aside className={menuOpen ? 'sidebar open' : 'sidebar'}>

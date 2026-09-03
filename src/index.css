@@ -692,8 +692,14 @@ html[data-theme="dark"] .detail-section li { color: var(--cp-text-soft); }
 .history-info { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .history-info strong { overflow: hidden; font-size: 14px; text-overflow: ellipsis; white-space: nowrap; }
 .history-info small { overflow: hidden; color: var(--cp-text-muted); font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
-.history-del { flex: 0 0 auto; width: 40px; display: grid; place-items: center; color: var(--cp-text-muted); background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 10px; cursor: pointer; transition: color .15s ease, border-color .15s ease; }
+.history-clone, .history-del { flex: 0 0 auto; width: 40px; display: grid; place-items: center; color: var(--cp-text-muted); background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 10px; cursor: pointer; transition: color .15s ease, border-color .15s ease; }
+.history-clone:hover { color: var(--cp-accent); border-color: var(--cp-accent); }
 .history-del:hover { color: var(--cp-danger); border-color: var(--cp-danger); }
+.clone-workshop-card { width: min(440px, 100%); }
+.clone-workshop-card .reauth-hint, .clone-workshop-card .password-error { overflow-wrap: anywhere; }
+.clone-workshop-field { display: flex; flex-direction: column; gap: 6px; text-align: left; }
+.clone-workshop-field > span { color: var(--cp-text-muted); font-size: 12px; font-weight: 650; }
+.clone-workshop-card .copy-button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; }
 
 /* Desktop: two-column layout — history on the left, branding form on the right */
 @media (min-width: 860px) {
