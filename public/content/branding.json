@@ -1,12 +1,12 @@
 {
   "hostName": "Microsoft",
   "hostLogo": "",
-  "customerName": "New World Group",
+  "customerName": "GBB Friends (GCR)",
   "customerLogo": "",
   "preparedBy": "Microsoft Global Solution Advisory Agent - Asia Team",
   "preparedDate": "Sep 3, 2026",
   "workshopStart": "2026-08-31",
-  "workshopEnd": "2026-09-05",
+  "workshopEnd": "2026-09-11",
   "contacts": [
     {
       "name": "Chris Lam",
@@ -19,12 +19,24 @@
   ],
   "attendees": [
     "chris.lam@microsoft.com",
-    "wlockner@microsoft.com"
+    "wlockner@microsoft.com",
+    "raymond.xiao@microsoft.com",
+    "sandykwok@microsoft.com",
+    "aranasinghe@microsoft.com",
+    "raymondxiao@microsoft.com"
   ],
   "labUsers": [
     {
       "userName": "student01@D365DemoTSCE02668770.onmicrosoft.com",
       "accessCode": "Y$+AqUfq"
+    },
+    {
+      "userName": "student02@D365DemoTSCE02668770.onmicrosoft.com",
+      "accessCode": "H2#H&%YL"
+    },
+    {
+      "userName": "student03@D365DemoTSCE02668770.onmicrosoft.com",
+      "accessCode": "$t=HD+-="
     }
   ]
 }
