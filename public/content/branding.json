@@ -1,30 +1,23 @@
 {
   "hostName": "Microsoft",
-  "hostLogo": "",
-  "customerName": "GBB Friends (GCR)",
-  "customerLogo": "",
+  "hostLogo": "https://uhf.microsoft.com/images/microsoft/RE1Mu3b.png",
+  "customerName": "Kerry",
+  "customerLogo": "https://www.kerry.com/content/dam/kerry/en/images/expFragments/header/Kerry-Logo-1.png",
   "preparedBy": "Microsoft Global Solution Advisory Agent - Asia Team",
-  "preparedDate": "Sep 3, 2026",
-  "workshopStart": "2026-08-31",
-  "workshopEnd": "2026-09-11",
+  "preparedDate": "July 16, 2026",
+  "workshopStart": "2026-08-18",
+  "workshopEnd": "2026-08-21",
   "contacts": [
-    {
-      "name": "Chris Lam",
-      "email": "chris.lam@microsoft.com"
-    },
     {
       "name": "Michael Jiang",
       "email": "zhijian@microsoft.com"
+    },
+    {
+      "name": "Scott Berry",
+      "email": "scberr@microsoft.com"
     }
   ],
-  "attendees": [
-    "chris.lam@microsoft.com",
-    "wlockner@microsoft.com",
-    "raymond.xiao@microsoft.com",
-    "sandykwok@microsoft.com",
-    "aranasinghe@microsoft.com",
-    "raymondxiao@microsoft.com"
-  ],
+  "attendees": [],
   "labUsers": [
     {
       "userName": "student01@D365DemoTSCE02668770.onmicrosoft.com",
@@ -37,6 +30,14 @@
     {
       "userName": "student03@D365DemoTSCE02668770.onmicrosoft.com",
       "accessCode": "$t=HD+-="
+    },
+    {
+      "userName": "student04@D365DemoTSCE02668770.onmicrosoft.com",
+      "accessCode": "+$8hsmw@"
+    },
+    {
+      "userName": "student05@D365DemoTSCE02668770.onmicrosoft.com",
+      "accessCode": "7dz-$g=%"
     }
   ]
 }
