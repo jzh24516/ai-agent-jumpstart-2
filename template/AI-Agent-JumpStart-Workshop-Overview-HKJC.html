@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Agent JumpStart Workshop — Program Overview</title>
+<meta name="color-scheme" content="light dark">
+<style>
+  :root{
+    color-scheme: light dark;
+    --bg:#eef2f9; --surface:#ffffff; --surface-2:#f6f9fe;
+    --fg:#0f172a; --muted:#566179; --border:#e2e8f3;
+    --accent:#1d4ed8; --accent-soft:#e9f0ff; --accent-ink:#12328f;
+    --shadow: 0 1px 2px rgba(15,23,42,.06), 0 14px 34px -16px rgba(15,23,42,.28);
+    --radius:18px; --maxw:66rem;
+    --grad: linear-gradient(135deg,#0a2a5e 0%,#1746c9 52%,#12a5e6 100%);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#070c17; --surface:#111b2f; --surface-2:#0d1626;
+      --fg:#e9eefb; --muted:#a2b2cd; --border:#233047;
+      --accent:#7aa9ff; --accent-soft:#152742; --accent-ink:#cfe0ff;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 16px 38px -16px rgba(0,0,0,.7);
+    }
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background:var(--bg); color:var(--fg);
+    font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6; text-align:start;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{ max-width:var(--maxw); margin-inline:auto; padding-inline:1.25rem; }
+
+  /* Hero */
+  .hero{ background:var(--grad); color:#fff; position:relative; overflow:hidden;
+    border-end-start-radius:30px; border-end-end-radius:30px; }
+  .hero::after{ content:""; position:absolute; inset:0;
+    background:radial-gradient(120% 90% at 88% -20%, rgba(255,255,255,.28), transparent 58%);
+    pointer-events:none; }
+  .hero-inner{ position:relative; z-index:1; max-width:var(--maxw); margin-inline:auto;
+    padding:2.6rem 1.25rem 2.3rem; }
+  .eyebrow{ margin:0 0 .6rem; font-size:.76rem; font-weight:700; letter-spacing:.14em;
+    text-transform:uppercase; color:rgba(255,255,255,.82); }
+  .hero h1{ margin:0 0 .5rem; font-size:2.55rem; line-height:1.12; letter-spacing:-.02em; }
+  .hero-sub{ margin:0; max-width:44rem; font-size:1.1rem; color:rgba(255,255,255,.94); }
+  .facts{ display:flex; flex-wrap:wrap; gap:.5rem; margin-block-start:1.4rem; }
+  .fact{ background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.28);
+    color:#fff; padding:.45rem .85rem; border-radius:999px; font-size:.82rem; font-weight:600; }
+
+  /* Lead */
+  .lead{ margin-block:1.9rem 0; background:var(--surface); border:1px solid var(--border);
+    border-inline-start:5px solid var(--accent); border-radius:14px; padding:1.15rem 1.3rem;
+    font-size:1.06rem; box-shadow:var(--shadow); }
+  .lead strong{ color:var(--accent-ink); }
+
+  /* Section title */
+  .sec-title{ display:flex; align-items:center; gap:.65rem; font-size:1.3rem;
+    margin-block:2rem 1rem; letter-spacing:-.01em; }
+  .sec-title::before{ content:""; inline-size:11px; block-size:24px; border-radius:5px;
+    background:var(--grad); }
+
+  /* Cards */
+  .grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:1.1rem; }
+  .card{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+    padding:1.3rem 1.3rem 1.15rem; box-shadow:var(--shadow); }
+  .chip{ inline-size:48px; block-size:48px; border-radius:14px; background:var(--accent-soft);
+    color:var(--accent); display:flex; align-items:center; justify-content:center;
+    margin-block-end:.85rem; }
+  .chip svg{ inline-size:25px; block-size:25px; }
+  .card h3{ margin:.1rem 0 .6rem; font-size:1.14rem; letter-spacing:-.01em; }
+  .card ul{ margin:0; padding:0; list-style:none; }
+  .card li{ position:relative; padding-inline-start:1.35rem; margin-block:.42rem;
+    font-size:.94rem; color:var(--fg); }
+  .card li::before{ content:""; position:absolute; inset-inline-start:.2rem; inset-block-start:.62em;
+    inline-size:6px; block-size:6px; border-radius:50%; background:var(--accent); }
+  .card li .q{ color:var(--muted); }
+
+  /* Included panels */
+  .included{ display:grid; grid-template-columns:1fr 1fr; gap:1.1rem; }
+  .panel{ background:var(--surface-2); border:1px solid var(--border); border-radius:var(--radius);
+    padding:1.25rem 1.3rem; }
+  .panel h4{ margin:.1rem 0 .8rem; font-size:1.02rem; display:flex; align-items:center; gap:.5rem; }
+  .panel h4 .tag{ font-size:.68rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--accent); background:var(--accent-soft); padding:.2rem .5rem; border-radius:6px; }
+  .checks{ list-style:none; margin:0; padding:0; }
+  .checks li{ display:flex; gap:.6rem; align-items:flex-start; margin-block:.55rem; font-size:.94rem; }
+  .checks svg{ flex:0 0 auto; inline-size:20px; block-size:20px; color:var(--accent);
+    margin-block-start:.12rem; }
+
+  /* CTA */
+  .cta{ margin-block-start:2rem; background:var(--grad); color:#fff; border-radius:22px;
+    padding:1.7rem 1.5rem; text-align:center; box-shadow:var(--shadow); }
+  .cta h3{ margin:0 0 .5rem; font-size:1.35rem; letter-spacing:-.01em; }
+  .cta p{ margin:0 auto; max-width:42rem; color:rgba(255,255,255,.94); font-size:1.02rem; }
+
+  .foot{ margin-block:1.5rem .6rem; color:var(--muted); font-size:.8rem; text-align:center; }
+
+  /* Co-brand bar */
+  .brandbar{ background:var(--surface); border-block-end:1px solid var(--border); }
+  .brandbar-inner{ max-width:var(--maxw); margin-inline:auto; padding:.8rem 1.25rem;
+    display:flex; align-items:center; gap:1rem; }
+  .cobrand{ display:flex; align-items:center; min-block-size:34px; }
+  .cobrand img{ block-size:32px; inline-size:auto; display:block; }
+  .brand-sep{ flex:1 1 auto; }
+  .wm{ line-height:1.05; white-space:nowrap; }
+  .wm-ms{ color:#5a5a5a; font-size:1.22rem; font-weight:600; letter-spacing:.004em; }
+  .wm-hkjc{ color:var(--accent-ink); font-weight:700; font-size:1.08rem; text-align:end; }
+  .wm-hkjc .abbr{ letter-spacing:.07em; }
+  .wm-hkjc .full{ display:block; font-size:.66rem; font-weight:600; letter-spacing:.04em;
+    text-transform:uppercase; color:var(--muted); margin-block-start:.14rem; }
+  @media (prefers-color-scheme: dark){ .wm-ms{ color:#c9d2e2; } }
+  @media (max-width:520px){
+    .brandbar-inner{ flex-wrap:wrap; gap:.35rem .75rem; }
+    .brand-sep{ flex-basis:100%; block-size:0; }
+    .wm-hkjc,.wm-hkjc .full{ text-align:start; }
+  }
+
+  @media (max-width:640px){
+    .grid,.included{ grid-template-columns:1fr; }
+    .hero h1{ font-size:2rem; }
+    .hero-inner{ padding-block:2.1rem 1.9rem; }
+  }
+
+  @media print{
+    :root{ --bg:#fff; --surface:#fff; --surface-2:#fff; --fg:#000; --muted:#444; --border:#c3ccda; --accent:#1d4ed8; --accent-ink:#12328f; --shadow:none; }
+    body{ background:#fff; }
+    .hero,.cta{ background:#0a2a5e !important; color:#fff !important;
+      -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    .hero::after{ display:none; }
+    .card,.panel{ break-inside:avoid; }
+    .sec-title{ break-after:avoid; }
+  }
+</style>
+</head>
+<body>
+  <div class="brandbar">
+    <div class="brandbar-inner">
+      <div class="cobrand">
+        <!-- Swap this wordmark for the official Microsoft logo: <img src="data:…" alt="Microsoft"> -->
+        <span class="wm wm-ms">Microsoft</span>
+      </div>
+      <span class="brand-sep" aria-hidden="true"></span>
+      <div class="cobrand">
+        <!-- Swap this wordmark for the official HKJC logo: <img src="data:…" alt="The Hong Kong Jockey Club"> -->
+        <span class="wm wm-hkjc"><span class="abbr">HKJC</span><span class="full">The Hong Kong Jockey Club</span></span>
+      </div>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="eyebrow">Microsoft AI Business Solutions · Prepared for The Hong Kong Jockey Club</p>
+      <h1>AI Agent JumpStart Workshop</h1>
+      <p class="hero-sub">A hands-on, interactive workshop to explore, design, and build AI agents with GitHub Copilot and Microsoft Copilot Studio.</p>
+      <div class="facts">
+        <span class="fact">No cost — first session</span>
+        <span class="fact">Half day · 4–5 hours</span>
+        <span class="fact">20–30 participants</span>
+        <span class="fact">6 guided labs</span>
+        <span class="fact">In-person preferred</span>
+        <span class="fact">3+ Microsoft coaches</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <p class="lead">The AI Agent JumpStart Workshop is a hands-on, interactive experience — <strong>not a classroom training</strong> — that guides your team through the newest GitHub Copilot and Copilot Studio agent (Harness) capabilities across six guided labs (the lab contents with multilingual support). Participants finish the session having identified their own prioritized <strong>“Hero Use Cases”</strong> — the highest-value agent scenarios to take forward.</p>
+
+    <h2 class="sec-title">Program at a glance</h2>
+    <div class="grid">
+
+      <article class="card">
+        <div class="chip" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 12h.01M18 12h.01"/></svg>
+        </div>
+        <h3>Cost &amp; investment</h3>
+        <ul>
+          <li>The first workshop, hosted by Microsoft, is delivered at <strong>no cost</strong> — an interactive workshop, not a paid training.</li>
+          <li>Microsoft account and specialist teams take part as coaches and help surface follow-up opportunities and next steps.</li>
+          <li>If you later choose to host the workshop yourselves, Copilot credits and Power Platform / Copilot Studio licensing would apply.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <div class="chip" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>Class size &amp; setup</h3>
+        <ul>
+          <li>Ideal group of <strong>up to 20</strong> participants; <strong>30 maximum</strong> for the best experience.</li>
+          <li>A classroom-style room with power available at every seat.</li>
+          <li>Each participant brings a personal or corporate laptop.</li>
+          <li>Access to the workshop environment is via Microsoft-provided user credentials.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <div class="chip" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4M12 16h4M8 11h.01M8 16h.01"/></svg>
+        </div>
+        <h3>Logistics &amp; format</h3>
+        <ul>
+          <li><strong>In-person is recommended;</strong> Microsoft facilitates on site (travel permitting) or remotely.</li>
+          <li>Half-day session — approximately <strong>4 to 5 hours</strong>.</li>
+          <li>At least <strong>three Microsoft coaches</strong> on site to guide participants.</li>
+          <li>Before the session, share the attendee email list plus your branding — logo, company / business-unit name, and contact person(s) — for a customized welcome page.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <div class="chip" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/></svg>
+        </div>
+        <h3>Commitments &amp; eligibility</h3>
+        <ul>
+          <li><strong>No hard pipeline threshold</strong> or commitment is required to qualify.</li>
+          <li>Scheduling is subject to the availability of a suitable date.</li>
+          <li>After the first session, the workshop can move to a customer-run, in-house cadence — ideal for an AI acceleration or innovation team.</li>
+        </ul>
+      </article>
+
+    </div>
+
+    <h2 class="sec-title">What's included</h2>
+    <div class="included">
+      <div class="panel">
+        <h4><span class="tag">Microsoft provides</span></h4>
+        <ul class="checks">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>Expert facilitation and at least three on-site coaches.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>The hands-on lab environment and participant credentials.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>A customized, co-branded workshop welcome page.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>Guidance to capture and prioritize your Hero Use Cases.</span></li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h4><span class="tag">You provide</span></h4>
+        <ul class="checks">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>A classroom-style venue with power at every seat.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>Participant laptops (personal or corporate) able to reach the lab environment.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>The attendee email list, shared ahead of the session.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>Branding assets: logo, company / BU name, and contact person(s).</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <section class="cta">
+      <h3>Ready to run a session?</h3>
+      <p>Talk to your Microsoft account team to confirm a date, venue, and participant list — and to plan the path to an in-house cadence after your first workshop.</p>
+    </section>
+  </main>
+
+  <footer class="wrap foot">
+    AI Agent JumpStart Workshop · Prepared by Microsoft's AI Business Solutions (GBB) team for The Hong Kong Jockey Club (HKJC)
+  </footer>
+</body>
+</html>

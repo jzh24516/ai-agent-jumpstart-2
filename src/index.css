@@ -666,8 +666,8 @@ html[data-theme="dark"] .detail-section li { color: var(--cp-text-soft); }
 .workshop-window-summary small { display: block; margin-bottom: 4px; color: var(--cp-text-muted); font-size: 10.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
 .workshop-window-summary strong { display: block; color: var(--cp-text); font-size: 12.5px; line-height: 1.35; }
 @media (max-width: 420px) { .workshop-window-summary { grid-template-columns: 1fr; } }
-.settings-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 22px; }
-.settings-actions button { height: 40px; padding: 0 22px; border-radius: 10px; cursor: pointer; font-size: 14px; font-weight: 650; }
+.settings-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; margin-top: 22px; }
+.settings-actions button { max-width: 100%; min-height: 40px; padding: 0 22px; border-radius: 10px; cursor: pointer; font-size: 14px; font-weight: 650; }
 .settings-actions .ghost { display: inline-flex; align-items: center; gap: 7px; color: var(--cp-text); background: transparent; border: 1px solid var(--cp-border); }
 .settings-actions .ghost:hover { border-color: var(--cp-accent); color: var(--cp-accent); }
 .settings-actions .primary { color: #fff; background: var(--grad-btn); border: 0; box-shadow: var(--glow); }

@@ -73,6 +73,8 @@ Maker mode and the branding settings are **dev-only** — they are not rendered 
 
 Use the clone action beside a saved configuration to create an independently named history record containing the same branding, dates, contacts, attendees, and lab credentials. The clone is loaded into the form for editing; select **Apply** separately when it should become the active published branding.
 
+In Branding Settings, **Clear all** removes every attendee email plus any pending single or pasted-list input from the current draft. **Create invitation** downloads a responsive, self-contained customer-facing HTML program overview using the current customer name, branding, workshop dates, and contacts. Attendee addresses, lab users, and access codes are deliberately excluded. Uploaded data-URL logos are embedded; remote logos that cannot be embedded within the timeout fall back to text wordmarks and are reported in the status message.
+
 **Apply** is separate from **Save to history**: it writes the active configuration to `public/content/branding.json` for the static workshop runtime. Everything in that active file is published with GitHub Pages, including attendee or lab-user fields. Use only temporary training credentials there, never production secrets, and rotate them after the engagement.
 
 ### Configure the maker password (local, one time)

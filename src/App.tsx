@@ -5,10 +5,11 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import {
   ArrowRight, BookOpenCheck, CalendarDays, Check, ChevronDown, ChevronLeft, ChevronRight, ChevronUp,
-  Clipboard, Copy, Database, FileSpreadsheet, Languages, Lock, Mail, MailCheck, Menu, Mic2,
+  Clipboard, Copy, Database, FileDown, FileSpreadsheet, Languages, Lock, Mail, MailCheck, Menu, Mic2,
   ExternalLink, KeyRound, Maximize2, Moon, Network, PanelLeft, PanelLeftClose, PencilLine, Printer, Save, Search, Settings, Sparkles, Star, Sun, ThumbsUp, Trash2, Users, X,
 } from 'lucide-react'
 import { authenticateMaker, defaultContent, isLabPublic, isStepVisible, loadLabs } from './content/store'
+import { downloadWorkshopInvitation } from './content/invitation'
 import MakerEditor from './editor/MakerEditor'
 import Fireworks from './Fireworks'
 import { localeNames, prepareLocale, text, ui } from './content/ui'
@@ -507,6 +508,7 @@ function BrandingSettings({ value, locale, initialWorkshopIdentity, onApply, onA
   const [attendeeInput, setAttendeeInput] = useState('')
   const [attendeeBulk, setAttendeeBulk] = useState('')
   const [generatingMapping, setGeneratingMapping] = useState(false)
+  const [generatingInvitation, setGeneratingInvitation] = useState(false)
   const [saving, setSaving] = useState(false)
   const [reauth, setReauth] = useState(false)
   const [reauthPassword, setReauthPassword] = useState('')
@@ -832,6 +834,28 @@ function BrandingSettings({ value, locale, initialWorkshopIdentity, onApply, onA
       setGeneratingMapping(false)
     }
   }
+  const createInvitation = async () => {
+    if (!windowValid) { showWindowError(); return }
+    if (!draft.customerName.trim()) {
+      setFlash(text(ui.invitationCustomerRequired, locale))
+      window.setTimeout(() => setFlash(''), 2600)
+      return
+    }
+    setGeneratingInvitation(true)
+    try {
+      const { filename, logoFallbacks } = await downloadWorkshopInvitation(normalizeBrandingWorkshopDates(draft))
+      const message = logoFallbacks.length
+        ? text(ui.invitationCreatedWithLogoFallback, locale).replace('{name}', () => filename).replace('{logos}', () => logoFallbacks.join(', '))
+        : text(ui.invitationCreated, locale).replace('{name}', () => filename)
+      setFlash(message)
+      window.setTimeout(() => setFlash(''), 3200)
+    } catch {
+      setFlash(text(ui.invitationFailed, locale))
+      window.setTimeout(() => setFlash(''), 2600)
+    } finally {
+      setGeneratingInvitation(false)
+    }
+  }
   const hasAttendeeEntries = draft.attendees.length > 0 || attendeeInput.trim().length > 0 || attendeeBulk.trim().length > 0
   const hasMappingAttendees = draft.attendees.length > 0 || [attendeeInput, attendeeBulk].some((raw) => parseEmails(raw).some(isEmail))
   const hasCompleteLabUsers = draft.labUsers.length > 0 && draft.labUsers.every(({ userName, accessCode }) => userName.trim() && accessCode.trim())
@@ -995,6 +1019,7 @@ function BrandingSettings({ value, locale, initialWorkshopIdentity, onApply, onA
         <div className="settings-actions">
           <button className="ghost" type="button" onClick={() => { setDraft(defaultBranding); setActiveWorkshopIdentity(null) }}>{text(ui.reset, locale)}</button>
           <button className="ghost" type="button" disabled={!historyReady || historySaving} onClick={saveToHistory}><Save size={15} /> {text(ui.saveToHistory, locale)}</button>
+          <button className="ghost" type="button" disabled={generatingInvitation || !windowValid || !draft.customerName.trim()} onClick={() => void createInvitation()}><FileDown size={15} /> {text(generatingInvitation ? ui.creatingInvitation : ui.createInvitation, locale)}</button>
           <button className="primary" type="button" aria-disabled={!windowValid} disabled={saving} onClick={applyDraft}>{text(saving ? ui.applying : ui.apply, locale)}</button>
         </div>
         {flash && <div className="settings-flash" role="status">{flash}</div>}
