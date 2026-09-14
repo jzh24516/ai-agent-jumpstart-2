@@ -17,7 +17,31 @@
       "email": "scberr@microsoft.com"
     }
   ],
-  "attendees": [],
+  "attendees": [
+    "tangzhi2@lenovo.com",
+    "yangds6@lenovo.com",
+    "yushuang3@lenovo.com",
+    "xufr@lenovo.com",
+    "wangxb21@lenovo.com",
+    "lijy20@lenovo.com",
+    "moxn1@lenovo.com",
+    "wangxi11@lenovo.com",
+    "dongjj6@lenovo.com",
+    "yuxy10@lenovo.com",
+    "mahj10@lenovo.com",
+    "chensj19@lenovo.com",
+    "shanyw1@lenovo.com",
+    "mays1@lenovo.com",
+    "wangxf23@lenovo.com",
+    "yujia2@lenovo.com",
+    "wangqr3@lenovo.com",
+    "zhangqi23@lenovo.com",
+    "yangchen14@lenovo.com",
+    "dongzh5@lenovo.com",
+    "lili34@lenovo.com",
+    "lijh48@lenovo.com",
+    "leosun@lenovo.com"
+  ],
   "labUsers": [
     {
       "userName": "student01@D365DemoTSCE02668770.onmicrosoft.com",
