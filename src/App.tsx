@@ -843,7 +843,7 @@ function BrandingSettings({ value, locale, initialWorkshopIdentity, onApply, onA
     }
     setGeneratingInvitation(true)
     try {
-      const { filename, logoFallbacks } = await downloadWorkshopInvitation(normalizeBrandingWorkshopDates(draft))
+      const { filename, logoFallbacks } = await downloadWorkshopInvitation(normalizeBrandingWorkshopDates(draft), locale)
       const message = logoFallbacks.length
         ? text(ui.invitationCreatedWithLogoFallback, locale).replace('{name}', () => filename).replace('{logos}', () => logoFallbacks.join(', '))
         : text(ui.invitationCreated, locale).replace('{name}', () => filename)

@@ -1,3 +1,6 @@
+import type { Locale } from './types'
+import { invitationCopies } from './invitation-locales'
+
 export type InvitationContact = { name: string; email: string }
 
 export type InvitationBranding = {
@@ -19,18 +22,55 @@ const escapeHtml = (value: string) => value
   .replace(/"/g, '&quot;')
   .replace(/'/g, '&#39;')
 
-const formatDate = (value: string): string => {
+type InvitationTemplateValues = Record<'host' | 'customer' | 'start' | 'end' | 'preparedBy' | 'preparedDate', string>
+
+const invitationPlaceholderPattern = /\{(host|customer|start|end|preparedBy|preparedDate)\}/g
+
+const interpolateCopy = (template: string, values: Partial<InvitationTemplateValues>) => template.replace(
+  invitationPlaceholderPattern,
+  (placeholder, key: keyof InvitationTemplateValues) => values[key] ?? placeholder,
+)
+
+const renderCopy = (template: string, values: Partial<InvitationTemplateValues> = {}) => template.replace(
+  invitationPlaceholderPattern,
+  (placeholder, key: keyof InvitationTemplateValues) => key in values ? escapeHtml(values[key] ?? '') : placeholder,
+)
+
+const renderTextCopy = (template: string, values: Partial<InvitationTemplateValues> = {}) => escapeHtml(interpolateCopy(template, values))
+
+const serializeScriptString = (value: string) => JSON.stringify(value).replace(/</g, '\\u003c')
+
+const intlLocales: Record<Locale, string> = {
+  en: 'en-US',
+  zh: 'zh-CN',
+  'zh-HK': 'zh-HK',
+  'zh-TW': 'zh-TW',
+  ja: 'ja-JP',
+  ko: 'ko-KR',
+  th: 'th-TH',
+  hi: 'hi-IN',
+  vi: 'vi-VN',
+}
+
+const htmlLocales: Record<Locale, string> = { ...intlLocales }
+
+const formatDate = (value: string, locale: Locale): string => {
   const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value)
   if (!match) return value.trim()
   const date = new Date(Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3])))
-  return new Intl.DateTimeFormat('en', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(date)
+  return new Intl.DateTimeFormat(intlLocales[locale], { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(date)
 }
 
-const formatWorkshopWindow = (start: string, end: string): string => {
-  const formattedStart = formatDate(start)
-  const formattedEnd = formatDate(end)
-  if (formattedStart && formattedEnd) return formattedStart === formattedEnd ? formattedStart : `${formattedStart} - ${formattedEnd}`
-  return formattedStart || formattedEnd || 'Date to be confirmed'
+const formatWorkshopWindow = (start: string, end: string, locale: Locale): string => {
+  const copy = invitationCopies[locale]
+  const formattedStart = formatDate(start, locale)
+  const formattedEnd = formatDate(end, locale)
+  if (formattedStart && formattedEnd) {
+    return formattedStart === formattedEnd
+      ? formattedStart
+      : interpolateCopy(copy.dateRange, { start: formattedStart, end: formattedEnd })
+  }
+  return formattedStart || formattedEnd || copy.dateToBeConfirmed
 }
 
 const blobToDataUrl = (blob: Blob) => new Promise<string>((resolve, reject) => {
@@ -78,9 +118,9 @@ const brandMark = (name: string, logo: string) => logo
   ? `<img src="${escapeHtml(logo)}" alt="${escapeHtml(name)}">`
   : `<span class="wordmark">${escapeHtml(name)}</span>`
 
-const invitationFilename = (customerName: string) => {
+const invitationFilename = (customerName: string, locale: Locale) => {
   const slug = customerName.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
-  return `${slug || 'customer'}-ai-agent-jumpstart-workshop-invitation.html`
+  return `${slug || 'customer'}-ai-agent-jumpstart-workshop-invitation-${locale.toLowerCase()}.html`
 }
 
 const svgIcon = (body: string) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true">${body}</svg>`
@@ -102,15 +142,29 @@ const icons = {
   check: svgIcon('<path d="M20 6 9 17l-5-5"/>'),
 }
 
-export async function buildWorkshopInvitation(branding: InvitationBranding): Promise<{ html: string; filename: string; logoFallbacks: string[] }> {
+const labIcons = [icons.agent, icons.database, icons.document, icons.network, icons.mail, icons.mic] as const
+
+export async function buildWorkshopInvitation(branding: InvitationBranding, locale: Locale = 'en'): Promise<{ html: string; filename: string; logoFallbacks: string[] }> {
+  const copy = invitationCopies[locale]
   const hostName = branding.hostName.trim() || 'Microsoft'
   const customerName = branding.customerName.trim()
   if (!customerName) throw new Error('A customer name is required to create an invitation.')
   const [hostLogo, customerLogo] = await Promise.all([inlineLogo(branding.hostLogo), inlineLogo(branding.customerLogo)])
   const logoFallbacks = [hostLogo.failed ? hostName : '', customerLogo.failed ? customerName : ''].filter(Boolean)
-  const workshopWindow = formatWorkshopWindow(branding.workshopStart, branding.workshopEnd)
+  const workshopWindow = formatWorkshopWindow(branding.workshopStart, branding.workshopEnd, locale)
   const preparedBy = branding.preparedBy.trim() || hostName
   const preparedDate = branding.preparedDate.trim()
+  const values: InvitationTemplateValues = {
+    host: hostName,
+    customer: customerName,
+    start: '',
+    end: '',
+    preparedBy,
+    preparedDate: preparedDate ? ` · ${formatDate(preparedDate, locale)}` : '',
+  }
+  const renderListItems = (items: readonly string[]) => items.map((item) => `<li>${renderCopy(item, values)}</li>`).join('')
+  const renderCheckItems = (items: readonly string[]) => items.map((item) => `<li>${icons.check}<span>${renderCopy(item, values)}</span></li>`).join('')
+  const labsMarkup = copy.labItems.map((lab, index) => `<article class="lab"><div class="chip">${labIcons[index]}</div><h3>${renderCopy(lab.title, values)}</h3><p>${renderCopy(lab.description, values)}</p></article>`).join('')
   const contacts = branding.contacts.filter(({ name, email }) => name.trim() || email.trim())
   const contactMarkup = contacts.length
     ? contacts.map(({ name, email }) => {
@@ -119,15 +173,15 @@ export async function buildWorkshopInvitation(branding: InvitationBranding): Pro
         const validEmail = /^[^\s@?&#]+@[^\s@?&#]+\.[^\s@?&#]+$/.test(cleanEmail)
         return `<li><strong>${escapeHtml(cleanName)}</strong>${validEmail ? `<a href="mailto:${encodeURIComponent(cleanEmail)}">${escapeHtml(cleanEmail)}</a>` : ''}</li>`
       }).join('')
-    : '<li><strong>Your Microsoft account team</strong><span>Contact details will be shared separately.</span></li>'
+    : `<li><strong>${renderTextCopy(copy.fallbackContactName)}</strong><span>${renderTextCopy(copy.fallbackContactDetails)}</span></li>`
 
   const html = `<!doctype html>
-<html lang="en" dir="ltr">
+<html lang="${htmlLocales[locale]}" dir="ltr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AI Agent JumpStart Workshop for ${escapeHtml(customerName)}</title>
-<meta name="description" content="Customer workshop invitation and program overview for ${escapeHtml(customerName)}.">
+<title>${renderTextCopy(copy.documentTitle, values)}</title>
+<meta name="description" content="${renderTextCopy(copy.description, values)}">
 <script>
   (() => {
     const param = new URLSearchParams(window.location.search).get("scoutTheme");
@@ -220,28 +274,28 @@ footer{padding-block:1.5rem .6rem;color:var(--cp-text-muted);font-size:.8rem;tex
 </style>
 </head>
 <body>
-<div class="brandbar"><div class="wrap brandbar-inner"><div class="brandmark">${brandMark(hostName, hostLogo.dataUrl)}</div><div class="brandmark customer">${brandMark(customerName, customerLogo.dataUrl)}</div><button class="theme-toggle" type="button" aria-label="Switch to dark theme" aria-pressed="false" title="Switch to dark theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.985 12.486A9 9 0 1 1 11.514 3.015 7 7 0 0 0 20.985 12.486Z"/></svg></button></div></div>
-<header class="hero"><div class="wrap hero-inner"><p class="eyebrow">${escapeHtml(hostName)} AI Business Solutions · Prepared for ${escapeHtml(customerName)}</p><h1>AI Agent JumpStart Workshop</h1><p class="hero-sub">A hands-on, interactive workshop to explore, design, and build AI agents with GitHub Copilot and Microsoft Copilot Studio.</p><div class="facts"><span class="fact">No cost - first session</span><span class="fact">${escapeHtml(workshopWindow)}</span><span class="fact">Half day · 4-5 hours</span><span class="fact">20-30 participants</span><span class="fact">6 guided labs</span><span class="fact">9 languages</span><span class="fact">In-person preferred</span><span class="fact">3+ ${escapeHtml(hostName)} coaches</span></div></div></header>
+<div class="brandbar"><div class="wrap brandbar-inner"><div class="brandmark">${brandMark(hostName, hostLogo.dataUrl)}</div><div class="brandmark customer">${brandMark(customerName, customerLogo.dataUrl)}</div><button class="theme-toggle" type="button" aria-label="${renderTextCopy(copy.switchToDark)}" aria-pressed="false" title="${renderTextCopy(copy.switchToDark)}"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.985 12.486A9 9 0 1 1 11.514 3.015 7 7 0 0 0 20.985 12.486Z"/></svg></button></div></div>
+<header class="hero"><div class="wrap hero-inner"><p class="eyebrow">${renderCopy(copy.eyebrow, values)}</p><h1>${renderCopy(copy.title, values)}</h1><p class="hero-sub">${renderCopy(copy.heroSubtitle, values)}</p><div class="facts"><span class="fact">${renderCopy(copy.facts.noCost, values)}</span><span class="fact">${escapeHtml(workshopWindow)}</span><span class="fact">${renderCopy(copy.facts.halfDay, values)}</span><span class="fact">${renderCopy(copy.facts.participants, values)}</span><span class="fact">${renderCopy(copy.facts.labs, values)}</span><span class="fact">${renderCopy(copy.facts.languages, values)}</span><span class="fact">${renderCopy(copy.facts.inPerson, values)}</span><span class="fact">${renderCopy(copy.facts.coaches, values)}</span></div></div></header>
 <main class="wrap">
-<p class="lead">The AI Agent JumpStart Workshop for <strong>${escapeHtml(customerName)}</strong> is a hands-on, interactive experience - <strong>not classroom training</strong> - that guides your team through current GitHub Copilot and Copilot Studio Agent capabilities across six multilingual labs. Participants finish with prioritized <strong>Hero Use Cases</strong>: the highest-value scenarios to take forward.</p>
-<section class="section"><h2 class="sec-title">Program at a glance</h2><div class="grid">
-<article class="card"><div class="chip">${icons.cost}</div><h3>Cost &amp; investment</h3><ul><li>The first workshop, hosted by ${escapeHtml(hostName)}, is delivered at <strong>no cost</strong> - an interactive workshop, not paid training.</li><li>${escapeHtml(hostName)} account and specialist teams participate as coaches and help identify follow-up opportunities.</li><li>Future customer-run sessions use your own Copilot credits and applicable licenses.</li></ul></article>
-<article class="card"><div class="chip">${icons.audience}</div><h3>Class size &amp; setup</h3><ul><li>Ideal for <strong>up to 20</strong> participants; <strong>30 maximum</strong>.</li><li>A classroom-style room with power available at every seat.</li><li>Each participant brings a personal or corporate laptop.</li><li>Workshop access uses ${escapeHtml(hostName)}-provided training credentials.</li></ul></article>
-<article class="card"><div class="chip">${icons.logistics}</div><h3>Logistics &amp; format</h3><ul><li><strong>In-person is recommended;</strong> facilitation can be on site or remote.</li><li>Half-day session - approximately <strong>4 to 5 hours</strong>.</li><li>At least <strong>three ${escapeHtml(hostName)} coaches</strong> guide participants.</li><li>Share attendee emails and branding before the session.</li></ul></article>
-<article class="card"><div class="chip">${icons.eligibility}</div><h3>Commitments &amp; eligibility</h3><ul><li><strong>No hard pipeline threshold</strong> or commitment is required.</li><li>Scheduling is subject to the availability of a suitable date.</li><li>The first session can lead to a customer-run internal cadence.</li></ul></article>
+<p class="lead">${renderCopy(copy.lead, values)}</p>
+<section class="section"><h2 class="sec-title">${renderCopy(copy.programTitle, values)}</h2><div class="grid">
+<article class="card"><div class="chip">${icons.cost}</div><h3>${renderCopy(copy.costTitle, values)}</h3><ul>${renderListItems(copy.costItems)}</ul></article>
+<article class="card"><div class="chip">${icons.audience}</div><h3>${renderCopy(copy.audienceTitle, values)}</h3><ul>${renderListItems(copy.audienceItems)}</ul></article>
+<article class="card"><div class="chip">${icons.logistics}</div><h3>${renderCopy(copy.logisticsTitle, values)}</h3><ul>${renderListItems(copy.logisticsItems)}</ul></article>
+<article class="card"><div class="chip">${icons.eligibility}</div><h3>${renderCopy(copy.eligibilityTitle, values)}</h3><ul>${renderListItems(copy.eligibilityItems)}</ul></article>
 </div></section>
-<section class="section"><h2 class="sec-title">Six guided labs</h2><p class="section-intro">From the first grounded Agent to multi-agent orchestration and real-time voice.</p><div class="labs"><article class="lab"><div class="chip">${icons.agent}</div><h3>Meet the Agent Maker</h3><p>Build a grounded, multilingual Agent with trusted Microsoft knowledge.</p></article><article class="lab"><div class="chip">${icons.database}</div><h3>Bring in business context</h3><p>Use Dataverse MCP, Skills, Memory, and customer research.</p></article><article class="lab"><div class="chip">${icons.document}</div><h3>Evidence-based RFP</h3><p>Create sourced Excel and Word deliverables with review controls.</p></article><article class="lab"><div class="chip">${icons.network}</div><h3>Connect specialist Agents</h3><p>Delegate IT requests through ServiceNow and Connected Agents.</p></article><article class="lab"><div class="chip">${icons.mail}</div><h3>Multi-agent email Workflow</h3><p>Classify inbound email, route it, and draft personalized replies.</p></article><article class="lab"><div class="chip">${icons.mic}</div><h3>Real-time voice Agent</h3><p>Configure and test a natural multilingual voice experience.</p></article></div></section>
-<section class="section"><h2 class="sec-title">What's included</h2><div class="included"><article class="panel"><div class="panel-head"><div class="chip">${icons.microsoft}</div><h3><span class="tag">${escapeHtml(hostName)} provides</span></h3></div><ul class="checks"><li>${icons.check}<span>Expert facilitation and at least three workshop coaches.</span></li><li>${icons.check}<span>The hands-on lab environment and participant credentials.</span></li><li>${icons.check}<span>A customized, co-branded workshop welcome experience.</span></li><li>${icons.check}<span>Guidance to capture and prioritize Hero Use Cases.</span></li></ul></article><article class="panel"><div class="panel-head"><div class="chip">${icons.customer}</div><h3><span class="tag">${escapeHtml(customerName)} provides</span></h3></div><ul class="checks"><li>${icons.check}<span>A classroom-style venue with power at every seat.</span></li><li>${icons.check}<span>Participant laptops able to reach the lab environment.</span></li><li>${icons.check}<span>The attendee email list shared before the session.</span></li><li>${icons.check}<span>Branding assets and customer contact people.</span></li></ul></article></div></section>
-<section class="cta"><div class="cta-icon">${icons.calendar}</div><h3>Ready to run a session?</h3><p>Confirm the date, venue, and participant list with your workshop contacts. Access instructions and individual training credentials will be shared separately.</p><ul class="contacts">${contactMarkup}</ul></section>
+<section class="section"><h2 class="sec-title">${renderCopy(copy.labsTitle, values)}</h2><p class="section-intro">${renderCopy(copy.labsIntro, values)}</p><div class="labs">${labsMarkup}</div></section>
+<section class="section"><h2 class="sec-title">${renderCopy(copy.includedTitle, values)}</h2><div class="included"><article class="panel"><div class="panel-head"><div class="chip">${icons.microsoft}</div><h3><span class="tag">${renderCopy(copy.hostProvides, values)}</span></h3></div><ul class="checks">${renderCheckItems(copy.hostItems)}</ul></article><article class="panel"><div class="panel-head"><div class="chip">${icons.customer}</div><h3><span class="tag">${renderCopy(copy.customerProvides, values)}</span></h3></div><ul class="checks">${renderCheckItems(copy.customerItems)}</ul></article></div></section>
+<section class="cta"><div class="cta-icon">${icons.calendar}</div><h3>${renderCopy(copy.ctaTitle, values)}</h3><p>${renderCopy(copy.ctaBody, values)}</p><ul class="contacts">${contactMarkup}</ul></section>
 </main>
-<footer class="wrap">AI Agent JumpStart Workshop · Prepared by ${escapeHtml(preparedBy)}${preparedDate ? ` · ${escapeHtml(preparedDate)}` : ''} · For ${escapeHtml(customerName)}</footer>
+<footer class="wrap">${renderCopy(copy.footer, values)}</footer>
 <script>
   (() => {
     const button = document.querySelector(".theme-toggle");
     if (!button) return;
     const update = () => {
       const dark = document.documentElement.getAttribute("data-theme") === "dark";
-      const label = dark ? "Switch to light theme" : "Switch to dark theme";
+      const label = dark ? ${serializeScriptString(copy.switchToLight)} : ${serializeScriptString(copy.switchToDark)};
       button.setAttribute("aria-label", label);
       button.setAttribute("aria-pressed", String(dark));
       button.setAttribute("title", label);
@@ -258,11 +312,11 @@ footer{padding-block:1.5rem .6rem;color:var(--cp-text-muted);font-size:.8rem;tex
 </body>
 </html>`
 
-  return { html, filename: invitationFilename(customerName), logoFallbacks }
+  return { html, filename: invitationFilename(customerName, locale), logoFallbacks }
 }
 
-export async function downloadWorkshopInvitation(branding: InvitationBranding): Promise<{ filename: string; logoFallbacks: string[] }> {
-  const { html, filename, logoFallbacks } = await buildWorkshopInvitation(branding)
+export async function downloadWorkshopInvitation(branding: InvitationBranding, locale: Locale = 'en'): Promise<{ filename: string; logoFallbacks: string[] }> {
+  const { html, filename, logoFallbacks } = await buildWorkshopInvitation(branding, locale)
   const blob = new Blob([html], { type: 'text/html;charset=utf-8' })
   const url = URL.createObjectURL(blob)
   const anchor = document.createElement('a')
