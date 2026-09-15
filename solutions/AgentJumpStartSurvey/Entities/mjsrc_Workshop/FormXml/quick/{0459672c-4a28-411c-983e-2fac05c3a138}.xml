@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <systemform>
+    <formid>{0459672c-4a28-411c-983e-2fac05c3a138}</formid>
+    <IntroducedVersion>1.0.0.0</IntroducedVersion>
+    <FormPresentation>1</FormPresentation>
+    <FormActivationState>1</FormActivationState>
+    <form>
+      <tabs>
+        <tab verticallayout="true" id="{517f902d-6535-46ee-9da3-1a097ffd9887}" IsUserDefined="1">
+          <labels>
+            <label description="" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section showlabel="false" showbar="false" IsUserDefined="0" id="{4fb3ce91-6e33-4990-889b-2e8368d8707f}">
+                  <labels>
+                    <label description="一般" languagecode="1028" />
+                    <label description="GENERAL" languagecode="1033" />
+                    <label description="常规" languagecode="2052" />
+                    <label description="一般" languagecode="3076" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{aff060f9-f4e9-4f9f-8b41-8a17125a8cbf}">
+                        <labels>
+                          <label description="Name" languagecode="1033" />
+                        </labels>
+                        <control id="mjsrc_name" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="mjsrc_name" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+      </tabs>
+    </form>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <LocalizedNames>
+      <LocalizedName description="Information" languagecode="1033" />
+    </LocalizedNames>
+  </systemform>
+</forms>

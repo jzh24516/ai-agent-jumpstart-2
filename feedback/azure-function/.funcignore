@@ -1,0 +1,6 @@
+.git*
+.vscode
+infra
+local.settings.json
+test
+*.log

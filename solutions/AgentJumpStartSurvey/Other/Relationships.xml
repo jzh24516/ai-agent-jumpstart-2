@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<EntityRelationships xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <EntityRelationship Name="lk_mjsrc_surveyresponse_createdby" />
+  <EntityRelationship Name="lk_mjsrc_surveyresponse_modifiedby" />
+  <EntityRelationship Name="lk_mjsrc_workshop_createdby" />
+  <EntityRelationship Name="lk_mjsrc_workshop_modifiedby" />
+  <EntityRelationship Name="mjsrc_workshop_mjsrc_surveyresponse_mjsrc_WorkshopId" />
+  <EntityRelationship Name="organization_mjsrc_surveyresponse" />
+  <EntityRelationship Name="organization_mjsrc_workshop" />
+</EntityRelationships>

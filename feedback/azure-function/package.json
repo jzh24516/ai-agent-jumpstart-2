@@ -1,14 +1,19 @@
 {
   "name": "jumpstart-feedback-function",
   "version": "1.0.0",
-  "description": "HTTP endpoint that stores AI Agent JumpStart workshop feedback in Azure Table Storage.",
+  "description": "Validated HTTP gateway for AI Agent JumpStart workshop survey responses.",
   "type": "module",
   "main": "src/functions/*.js",
   "scripts": {
-    "start": "func start"
+    "start": "func start",
+    "test": "node --test"
   },
   "dependencies": {
-    "@azure/functions": "^4.5.0",
-    "@azure/data-tables": "^13.3.0"
+    "@azure/data-tables": "^13.3.2",
+    "@azure/functions": "^4.11.0",
+    "@azure/identity": "^4.13.3"
+  },
+  "engines": {
+    "node": ">=22"
   }
 }

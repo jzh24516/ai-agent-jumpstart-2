@@ -1,7 +1,7 @@
 import { defineConfig, loadEnv, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import { execFile } from 'node:child_process'
-import { createHmac, scryptSync, timingSafeEqual } from 'node:crypto'
+import { createHmac, randomUUID, scryptSync, timingSafeEqual } from 'node:crypto'
 import { copyFile, mkdir, readFile, rename, stat, unlink, writeFile } from 'node:fs/promises'
 import { homedir } from 'node:os'
 import { dirname, resolve } from 'node:path'
@@ -85,6 +85,8 @@ type StoredWorkshop = {
   contacts?: StoredContact[]
   attendees?: string[]
   labUsers?: StoredLabUser[]
+  workshopId?: string
+  surveyToken?: string
   savedAt: number
 }
 
@@ -138,6 +140,8 @@ const isStoredWorkshop = (value: unknown): value is StoredWorkshop => {
     && (item.contacts === undefined || (Array.isArray(item.contacts) && item.contacts.every((contact) => isStringRecord(contact, ['name', 'email']))))
     && (item.attendees === undefined || (Array.isArray(item.attendees) && item.attendees.every((email) => typeof email === 'string')))
     && (item.labUsers === undefined || (Array.isArray(item.labUsers) && item.labUsers.every((labUser) => isStringRecord(labUser, ['userName', 'accessCode']))))
+    && (item.workshopId === undefined || typeof item.workshopId === 'string')
+    && (item.surveyToken === undefined || typeof item.surveyToken === 'string')
 }
 
 const parseWorkshopHistory = (value: unknown): StoredWorkshop[] => {
@@ -214,6 +218,8 @@ const workshopFromBranding = (branding: Record<string, unknown>, id: string, sav
     contacts: Array.isArray(branding.contacts) ? branding.contacts : [],
     attendees: Array.isArray(branding.attendees) ? branding.attendees.filter((email): email is string => typeof email === 'string') : [],
     labUsers: Array.isArray(branding.labUsers) ? branding.labUsers : [],
+    workshopId: typeof branding.workshopId === 'string' ? branding.workshopId : undefined,
+    surveyToken: typeof branding.surveyToken === 'string' ? branding.surveyToken : undefined,
     savedAt,
   }
   return isStoredWorkshop(record) ? record : null
@@ -373,12 +379,34 @@ const passwordMatches = (password: string, passwordHash: string) => {
   return actual.length === expected.length && timingSafeEqual(actual, expected)
 }
 
+const workshopIdPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+
+const signPublishedBranding = (value: unknown, signingSecret: string): Record<string, unknown> => {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('Branding must be an object.')
+  if (!signingSecret) throw new Error('Survey signing is not configured.')
+  const branding = value as Record<string, unknown>
+  const currentId = typeof branding.workshopId === 'string' ? branding.workshopId : ''
+  const workshopId = workshopIdPattern.test(currentId) ? currentId : randomUUID()
+  const workshopKey = `workshop:${workshopId}`
+  const claim = [
+    workshopId,
+    workshopKey,
+    typeof branding.customerName === 'string' ? branding.customerName.trim() : '',
+    typeof branding.hostName === 'string' ? branding.hostName.trim() : '',
+    typeof branding.workshopStart === 'string' ? branding.workshopStart.trim() : '',
+    typeof branding.workshopEnd === 'string' ? branding.workshopEnd.trim() : '',
+  ]
+  const surveyToken = createHmac('sha256', signingSecret).update(JSON.stringify(claim)).digest('base64url')
+  return { ...branding, workshopId, surveyToken }
+}
+
 // Dev-only content API: persists edits from maker mode to public/content/labs.json
 // and (on publish) commits + pushes that file to the git remote.
 function makerContentApi(env: Record<string, string>): Plugin {
   const config = env.WORKSHOP_MAKER_PASSWORD_HASH && env.WORKSHOP_MAKER_SESSION_SECRET
     ? { passwordHash: env.WORKSHOP_MAKER_PASSWORD_HASH, sessionSecret: env.WORKSHOP_MAKER_SESSION_SECRET }
     : null
+  const surveySigningSecret = env.SURVEY_WORKSHOP_SIGNING_SECRET || ''
   const requireMakerSession = (req: IncomingMessage, res: ServerResponse) => {
     if (!config) { json(res, 503, 'Maker authentication is not configured.'); return false }
     if (!hasValidMakerSession(req, config)) { json(res, 401, 'Maker authentication is required.'); return false }
@@ -433,10 +461,10 @@ function makerContentApi(env: Record<string, string>): Plugin {
         if (!requireMakerSession(req, res)) return
         try {
           const body = await readBody(req)
-          JSON.parse(body) // validate before writing
+          const branding = signPublishedBranding(JSON.parse(body), surveySigningSecret)
           await mkdir(dirname(brandingFile), { recursive: true })
-          await writeFile(brandingFile, body, 'utf8')
-          json(res, 200, 'saved')
+          await writeFile(brandingFile, `${JSON.stringify(branding, null, 2)}\n`, 'utf8')
+          jsonData(res, 200, branding)
         } catch (error) {
           if (error instanceof PayloadTooLargeError) return json(res, 413, error.message)
           json(res, 400, `Invalid branding: ${(error as Error).message}`)

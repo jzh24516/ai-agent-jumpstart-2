@@ -1,68 +1,66 @@
-# Option A — Azure Function collector
+# Azure Function survey gateway
 
-A tiny HTTP-triggered Azure Function (Node.js v4 model) that receives the feedback
-JSON and appends it to **Azure Table Storage**. You keep the in‑app star UI; the
-function just stores each submission.
+This Node.js 22 Azure Functions v4 app validates and signs the boundary between the
+public workshop and Power Automate. It does not store survey data itself.
 
-## Files
-- `src/functions/feedback.js` — the HTTP function (`POST /api/feedback`).
-- `host.json`, `package.json` — Functions app config.
-- `local.settings.json.example` — copy to `local.settings.json` for local runs.
+## Runtime behavior
 
-## Prerequisites
-- [Azure Functions Core Tools v4](https://learn.microsoft.com/azure/azure-functions/functions-run-local)
-- Node.js 20+
-- An Azure subscription (Consumption plan is effectively free for this volume)
+- `POST /api/feedback`: validates origin, UUIDs, ratings, workshop dates, progress,
+  lab status, optional email consent, and the workshop HMAC token.
+- `OPTIONS /api/feedback`: answers CORS preflight for the configured workshop origin.
+- `GET /api/health`: reports whether Flow and signing configuration references resolve.
+- Server time controls `submittedAt`; the gateway derives the retention expiry.
+- Transient downstream failures are retried three times with the same submission ID.
+- A private Azure Table limits each HMAC client bucket to 120 distinct submissions per
+  hour. Retrying the same submission ID is not counted twice; a daily timer removes
+  limiter rows after 48 hours. Raw client IP addresses are never stored.
+- The Flow callback URL and signing secret are never returned to the browser or logged.
 
-## Run locally
-```bash
+## Local validation
+
+```powershell
 cd feedback/azure-function
 npm install
-cp local.settings.json.example local.settings.json   # set FEEDBACK_STORAGE_CONNECTION
+npm test
+Copy-Item local.settings.json.example local.settings.json
 npm start
-# → POST http://localhost:7071/api/feedback
-```
-For a local table store, install Azurite and keep `AzureWebJobsStorage=UseDevelopmentStorage=true`,
-and set `FEEDBACK_STORAGE_CONNECTION=UseDevelopmentStorage=true`.
-
-## Deploy to Azure (CLI)
-```bash
-# 1) Resource group + storage (feedback lives here) + function app
-az group create -n rg-jumpstart-feedback -l eastus
-az storage account create -n stjumpstartfb$RANDOM -g rg-jumpstart-feedback -l eastus --sku Standard_LRS
-az functionapp create -g rg-jumpstart-feedback -n jumpstart-feedback \
-  --consumption-plan-location eastus --runtime node --runtime-version 20 \
-  --functions-version 4 --storage-account <the-storage-account-name>
-
-# 2) App settings (the function reads these)
-CONN=$(az storage account show-connection-string -g rg-jumpstart-feedback -n <the-storage-account-name> -o tsv)
-az functionapp config appsettings set -g rg-jumpstart-feedback -n jumpstart-feedback --settings \
-  FEEDBACK_STORAGE_CONNECTION="$CONN" \
-  FEEDBACK_TABLE_NAME="JumpStartFeedback" \
-  FEEDBACK_ALLOWED_ORIGIN="https://jzh24516.github.io"
-
-# 3) Publish the code
-cd feedback/azure-function
-func azure functionapp publish jumpstart-feedback
-```
-Your endpoint: `https://jumpstart-feedback.azurewebsites.net/api/feedback`
-
-## CORS
-The function returns permissive CORS headers itself, but also set the platform CORS
-allow‑list so preflight succeeds:
-```bash
-az functionapp cors add -g rg-jumpstart-feedback -n jumpstart-feedback \
-  --allowed-origins https://jzh24516.github.io
 ```
 
-## Wire the app
-In [`../../src/App.tsx`](../../src/App.tsx) `saveFeedback()`, point the POST at the endpoint above.
-(Or ask me to add a `public/content/feedback.json` `{ "endpoint": "…" }` hook so you can change it
-without a rebuild.)
+Fill `local.settings.json` locally only. Never commit a real Flow URL or signing secret.
 
-## Read the results
-Browse the `JumpStartFeedback` table in **Storage browser** (Azure Portal), Azure Storage
-Explorer, or query with the CLI:
-```bash
-az storage entity query --table-name JumpStartFeedback --connection-string "$CONN"
+## Infrastructure
+
+The templates in `infra/` deploy:
+
+- Flex Consumption (`FC1`) Function App using Node.js 22
+- User-assigned managed identity
+- Keyless Storage with Blob/Queue/Table RBAC
+- Private Key Vault with RBAC
+- Isolated VNet, Function integration subnet, private endpoint subnet
+- Blob, Queue, Table, and Vault private endpoints plus private DNS
+- Workspace-based Application Insights and diagnostic settings
+
+Resource names are deterministic and the current deployment is in `westus3`, resource
+group `azrge6s5zfqajgpoo`. The inherited management-group policy forces Storage and Key
+Vault public network access off; the private networking in the template is required.
+
+```powershell
+az deployment sub validate `
+  --subscription 339bb819-f689-437f-9981-42676b6487fb `
+  --location westus3 `
+  --template-file infra/main.bicep `
+  --parameters '@infra/main.parameters.json'
+
+az deployment sub create `
+  --subscription 339bb819-f689-437f-9981-42676b6487fb `
+  --location westus3 `
+  --name agent-jumpstart-survey `
+  --template-file infra/main.bicep `
+  --parameters '@infra/main.parameters.json'
+
+func azure functionapp publish azfnuhqsqqzypov3s --javascript
 ```
+
+`infra/secrets.bicep` accepts secure ARM parameters for the callback URL and signing
+secret. Use an ephemeral local parameter file and delete it immediately after deployment.
+Do not place secret values in parameter files tracked by Git.

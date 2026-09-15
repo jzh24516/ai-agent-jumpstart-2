@@ -1,20 +1,20 @@
 {
   "hostName": "Microsoft",
   "hostLogo": "https://uhf.microsoft.com/images/microsoft/RE1Mu3b.png",
-  "customerName": "LENOVO",
-  "customerLogo": "https://p4-ofp.static.pub/fes/cms/2022/11/14/h82es5y402b4rh1089sf86ay7n9sdl721044.png",
+  "customerName": "NINEBOT 九号",
+  "customerLogo": "https://ninebot.com/content/dam/segway-ninebot/general/general/icon/ninebot_logo_new.png",
   "preparedBy": "Microsoft Global Solution Advisory Agent - Asia Team",
   "preparedDate": "July 16, 2026",
-  "workshopStart": "2026-08-18",
-  "workshopEnd": "2026-09-26",
+  "workshopStart": "2026-09-24",
+  "workshopEnd": "2026-09-24",
   "contacts": [
     {
       "name": "Michael Jiang",
       "email": "zhijian@microsoft.com"
     },
     {
-      "name": "Scott Berry",
-      "email": "scberr@microsoft.com"
+      "name": "Yige Wang",
+      "email": "yigewang@microsoft.com"
     }
   ],
   "attendees": [
@@ -63,5 +63,7 @@
       "userName": "student05@D365DemoTSCE02668770.onmicrosoft.com",
       "accessCode": "7dz-$g=%"
     }
-  ]
+  ],
+  "workshopId": "00a20a28-9ec5-4ea8-a79b-263b9a0d8445",
+  "surveyToken": "6E1wfXhoqfcwfQDlf5u9by3C71Z-8QDVdcnIhMbtP54"
 }

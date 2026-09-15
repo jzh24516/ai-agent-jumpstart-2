@@ -1,8 +1,29 @@
 {
+  "schemaVersion": 1,
+  "submissionId": "20000000-0000-4000-8000-000000000001",
+  "workshopId": "10000000-0000-4000-8000-000000000001",
+  "workshopKey": "workshop:10000000-0000-4000-8000-000000000001",
+  "customerName": "Contoso",
+  "hostName": "Microsoft",
+  "workshopStart": "2026-09-15",
+  "workshopEnd": "2026-09-15",
+  "surveyToken": "<signed workshop token from branding.json>",
+  "attendeeEmail": "",
+  "emailConsent": false,
+  "locale": "en",
   "overall": 5,
   "effort": 3,
   "recommend": 5,
-  "comments": "Loved the hands-on labs! The copy-ready prompts saved time.",
-  "locale": "en",
-  "at": 1784780000000
+  "comments": "Loved the hands-on labs!",
+  "completedSteps": 2,
+  "totalSteps": 2,
+  "labStatus": [
+    {
+      "labId": "lab-01",
+      "completedSteps": 2,
+      "totalSteps": 2,
+      "completedStepIds": ["create", "test"]
+    }
+  ],
+  "sourcePageUrl": "https://jzh24516.github.io/ai-agent-jumpstart-2/"
 }

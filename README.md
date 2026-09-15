@@ -53,7 +53,7 @@ public/labs/lab-XX/images/{locale}/{imageKey}.png
 
 The exact image keys are listed in each lab's `public/labs/lab-XX/images/README.md`. Missing localized screenshots fall back to English before rendering a localized placeholder, so content authors can add images incrementally without changing React code. Use a 16:10 image ratio where possible.
 
-Learner progress and language preference are stored in browser local storage. No learner data is sent to a server.
+Learner progress and language preference are stored in browser local storage. After all public labs are complete, the participant can submit ratings, comments, and lab completion evidence through the managed survey pipeline. Lab credentials are never sent. The verified email is excluded unless the participant explicitly consents to include it; retained Survey Response data is deleted after 24 months. See [feedback/README.md](feedback/README.md).
 
 ## Maker mode (edit and publish content)
 

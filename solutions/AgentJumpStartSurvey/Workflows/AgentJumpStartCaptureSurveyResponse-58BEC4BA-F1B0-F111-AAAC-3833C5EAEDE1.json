@@ -1,0 +1,305 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps": {
+        "impersonation": {},
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "mjsrc_sharedcommondataserviceforapps_35855"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        }
+      },
+      "triggers": {
+        "Receive_Survey_Response": {
+          "metadata": {},
+          "type": "Request",
+          "kind": "Http",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "schemaVersion": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 100
+                },
+                "submissionId": {
+                  "type": "string",
+                  "minLength": 36,
+                  "maxLength": 36
+                },
+                "workshopId": {
+                  "type": "string",
+                  "minLength": 36,
+                  "maxLength": 36
+                },
+                "workshopKey": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200
+                },
+                "customerName": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200
+                },
+                "hostName": {
+                  "type": "string",
+                  "maxLength": 200
+                },
+                "workshopStart": {
+                  "type": "string",
+                  "maxLength": 10
+                },
+                "workshopEnd": {
+                  "type": "string",
+                  "maxLength": 10
+                },
+                "sourceSiteUrl": {
+                  "type": "string",
+                  "maxLength": 500
+                },
+                "attendeeEmail": {
+                  "type": "string",
+                  "maxLength": 320
+                },
+                "emailConsent": {
+                  "type": "boolean"
+                },
+                "submittedAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "retentionExpiresAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "locale": {
+                  "type": "string",
+                  "enum": [
+                    "en",
+                    "zh",
+                    "zh-HK",
+                    "zh-TW",
+                    "ja",
+                    "ko",
+                    "th",
+                    "hi",
+                    "vi"
+                  ]
+                },
+                "overall": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 5
+                },
+                "effort": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 5
+                },
+                "recommend": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 5
+                },
+                "comments": {
+                  "type": "string",
+                  "maxLength": 10000
+                },
+                "completionPercent": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 100
+                },
+                "completedSteps": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "totalSteps": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "labStatusJson": {
+                  "type": "string",
+                  "maxLength": 100000
+                },
+                "sourcePageUrl": {
+                  "type": "string",
+                  "maxLength": 500
+                },
+                "userAgent": {
+                  "type": "string",
+                  "maxLength": 500
+                },
+                "processingVersion": {
+                  "type": "string",
+                  "maxLength": 50
+                }
+              },
+              "required": [
+                "schemaVersion",
+                "submissionId",
+                "workshopId",
+                "workshopKey",
+                "customerName",
+                "hostName",
+                "workshopStart",
+                "workshopEnd",
+                "sourceSiteUrl",
+                "attendeeEmail",
+                "emailConsent",
+                "submittedAt",
+                "retentionExpiresAt",
+                "locale",
+                "overall",
+                "effort",
+                "recommend",
+                "comments",
+                "completionPercent",
+                "completedSteps",
+                "totalSteps",
+                "labStatusJson",
+                "sourcePageUrl",
+                "userAgent",
+                "processingVersion"
+              ]
+            },
+            "triggerAuthenticationType": "All"
+          }
+        }
+      },
+      "actions": {
+        "Upsert_Workshop": {
+          "runAfter": {},
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "UpdateRecord"
+            },
+            "parameters": {
+              "entityName": "mjsrc_workshops",
+              "recordId": "@triggerBody()?['workshopId']",
+              "item/mjsrc_name": "@concat(triggerBody()?['customerName'], ' - ', triggerBody()?['workshopStart'])",
+              "item/mjsrc_workshopkey": "@triggerBody()?['workshopKey']",
+              "item/mjsrc_customername": "@triggerBody()?['customerName']",
+              "item/mjsrc_hostname": "@triggerBody()?['hostName']",
+              "item/mjsrc_workshopstart": "@if(empty(triggerBody()?['workshopStart']), null, triggerBody()?['workshopStart'])",
+              "item/mjsrc_workshopend": "@if(empty(triggerBody()?['workshopEnd']), null, triggerBody()?['workshopEnd'])",
+              "item/mjsrc_sourcesiteurl": "@triggerBody()?['sourceSiteUrl']",
+              "item/mjsrc_retentionmonths": 24,
+              "item/mjsrc_privacynoticeversion": "2026-09-15",
+              "accept": "application/json;odata.metadata=minimal"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Upsert_Survey_Response": {
+          "runAfter": {
+            "Upsert_Workshop": [
+              "Succeeded"
+            ]
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "UpdateRecord"
+            },
+            "parameters": {
+              "entityName": "mjsrc_surveyresponses",
+              "recordId": "@triggerBody()?['submissionId']",
+              "item/mjsrc_name": "@concat(triggerBody()?['customerName'], ' - ', triggerBody()?['submissionId'])",
+              "item/mjsrc_submissionid": "@triggerBody()?['submissionId']",
+              "item/mjsrc_workshopkey": "@triggerBody()?['workshopKey']",
+              "item/mjsrc_customername": "@triggerBody()?['customerName']",
+              "item/mjsrc_attendeeemail": "@if(equals(triggerBody()?['emailConsent'], true), triggerBody()?['attendeeEmail'], '')",
+              "item/mjsrc_emailconsent": "@triggerBody()?['emailConsent']",
+              "item/mjsrc_submittedat": "@triggerBody()?['submittedAt']",
+              "item/mjsrc_retentionexpiresat": "@triggerBody()?['retentionExpiresAt']",
+              "item/mjsrc_locale": "@triggerBody()?['locale']",
+              "item/mjsrc_overall": "@triggerBody()?['overall']",
+              "item/mjsrc_effort": "@triggerBody()?['effort']",
+              "item/mjsrc_recommend": "@triggerBody()?['recommend']",
+              "item/mjsrc_comments": "@triggerBody()?['comments']",
+              "item/mjsrc_completionpercent": "@triggerBody()?['completionPercent']",
+              "item/mjsrc_completedsteps": "@triggerBody()?['completedSteps']",
+              "item/mjsrc_totalsteps": "@triggerBody()?['totalSteps']",
+              "item/mjsrc_labstatusjson": "@triggerBody()?['labStatusJson']",
+              "item/mjsrc_sourcepageurl": "@triggerBody()?['sourcePageUrl']",
+              "item/mjsrc_useragent": "@triggerBody()?['userAgent']",
+              "item/mjsrc_schemaversion": "@triggerBody()?['schemaVersion']",
+              "item/mjsrc_processingversion": "@triggerBody()?['processingVersion']",
+              "item/mjsrc_WorkshopId@odata.bind": "@concat('/mjsrc_workshops(', triggerBody()?['workshopId'], ')')",
+              "accept": "application/json;odata.metadata=minimal"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Return_Success": {
+          "runAfter": {
+            "Upsert_Survey_Response": [
+              "Succeeded"
+            ]
+          },
+          "type": "Response",
+          "kind": "Http",
+          "inputs": {
+            "statusCode": 200,
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "body": {
+              "ok": true,
+              "submissionId": "@triggerBody()?['submissionId']"
+            }
+          }
+        },
+        "Return_Failure": {
+          "runAfter": {
+            "Upsert_Survey_Response": [
+              "Failed",
+              "TimedOut",
+              "Skipped"
+            ]
+          },
+          "type": "Response",
+          "kind": "Http",
+          "inputs": {
+            "statusCode": 500,
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "body": {
+              "ok": false,
+              "code": "SURVEY_STORAGE_FAILED"
+            }
+          }
+        }
+      },
+      "outputs": {}
+    },
+    "templateName": null
+  },
+  "schemaVersion": "1.0.0.0"
+}

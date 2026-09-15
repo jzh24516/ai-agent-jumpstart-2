@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <systemform>
+    <formid>{e49f2209-9d46-4fe1-b818-475f21020a3e}</formid>
+    <IntroducedVersion>1.0.0.0</IntroducedVersion>
+    <FormPresentation>1</FormPresentation>
+    <FormActivationState>1</FormActivationState>
+    <form>
+      <tabs>
+        <tab verticallayout="true" id="{7f974e12-95bd-4132-8906-a3ca8c496873}" IsUserDefined="1">
+          <labels>
+            <label description="一般" languagecode="1028" />
+            <label description="General" languagecode="1033" />
+            <label description="常规" languagecode="2052" />
+            <label description="一般" languagecode="3076" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section showlabel="false" showbar="false" IsUserDefined="0" id="{31a47844-9b35-4e1e-8f5c-30a274116180}">
+                  <labels>
+                    <label description="一般" languagecode="1028" />
+                    <label description="General" languagecode="1033" />
+                    <label description="常规" languagecode="2052" />
+                    <label description="一般" languagecode="3076" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{f11dfcbd-6f6e-4520-8610-e856ce5d389d}">
+                        <labels>
+                          <label description="Name" languagecode="1033" />
+                        </labels>
+                        <control id="mjsrc_name" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="mjsrc_name" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+      </tabs>
+    </form>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <LocalizedNames>
+      <LocalizedName description="Information" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="A form for this entity." languagecode="1033" />
+    </Descriptions>
+  </systemform>
+</forms>

@@ -10,6 +10,7 @@ import {
 } from 'lucide-react'
 import { authenticateMaker, defaultContent, isLabPublic, isStepVisible, loadLabs } from './content/store'
 import { downloadWorkshopInvitation } from './content/invitation'
+import { newSurveySubmissionId, submitWorkshopSurvey } from './content/feedback'
 import MakerEditor from './editor/MakerEditor'
 import Fireworks from './Fireworks'
 import { localeNames, prepareLocale, text, ui } from './content/ui'
@@ -241,12 +242,12 @@ function DocumentStep({
 
 type BrandingContact = { name: string; email: string }
 type LabUser = { userName: string; accessCode: string }
-type Branding = { hostName: string; hostLogo: string; customerName: string; customerLogo: string; preparedBy: string; preparedDate: string; workshopStart: string; workshopEnd: string; contacts: BrandingContact[]; attendees: string[]; labUsers: LabUser[] }
+type Branding = { hostName: string; hostLogo: string; customerName: string; customerLogo: string; preparedBy: string; preparedDate: string; workshopStart: string; workshopEnd: string; contacts: BrandingContact[]; attendees: string[]; labUsers: LabUser[]; workshopId: string; surveyToken: string }
 const defaultContacts: BrandingContact[] = [
   { name: 'Nalin Shukla', email: 'nshukla@microsoft.com' },
   { name: 'Michael Jiang', email: 'zhijian@microsoft.com' },
 ]
-const defaultBranding: Branding = { hostName: 'Microsoft', hostLogo: '', customerName: '', customerLogo: '', preparedBy: 'Microsoft Global Solution Advisory Agent - Asia Team', preparedDate: 'July 16, 2026', workshopStart: '', workshopEnd: '', contacts: defaultContacts, attendees: [], labUsers: [] }
+const defaultBranding: Branding = { hostName: 'Microsoft', hostLogo: '', customerName: '', customerLogo: '', preparedBy: 'Microsoft Global Solution Advisory Agent - Asia Team', preparedDate: 'July 16, 2026', workshopStart: '', workshopEnd: '', contacts: defaultContacts, attendees: [], labUsers: [], workshopId: '', surveyToken: '' }
 
 // Attendee email helpers. Emails are stored lowercased so validation is case-insensitive.
 const isEmail = (value: string): boolean => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())
@@ -343,7 +344,7 @@ async function loadPublishedBranding(): Promise<Branding | null> {
   return null
 }
 // Dev-only: writes the applied branding to the published file so it can be committed + pushed.
-async function saveBrandingToFile(branding: Branding): Promise<void> {
+async function saveBrandingToFile(branding: Branding): Promise<Branding> {
   const response = await fetch('/api/branding', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -354,6 +355,7 @@ async function saveBrandingToFile(branding: Branding): Promise<void> {
     if (response.status === 401 || response.status === 503) error.name = 'AuthRequired'
     throw error
   }
+  return { ...defaultBranding, ...(await response.json() as Partial<Branding>) }
 }
 
 const cover: Record<string, LocalizedText> = {
@@ -386,7 +388,7 @@ function BrandLogo({ name, logo }: { name: string; logo: string }) {
   return <span className="cover-brand-name">{name || 'Microsoft'}</span>
 }
 
-type Workshop = { id: string; name: string; hostName: string; hostLogo: string; customerName: string; customerLogo: string; preparedBy?: string; preparedDate?: string; workshopStart?: string; workshopEnd?: string; contacts?: BrandingContact[]; attendees?: string[]; labUsers?: LabUser[]; savedAt: number }
+type Workshop = { id: string; name: string; hostName: string; hostLogo: string; customerName: string; customerLogo: string; preparedBy?: string; preparedDate?: string; workshopStart?: string; workshopEnd?: string; contacts?: BrandingContact[]; attendees?: string[]; labUsers?: LabUser[]; workshopId?: string; surveyToken?: string; savedAt: number }
 type WorkshopMutation = { action: 'upsert'; workshop: Workshop } | { action: 'clone'; workshop: Workshop } | { action: 'delete'; id: string } | { action: 'import'; workshops: Workshop[] }
 type PendingWorkshopMutation = { mutation: WorkshopMutation; rollback: Workshop[] }
 type PendingWorkshopClone = { workshop: Workshop; sourceName: string }
@@ -408,6 +410,8 @@ const brandingFromWorkshop = (workshop: Workshop): Branding => ({
   contacts: structuredClone(workshop.contacts ?? defaultContacts),
   attendees: structuredClone(workshop.attendees ?? []),
   labUsers: structuredClone(workshop.labUsers ?? []),
+  workshopId: workshop.workshopId ?? '',
+  surveyToken: workshop.surveyToken ?? '',
 })
 
 const hasStringProperties = (value: unknown, keys: string[]): value is Record<string, string> => {
@@ -437,6 +441,8 @@ const isWorkshop = (value: unknown): value is Workshop => {
     && (item.contacts === undefined || (Array.isArray(item.contacts) && item.contacts.every((contact) => hasStringProperties(contact, ['name', 'email']))))
     && (item.attendees === undefined || (Array.isArray(item.attendees) && item.attendees.every((email) => typeof email === 'string')))
     && (item.labUsers === undefined || (Array.isArray(item.labUsers) && item.labUsers.every((labUser) => hasStringProperties(labUser, ['userName', 'accessCode']))))
+    && (item.workshopId === undefined || typeof item.workshopId === 'string')
+    && (item.surveyToken === undefined || typeof item.surveyToken === 'string')
 }
 
 const parseWorkshops = (value: unknown): Workshop[] => {
@@ -496,7 +502,7 @@ function BrandingSettings({ value, locale, initialWorkshopIdentity, onApply, onA
   value: Branding
   locale: Locale
   initialWorkshopIdentity: WorkshopIdentity | null
-  onApply: (b: Branding) => Promise<void>
+  onApply: (b: Branding) => Promise<Branding>
   onAppliedIdentity: (identity: WorkshopIdentity | null) => void
   onClose: () => void
 }) {
@@ -717,7 +723,8 @@ function BrandingSettings({ value, locale, initialWorkshopIdentity, onApply, onA
     setSaving(true)
     setFlash(text(ui.applying, locale))
     try {
-      await onApply(completed)
+      const published = await onApply(completed)
+      setDraft(published)
       onAppliedIdentity(activeWorkshopIdentity)
       setPendingSave(null)
       setFlash(text(ui.brandingPublished, locale))
@@ -881,7 +888,7 @@ function BrandingSettings({ value, locale, initialWorkshopIdentity, onApply, onA
     const existing = activeWorkshopIdentity
       ? history.find((w) => w.id === activeWorkshopIdentity.id)
       : history.find((w) => canonicalWorkshopName(w.name) === canonicalWorkshopName(name))
-    const entry: Workshop = { id: existing?.id || activeWorkshopIdentity?.id || newWorkshopId(), name, hostName: normalizedDraft.hostName, hostLogo: normalizedDraft.hostLogo, customerName: normalizedDraft.customerName, customerLogo: normalizedDraft.customerLogo, preparedBy: normalizedDraft.preparedBy, preparedDate: normalizedDraft.preparedDate, workshopStart: normalizedDraft.workshopStart, workshopEnd: normalizedDraft.workshopEnd, contacts: normalizedDraft.contacts, attendees: normalizedDraft.attendees, labUsers: normalizedDraft.labUsers, savedAt: Date.now() }
+    const entry: Workshop = { id: existing?.id || activeWorkshopIdentity?.id || newWorkshopId(), name, hostName: normalizedDraft.hostName, hostLogo: normalizedDraft.hostLogo, customerName: normalizedDraft.customerName, customerLogo: normalizedDraft.customerLogo, preparedBy: normalizedDraft.preparedBy, preparedDate: normalizedDraft.preparedDate, workshopStart: normalizedDraft.workshopStart, workshopEnd: normalizedDraft.workshopEnd, contacts: normalizedDraft.contacts, attendees: normalizedDraft.attendees, labUsers: normalizedDraft.labUsers, workshopId: normalizedDraft.workshopId || undefined, surveyToken: normalizedDraft.surveyToken || undefined, savedAt: Date.now() }
     const rollback = history
     const next = existing ? history.map((w) => (w.id === existing.id ? entry : w)) : [entry, ...history]
     setDraft(normalizedDraft)
@@ -922,6 +929,8 @@ function BrandingSettings({ value, locale, initialWorkshopIdentity, onApply, onA
       ...structuredClone(cloneSource),
       id: newWorkshopId(),
       name,
+      workshopId: undefined,
+      surveyToken: undefined,
       savedAt: Date.now(),
     }
     void persistWorkshopClone(cloned, cloneSource.name)
@@ -1273,16 +1282,13 @@ function LabCredentialsFlyout({ email, branding, locale }: { email: string; bran
   </div>
 }
 
-type Feedback = { overall: number; effort: number; recommend: number; comments: string; locale: Locale; at: number }
-// Persist feedback locally (always) and best-effort POST to an optional collector endpoint.
-// On the static site the POST simply no-ops; localStorage keeps every submission.
-async function saveFeedback(entry: Feedback) {
+type StoredFeedback = { submissionId: string; overall: number; effort: number; recommend: number; comments: string; locale: Locale; at: number }
+const saveFeedbackReceipt = (entry: StoredFeedback) => {
   try {
-    const list: Feedback[] = JSON.parse(localStorage.getItem('jumpstart-feedback') || '[]')
+    const list: StoredFeedback[] = JSON.parse(localStorage.getItem('jumpstart-feedback') || '[]')
     list.push(entry)
     localStorage.setItem('jumpstart-feedback', JSON.stringify(list))
   } catch { /* storage unavailable */ }
-  try { await fetch('/api/feedback', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(entry) }) } catch { /* no collector endpoint */ }
 }
 
 function StarRating({ value, onChange, ariaLabel }: { value: number; onChange: (v: number) => void; ariaLabel: string }) {
@@ -1318,14 +1324,29 @@ function LabCompleteModal({ locale, labTitle, hasNext, onKeepGoing, onStay }: { 
   )
 }
 
-function AllCompleteModal({ locale, onClose, onSubmit }: { locale: Locale; onClose: () => void; onSubmit: (data: { overall: number; effort: number; recommend: number; comments: string }) => void }) {
+function AllCompleteModal({ locale, verifiedEmail, onClose, onSubmit }: { locale: Locale; verifiedEmail: string | null; onClose: () => void; onSubmit: (data: { submissionId: string; overall: number; effort: number; recommend: number; comments: string; emailConsent: boolean }) => Promise<void> }) {
   const [overall, setOverall] = useState(0)
   const [effort, setEffort] = useState(0)
   const [recommend, setRecommend] = useState(0)
   const [comments, setComments] = useState('')
+  const [emailConsent, setEmailConsent] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [submitFailed, setSubmitFailed] = useState(false)
   const [done, setDone] = useState(false)
+  const [submissionId] = useState(newSurveySubmissionId)
   const canSubmit = overall > 0 || effort > 0 || recommend > 0 || comments.trim().length > 0
-  const submit = () => { onSubmit({ overall, effort, recommend, comments: comments.trim() }); setDone(true) }
+  const submit = async () => {
+    setSubmitting(true)
+    setSubmitFailed(false)
+    try {
+      await onSubmit({ submissionId, overall, effort, recommend, comments: comments.trim(), emailConsent })
+      setDone(true)
+    } catch {
+      setSubmitFailed(true)
+    } finally {
+      setSubmitting(false)
+    }
+  }
   return (
     <div className="celebrate-scrim" role="dialog" aria-modal="true" aria-label={text(ui.allDoneTitle, locale)}>
       <div className="celebrate-card wide" onClick={(event) => event.stopPropagation()}>
@@ -1346,10 +1367,13 @@ function AllCompleteModal({ locale, onClose, onSubmit }: { locale: Locale; onClo
               <div className="feedback-row"><label>{text(ui.feedbackEffort, locale)}<small>{text(ui.feedbackEffortHint, locale)}</small></label><StarRating value={effort} onChange={setEffort} ariaLabel={text(ui.feedbackEffort, locale)} /></div>
               <div className="feedback-row"><label>{text(ui.feedbackRecommend, locale)}</label><StarRating value={recommend} onChange={setRecommend} ariaLabel={text(ui.feedbackRecommend, locale)} /></div>
               <label className="feedback-comments">{text(ui.feedbackComments, locale)}<textarea value={comments} onChange={(event) => setComments(event.target.value)} placeholder={text(ui.feedbackCommentsHint, locale)} rows={3} /></label>
+              {verifiedEmail && <label className="feedback-consent"><input type="checkbox" checked={emailConsent} onChange={(event) => setEmailConsent(event.target.checked)} /><span>{text(ui.feedbackEmailConsent, locale).replace('{email}', () => verifiedEmail)}</span></label>}
+              <p className="feedback-privacy">{text(ui.feedbackPrivacy, locale)}</p>
+              {submitFailed && <p className="feedback-error" role="alert">{text(ui.feedbackSubmitFailed, locale)}</p>}
             </div>
             <div className="celebrate-actions">
-              <button className="celebrate-ghost" type="button" onClick={onClose}>{text(ui.feedbackSkip, locale)}</button>
-              <button className="celebrate-primary" type="button" disabled={!canSubmit} onClick={submit}>{text(ui.feedbackSubmit, locale)}</button>
+              <button className="celebrate-ghost" type="button" disabled={submitting} onClick={onClose}>{text(ui.feedbackSkip, locale)}</button>
+              <button className="celebrate-primary" type="button" disabled={!canSubmit || submitting} onClick={() => void submit()}>{text(submitting ? ui.feedbackSubmitting : ui.feedbackSubmit, locale)}</button>
             </div>
           </>
         )}
@@ -1535,13 +1559,44 @@ function App() {
     window.addEventListener('afterprint', restore)
     window.print()
   }
-  const applyBranding = async (next: Branding): Promise<void> => {
-    await saveBrandingToFile(next)
-    setBranding(next)
+  const applyBranding = async (next: Branding): Promise<Branding> => {
+    const published = await saveBrandingToFile(next)
+    setBranding(published)
+    return published
   }
   const enterWorkshop = () => { if (brandingReady) setShowCover(false) }
-  const submitFeedback = (data: { overall: number; effort: number; recommend: number; comments: string }) => {
-    void saveFeedback({ ...data, locale, at: Date.now() })
+  const submitFeedback = async (data: { submissionId: string; overall: number; effort: number; recommend: number; comments: string; emailConsent: boolean }) => {
+    const workshopId = branding.workshopId.trim()
+    const surveyToken = branding.surveyToken.trim()
+    if (!workshopId || !surveyToken || !branding.customerName.trim()) throw new Error('Workshop survey identity is unavailable.')
+    const labStatus = publicLabs.map((item) => {
+      const steps = item.steps.filter(isStepVisible)
+      const completedStepIds = steps.filter((step) => completed.has(`${item.id}:${step.id}`)).map((step) => step.id)
+      return { labId: item.id, completedSteps: completedStepIds.length, totalSteps: steps.length, completedStepIds }
+    })
+    await submitWorkshopSurvey({
+      schemaVersion: 1,
+      submissionId: data.submissionId,
+      workshopId,
+      workshopKey: `workshop:${workshopId}`,
+      customerName: branding.customerName.trim(),
+      hostName: branding.hostName.trim(),
+      workshopStart: branding.workshopStart.trim(),
+      workshopEnd: branding.workshopEnd.trim(),
+      surveyToken,
+      attendeeEmail: data.emailConsent ? verifiedEmail ?? '' : '',
+      emailConsent: data.emailConsent,
+      locale,
+      overall: data.overall,
+      effort: data.effort,
+      recommend: data.recommend,
+      comments: data.comments,
+      completedSteps: completedPublic,
+      totalSteps,
+      labStatus,
+      sourcePageUrl: window.location.href,
+    })
+    saveFeedbackReceipt({ submissionId: data.submissionId, overall: data.overall, effort: data.effort, recommend: data.recommend, comments: data.comments, locale, at: Date.now() })
   }
   const LabIcon = iconMap[lab.icon]
 
@@ -1645,7 +1700,7 @@ function App() {
       onKeepGoing={() => { const next = labIndex + 1; if (next < visibleLabs.length) selectLab(next); setLabDoneTitle(null) }}
       onStay={() => setLabDoneTitle(null)}
     />}
-    {allDoneOpen && <AllCompleteModal locale={locale} onClose={() => setAllDoneOpen(false)} onSubmit={submitFeedback} />}
+    {allDoneOpen && <AllCompleteModal locale={locale} verifiedEmail={verifiedEmail} onClose={() => setAllDoneOpen(false)} onSubmit={submitFeedback} />}
   </div>
 }
 

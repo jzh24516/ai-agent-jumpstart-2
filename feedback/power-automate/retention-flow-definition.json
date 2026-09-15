@@ -1,0 +1,66 @@
+{
+  "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "$authentication": { "defaultValue": {}, "type": "SecureObject" },
+    "$connections": { "defaultValue": {}, "type": "Object" }
+  },
+  "outputs": {},
+  "triggers": {
+    "Daily": {
+      "type": "Recurrence",
+      "recurrence": {
+        "frequency": "Day",
+        "interval": 1,
+        "timeZone": "UTC",
+        "schedule": {
+          "hours": [3],
+          "minutes": [15]
+        }
+      }
+    }
+  },
+  "actions": {
+    "List_Expired_Survey_Responses": {
+      "type": "OpenApiConnection",
+      "inputs": {
+        "host": {
+          "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+          "connectionName": "shared_commondataserviceforapps",
+          "operationId": "ListRecords"
+        },
+        "parameters": {
+          "entityName": "mjsrc_surveyresponses",
+          "$select": "mjsrc_surveyresponseid",
+          "$filter": "mjsrc_retentionexpiresat le @{utcNow()}",
+          "$top": 5000
+        }
+      },
+      "runAfter": {}
+    },
+    "Delete_Expired_Responses": {
+      "type": "Foreach",
+      "foreach": "@outputs('List_Expired_Survey_Responses')?['body/value']",
+      "actions": {
+        "Delete_Survey_Response": {
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "DeleteRecord"
+            },
+            "parameters": {
+              "entityName": "mjsrc_surveyresponses",
+              "recordId": "@items('Delete_Expired_Responses')?['mjsrc_surveyresponseid']"
+            }
+          },
+          "runAfter": {}
+        }
+      },
+      "runAfter": {
+        "List_Expired_Survey_Responses": ["Succeeded"]
+      }
+    }
+  }
+}
