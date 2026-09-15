@@ -1,7 +1,7 @@
 @description('Short environment name used to create deterministic resource names.')
 param environmentName string
 param location string
-param allowedOrigin string
+param allowedOrigins array
 param sourceSiteUrl string
 param deployerObjectId string
 
@@ -534,9 +534,7 @@ resource functionApp 'Microsoft.Web/sites@2024-11-01' = {
       http20Enabled: true
       minTlsVersion: '1.2'
       cors: {
-        allowedOrigins: [
-          allowedOrigin
-        ]
+        allowedOrigins: allowedOrigins
         supportCredentials: false
       }
       appSettings: [
@@ -586,7 +584,7 @@ resource functionApp 'Microsoft.Web/sites@2024-11-01' = {
         }
         {
           name: 'SURVEY_ALLOWED_ORIGINS'
-          value: allowedOrigin
+          value: join(allowedOrigins, ',')
         }
         {
           name: 'SURVEY_SOURCE_SITE_URL'

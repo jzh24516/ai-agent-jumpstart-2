@@ -9,8 +9,10 @@ param environmentName string = 'survey'
 ])
 param location string = 'westus3'
 
-@description('Browser origin allowed to call the public survey gateway.')
-param allowedOrigin string = 'https://jzh24516.github.io'
+@description('Browser origins allowed to call the public survey gateway.')
+param allowedOrigins array = [
+  'https://jzh24516.github.io'
+]
 
 @description('Canonical published workshop site URL.')
 param sourceSiteUrl string = 'https://jzh24516.github.io/ai-agent-jumpstart-2/'
@@ -36,7 +38,7 @@ module resources 'resources.bicep' = {
   params: {
     environmentName: environmentName
     location: location
-    allowedOrigin: allowedOrigin
+    allowedOrigins: allowedOrigins
     sourceSiteUrl: sourceSiteUrl
     deployerObjectId: deployerObjectId
   }

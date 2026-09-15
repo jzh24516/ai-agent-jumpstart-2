@@ -8,8 +8,12 @@
     "location": {
       "value": "westus3"
     },
-    "allowedOrigin": {
-      "value": "https://jzh24516.github.io"
+    "allowedOrigins": {
+      "value": [
+        "https://jzh24516.github.io",
+        "http://localhost:5173",
+        "http://127.0.0.1:5173"
+      ]
     },
     "sourceSiteUrl": {
       "value": "https://jzh24516.github.io/ai-agent-jumpstart-2/"
