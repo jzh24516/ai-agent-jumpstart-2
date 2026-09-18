@@ -1,20 +1,20 @@
 {
   "hostName": "Microsoft",
   "hostLogo": "https://uhf.microsoft.com/images/microsoft/RE1Mu3b.png",
-  "customerName": "NINEBOT 九号",
-  "customerLogo": "https://ninebot.com/content/dam/segway-ninebot/general/general/icon/ninebot_logo_new.png",
-  "preparedBy": "Microsoft Global Solution Advisory Agent - Asia Team",
-  "preparedDate": "July 16, 2026",
-  "workshopStart": "2026-09-15",
-  "workshopEnd": "2026-09-24",
+  "customerName": "LENOVO",
+  "customerLogo": "https://p4-ofp.static.pub/fes/cms/2022/11/14/h82es5y402b4rh1089sf86ay7n9sdl721044.png",
+  "preparedBy": "Microsoft Agent GBB Team x Lenovo IDG Services Support",
+  "preparedDate": "Sep 23rd, 2026",
+  "workshopStart": "2026-08-18",
+  "workshopEnd": "2026-09-26",
   "contacts": [
     {
       "name": "Michael Jiang",
       "email": "zhijian@microsoft.com"
     },
     {
-      "name": "Yige Wang",
-      "email": "yigewang@microsoft.com"
+      "name": "Ivy Wang",
+      "email": "wangqr3@lenovo.com"
     }
   ],
   "attendees": [
@@ -45,25 +45,25 @@
   "labUsers": [
     {
       "userName": "student01@D365DemoTSCE02668770.onmicrosoft.com",
-      "accessCode": "Y$+AqUfq"
+      "accessCode": "K3NGK=LQ"
     },
     {
       "userName": "student02@D365DemoTSCE02668770.onmicrosoft.com",
-      "accessCode": "H2#H&%YL"
+      "accessCode": "sw&snARr"
     },
     {
       "userName": "student03@D365DemoTSCE02668770.onmicrosoft.com",
-      "accessCode": "$t=HD+-="
+      "accessCode": "H5-BGR5%"
     },
     {
       "userName": "student04@D365DemoTSCE02668770.onmicrosoft.com",
-      "accessCode": "+$8hsmw@"
+      "accessCode": "gSr&86HB"
     },
     {
       "userName": "student05@D365DemoTSCE02668770.onmicrosoft.com",
-      "accessCode": "7dz-$g=%"
+      "accessCode": "N$=-UGC6"
     }
   ],
-  "workshopId": "00a20a28-9ec5-4ea8-a79b-263b9a0d8445",
-  "surveyToken": "YOCwPyTMsuFMt85vplNNPk4xASD-Uef4_86q0svGCgQ"
+  "workshopId": "db66ca84-b023-4696-9d54-c179b2a167e1",
+  "surveyToken": "6TpW3k-O13ZMUUP0rqYxcgEHxoYprzAP9J_WMzmKV2U"
 }
