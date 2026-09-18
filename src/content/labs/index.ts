@@ -4,5 +4,6 @@ import { lab03 } from './lab-03/content'
 import { lab04 } from './lab-04/content'
 import { lab05 } from './lab-05/content'
 import { lab06 } from './lab-06/content'
+import { lab07 } from './lab-07/content'
 
-export const labs = [lab01, lab02, lab03, lab04, lab05, lab06]
+export const labs = [lab01, lab02, lab03, lab04, lab05, lab06, lab07]
