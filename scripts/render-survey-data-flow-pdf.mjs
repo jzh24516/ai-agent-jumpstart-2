@@ -11,9 +11,14 @@ const browser = await chromium.launch({ headless: true })
 try {
   const page = await browser.newPage({ viewport: { width: 1280, height: 720 } })
   await page.goto(pathToFileURL(htmlPath).href, { waitUntil: 'load' })
+  const topologyImage = page.locator('img[src$="Survey-Collection-Network-Topology.svg"]')
+  await topologyImage.evaluate(async (image) => {
+    await image.decode()
+    if (!image.naturalWidth || !image.naturalHeight) throw new Error('Network topology SVG did not load.')
+  })
   await page.emulateMedia({ media: 'print' })
   const slideCount = await page.locator('.slide').count()
-  if (slideCount !== 17) throw new Error(`Expected 17 slides, found ${slideCount}.`)
+  if (slideCount !== 18) throw new Error(`Expected 18 slides, found ${slideCount}.`)
   await page.pdf({
     path: pdfPath,
     printBackground: true,
