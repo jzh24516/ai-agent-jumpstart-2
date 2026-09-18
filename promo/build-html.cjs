@@ -125,14 +125,14 @@ const slides = /* html */ `
 <section class="slide saga-slide" data-title="The 6 labs">
   <div class="saga-bg" style="background:${STARS}, radial-gradient(ellipse 85% 60% at 50% -12%, rgba(124,58,237,.24), transparent 60%), radial-gradient(ellipse 95% 75% at 50% 118%, rgba(34,211,238,.16), transparent 60%), #05030f"></div>
   <div class="saga-glow" aria-hidden="true"></div>
-  <div class="s-head saga-head"><span class="kicker" data-i18n="s3.k">🧭 The learning path</span><h2 data-i18n="s3.h">Six labs, from first agent to <span class="grad">real-time voice</span> 🎙️</h2></div>
+  <div class="s-head saga-head"><span class="kicker" data-i18n="s3.k">🧭 The learning path</span><h2 data-i18n="s3.h">Six labs, from first agent to a <span class="grad">managed app</span> ✨</h2></div>
   <div class="saga-grid">
     <div class="ep" style="--saber:#4ea8ff"><div class="ep-top"><span class="ep-no">I</span><span class="ep-emoji">🤖</span><span class="ep-arch" data-i18n="s3.a1">The Apprentice</span></div><div class="blade"></div><h3 data-i18n="s3.t1">Meet the Agent Maker</h3><p data-i18n="s3.d1">Build a grounded, multilingual agent with Microsoft.com + Microsoft Learn MCP.</p></div>
     <div class="ep" style="--saber:#3ee06a"><div class="ep-top"><span class="ep-no">II</span><span class="ep-emoji">🗂️</span><span class="ep-arch" data-i18n="s3.a2">The Archivist</span></div><div class="blade"></div><h3 data-i18n="s3.t2">Bring in business context</h3><p data-i18n="s3.d2">Dataverse MCP, reusable Skills, Memory, and a CoWork customer-360 workflow.</p></div>
     <div class="ep" style="--saber:#b57bff"><div class="ep-top"><span class="ep-no">III</span><span class="ep-emoji">📝</span><span class="ep-arch" data-i18n="s3.a3">The Chronicler</span></div><div class="blade"></div><h3 data-i18n="s3.t3">Evidence-based RFP</h3><p data-i18n="s3.d3">Work IQ + Microsoft IQ generate sourced RFP/RFI responses across Office.</p></div>
     <div class="ep" style="--saber:#ffb020"><div class="ep-top"><span class="ep-no">IV</span><span class="ep-emoji">🔌</span><span class="ep-arch" data-i18n="s3.a4">The Envoy</span></div><div class="blade"></div><h3 data-i18n="s3.t4">Connect specialist agents</h3><p data-i18n="s3.d4">ServiceNow knowledge + tickets, connected agents, Teams &amp; M365 Copilot.</p></div>
     <div class="ep" style="--saber:#ff5c5c"><div class="ep-top"><span class="ep-no">V</span><span class="ep-emoji">📨</span><span class="ep-arch" data-i18n="s3.a5">The Squadron</span></div><div class="blade"></div><h3 data-i18n="s3.t5">Multi-agent email Workflow</h3><p data-i18n="s3.d5">Classify inbound email &rarr; route to the right agent &rarr; personalized reply.</p></div>
-    <div class="ep" style="--saber:#34e2ff"><div class="ep-top"><span class="ep-no">VI</span><span class="ep-emoji">🎙️</span><span class="ep-arch" data-i18n="s3.a6">The Herald</span></div><div class="blade"></div><h3 data-i18n="s3.t6">Real-time voice agent</h3><p data-i18n="s3.d6">Classic agent + real-time voice, multilingual, tested live in the Test window.</p></div>
+    <div class="ep" style="--saber:#34e2ff"><div class="ep-top"><span class="ep-no">VI</span><span class="ep-emoji">✨</span><span class="ep-arch" data-i18n="s3.a6">The App Builder</span></div><div class="blade"></div><h3 data-i18n="s3.t6">Vibe-code an MRM app</h3><p data-i18n="s3.d6">Apps (Preview) + GitHub Copilot harness: prompt, preview code, enhance, save &amp; publish.</p></div>
   </div>
 </section>
 
@@ -748,6 +748,41 @@ const html = /* html */ `<!doctype html>
     .hint{display:none}
   }
   @media (max-width:640px){h2{font-size:1.7rem}.hero{font-size:2.5rem}.two,.labgrid{grid-template-columns:1fr}.cover-shot{display:none}.cover-wrap{width:100%}}
+  @media (max-width:640px) and (orientation:portrait){
+    #stage{display:block;padding:68px 8px 78px;overflow-y:auto}
+    .deck{width:100%;height:max(calc(100vh - 146px),680px);height:max(calc(100dvh - 146px),680px);aspect-ratio:auto;border-radius:14px}
+    .slide{padding:4.5% 5%;overflow-y:auto}
+    .saga-slide{overflow:hidden}
+    .saga-slide .s-head{margin-bottom:12px}
+    .saga-slide .kicker{padding:4px 8px;margin-bottom:8px}
+    .saga-grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:minmax(0,1fr);gap:8px}
+    .ep{padding:10px 11px;border-radius:10px}
+    .ep-top{gap:5px}
+    .ep-no,.ep-emoji{font-size:1rem}
+    .ep-arch{font-size:.58rem;letter-spacing:.08em}
+    .blade{margin:6px 0}
+    .ep h3{font-size:1rem}
+    .ep p{margin-top:5px;font-size:.82rem;line-height:1.3}
+  }
+  @media (max-height:640px) and (orientation:landscape){
+    #stage{padding:46px 8px 62px}
+    .deck{width:min(96vw,calc((100vh - 108px)*16/9));width:min(96vw,calc((100dvh - 108px)*16/9))}
+    .langbar{top:4px;transform:translateX(-50%) scale(.72);transform-origin:top center}
+    .fs{top:4px;right:4px;transform:scale(.72);transform-origin:top right}
+    .chrome{bottom:5px;transform:scale(.68);transform-origin:bottom center}
+    .saga-slide{padding:3.5% 4.5%;overflow:hidden}
+    .saga-slide .s-head{margin-bottom:1.5%}
+    .saga-slide .kicker{font-size:.48rem;padding:3px 7px;margin-bottom:5px}
+    .saga-slide h2{font-size:1.15rem;line-height:1}
+    .saga-grid{gap:5px}
+    .ep{padding:6px 7px;border-radius:8px}
+    .ep-top{gap:4px}
+    .ep-no,.ep-emoji{font-size:.7rem}
+    .ep-arch{font-size:.4rem;letter-spacing:.06em}
+    .blade{margin:3px 0}
+    .ep h3{font-size:.58rem}
+    .ep p{margin-top:3px;font-size:.48rem;line-height:1.18}
+  }
 </style>
 </head>
 <body>
@@ -827,13 +862,13 @@ const html = /* html */ `<!doctype html>
       's2.big':'JumpStart v2 把“幻灯片 + 演示”变成一个<b>可动手操作的实时实验应用</b>。参与者打开一个链接、选择语言，逐步构建真实的 Agent &mdash; 你只需引导，而不必手把手照看。',
       's2.t1':'<span class="e">🖥️</span> 自主进度、基于浏览器、零安装','s2.t2':'<span class="e">📋</span> 每一步都可一键复制，并配有截图引导','s2.t3':'<span class="e">🤝</span> 既适用于内部赋能，<b>也</b>适用于客户研讨会',
       's2.l1':'动手实验','s2.l2':'引导步骤','s2.l3':'种语言','s2.l4':'复用，任意客户',
-      's3.k':'🧭 学习路径','s3.h':'六个实验，从第一个 Agent 到<span class="grad">实时语音</span> 🎙️','s3.a1':'学徒','s3.a2':'档案官','s3.a3':'记述者','s3.a4':'使者','s3.a5':'中队','s3.a6':'传令者',
+      's3.k':'🧭 学习路径','s3.h':'六个实验，从第一个 Agent 到<span class="grad">托管应用</span> ✨','s3.a1':'学徒','s3.a2':'档案官','s3.a3':'记述者','s3.a4':'使者','s3.a5':'中队','s3.a6':'应用构建者',
       's3.t1':'认识 Agent Maker','s3.d1':'使用 Microsoft.com + Microsoft Learn MCP 构建有依据的多语言 Agent。',
       's3.t2':'引入业务上下文','s3.d2':'Dataverse MCP、可复用 Skills、Memory，以及 CoWork 客户 360 工作流。',
       's3.t3':'基于证据的 RFP','s3.d3':'Work IQ + Microsoft IQ 在 Office 中生成有出处的 RFP/RFI 回复。',
       's3.t4':'连接专家 Agent','s3.d4':'ServiceNow 知识 + 工单、连接的 Agent、Teams 与 M365 Copilot。',
       's3.t5':'多 Agent 邮件工作流','s3.d5':'分类来件邮件 &rarr; 路由到合适的 Agent &rarr; 个性化回复。',
-      's3.t6':'实时语音 Agent','s3.d6':'经典 Agent + 实时语音，多语言，在测试窗口中实时验证。',
+      's3.t6':'以 Vibe Coding 构建 MRM 应用','s3.d6':'Apps（预览版）+ GitHub Copilot harness：通过提示词生成、预览代码、增强功能、保存并发布。',
       's4.k':'独特功能 01','s4.h':'<span class="grad">与生俱来</span>的多语言',
       's4.big':'一键即可在 <b>English、简体中文、廣東話（香港）、繁體中文（台灣）、日本語、한국어、ไทย、हिन्दी、Tiếng Việt</b> 之间切换<b>整个实验体验</b> —— 同一页面、说明、侧栏与界面。',
       's4.t1':'产品名、提示词与工具名有意保留英文','s4.t2':'可复制的提示词绝不会“翻译走样”','s4.t3':'未提供本地化截图时自动回退为英文截图',
@@ -862,13 +897,13 @@ const html = /* html */ `<!doctype html>
       's2.big':'JumpStart v2 は「スライド＋デモ」を<b>自分で操作できるライブなラボ アプリ</b>に変えます。参加者はリンクを 1 つ開き、言語を選び、実際の Agent を一歩ずつ構築 &mdash; あなたは付きっきりではなくファシリテートに専念できます。',
       's2.t1':'<span class="e">🖥️</span> 自分のペース・ブラウザ完結・インストール不要','s2.t2':'<span class="e">📋</span> すべての手順はコピーしてすぐ使え、スクリーンショット付き','s2.t3':'<span class="e">🤝</span> 社内イネーブルメント<b>にも</b>顧客ワークショップにも対応',
       's2.l1':'ハンズオン ラボ','s2.l2':'ガイド付き手順','s2.l3':'言語','s2.l4':'再利用・どの顧客でも',
-      's3.k':'🧭 学習パス','s3.h':'6 つのラボ、最初の Agent から<span class="grad">リアルタイム音声</span>まで 🎙️','s3.a1':'見習い','s3.a2':'記録官','s3.a3':'年代記者','s3.a4':'使者','s3.a5':'部隊','s3.a6':'伝令',
+      's3.k':'🧭 学習パス','s3.h':'6 つのラボ、最初の Agent から<span class="grad">管理対象アプリ</span>まで ✨','s3.a1':'見習い','s3.a2':'記録官','s3.a3':'年代記者','s3.a4':'使者','s3.a5':'部隊','s3.a6':'アプリ ビルダー',
       's3.t1':'Agent Maker を知る','s3.d1':'Microsoft.com + Microsoft Learn MCP で根拠のある多言語 Agent を構築。',
       's3.t2':'ビジネス コンテキストを取り込む','s3.d2':'Dataverse MCP、再利用可能な Skills、Memory、CoWork の顧客 360 ワークフロー。',
       's3.t3':'根拠ベースの RFP','s3.d3':'Work IQ + Microsoft IQ が Office 全体で出典付きの RFP/RFI 回答を生成。',
       's3.t4':'専門 Agent を接続','s3.d4':'ServiceNow のナレッジ + チケット、接続された Agent、Teams と M365 Copilot。',
       's3.t5':'マルチ Agent メール ワークフロー','s3.d5':'受信メールを分類 &rarr; 適切な Agent へ振り分け &rarr; パーソナライズ返信。',
-      's3.t6':'リアルタイム音声 Agent','s3.d6':'クラシック Agent + リアルタイム音声、多言語、テスト画面でライブ検証。',
+      's3.t6':'MRM アプリを Vibe Coding','s3.d6':'Apps (Preview) + GitHub Copilot harness：プロンプト、コード確認、機能拡張、保存、公開。',
       's4.k':'独自機能 01','s4.h':'<span class="grad">設計思想としての</span>多言語対応',
       's4.big':'ワンクリックで <b>English・简体中文・廣東話（香港）・繁體中文（台灣）・日本語・한국어・ไทย・हिन्दी・Tiếng Việt</b> を切り替え、<b>ラボ体験全体</b>（同じページ、手順、サイドバー、UI）が切り替わります。',
       's4.t1':'製品名・プロンプト・ツール名は意図的に英語のまま','s4.t2':'コピーして使うプロンプトが「翻訳で崩れる」ことはありません','s4.t3':'ローカライズ版のスクショが無い場合は自動的に英語版にフォールバック',
@@ -897,13 +932,13 @@ const html = /* html */ `<!doctype html>
       's2.big':'JumpStart v2는 “슬라이드+데모” 세션을 <b>직접 해보는 실시간 랩 앱</b>으로 바꿉니다. 참가자는 링크 하나를 열고 언어를 선택해 실제 Agent를 단계별로 구축하며 &mdash; 여러분은 일일이 챙기는 대신 퍼실리테이션에 집중합니다.',
       's2.t1':'<span class="e">🖥️</span> 자기 주도, 브라우저 기반, 설치 불필요','s2.t2':'<span class="e">📋</span> 모든 단계는 복사해 바로 쓰고 스크린샷으로 안내','s2.t3':'<span class="e">🤝</span> 내부 역량 강화<b>와</b> 고객 워크숍 모두에 적합',
       's2.l1':'실습 랩','s2.l2':'가이드 단계','s2.l3':'개 언어','s2.l4':'재사용, 모든 고객',
-      's3.k':'🧭 학습 경로','s3.h':'여섯 개의 랩, 첫 Agent부터 <span class="grad">실시간 음성</span>까지 🎙️','s3.a1':'견습생','s3.a2':'기록관','s3.a3':'연대기록자','s3.a4':'특사','s3.a5':'편대','s3.a6':'전령',
+      's3.k':'🧭 학습 경로','s3.h':'여섯 개의 랩, 첫 Agent부터 <span class="grad">관리형 앱</span>까지 ✨','s3.a1':'견습생','s3.a2':'기록관','s3.a3':'연대기록자','s3.a4':'특사','s3.a5':'편대','s3.a6':'앱 빌더',
       's3.t1':'Agent Maker 만나기','s3.d1':'Microsoft.com + Microsoft Learn MCP로 근거 있는 다국어 Agent 구축.',
       's3.t2':'비즈니스 컨텍스트 가져오기','s3.d2':'Dataverse MCP, 재사용 가능한 Skills, Memory, CoWork 고객 360 워크플로.',
       's3.t3':'근거 기반 RFP','s3.d3':'Work IQ + Microsoft IQ가 Office 전반에서 출처 있는 RFP/RFI 응답 생성.',
       's3.t4':'전문 Agent 연결','s3.d4':'ServiceNow 지식 + 티켓, 연결된 Agent, Teams 및 M365 Copilot.',
       's3.t5':'멀티 Agent 이메일 워크플로','s3.d5':'수신 메일 분류 &rarr; 적합한 Agent로 라우팅 &rarr; 맞춤형 회신.',
-      's3.t6':'실시간 음성 Agent','s3.d6':'클래식 Agent + 실시간 음성, 다국어, 테스트 창에서 실시간 검증.',
+      's3.t6':'MRM 앱 Vibe Coding','s3.d6':'Apps (Preview) + GitHub Copilot harness: 프롬프트, 코드 미리 보기, 기능 개선, 저장 및 게시.',
       's4.k':'고유 기능 01','s4.h':'<span class="grad">설계부터</span> 다국어',
       's4.big':'클릭 한 번으로 <b>English, 简体中文, 廣東話(香港), 繁體中文(台灣), 日本語, 한국어, ไทย, हिन्दी, Tiếng Việt</b> 사이에서 <b>랩 경험 전체</b>(같은 페이지, 안내, 사이드바, UI)가 전환됩니다.',
       's4.t1':'제품명, 프롬프트, 도구 이름은 의도적으로 영어 유지','s4.t2':'복사해 쓰는 프롬프트가 “번역으로 왜곡”되지 않습니다','s4.t3':'현지화된 스크린샷이 없으면 자동으로 영어 스크린샷으로 대체',
@@ -932,13 +967,13 @@ const html = /* html */ `<!doctype html>
       's2.big':'JumpStart v2 เปลี่ยนเซสชัน “สไลด์และเดโม” ให้เป็น<b>แอปแล็บที่ลงมือทำได้จริงแบบสด</b> ผู้เข้าร่วมเปิดลิงก์เดียว เลือกภาษา แล้วสร้าง Agent จริงทีละขั้น &mdash; ขณะที่คุณเป็นผู้อำนวยความสะดวกแทนการคอยประคบประหงม',
       's2.t1':'<span class="e">🖥️</span> เรียนตามจังหวะตัวเอง ทำงานบนเบราว์เซอร์ ไม่ต้องติดตั้ง','s2.t2':'<span class="e">📋</span> ทุกขั้นตอนคัดลอกใช้ได้ทันทีและมีภาพหน้าจอแนะนำ','s2.t3':'<span class="e">🤝</span> ใช้ได้ทั้งการเสริมศักยภาพภายใน<b>และ</b>เวิร์กช็อปกับลูกค้า',
       's2.l1':'แล็บลงมือทำ','s2.l2':'ขั้นตอนพร้อมคำแนะนำ','s2.l3':'ภาษา','s2.l4':'นำกลับมาใช้ กับลูกค้าทุกราย',
-      's3.k':'🧭 เส้นทางการเรียนรู้','s3.h':'หกแล็บ ตั้งแต่ Agent แรกจนถึง<span class="grad">เสียงแบบเรียลไทม์</span> 🎙️','s3.a1':'ผู้ฝึกหัด','s3.a2':'ผู้เก็บบันทึก','s3.a3':'ผู้บันทึกเรื่องราว','s3.a4':'ทูต','s3.a5':'ฝูงบิน','s3.a6':'ผู้ประกาศ',
+      's3.k':'🧭 เส้นทางการเรียนรู้','s3.h':'หกแล็บ ตั้งแต่ Agent แรกจนถึง<span class="grad">แอปแบบ managed</span> ✨','s3.a1':'ผู้ฝึกหัด','s3.a2':'ผู้เก็บบันทึก','s3.a3':'ผู้บันทึกเรื่องราว','s3.a4':'ทูต','s3.a5':'ฝูงบิน','s3.a6':'ผู้สร้างแอป',
       's3.t1':'รู้จัก Agent Maker','s3.d1':'สร้าง Agent หลายภาษาที่มีแหล่งอ้างอิงด้วย Microsoft.com + Microsoft Learn MCP',
       's3.t2':'นำบริบททางธุรกิจเข้ามา','s3.d2':'Dataverse MCP, Skills ที่นำกลับมาใช้ได้, Memory และเวิร์กโฟลว์ลูกค้า 360 ของ CoWork',
       's3.t3':'RFP ที่อิงหลักฐาน','s3.d3':'Work IQ + Microsoft IQ สร้างคำตอบ RFP/RFI ที่มีแหล่งอ้างอิงทั่วทั้ง Office',
       's3.t4':'เชื่อมต่อ Agent ผู้เชี่ยวชาญ','s3.d4':'ความรู้ + ทิกเก็ตของ ServiceNow, Agent ที่เชื่อมต่อ, Teams &amp; M365 Copilot',
       's3.t5':'เวิร์กโฟลว์อีเมลแบบหลาย Agent','s3.d5':'จัดประเภทอีเมลขาเข้า &rarr; ส่งต่อไปยัง Agent ที่เหมาะสม &rarr; ตอบกลับแบบเฉพาะบุคคล',
-      's3.t6':'Agent เสียงแบบเรียลไทม์','s3.d6':'Agent แบบคลาสสิก + เสียงเรียลไทม์ หลายภาษา ทดสอบสดในหน้าต่าง Test',
+      's3.t6':'สร้างแอป MRM แบบ Vibe Coding','s3.d6':'Apps (Preview) + GitHub Copilot harness: ใช้พรอมป์ ดูโค้ด ปรับปรุง บันทึก และเผยแพร่',
       's4.k':'คุณสมบัติเฉพาะ 01','s4.h':'หลายภาษา<span class="grad">ตั้งแต่การออกแบบ</span>',
       's4.big':'คลิกเดียวสลับ<b>ประสบการณ์แล็บทั้งหมด</b> — หน้าเดียวกัน คำแนะนำ แถบข้าง และ UI — ระหว่าง <b>English, 简体中文, 廣東話 (香港), 繁體中文 (台灣), 日本語, 한국어, ไทย, हिन्दी, Tiếng Việt</b>',
       's4.t1':'ชื่อผลิตภัณฑ์ พรอมป์ &amp; ชื่อเครื่องมือคงไว้เป็นภาษาอังกฤษโดยตั้งใจ','s4.t2':'พรอมป์ที่คัดลอกใช้ได้จะไม่ “เพี้ยนเพราะการแปล”','s4.t3':'ภาพหน้าจอจะกลับไปใช้ภาษาอังกฤษโดยอัตโนมัติเมื่อไม่มีเวอร์ชันแปล',
@@ -967,13 +1002,13 @@ const html = /* html */ `<!doctype html>
       's2.big':'JumpStart v2 “स्लाइड और डेमो” सत्र को एक <b>जीवंत, खुद-करें लैब ऐप</b> में बदल देता है। प्रतिभागी एक लिंक खोलते हैं, अपनी भाषा चुनते हैं, और चरण-दर-चरण असली Agent बनाते हैं &mdash; जबकि आप देखरेख के बजाय मार्गदर्शन करते हैं।',
       's2.t1':'<span class="e">🖥️</span> स्व-गति, ब्राउज़र-आधारित, शून्य इंस्टॉल','s2.t2':'<span class="e">📋</span> हर चरण कॉपी-तैयार और स्क्रीनशॉट-निर्देशित है','s2.t3':'<span class="e">🤝</span> आंतरिक सक्षमता <b>और</b> ग्राहक वर्कशॉप दोनों के लिए उपयुक्त',
       's2.l1':'व्यावहारिक लैब','s2.l2':'निर्देशित चरण','s2.l3':'भाषाएँ','s2.l4':'पुनः उपयोग, कोई भी ग्राहक',
-      's3.k':'🧭 सीखने का मार्ग','s3.h':'छह लैब, पहले Agent से <span class="grad">रीयल-टाइम आवाज़</span> तक 🎙️','s3.a1':'प्रशिक्षु','s3.a2':'अभिलेखी','s3.a3':'वृत्तांतकार','s3.a4':'दूत','s3.a5':'स्क्वाड्रन','s3.a6':'उद्घोषक',
+      's3.k':'🧭 सीखने का मार्ग','s3.h':'छह लैब, पहले Agent से <span class="grad">managed app</span> तक ✨','s3.a1':'प्रशिक्षु','s3.a2':'अभिलेखी','s3.a3':'वृत्तांतकार','s3.a4':'दूत','s3.a5':'स्क्वाड्रन','s3.a6':'ऐप बिल्डर',
       's3.t1':'Agent Maker से मिलें','s3.d1':'Microsoft.com + Microsoft Learn MCP के साथ एक आधारित, बहुभाषी Agent बनाएँ।',
       's3.t2':'व्यावसायिक संदर्भ लाएँ','s3.d2':'Dataverse MCP, पुन: प्रयोज्य Skills, Memory, और एक CoWork ग्राहक-360 वर्कफ़्लो।',
       's3.t3':'साक्ष्य-आधारित RFP','s3.d3':'Work IQ + Microsoft IQ पूरे Office में स्रोत-सहित RFP/RFI उत्तर तैयार करते हैं।',
       's3.t4':'विशेषज्ञ Agent जोड़ें','s3.d4':'ServiceNow ज्ञान + टिकट, कनेक्टेड Agent, Teams &amp; M365 Copilot।',
       's3.t5':'मल्टी-Agent ईमेल Workflow','s3.d5':'आने वाले ईमेल को वर्गीकृत करें &rarr; सही Agent पर भेजें &rarr; वैयक्तिकृत उत्तर।',
-      's3.t6':'रीयल-टाइम आवाज़ Agent','s3.d6':'क्लासिक Agent + रीयल-टाइम आवाज़, बहुभाषी, Test विंडो में लाइव परीक्षण।',
+      's3.t6':'MRM ऐप की Vibe Coding','s3.d6':'Apps (Preview) + GitHub Copilot harness: prompt, code preview, enhancement, Save और Publish।',
       's4.k':'अद्वितीय सुविधा 01','s4.h':'<span class="grad">डिज़ाइन से ही</span> बहुभाषी',
       's4.big':'एक क्लिक <b>पूरे लैब अनुभव</b> को — वही पृष्ठ, निर्देश, साइडबार, और UI — <b>English, 简体中文, 廣東話 (香港), 繁體中文 (台灣), 日本語, 한국어, ไทย, हिन्दी, Tiếng Việt</b> के बीच बदल देता है।',
       's4.t1':'उत्पाद नाम, प्रॉम्प्ट &amp; टूल नाम जानबूझकर अंग्रेज़ी में रहते हैं','s4.t2':'कॉपी-तैयार प्रॉम्प्ट कभी “अनुवाद में खो” नहीं जाते','s4.t3':'स्थानीयकृत स्क्रीनशॉट न होने पर स्क्रीनशॉट स्वतः अंग्रेज़ी में बदल जाते हैं',
@@ -1002,13 +1037,13 @@ const html = /* html */ `<!doctype html>
       's2.big':'JumpStart v2 biến một phiên “slide + demo” thành <b>ứng dụng lab trực tiếp để tự tay thực hành</b>. Người tham gia mở một liên kết, chọn ngôn ngữ và từng bước xây dựng Agent thực tế &mdash; trong khi bạn tập trung điều phối thay vì phải kèm sát.',
       's2.t1':'<span class="e">🖥️</span> Tự học theo tiến độ riêng, chạy trên trình duyệt, không cần cài đặt','s2.t2':'<span class="e">📋</span> Mỗi bước đều sẵn sàng để sao chép và có ảnh chụp màn hình hướng dẫn','s2.t3':'<span class="e">🤝</span> Phù hợp cho <b>cả</b> đào tạo nội bộ và workshop khách hàng',
       's2.l1':'lab thực hành','s2.l2':'bước có hướng dẫn','s2.l3':'ngôn ngữ','s2.l4':'tái sử dụng cho mọi khách hàng',
-      's3.k':'🧭 Lộ trình học tập','s3.h':'Sáu lab, từ Agent đầu tiên đến <span class="grad">thoại thời gian thực</span> 🎙️','s3.a1':'Người học việc','s3.a2':'Người lưu trữ','s3.a3':'Người chép sử','s3.a4':'Sứ giả','s3.a5':'Phi đội','s3.a6':'Người truyền tin',
+      's3.k':'🧭 Lộ trình học tập','s3.h':'Sáu lab, từ Agent đầu tiên đến <span class="grad">ứng dụng được quản lý</span> ✨','s3.a1':'Người học việc','s3.a2':'Người lưu trữ','s3.a3':'Người chép sử','s3.a4':'Sứ giả','s3.a5':'Phi đội','s3.a6':'Người xây dựng ứng dụng',
       's3.t1':'Làm quen với Agent Maker','s3.d1':'Xây dựng Agent đa ngôn ngữ có căn cứ bằng Microsoft.com + Microsoft Learn MCP.',
       's3.t2':'Đưa ngữ cảnh kinh doanh vào','s3.d2':'Dataverse MCP, Skills có thể tái sử dụng, Memory và workflow khách hàng 360 của CoWork.',
       's3.t3':'RFP dựa trên bằng chứng','s3.d3':'Work IQ + Microsoft IQ tạo câu trả lời RFP/RFI có nguồn dẫn trên toàn bộ Office.',
       's3.t4':'Kết nối các Agent chuyên biệt','s3.d4':'Kiến thức + phiếu hỗ trợ ServiceNow, Agent được kết nối, Teams &amp; M365 Copilot.',
       's3.t5':'Workflow email đa Agent','s3.d5':'Phân loại email đến &rarr; chuyển đến đúng Agent &rarr; trả lời được cá nhân hóa.',
-      's3.t6':'Agent thoại thời gian thực','s3.d6':'Agent cổ điển + thoại thời gian thực, đa ngôn ngữ, được kiểm thử trực tiếp trong cửa sổ Test.',
+      's3.t6':'Vibe Coding ứng dụng MRM','s3.d6':'Apps (Preview) + GitHub Copilot harness: nhập prompt, xem code, cải tiến, Save và Publish.',
       's4.k':'Tính năng nổi bật 01','s4.h':'Đa ngôn ngữ <span class="grad">ngay từ thiết kế</span>',
       's4.big':'Chỉ một cú nhấp sẽ chuyển <b>toàn bộ trải nghiệm lab</b> &mdash; cùng một trang, hướng dẫn, thanh bên và UI &mdash; giữa <b>English, 简体中文, 廣東話 (香港), 繁體中文 (台灣), 日本語, 한국어, ไทย, हिन्दी và Tiếng Việt</b>.',
       's4.t1':'Tên sản phẩm, prompt &amp; tên công cụ được chủ ý giữ bằng tiếng Anh','s4.t2':'Prompt sẵn sàng để sao chép không bao giờ bị “sai lệch khi dịch”','s4.t3':'Ảnh chụp màn hình tự động dùng bản tiếng Anh khi chưa có bản địa hóa',

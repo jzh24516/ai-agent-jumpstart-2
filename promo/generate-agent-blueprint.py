@@ -1,4 +1,4 @@
-"""Render eight localized Copilot Studio Agent Platform Blueprint infographics.
+"""Render nine localized Copilot Studio Agent Platform Blueprint infographics.
 
 The asset is intentionally a bitmap: it is presentation-ready when embedded in
 the self-contained HTML deck, and it has no runtime dependency on page CSS.
@@ -29,6 +29,7 @@ FONTS = {
     "ko": (r"C:\Windows\Fonts\malgun.ttf", r"C:\Windows\Fonts\malgunbd.ttf"),
     "th": (r"C:\Windows\Fonts\LeelawUI.ttf", r"C:\Windows\Fonts\LeelaUIb.ttf"),
     "hi": (r"C:\Windows\Fonts\Nirmala.ttc", r"C:\Windows\Fonts\Nirmala.ttc"),
+    "vi": (r"C:\Windows\Fonts\segoeui.ttf", r"C:\Windows\Fonts\segoeuib.ttf"),
 }
 
 
@@ -57,7 +58,8 @@ def translate(locale: str, values: dict[str, str]) -> str:
 
 # Latin words / numbers / handles stay whole; whitespace and every other char (CJK,
 # Thai, punctuation) are individually breakable so no-space scripts wrap correctly.
-_TOKEN_RE = re.compile(r"[A-Za-z0-9@._/&+#-]+|\s+|[^\sA-Za-z0-9]", re.UNICODE)
+_LATIN = "A-Za-zÀ-ÖØ-öø-ÿĀ-ž\u1E00-\u1EFF"
+_TOKEN_RE = re.compile(rf"[{_LATIN}0-9@._/&+#-]+|\s+|[^\s{_LATIN}0-9]", re.UNICODE)
 
 
 def wrap(draw: ImageDraw.ImageDraw, text: str, font: ImageFont.FreeTypeFont, width: int) -> list[str]:
@@ -95,9 +97,9 @@ def round_rect(draw: ImageDraw.ImageDraw, box, radius, fill, outline=None, width
 
 TEXT = {
     "en": {
-        "eyebrow": "COPILOT STUDIO · AGENT PLATFORM BLUEPRINT",
+        "eyebrow": "COPILOT STUDIO · AGENT + APP PLATFORM BLUEPRINT",
         "heading": "FROM LAB TO BUSINESS VALUE",
-        "subheading": "Six learning missions reveal how a composable agent platform moves from trusted answers to autonomous, real-time engagement.",
+        "subheading": "Six learning missions show how a composable platform moves from trusted answers to autonomous workflows and vibe-coded managed apps.",
         "legend": "READ EACH MISSION TOP TO BOTTOM  ·  USE CASE  →  AGENT MODE  →  ARCHITECTURE  →  KNOWLEDGE & TOOLS  →  BUSINESS VALUE",
         "use_case": "USE CASE",
         "mode": "AGENT MODE",
@@ -105,7 +107,7 @@ TEXT = {
         "tools": "KNOWLEDGE & TOOLS",
         "value": "BUSINESS VALUE",
         "footer": "ONE PLATFORM  ·  SIX AGENT PATTERNS  ·  COMPOUNDING VALUE",
-        "footer_copy": "Knowledge + actions + orchestration + workflows + voice create durable Copilot Studio innovation.",
+        "footer_copy": "Knowledge + actions + orchestration + workflows + apps create durable Copilot Studio innovation.",
         "node_user": "User need",
         "node_agent": "Agent",
         "node_knowledge": "Knowledge",
@@ -113,63 +115,86 @@ TEXT = {
         "node_review": "Sales operation",
         "node_specialist": "Specialist",
         "node_workflow": "Workflow",
-        "node_voice": "Voice",
+        "node_harness": "GitHub Copilot harness",
+        "node_app": "Managed app",
     },
     "zh": {
-        "eyebrow": "COPILOT STUDIO · AGENT 平台蓝图",
+        "eyebrow": "COPILOT STUDIO · AGENT + 应用平台蓝图",
         "heading": "从实验到业务价值",
-        "subheading": "六项学习任务展示可组合 Agent 平台如何从可信回答走向自主、实时的互动体验。",
+        "subheading": "六项学习任务展示可组合平台如何从可信回答走向自主工作流与 Vibe Coding 托管应用。",
         "legend": "自上而下阅读每项任务  ·  用例  →  Agent 模式  →  架构  →  知识与工具  →  业务价值",
         "use_case": "用例", "mode": "AGENT 模式", "architecture": "架构", "tools": "知识与工具", "value": "业务价值",
         "footer": "一个平台  ·  六种 AGENT 模式  ·  价值持续叠加",
-        "footer_copy": "知识 + 操作 + 编排 + 工作流 + 语音，构建持久的 Copilot Studio 创新。",
-        "node_user": "用户需求", "node_agent": "Agent", "node_knowledge": "知识", "node_data": "业务数据", "node_review": "销售运营", "node_specialist": "专家", "node_workflow": "工作流", "node_voice": "语音",
+        "footer_copy": "知识 + 操作 + 编排 + 工作流 + 应用，构建持久的 Copilot Studio 创新。",
+        "node_user": "用户需求", "node_agent": "Agent", "node_knowledge": "知识", "node_data": "业务数据", "node_review": "销售运营", "node_specialist": "专家", "node_workflow": "工作流", "node_harness": "GitHub Copilot harness", "node_app": "托管应用",
     },
     "ja": {
-        "eyebrow": "COPILOT STUDIO · AGENT プラットフォーム設計図",
+        "eyebrow": "COPILOT STUDIO · AGENT + APP プラットフォーム設計図",
         "heading": "ラボからビジネス価値へ",
-        "subheading": "6 つの学習ミッションが、構成可能な Agent プラットフォームを信頼できる回答から自律的・リアルタイムな体験へ導きます。",
+        "subheading": "6 つの学習ミッションが、構成可能なプラットフォームを信頼できる回答から自律ワークフローと Vibe Coding の管理対象アプリへ導きます。",
         "legend": "各ミッションを上から下へ読む  ·  ユースケース  →  AGENT モード  →  アーキテクチャ  →  ナレッジとツール  →  ビジネス価値",
         "use_case": "ユースケース", "mode": "AGENT モード", "architecture": "アーキテクチャ", "tools": "ナレッジとツール", "value": "ビジネス価値",
         "footer": "一つのプラットフォーム  ·  6 つの AGENT パターン  ·  積み上がる価値",
-        "footer_copy": "ナレッジ + アクション + オーケストレーション + ワークフロー + 音声が、持続する Copilot Studio イノベーションを実現します。",
-        "node_user": "ユーザーの課題", "node_agent": "Agent", "node_knowledge": "ナレッジ", "node_data": "業務データ", "node_review": "営業オペレーション", "node_specialist": "専門 Agent", "node_workflow": "ワークフロー", "node_voice": "音声",
+        "footer_copy": "ナレッジ + アクション + オーケストレーション + ワークフロー + アプリが、持続する Copilot Studio イノベーションを実現します。",
+        "node_user": "ユーザーの課題", "node_agent": "Agent", "node_knowledge": "ナレッジ", "node_data": "業務データ", "node_review": "営業オペレーション", "node_specialist": "専門 Agent", "node_workflow": "ワークフロー", "node_harness": "GitHub Copilot harness", "node_app": "管理対象アプリ",
     },
     "ko": {
-        "eyebrow": "COPILOT STUDIO · AGENT 플랫폼 블루프린트",
+        "eyebrow": "COPILOT STUDIO · AGENT + APP 플랫폼 블루프린트",
         "heading": "랩에서 비즈니스 가치로",
-        "subheading": "6개의 학습 미션은 구성 가능한 Agent 플랫폼이 신뢰할 수 있는 답변에서 자율적이고 실시간인 참여로 발전하는 과정을 보여 줍니다.",
+        "subheading": "6개의 학습 미션은 구성 가능한 플랫폼이 신뢰할 수 있는 답변에서 자율 워크플로와 Vibe Coding 관리형 앱으로 발전하는 과정을 보여 줍니다.",
         "legend": "각 미션을 위에서 아래로 읽기  ·  사용 사례  →  AGENT 모드  →  아키텍처  →  지식 및 도구  →  비즈니스 가치",
         "use_case": "사용 사례", "mode": "AGENT 모드", "architecture": "아키텍처", "tools": "지식 및 도구", "value": "비즈니스 가치",
         "footer": "하나의 플랫폼  ·  6가지 AGENT 패턴  ·  누적되는 가치",
-        "footer_copy": "지식 + 작업 + 오케스트레이션 + 워크플로 + 음성이 지속 가능한 Copilot Studio 혁신을 만듭니다.",
-        "node_user": "사용자 요구", "node_agent": "Agent", "node_knowledge": "지식", "node_data": "비즈니스 데이터", "node_review": "영업 운영", "node_specialist": "전문 Agent", "node_workflow": "워크플로", "node_voice": "음성",
+        "footer_copy": "지식 + 작업 + 오케스트레이션 + 워크플로 + 앱이 지속 가능한 Copilot Studio 혁신을 만듭니다.",
+        "node_user": "사용자 요구", "node_agent": "Agent", "node_knowledge": "지식", "node_data": "비즈니스 데이터", "node_review": "영업 운영", "node_specialist": "전문 Agent", "node_workflow": "워크플로", "node_harness": "GitHub Copilot harness", "node_app": "관리형 앱",
     },
     "th": {
-        "eyebrow": "COPILOT STUDIO · AGENT PLATFORM BLUEPRINT",
+        "eyebrow": "COPILOT STUDIO · AGENT + APP PLATFORM BLUEPRINT",
         "heading": "จากแล็บสู่คุณค่าทางธุรกิจ",
-        "subheading": "6 ภารกิจการเรียนรู้แสดงให้เห็นว่าแพลตฟอร์ม Agent ที่ประกอบได้พาจากคำตอบที่เชื่อถือได้ไปสู่การมีส่วนร่วมแบบอัตโนมัติและเรียลไทม์อย่างไร",
+        "subheading": "6 ภารกิจการเรียนรู้แสดงให้เห็นว่าแพลตฟอร์มแบบประกอบได้พาจากคำตอบที่เชื่อถือได้ไปสู่เวิร์กโฟลว์อัตโนมัติและ managed app แบบ Vibe Coding อย่างไร",
         "legend": "อ่านแต่ละภารกิจจากบนลงล่าง  ·  กรณีใช้งาน  →  โหมด AGENT  →  สถาปัตยกรรม  →  ความรู้และเครื่องมือ  →  คุณค่าทางธุรกิจ",
         "use_case": "กรณีใช้งาน", "mode": "โหมด AGENT", "architecture": "สถาปัตยกรรม", "tools": "ความรู้และเครื่องมือ", "value": "คุณค่าทางธุรกิจ",
         "footer": "หนึ่งแพลตฟอร์ม  ·  6 รูปแบบ AGENT  ·  คุณค่าที่เพิ่มต่อเนื่อง",
-        "footer_copy": "ความรู้ + การดำเนินการ + การประสานงาน + เวิร์กโฟลว์ + เสียง สร้างนวัตกรรม Copilot Studio ที่ยั่งยืน",
-        "node_user": "ความต้องการผู้ใช้", "node_agent": "Agent", "node_knowledge": "ความรู้", "node_data": "ข้อมูลธุรกิจ", "node_review": "ฝ่ายปฏิบัติการขาย", "node_specialist": "Agent เฉพาะทาง", "node_workflow": "เวิร์กโฟลว์", "node_voice": "เสียง",
+        "footer_copy": "ความรู้ + การดำเนินการ + การประสานงาน + เวิร์กโฟลว์ + แอป สร้างนวัตกรรม Copilot Studio ที่ยั่งยืน",
+        "node_user": "ความต้องการผู้ใช้", "node_agent": "Agent", "node_knowledge": "ความรู้", "node_data": "ข้อมูลธุรกิจ", "node_review": "ฝ่ายปฏิบัติการขาย", "node_specialist": "Agent เฉพาะทาง", "node_workflow": "เวิร์กโฟลว์", "node_harness": "GitHub Copilot harness", "node_app": "managed app",
     },
     "hi": {
-        "eyebrow": "COPILOT STUDIO · AGENT PLATFORM BLUEPRINT",
+        "eyebrow": "COPILOT STUDIO · AGENT + APP PLATFORM BLUEPRINT",
         "heading": "लैब से व्यावसायिक मूल्य तक",
-        "subheading": "छह सीखने के मिशन दिखाते हैं कि एक संयोज्य Agent प्लेटफ़ॉर्म विश्वसनीय उत्तरों से स्वायत्त, रीयल-टाइम सहभागिता तक कैसे पहुंचता है।",
+        "subheading": "छह learning missions दिखाते हैं कि एक composable platform विश्वसनीय उत्तरों से autonomous workflows और Vibe Coding managed apps तक कैसे पहुंचता है।",
         "legend": "हर मिशन को ऊपर से नीचे पढ़ें  ·  उपयोग मामला  →  AGENT मोड  →  आर्किटेक्चर  →  ज्ञान और उपकरण  →  व्यावसायिक मूल्य",
         "use_case": "उपयोग मामला", "mode": "AGENT मोड", "architecture": "आर्किटेक्चर", "tools": "ज्ञान और उपकरण", "value": "व्यावसायिक मूल्य",
         "footer": "एक प्लेटफ़ॉर्म  ·  छह AGENT पैटर्न  ·  बढ़ता हुआ मूल्य",
-        "footer_copy": "ज्ञान + क्रियाएं + ऑर्केस्ट्रेशन + वर्कफ़्लो + आवाज़ स्थायी Copilot Studio नवाचार बनाते हैं।",
-        "node_user": "उपयोगकर्ता आवश्यकता", "node_agent": "Agent", "node_knowledge": "ज्ञान", "node_data": "व्यावसायिक डेटा", "node_review": "बिक्री संचालन", "node_specialist": "विशेषज्ञ Agent", "node_workflow": "वर्कफ़्लो", "node_voice": "आवाज़",
+        "footer_copy": "ज्ञान + क्रियाएं + ऑर्केस्ट्रेशन + वर्कफ़्लो + apps स्थायी Copilot Studio नवाचार बनाते हैं।",
+        "node_user": "उपयोगकर्ता आवश्यकता", "node_agent": "Agent", "node_knowledge": "ज्ञान", "node_data": "व्यावसायिक डेटा", "node_review": "बिक्री संचालन", "node_specialist": "विशेषज्ञ Agent", "node_workflow": "वर्कफ़्लो", "node_harness": "GitHub Copilot harness", "node_app": "managed app",
+    },
+    "vi": {
+        "eyebrow": "COPILOT STUDIO · SƠ ĐỒ NỀN TẢNG AGENT + ỨNG DỤNG",
+        "heading": "TỪ LAB ĐẾN GIÁ TRỊ KINH DOANH",
+        "subheading": "Sáu nhiệm vụ học tập cho thấy nền tảng có thể kết hợp phát triển từ câu trả lời đáng tin cậy đến workflow tự động và managed app được Vibe Coding.",
+        "legend": "ĐỌC TỪ TRÊN XUỐNG  ·  TÌNH HUỐNG  →  CHẾ ĐỘ AGENT  →  KIẾN TRÚC  →  KIẾN THỨC & CÔNG CỤ  →  GIÁ TRỊ KINH DOANH",
+        "use_case": "TÌNH HUỐNG",
+        "mode": "CHẾ ĐỘ AGENT",
+        "architecture": "KIẾN TRÚC",
+        "tools": "KIẾN THỨC & CÔNG CỤ",
+        "value": "GIÁ TRỊ KINH DOANH",
+        "footer": "MỘT NỀN TẢNG  ·  SÁU MẪU AGENT  ·  GIÁ TRỊ CỘNG DỒN",
+        "footer_copy": "Kiến thức + hành động + điều phối + workflow + ứng dụng tạo nên đổi mới Copilot Studio bền vững.",
+        "node_user": "Nhu cầu người dùng",
+        "node_agent": "Agent",
+        "node_knowledge": "Kiến thức",
+        "node_data": "Dữ liệu kinh doanh",
+        "node_review": "Vận hành bán hàng",
+        "node_specialist": "Agent chuyên biệt",
+        "node_workflow": "Workflow",
+        "node_harness": "GitHub Copilot harness",
+        "node_app": "Managed app",
     },
 }
 
 
-def loc(en: str, zh: str, ja: str, ko: str, th: str, hi: str) -> dict[str, str]:
-    return {"en": en, "zh": zh, "ja": ja, "ko": ko, "th": th, "hi": hi}
+def loc(en: str, zh: str, ja: str, ko: str, th: str, hi: str, vi: str | None = None) -> dict[str, str]:
+    return {"en": en, "zh": zh, "ja": ja, "ko": ko, "th": th, "hi": hi, "vi": vi or en}
 
 
 # Horizontal layer labels (left rail) — one row per layer, columns are labs.
@@ -180,77 +205,78 @@ ROW_LABELS = {
     "ko": ["AGENT 스타일", "대화 유형", "현재 아키텍처", "지식 및 도구", "비즈니스 가치"],
     "th": ["สไตล์ AGENT", "ประเภทการสนทนา", "สถาปัตยกรรมปัจจุบัน", "ความรู้และเครื่องมือ", "คุณค่าทางธุรกิจ"],
     "hi": ["AGENT शैली", "वार्तालाप प्रकार", "वर्तमान आर्किटेक्चर", "ज्ञान और उपकरण", "व्यावसायिक मूल्य"],
+    "vi": ["KIỂU AGENT", "LOẠI HỘI THOẠI", "KIẾN TRÚC HIỆN TẠI", "KIẾN THỨC & CÔNG CỤ", "GIÁ TRỊ KINH DOANH"],
 }
 
 # Agent style per lab (row 1).
 STYLES = {
-    1: loc("Conversational", "会话型", "会話型", "대화형", "สนทนา", "संवादी"),
-    2: loc("Conversational", "会话型", "会話型", "대화형", "สนทนา", "संवादी"),
-    3: loc("Conversational", "会话型", "会話型", "대화형", "สนทนา", "संवादी"),
-    4: loc("Multi-agent", "多 Agent", "マルチ Agent", "멀티 Agent", "หลาย Agent", "मल्टी-Agent"),
-    5: loc("Autonomous", "自主型", "自律型", "자율형", "อัตโนมัติ", "स्वायत्त"),
-    6: loc("Conversational", "会话型", "会話型", "대화형", "สนทนา", "संवादी"),
+    1: loc("Conversational", "会话型", "会話型", "대화형", "สนทนา", "संवादी", "Hội thoại"),
+    2: loc("Conversational", "会话型", "会話型", "대화형", "สนทนา", "संवादी", "Hội thoại"),
+    3: loc("Conversational", "会话型", "会話型", "대화형", "สนทนา", "संवादी", "Hội thoại"),
+    4: loc("Multi-agent", "多 Agent", "マルチ Agent", "멀티 Agent", "หลาย Agent", "मल्टी-Agent", "Đa Agent"),
+    5: loc("Autonomous", "自主型", "自律型", "자율형", "อัตโนมัติ", "स्वायत्त", "Tự động"),
+    6: loc("App builder", "应用构建", "アプリ構築", "앱 빌더", "สร้างแอป", "ऐप बिल्डर", "Tạo ứng dụng"),
 }
 
 # Conversation type / channel per lab (row 2).
 CHANNELS = {
-    1: loc("Digital · Q&A", "数字 · 问答", "デジタル · Q&A", "디지털 · Q&A", "ดิจิทัล · ถาม-ตอบ", "डिजिटल · Q&A"),
-    2: loc("Digital · Customer 360", "数字 · 客户 360", "デジタル · Customer 360", "디지털 · 고객 360", "ดิจิทัล · ลูกค้า 360", "डिजिटल · Customer 360"),
-    3: loc("Digital · Human-in-loop", "数字 · 人工参与", "デジタル · 人間参加", "디지털 · 사람 검토", "ดิจิทัล · มีมนุษย์ตรวจ", "डिजिटल · मानव समीक्षा"),
-    4: loc("Digital · Multichannel", "数字 · 多渠道", "デジタル · マルチチャネル", "디지털 · 멀티채널", "ดิจิทัล · หลายช่องทาง", "डिजिटल · मल्टीचैनल"),
-    5: loc("Automated · Background", "自动化 · 后台", "自動化 · バックグラウンド", "자동화 · 백그라운드", "อัตโนมัติ · เบื้องหลัง", "स्वचालित · पृष्ठभूमि"),
-    6: loc("Voice · Real-time", "语音 · 实时", "音声 · リアルタイム", "음성 · 실시간", "เสียง · เรียลไทม์", "आवाज़ · रीयल-टाइम"),
+    1: loc("Digital · Q&A", "数字 · 问答", "デジタル · Q&A", "디지털 · Q&A", "ดิจิทัล · ถาม-ตอบ", "डिजिटल · Q&A", "Số · Hỏi đáp"),
+    2: loc("Digital · Customer 360", "数字 · 客户 360", "デジタル · Customer 360", "디지털 · 고객 360", "ดิจิทัล · ลูกค้า 360", "डिजिटल · Customer 360", "Số · Customer 360"),
+    3: loc("Digital · Human-in-loop", "数字 · 人工参与", "デジタル · 人間参加", "디지털 · 사람 검토", "ดิจิทัล · มีมนุษย์ตรวจ", "डिजिटल · मानव समीक्षा", "Số · Có người kiểm duyệt"),
+    4: loc("Digital · Multichannel", "数字 · 多渠道", "デジタル · マルチチャネル", "디지털 · 멀티채널", "ดิจิทัล · หลายช่องทาง", "डिजिटल · मल्टीचैनल", "Số · Đa kênh"),
+    5: loc("Automated · Background", "自动化 · 后台", "自動化 · バックグラウンド", "자동화 · 백그라운드", "อัตโนมัติ · เบื้องหลัง", "स्वचालित · पृष्ठभूमि", "Tự động · Chạy nền"),
+    6: loc("Interactive · Managed app", "交互式 · 托管应用", "インタラクティブ · 管理対象アプリ", "대화형 · 관리형 앱", "โต้ตอบ · managed app", "इंटरैक्टिव · managed app", "Tương tác · Managed app"),
 }
 
 
 SPECS = [
     {
         "number": "01", "color": "#1673D1", "icon": "shield", "lab": 1,
-        "usecase": loc("Trusted multilingual Q&A", "可信多语言问答", "信頼できる多言語 Q&A", "신뢰할 수 있는 다국어 Q&A", "ถาม-ตอบหลายภาษาที่เชื่อถือได้", "विश्वसनीय बहुभाषी Q&A"),
-        "mode": loc("CONVERSATIONAL · DIGITAL", "会话型 · 数字", "会話型 · デジタル", "대화형 · 디지털", "สนทนา · ดิจิทัล", "संवादी · डिजिटल"),
+        "usecase": loc("Trusted multilingual Q&A", "可信多语言问答", "信頼できる多言語 Q&A", "신뢰할 수 있는 다국어 Q&A", "ถาม-ตอบหลายภาษาที่เชื่อถือได้", "विश्वसनीय बहुभाषी Q&A", "Hỏi đáp đa ngôn ngữ đáng tin cậy"),
+        "mode": loc("CONVERSATIONAL · DIGITAL", "会话型 · 数字", "会話型 · デジタル", "대화형 · 디지털", "สนทนา · ดิจิทัล", "संवादी · डिजिटल", "HỘI THOẠI · SỐ"),
         "nodes": ["node_user", "node_agent", "node_knowledge"],
         "tools": ["Microsoft.com", "Microsoft Learn MCP", "Instructions"],
-        "value": loc("Trusted answers with citations — a reusable foundation for every next agent.", "带引用的可信回答，为后续每个 Agent 奠定可复用基础。", "引用付きの信頼できる回答。次の Agent すべてに再利用できる土台。", "인용 기반의 신뢰할 수 있는 답변. 다음 모든 Agent의 재사용 가능한 기반.", "คำตอบที่เชื่อถือได้พร้อมการอ้างอิง เป็นรากฐานที่ใช้ซ้ำได้สำหรับ Agent ถัดไปทุกตัว", "उद्धरणों के साथ विश्वसनीय उत्तर — हर अगले Agent के लिए पुन: उपयोग योग्य आधार।"),
+        "value": loc("Trusted answers with citations — a reusable foundation for every next agent.", "带引用的可信回答，为后续每个 Agent 奠定可复用基础。", "引用付きの信頼できる回答。次の Agent すべてに再利用できる土台。", "인용 기반의 신뢰할 수 있는 답변. 다음 모든 Agent의 재사용 가능한 기반.", "คำตอบที่เชื่อถือได้พร้อมการอ้างอิง เป็นรากฐานที่ใช้ซ้ำได้สำหรับ Agent ถัดไปทุกตัว", "उद्धरणों के साथ विश्वसनीय उत्तर — हर अगले Agent के लिए पुन: उपयोग योग्य आधार।", "Câu trả lời đáng tin cậy kèm trích dẫn — nền tảng có thể tái sử dụng cho mọi Agent tiếp theo."),
     },
     {
         "number": "02", "color": "#168454", "icon": "database", "lab": 2,
-        "usecase": loc("Account-aware customer 360", "感知账户的客户 360", "アカウント認識型 Customer 360", "계정 인식 Customer 360", "Customer 360 ที่เข้าใจบัญชีลูกค้า", "खाता-संदर्भित Customer 360"),
-        "mode": loc("CONVERSATIONAL · CONTEXT-AWARE", "会话型 · 上下文感知", "会話型 · コンテキスト認識", "대화형 · 컨텍스트 인식", "สนทนา · เข้าใจบริบท", "संवादी · संदर्भ-सक्षम"),
+        "usecase": loc("Account-aware customer 360", "感知账户的客户 360", "アカウント認識型 Customer 360", "계정 인식 Customer 360", "Customer 360 ที่เข้าใจบัญชีลูกค้า", "खाता-संदर्भित Customer 360", "Customer 360 theo ngữ cảnh tài khoản"),
+        "mode": loc("CONVERSATIONAL · CONTEXT-AWARE", "会话型 · 上下文感知", "会話型 · コンテキスト認識", "대화형 · 컨텍스트 인식", "สนทนา · เข้าใจบริบท", "संवादी · संदर्भ-सक्षम", "HỘI THOẠI · HIỂU NGỮ CẢNH"),
         "nodes": ["node_user", "node_agent", "node_data"],
         "tools": ["Dataverse MCP", "Skills", "Memory", "CoWork"],
-        "value": loc("Customer context and Big Bets travel with the conversation — faster account action.", "客户上下文和 Big Bets 随对话流动，更快推动账户行动。", "顧客コンテキストと Big Bets が会話と共に動き、アカウント対応を高速化。", "고객 컨텍스트와 Big Bets가 대화와 함께 이동해 계정 조치를 빠르게 만듭니다.", "บริบทลูกค้าและ Big Bets ติดตามไปกับบทสนทนา เพื่อดำเนินการกับบัญชีได้เร็วขึ้น", "ग्राहक संदर्भ और Big Bets बातचीत के साथ चलते हैं — तेज़ खाता कार्रवाई।"),
+        "value": loc("Customer context and Big Bets travel with the conversation — faster account action.", "客户上下文和 Big Bets 随对话流动，更快推动账户行动。", "顧客コンテキストと Big Bets が会話と共に動き、アカウント対応を高速化。", "고객 컨텍스트와 Big Bets가 대화와 함께 이동해 계정 조치를 빠르게 만듭니다.", "บริบทลูกค้าและ Big Bets ติดตามไปกับบทสนทนา เพื่อดำเนินการกับบัญชีได้เร็วขึ้น", "ग्राहक संदर्भ और Big Bets बातचीत के साथ चलते हैं — तेज़ खाता कार्रवाई।", "Ngữ cảnh khách hàng và Big Bets đi cùng hội thoại — hành động trên tài khoản nhanh hơn."),
     },
     {
         "number": "03", "color": "#6B43C9", "icon": "document", "lab": 3,
-        "usecase": loc("Evidence-based proposal generation", "基于证据的提案生成", "根拠ベースの提案生成", "근거 기반 제안 생성", "การสร้างข้อเสนอที่อิงหลักฐาน", "साक्ष्य-आधारित प्रस्ताव निर्माण"),
-        "mode": loc("CONVERSATIONAL · HUMAN-IN-LOOP", "会话型 · 人工参与", "会話型 · 人間参加型", "대화형 · 사람 검토", "สนทนา · มีมนุษย์ตรวจทาน", "संवादी · मानव समीक्षा सहित"),
+        "usecase": loc("Evidence-based proposal generation", "基于证据的提案生成", "根拠ベースの提案生成", "근거 기반 제안 생성", "การสร้างข้อเสนอที่อิงหลักฐาน", "साक्ष्य-आधारित प्रस्ताव निर्माण", "Tạo đề xuất dựa trên bằng chứng"),
+        "mode": loc("CONVERSATIONAL · HUMAN-IN-LOOP", "会话型 · 人工参与", "会話型 · 人間参加型", "대화형 · 사람 검토", "สนทนา · มีมนุษย์ตรวจทาน", "संवादी · मानव समीक्षा सहित", "HỘI THOẠI · CÓ NGƯỜI KIỂM DUYỆT"),
         "nodes": ["node_user", "node_agent", "node_review"],
         "tools": ["RFP workbook", "Skills", "MCP tools", "Excel / Word"],
-        "value": loc("Faster proposals with traceable evidence, confidence signals, and review gates.", "通过可追溯证据、置信度信号和审查关口，加速生成提案。", "追跡可能な根拠、信頼度シグナル、レビュー ゲートで提案を高速化。", "추적 가능한 근거, 신뢰도 신호, 검토 게이트로 더 빠른 제안서 작성.", "ข้อเสนอที่เร็วขึ้นด้วยหลักฐานที่ตรวจสอบย้อนกลับได้ สัญญาณความเชื่อมั่น และจุดตรวจทาน", "ट्रेस करने योग्य साक्ष्य, विश्वास संकेतों और समीक्षा गेट के साथ तेज़ प्रस्ताव।"),
+        "value": loc("Faster proposals with traceable evidence, confidence signals, and review gates.", "通过可追溯证据、置信度信号和审查关口，加速生成提案。", "追跡可能な根拠、信頼度シグナル、レビュー ゲートで提案を高速化。", "추적 가능한 근거, 신뢰도 신호, 검토 게이트로 더 빠른 제안서 작성.", "ข้อเสนอที่เร็วขึ้นด้วยหลักฐานที่ตรวจสอบย้อนกลับได้ สัญญาณความเชื่อมั่น และจุดตรวจทาน", "ट्रेस करने योग्य साक्ष्य, विश्वास संकेतों और समीक्षा गेट के साथ तेज़ प्रस्ताव।", "Tạo đề xuất nhanh hơn với bằng chứng truy vết được, tín hiệu tin cậy và cổng kiểm duyệt."),
     },
     {
         "number": "04", "color": "#F28A16", "icon": "network", "lab": 4,
-        "usecase": loc("Connected IT service experience", "连接的 IT 服务体验", "接続された IT サービス体験", "연결된 IT 서비스 경험", "ประสบการณ์บริการ IT ที่เชื่อมต่อ", "कनेक्टेड IT सेवा अनुभव"),
-        "mode": loc("MULTI-AGENT · DIGITAL", "多 Agent · 数字", "マルチ AGENT · デジタル", "멀티 AGENT · 디지털", "หลาย AGENT · ดิจิทัล", "मल्टी-AGENT · डिजिटल"),
+        "usecase": loc("Connected IT service experience", "连接的 IT 服务体验", "接続された IT サービス体験", "연결된 IT 서비스 경험", "ประสบการณ์บริการ IT ที่เชื่อมต่อ", "कनेक्टेड IT सेवा अनुभव", "Trải nghiệm dịch vụ IT được kết nối"),
+        "mode": loc("MULTI-AGENT · DIGITAL", "多 Agent · 数字", "マルチ AGENT · デジタル", "멀티 AGENT · 디지털", "หลาย AGENT · ดิจิทัล", "मल्टी-AGENT · डिजिटल", "ĐA AGENT · SỐ"),
         "nodes": ["node_user", "node_agent", "node_specialist"],
         "tools": ["ServiceNow KB", "Incident actions", "Teams", "M365 Copilot"],
-        "value": loc("Route work to the right expert while preserving privacy, safety, and channel reach.", "将工作路由给合适的专家，同时保护隐私、安全并覆盖多个渠道。", "適切な専門家へルーティングし、プライバシー、安全性、チャネル到達性を維持。", "프라이버시·안전·채널 도달성을 지키며 올바른 전문가에게 업무를 라우팅합니다.", "ส่งงานไปยังผู้เชี่ยวชาญที่เหมาะสม พร้อมรักษาความเป็นส่วนตัว ความปลอดภัย และการเข้าถึงหลายช่องทาง", "गोपनीयता, सुरक्षा और चैनल पहुंच बनाए रखते हुए काम को सही विशेषज्ञ तक रूट करें।"),
+        "value": loc("Route work to the right expert while preserving privacy, safety, and channel reach.", "将工作路由给合适的专家，同时保护隐私、安全并覆盖多个渠道。", "適切な専門家へルーティングし、プライバシー、安全性、チャネル到達性を維持。", "프라이버시·안전·채널 도달성을 지키며 올바른 전문가에게 업무를 라우팅합니다.", "ส่งงานไปยังผู้เชี่ยวชาญที่เหมาะสม พร้อมรักษาความเป็นส่วนตัว ความปลอดภัย และการเข้าถึงหลายช่องทาง", "गोपनीयता, सुरक्षा और चैनल पहुंच बनाए रखते हुए काम को सही विशेषज्ञ तक रूट करें।", "Chuyển việc đến đúng chuyên gia, đồng thời giữ vững quyền riêng tư, an toàn và độ phủ kênh."),
     },
     {
         "number": "05", "color": "#D95167", "icon": "workflow", "lab": 5,
-        "usecase": loc("Email operations at scale", "规模化邮件运营", "大規模なメール運用", "대규모 이메일 운영", "การดำเนินงานอีเมลในวงกว้าง", "पैमाने पर ईमेल संचालन"),
-        "mode": loc("AUTONOMOUS WORKFLOW · DIGITAL", "自主工作流 · 数字", "自律ワークフロー · デジタル", "자율 워크플로 · 디지털", "เวิร์กโฟลว์อัตโนมัติ · ดิจิทัล", "स्वायत्त वर्कफ़्लो · डिजिटल"),
+        "usecase": loc("Email operations at scale", "规模化邮件运营", "大規模なメール運用", "대규모 이메일 운영", "การดำเนินงานอีเมลในวงกว้าง", "पैमाने पर ईमेल संचालन", "Vận hành email ở quy mô lớn"),
+        "mode": loc("AUTONOMOUS WORKFLOW · DIGITAL", "自主工作流 · 数字", "自律ワークフロー · デジタル", "자율 워크플로 · 디지털", "เวิร์กโฟลว์อัตโนมัติ · ดิจิทัล", "स्वायत्त वर्कफ़्लो · डिजिटल", "WORKFLOW TỰ ĐỘNG · SỐ"),
         "nodes": ["node_user", "node_workflow", "node_specialist"],
         "tools": ["Outlook trigger", "Classify", "Agents", "Monitor"],
-        "value": loc("Classify, route, and personalize responses without losing operational control.", "在不失去运营控制的前提下，对回复进行分类、路由和个性化。", "運用の制御を失わずに、応答を分類、ルーティング、パーソナライズ。", "운영 통제력을 잃지 않고 응답을 분류, 라우팅, 개인화합니다.", "จัดประเภท ส่งต่อ และปรับแต่งการตอบกลับ โดยไม่สูญเสียการควบคุมการปฏิบัติงาน", "ऑपरेशनल नियंत्रण खोए बिना प्रतिक्रियाओं को वर्गीकृत, रूट और वैयक्तिकृत करें।"),
+        "value": loc("Classify, route, and personalize responses without losing operational control.", "在不失去运营控制的前提下，对回复进行分类、路由和个性化。", "運用の制御を失わずに、応答を分類、ルーティング、パーソナライズ。", "운영 통제력을 잃지 않고 응답을 분류, 라우팅, 개인화합니다.", "จัดประเภท ส่งต่อ และปรับแต่งการตอบกลับ โดยไม่สูญเสียการควบคุมการปฏิบัติงาน", "ऑपरेशनल नियंत्रण खोए बिना प्रतिक्रियाओं को वर्गीकृत, रूट और वैयक्तिकृत करें।", "Phân loại, định tuyến và cá nhân hóa phản hồi mà không mất quyền kiểm soát vận hành."),
     },
     {
-        "number": "06", "color": "#167D9E", "icon": "voice", "lab": 6,
-        "usecase": loc("Real-time multilingual voice", "实时多语言语音", "リアルタイム多言語音声", "실시간 다국어 음성", "เสียงหลายภาษาแบบเรียลไทม์", "रीयल-टाइम बहुभाषी आवाज़"),
-        "mode": loc("CONVERSATIONAL · VOICE", "会话型 · 语音", "会話型 · 音声", "대화형 · 음성", "สนทนา · เสียง", "संवादी · आवाज़"),
-        "nodes": ["node_user", "node_voice", "node_agent"],
-        "tools": ["Real-time voice", "Knowledge", "Tools", "Child agents"],
-        "value": loc("Create natural, inclusive moments of help that feel immediate and human.", "创造自然、包容、即时且有人情味的帮助体验。", "即時で自然かつ包摂的な、人間らしい支援体験を生み出します。", "즉각적이고 인간적으로 느껴지는 자연스럽고 포용적인 도움 경험을 만듭니다.", "สร้างช่วงเวลาการช่วยเหลือที่เป็นธรรมชาติ ครอบคลุม ฉับไว และเป็นมนุษย์", "ऐसे प्राकृतिक, समावेशी सहायता क्षण बनाएं जो तात्कालिक और मानवीय लगें।"),
+        "number": "06", "color": "#167D9E", "icon": "app", "lab": 6,
+        "usecase": loc("Marketing resource management", "营销资源管理", "マーケティング リソース管理", "마케팅 리소스 관리", "การจัดการทรัพยากรการตลาด", "Marketing Resource Management", "Quản lý tài nguyên tiếp thị"),
+        "mode": loc("VIBE-CODED · MANAGED APP", "VIBE CODING · 托管应用", "VIBE CODING · 管理対象アプリ", "VIBE CODING · 관리형 앱", "VIBE CODING · MANAGED APP", "VIBE CODING · MANAGED APP", "VIBE CODING · MANAGED APP"),
+        "nodes": ["node_user", "node_harness", "node_app"],
+        "tools": ["Apps (Preview)", "Natural language", "Preview / Code", "Dataverse"],
+        "value": loc("Turn a business brief into a modern managed app in minutes, then refine and publish with natural language.", "在几分钟内将业务需求转化为现代托管应用，再通过自然语言完善并发布。", "ビジネス要件を数分でモダンな管理対象アプリに変え、自然言語で改善して公開。", "비즈니스 요구를 몇 분 만에 현대적인 관리형 앱으로 만들고 자연어로 개선해 게시합니다.", "เปลี่ยนโจทย์ธุรกิจเป็น managed app สมัยใหม่ในไม่กี่นาที แล้วปรับปรุงและเผยแพร่ด้วยภาษาธรรมชาติ", "व्यावसायिक brief को मिनटों में modern managed app में बदलें, फिर natural language से refine और Publish करें।", "Biến yêu cầu kinh doanh thành managed app hiện đại trong vài phút, rồi tinh chỉnh và phát hành bằng ngôn ngữ tự nhiên."),
     },
 ]
 
@@ -337,12 +363,14 @@ def icon(draw: ImageDraw.ImageDraw, name: str, x: int, y: int, color: tuple[int,
         draw.ellipse((x + 14, y + 10, x + 38, y + 34), outline=color, width=width)
         draw.line((x - 14, y, x + 13, y - 20), fill=color, width=width)
         draw.line((x - 14, y, x + 13, y + 20), fill=color, width=width)
-    elif name == "voice":
-        for idx, height in enumerate((18, 38, 58, 38, 18)):
-            px = x - 28 + idx * 14
-            draw.line((px, y - height / 2, px, y + height / 2), fill=color, width=width)
-
-
+    elif name == "app":
+        draw.rounded_rectangle((x - 36, y - 31, x + 36, y + 31), 9, outline=color, width=width)
+        draw.line((x - 36, y - 13, x + 36, y - 13), fill=color, width=width)
+        draw.ellipse((x - 26, y - 24, x - 20, y - 18), fill=color)
+        draw.ellipse((x - 15, y - 24, x - 9, y - 18), fill=color)
+        draw.rounded_rectangle((x - 24, y - 3, x - 4, y + 20), 4, outline=color, width=4)
+        draw.line((x + 7, y + 1, x + 24, y + 1), fill=color, width=4)
+        draw.line((x + 7, y + 13, x + 20, y + 13), fill=color, width=4)
 def text_lines(draw, text, font, width, max_lines=2):
     lines = wrap(draw, text, font, width)
     if max_lines and len(lines) > max_lines:
@@ -491,7 +519,7 @@ def render(locale, labs):
     round_rect(draw, (MX, fy0, W - MX, H - 34), 20, c("#171430", 240), c("#332C58"), 1)
     draw.text((MX + 36, fy0 + 24), TEXT[locale]["footer"], font=f(locale, 20, True), fill=c("#7FD8F0"))
     draw_wrapped(draw, TEXT[locale]["footer_copy"], (MX + 36, fy0 + 58), 1380, f(locale, 19, True), c("#EFEDFB"), gap=1, max_lines=2)
-    outcome_chips = [("KNOWLEDGE", "#38BDF8"), ("ACTIONS", "#34D399"), ("ORCHESTRATION", "#A78BFA"), ("WORKFLOWS", "#F472B6"), ("VOICE", "#22D3EE")]
+    outcome_chips = [("KNOWLEDGE", "#38BDF8"), ("ACTIONS", "#34D399"), ("ORCHESTRATION", "#A78BFA"), ("WORKFLOWS", "#F472B6"), ("APPS", "#22D3EE")]
     chip_x = W - MX - 792
     for label, color in outcome_chips:
         label_font = f("en", 14, True)
@@ -507,10 +535,13 @@ def render(locale, labs):
 
 def main():
     data = json.loads(LABS_PATH.read_text(encoding="utf-8"))
-    add_regional_chinese(data["labs"])
+    labs = [lab for lab in data["labs"] if lab.get("isPublic", True)]
+    if len(labs) != 6:
+        raise ValueError(f"Expected six public labs for the blueprint, found {len(labs)}")
+    add_regional_chinese(labs)
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     for locale in FONTS:
-        image = render(locale, data["labs"])
+        image = render(locale, labs)
         out = OUT_DIR / f"agent-platform-blueprint-{locale}.webp"
         image.save(out, "WEBP", quality=92, method=6)
         print(f"Wrote {out.name}")

@@ -135,14 +135,14 @@ const icons = {
   document: svgIcon('<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13h8M8 17h6"/>'),
   network: svgIcon('<rect x="9" y="2" width="6" height="5" rx="1"/><rect x="2" y="17" width="6" height="5" rx="1"/><rect x="16" y="17" width="6" height="5" rx="1"/><path d="M12 7v5M5 17v-3h14v3"/>'),
   mail: svgIcon('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>'),
-  mic: svgIcon('<rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 17v5M8 22h8"/>'),
+  app: svgIcon('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01M7 13h4v4H7zM14 13h3M14 17h3"/>'),
   microsoft: svgIcon('<path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/>'),
   customer: svgIcon('<path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h.01M15 9h.01M9 13h.01M15 13h.01M10 21v-4h4v4"/>'),
   calendar: svgIcon('<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18M8 15h.01M12 15h.01M16 15h.01"/>'),
   check: svgIcon('<path d="M20 6 9 17l-5-5"/>'),
 }
 
-const labIcons = [icons.agent, icons.database, icons.document, icons.network, icons.mail, icons.mic] as const
+const labIcons = [icons.agent, icons.database, icons.document, icons.network, icons.mail, icons.app] as const
 
 export async function buildWorkshopInvitation(branding: InvitationBranding, locale: Locale = 'en'): Promise<{ html: string; filename: string; logoFallbacks: string[] }> {
   const copy = invitationCopies[locale]
