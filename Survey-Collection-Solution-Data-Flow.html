@@ -1,0 +1,1068 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Survey Collection Solution - End-to-End Data Flow</title>
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("scoutTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-text-soft: #6f6f6f;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(177, 31, 75, 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #919191;
+      --cp-text-soft: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(41, 41, 41, 0.88);
+      --cp-panel: rgba(41, 41, 41, 0.72);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(253, 142, 161, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
+    body {
+      margin: 0;
+      background: var(--cp-bg);
+      color: var(--cp-text);
+      font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+      letter-spacing: 0;
+    }
+    button { font: inherit; }
+    code, .mono {
+      font-family: Consolas, "Courier New", Courier, monospace;
+      letter-spacing: 0;
+    }
+    .deck { width: 100%; }
+    .slide {
+      position: relative;
+      min-height: 100svh;
+      padding: clamp(3.5rem, 5vw, 5rem) clamp(2rem, 6vw, 7rem);
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      scroll-snap-align: start;
+      isolation: isolate;
+    }
+    .slide::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        linear-gradient(90deg, var(--cp-accent-soft) 1px, transparent 1px),
+        linear-gradient(var(--cp-accent-soft) 1px, transparent 1px),
+        var(--cp-bg);
+      background-size: 48px 48px;
+      opacity: .7;
+    }
+    .slide:nth-child(even)::before { background-color: var(--cp-bg-elevated); }
+    .slide-inner { width: min(1180px, 100%); margin: 0 auto; }
+    .slide-no {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.5rem;
+      color: var(--cp-text-muted);
+      font: 700 .8rem Consolas, "Courier New", Courier, monospace;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: .55rem;
+      margin-bottom: .75rem;
+      color: var(--cp-accent);
+      font-weight: 800;
+      font-size: .84rem;
+      text-transform: uppercase;
+    }
+    .eyebrow::before { content: ""; width: 2.25rem; height: 3px; background: var(--cp-accent); }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { max-width: 900px; margin-bottom: 1.25rem; font-size: clamp(3rem, 7vw, 6rem); line-height: .96; }
+    h2 { margin-bottom: 1rem; font-size: clamp(2rem, 4.5vw, 4rem); line-height: 1.03; }
+    h3 { margin-bottom: .45rem; font-size: 1.05rem; line-height: 1.2; }
+    .lede { max-width: 830px; color: var(--cp-text-muted); font-size: clamp(1.05rem, 1.8vw, 1.45rem); line-height: 1.55; }
+    .accent { color: var(--cp-accent); }
+    .muted { color: var(--cp-text-muted); }
+    .small { font-size: .82rem; line-height: 1.45; }
+    .strong { font-weight: 800; }
+    .rule { height: 1px; margin: 1rem 0; background: var(--cp-border); }
+
+    .cover { padding-top: 2.75rem; padding-bottom: 2.75rem; }
+    .cover .slide-inner { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(330px, .7fr); gap: 2.75rem; align-items: center; }
+    .cover h1 { font-size: clamp(2.8rem, 5vw, 5rem); }
+    .cover .lede { font-size: clamp(1rem, 1.45vw, 1.25rem); }
+    .cover-panel {
+      border-left: 8px solid var(--cp-accent);
+      padding: 1rem 0 1rem 1.6rem;
+    }
+    .cover-map { display: grid; gap: .5rem; }
+    .cover-node {
+      display: grid;
+      grid-template-columns: 2.6rem 1fr;
+      align-items: center;
+      gap: .75rem;
+      padding: .72rem .85rem;
+      border: 1px solid var(--cp-border);
+      border-radius: .625rem;
+      background: var(--cp-surface);
+      box-shadow: var(--cp-shadow);
+    }
+    .node-icon, .step-badge, .icon {
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      width: 2.45rem;
+      height: 2.45rem;
+      border-radius: .625rem;
+      background: var(--cp-accent);
+      color: var(--cp-accent-fg);
+      font-weight: 900;
+    }
+    .cover-node b { display: block; }
+    .cover-node span { color: var(--cp-text-muted); font-size: .76rem; }
+    .connector { height: .7rem; margin-left: 1.25rem; border-left: 2px solid var(--cp-accent); }
+
+    .chip-row { display: flex; flex-wrap: wrap; gap: .55rem; margin-top: 1rem; }
+    .chip {
+      padding: .45rem .7rem;
+      border: 1px solid var(--cp-border);
+      border-radius: .625rem;
+      background: var(--cp-surface);
+      color: var(--cp-text-muted);
+      font-size: .78rem;
+      font-weight: 700;
+    }
+    .chip.hot { border-color: var(--cp-accent); background: var(--cp-accent-soft); color: var(--cp-accent); }
+
+    .lane-map { display: grid; gap: .65rem; margin-top: 1.4rem; }
+    .lane {
+      display: grid;
+      grid-template-columns: 8.5rem repeat(3, minmax(0, 1fr));
+      gap: .65rem;
+      align-items: stretch;
+    }
+    .lane-name {
+      display: flex;
+      align-items: center;
+      padding: .9rem;
+      border-left: 5px solid var(--cp-accent);
+      background: var(--cp-surface-soft);
+      font-weight: 800;
+    }
+    .lane-node {
+      position: relative;
+      min-height: 5rem;
+      padding: .85rem;
+      border: 1px solid var(--cp-border);
+      border-radius: .625rem;
+      background: var(--cp-surface);
+    }
+    .lane-node b { display: block; margin-bottom: .25rem; }
+    .lane-node span { color: var(--cp-text-muted); font-size: .76rem; line-height: 1.35; }
+    .lane-node.active { border-color: var(--cp-accent); background: var(--cp-accent-soft); }
+    .lane-node.empty { border-style: dashed; opacity: .5; }
+    .flow-ribbon {
+      display: grid;
+      grid-template-columns: repeat(9, minmax(0, 1fr));
+      gap: .35rem;
+      margin-top: .75rem;
+    }
+    .flow-ribbon span { height: .38rem; background: var(--cp-accent); }
+    .flow-ribbon span:nth-child(3n + 2) { background: var(--cp-link); }
+    .flow-ribbon span:nth-child(3n) { background: var(--cp-success); }
+
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.15rem; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .85rem; }
+    .card {
+      min-width: 0;
+      padding: 1.15rem;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface);
+      box-shadow: var(--cp-shadow);
+    }
+    .card.flat { box-shadow: none; }
+    .card.accent-card { border-color: var(--cp-accent); background: var(--cp-accent-soft); }
+    .card.success-card { border-color: var(--cp-success); }
+    .card.warning-card { border-color: var(--cp-warning); }
+    .card.danger-card { border-color: var(--cp-danger); }
+    .card-head { display: flex; align-items: center; gap: .7rem; margin-bottom: .75rem; }
+    .card p:last-child, .card ul:last-child { margin-bottom: 0; }
+    .card p { color: var(--cp-text-muted); font-size: .9rem; line-height: 1.5; }
+    .metric { font-size: 2.4rem; line-height: 1; font-weight: 900; color: var(--cp-accent); }
+    .metric-label { margin-top: .3rem; color: var(--cp-text-muted); font-size: .8rem; }
+    ul.clean { margin: .5rem 0 0; padding: 0; list-style: none; }
+    ul.clean li { position: relative; padding: .28rem 0 .28rem 1.1rem; color: var(--cp-text-muted); font-size: .86rem; line-height: 1.35; }
+    ul.clean li::before { content: "+"; position: absolute; left: 0; color: var(--cp-accent); font-weight: 900; }
+
+    .payload {
+      padding: 1rem;
+      border: 1px solid var(--cp-border-strong);
+      border-radius: .625rem;
+      background: var(--cp-bg-elevated);
+      color: var(--cp-text);
+      font-size: .76rem;
+      line-height: 1.55;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+    .field-map { display: grid; grid-template-columns: 1fr auto 1fr; gap: .7rem; align-items: center; }
+    .field-box { padding: .8rem; border: 1px solid var(--cp-border); border-radius: .625rem; background: var(--cp-surface-soft); }
+    .field-box b { display: block; margin-bottom: .35rem; font-size: .85rem; }
+    .field-box span { display: block; color: var(--cp-text-muted); font: .7rem/1.5 Consolas, "Courier New", Courier, monospace; }
+    .arrow { color: var(--cp-accent); font-size: 1.6rem; font-weight: 900; text-align: center; }
+
+    .decision-chain { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .75rem; margin-top: 1.25rem; }
+    .decision {
+      position: relative;
+      min-height: 8rem;
+      padding: 1rem;
+      border-top: 6px solid var(--cp-accent);
+      background: var(--cp-surface);
+      box-shadow: var(--cp-shadow);
+    }
+    .decision::after {
+      content: ">";
+      position: absolute;
+      right: -.62rem;
+      top: 45%;
+      color: var(--cp-accent);
+      font-weight: 900;
+      z-index: 2;
+    }
+    .decision:last-child::after { display: none; }
+    .decision small { color: var(--cp-text-muted); line-height: 1.35; }
+
+    .timeline { display: grid; grid-template-columns: repeat(6, 1fr); align-items: start; gap: .4rem; margin-top: 1.3rem; }
+    .time-step { position: relative; text-align: center; }
+    .time-step::before {
+      content: "";
+      position: absolute;
+      top: 1.2rem;
+      left: -50%;
+      width: 100%;
+      border-top: 2px solid var(--cp-border-strong);
+      z-index: -1;
+    }
+    .time-step:first-child::before { display: none; }
+    .time-dot { display: grid; place-items: center; width: 2.5rem; height: 2.5rem; margin: 0 auto .55rem; border-radius: 50%; background: var(--cp-accent); color: var(--cp-accent-fg); font-weight: 900; }
+    .time-step b { display: block; font-size: .82rem; }
+    .time-step span { color: var(--cp-text-muted); font-size: .7rem; line-height: 1.35; }
+
+    .entity-model { display: grid; grid-template-columns: 1fr 7rem 1.25fr; gap: 1rem; align-items: center; margin-top: 1.25rem; }
+    .entity {
+      padding: 1.1rem;
+      border: 2px solid var(--cp-border-strong);
+      border-radius: .625rem;
+      background: var(--cp-surface);
+    }
+    .entity-title { display: flex; justify-content: space-between; gap: 1rem; padding-bottom: .7rem; border-bottom: 1px solid var(--cp-border); }
+    .entity-title code { color: var(--cp-accent); font-size: .72rem; }
+    .entity-fields { display: grid; grid-template-columns: repeat(2, 1fr); gap: .35rem .8rem; margin-top: .75rem; }
+    .entity-fields span { color: var(--cp-text-muted); font: .67rem/1.4 Consolas, "Courier New", Courier, monospace; }
+    .relationship { text-align: center; color: var(--cp-accent); font-weight: 900; }
+    .relationship strong { display: block; font-size: 2rem; }
+    .relationship span { display: block; color: var(--cp-text-muted); font-size: .7rem; }
+
+    .matrix { width: 100%; border-collapse: collapse; margin-top: 1rem; background: var(--cp-surface); font-size: .78rem; }
+    .matrix th, .matrix td { padding: .62rem .7rem; border: 1px solid var(--cp-border); text-align: left; vertical-align: top; }
+    .matrix th { background: var(--cp-accent); color: var(--cp-accent-fg); }
+    .matrix td:first-child { font-family: Consolas, "Courier New", Courier, monospace; font-weight: 800; color: var(--cp-accent); white-space: nowrap; }
+    .matrix td:nth-child(2) { font-family: Consolas, "Courier New", Courier, monospace; white-space: nowrap; }
+
+    .trace-line { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .7rem; margin-top: 1.3rem; }
+    .trace-step { position: relative; padding: .9rem; border: 1px solid var(--cp-border); background: var(--cp-surface); min-height: 8.3rem; }
+    .trace-step::after { content: ">"; position: absolute; right: -.58rem; top: 45%; color: var(--cp-accent); font-weight: 900; z-index: 2; }
+    .trace-step:last-child::after { display: none; }
+    .trace-step b { display: block; margin-bottom: .45rem; }
+    .trace-step code { display: block; color: var(--cp-text-muted); font-size: .68rem; overflow-wrap: anywhere; }
+
+    .callout { margin-top: 1rem; padding: .85rem 1rem; border-left: 5px solid var(--cp-accent); background: var(--cp-accent-soft); font-size: .84rem; line-height: 1.5; }
+    .callout.warning { border-color: var(--cp-warning); }
+    .callout.danger { border-color: var(--cp-danger); }
+
+    .network-board {
+      padding: .45rem;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface);
+    }
+    .network-board svg { display: block; width: 100%; height: auto; max-height: 25rem; }
+    .network-board text { fill: var(--cp-text); font-family: "Segoe UI", Aptos, Calibri, sans-serif; letter-spacing: 0; }
+    .network-board .zone { fill: var(--cp-bg-elevated); stroke: var(--cp-border-strong); stroke-width: 1.5; }
+    .network-board .private-zone { fill: var(--cp-accent-soft); stroke: var(--cp-success); stroke-width: 2; }
+    .network-board .node { fill: var(--cp-surface); stroke: var(--cp-border-strong); stroke-width: 1.5; }
+    .network-board .private-node { fill: var(--cp-surface); stroke: var(--cp-success); stroke-width: 2; }
+    .network-board .secret-node { fill: var(--cp-surface); stroke: var(--cp-warning); stroke-width: 2; }
+    .network-board .public-edge { fill: none; stroke: var(--cp-link); stroke-width: 3; }
+    .network-board .private-edge { fill: none; stroke: var(--cp-success); stroke-width: 2.5; }
+    .network-board .secret-edge { fill: none; stroke: var(--cp-warning); stroke-width: 2.5; stroke-dasharray: 7 5; }
+    .network-board .managed-edge { fill: none; stroke: var(--cp-border-strong); stroke-width: 2; }
+    .network-board .zone-label { font-size: 14px; font-weight: 800; }
+    .network-board .node-title { font-size: 13px; font-weight: 800; text-anchor: middle; }
+    .network-board .node-copy { fill: var(--cp-text-muted); font-size: 10px; text-anchor: middle; }
+    .network-board .edge-copy { fill: var(--cp-text-muted); font-size: 10px; font-weight: 700; text-anchor: middle; }
+    .network-board .warning-copy { fill: var(--cp-danger); font-size: 10px; font-weight: 900; text-anchor: middle; }
+    .network-legend { display: flex; flex-wrap: wrap; gap: .85rem; margin-top: .55rem; color: var(--cp-text-muted); font-size: .72rem; }
+    .network-legend span { display: inline-flex; align-items: center; gap: .35rem; }
+    .legend-line { width: 2rem; border-top: 3px solid var(--cp-border-strong); }
+    .legend-line.public { border-color: var(--cp-link); }
+    .legend-line.private { border-color: var(--cp-success); }
+    .legend-line.secret { border-color: var(--cp-warning); border-top-style: dashed; }
+
+    .controls {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      gap: .45rem;
+      padding: .45rem;
+      border: 1px solid var(--cp-border);
+      border-radius: .625rem;
+      background: var(--cp-panel-strong);
+      box-shadow: var(--cp-shadow);
+    }
+    .controls button {
+      min-width: 2.35rem;
+      height: 2.35rem;
+      padding: 0 .65rem;
+      border: 1px solid var(--cp-border);
+      border-radius: .625rem;
+      background: var(--cp-surface);
+      color: var(--cp-text);
+      cursor: pointer;
+      font-weight: 800;
+    }
+    .controls button:hover { border-color: var(--cp-accent); color: var(--cp-accent); }
+    .counter { min-width: 4.2rem; text-align: center; color: var(--cp-text-muted); font: 700 .75rem Consolas, "Courier New", Courier, monospace; }
+    .progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 60;
+      width: 100%;
+      height: 4px;
+      background: var(--cp-border);
+    }
+    .progress span { display: block; width: 5.882%; height: 100%; background: var(--cp-accent); transition: width .2s ease; }
+
+    @media screen and (max-width: 900px) {
+      .slide { align-items: flex-start; padding: 4.5rem 1.25rem 6rem; overflow: visible; }
+      .cover .slide-inner, .grid-2, .grid-3, .grid-4, .entity-model { grid-template-columns: 1fr; }
+      .lane { grid-template-columns: 1fr; }
+      .lane-node.empty { display: none; }
+      .decision-chain, .trace-line { grid-template-columns: repeat(2, 1fr); }
+      .timeline { grid-template-columns: repeat(3, 1fr); row-gap: 1.5rem; }
+      .relationship { transform: rotate(90deg); }
+    }
+
+    @media screen and (min-width: 901px) and (max-height: 800px) {
+      .slide { height: 100svh; min-height: 100svh; padding: 2.6rem 3.7rem; }
+      .slide-inner { width: min(1160px, 100%); }
+      h1 { font-size: 3.8rem; }
+      h2 { font-size: 2.45rem; margin-bottom: .7rem; }
+      h3 { font-size: .95rem; }
+      .lede { font-size: 1rem; line-height: 1.4; }
+      .eyebrow { margin-bottom: .5rem; font-size: .72rem; }
+      .cover { padding-top: 2rem; padding-bottom: 2rem; }
+      .cover h1 { font-size: 3.55rem; margin-bottom: .8rem; }
+      .cover .lede { font-size: .95rem; }
+      .cover-node { padding: .55rem .7rem; }
+      .node-icon, .step-badge, .icon { width: 2rem; height: 2rem; }
+      .card { padding: .82rem; }
+      .card p { font-size: .78rem; line-height: 1.38; }
+      ul.clean li { padding-top: .18rem; padding-bottom: .18rem; font-size: .75rem; }
+      .lane-map { gap: .4rem; margin-top: .8rem; }
+      .lane { gap: .4rem; }
+      .lane-name, .lane-node { padding: .6rem; }
+      .lane-node { min-height: 4rem; }
+      .decision-chain, .trace-line, .timeline { margin-top: .75rem; }
+      .decision { min-height: 6.6rem; padding: .7rem; }
+      .card-head { margin-bottom: .45rem; }
+      .payload { padding: .72rem; font-size: .67rem; line-height: 1.4; }
+      .entity-model { margin-top: .75rem; }
+      .entity { padding: .8rem; }
+      .entity-fields { margin-top: .5rem; }
+      .entity-fields span { font-size: .6rem; }
+      .matrix { margin-top: .6rem; font-size: .68rem; }
+      .matrix th, .matrix td { padding: .42rem .55rem; }
+      .callout { margin-top: .65rem; padding: .62rem .8rem; font-size: .72rem; }
+      .grid-2, .grid-3, .grid-4 { gap: .7rem; }
+      .grid-2[style], .grid-3[style], .grid-4[style] { margin-top: .65rem !important; }
+      .metric { font-size: 1.9rem; }
+      .metric-label { font-size: .68rem; }
+      .trace-step { min-height: 6.7rem; padding: .7rem; }
+      .time-dot { width: 2rem; height: 2rem; }
+      .time-step::before { top: .95rem; }
+    }
+
+    @media print {
+      @page { size: 13.333in 7.5in; margin: 0; }
+      html { scroll-snap-type: none; }
+      body { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .slide {
+        width: 13.333in;
+        height: 7.5in;
+        min-height: 7.5in;
+        padding: .48in .62in;
+        break-after: page;
+        page-break-after: always;
+        overflow: hidden;
+      }
+      .slide-inner { width: 100%; max-width: none; }
+      h1 { font-size: 48pt; }
+      h2 { font-size: 29pt; }
+      .lede { font-size: 14pt; }
+      .controls, .progress { display: none; }
+      .card, .cover-node, .decision { box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+  <main class="deck" id="deck">
+    <section class="slide cover" data-title="Cover">
+      <span class="slide-no">01 / 17</span>
+      <div class="slide-inner">
+        <div class="cover-panel">
+          <div class="eyebrow">Agent JumpStart survey architecture</div>
+          <h1>From participant feedback to a <span class="accent">governed Dataverse record</span></h1>
+          <p class="lede">A step-by-step technical walkthrough of the Azure Function gateway, Power Automate capture flow, Dataverse data model, privacy boundary, failure handling, and operational trace.</p>
+          <div class="chip-row">
+            <span class="chip hot">17 technical views</span>
+            <span class="chip">Flex Consumption / Node.js 22</span>
+            <span class="chip">Power Automate</span>
+            <span class="chip">Dataverse</span>
+            <span class="chip">24-month retention</span>
+          </div>
+          <p class="small muted" style="margin-top:1.4rem">Architecture reference &middot; September 18, 2026</p>
+        </div>
+        <div class="cover-map" aria-label="Solution path">
+          <div class="cover-node"><span class="node-icon">1</span><div><b>Workshop browser</b><span>Consent, ratings, comments, progress</span></div></div>
+          <div class="connector"></div>
+          <div class="cover-node"><span class="node-icon">2</span><div><b>Azure Function gateway</b><span>Trust boundary, validation, rate limiting</span></div></div>
+          <div class="connector"></div>
+          <div class="cover-node"><span class="node-icon">3</span><div><b>Power Automate</b><span>Deterministic, ordered Dataverse writes</span></div></div>
+          <div class="connector"></div>
+          <div class="cover-node"><span class="node-icon">4</span><div><b>Dataverse</b><span>Workshop parent + response log</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Architecture at a glance">
+      <span class="slide-no">02 / 17</span>
+      <div class="slide-inner">
+        <div class="eyebrow">Architecture at a glance</div>
+        <h2>Four execution zones, <span class="accent">nine ordered stages</span></h2>
+        <p class="lede">The browser knows only the public gateway. The callback URL, signing secret, connector identity, and persistence operations remain behind managed service boundaries.</p>
+        <div class="lane-map">
+          <div class="lane"><div class="lane-name">Browser</div><div class="lane-node active"><b>1. Capture</b><span>Ratings, comment, optional email, progress</span></div><div class="lane-node active"><b>2. Assemble</b><span>Stable UUID + signed workshop claim</span></div><div class="lane-node active"><b>9. Accept ACK</b><span>Match returned submissionId; save receipt</span></div></div>
+          <div class="lane"><div class="lane-name">Azure</div><div class="lane-node active"><b>3. Ingress</b><span>HTTPS, platform CORS, app origin check</span></div><div class="lane-node active"><b>4. Normalize</b><span>Validate, derive server fields, remove token</span></div><div class="lane-node active"><b>5. Limit</b><span>Durable Table-backed abuse control</span></div></div>
+          <div class="lane"><div class="lane-name">Flow</div><div class="lane-node active"><b>6. Receive</b><span>Signed HTTPS trigger URL stored in Key Vault</span></div><div class="lane-node active"><b>7. Upsert</b><span>Workshop first, response second</span></div><div class="lane-node empty"><b>Connector</b><span>Dataverse connection reference</span></div></div>
+          <div class="lane"><div class="lane-name">Dataverse</div><div class="lane-node active"><b>8a. Workshop</b><span>Non-PII event metadata</span></div><div class="lane-node active"><b>8b. Response</b><span>Survey log linked to workshop</span></div><div class="lane-node active"><b>Lifecycle</b><span>Daily expiry deletion</span></div></div>
+        </div>
+        <div class="flow-ribbon" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="callout"><strong>Sidecars:</strong> Key Vault protects the Flow URL and HMAC secret; managed identity reaches private Storage and Key Vault; Application Insights and Flow run history provide operational evidence.</div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Network topology">
+      <span class="slide-no">03 / 17</span>
+      <div class="slide-inner">
+        <div class="eyebrow">Network topology &middot; private versus public paths</div>
+        <h2>Two private Azure data paths; <span class="accent">one public Flow handoff</span></h2>
+        <div class="network-board">
+          <svg viewBox="0 0 1180 410" role="img" aria-labelledby="networkTitle networkDesc">
+            <title id="networkTitle">Survey collection private and public network topology</title>
+            <desc id="networkDesc">The browser calls the public Azure Function. VNet integration reaches private endpoints for Storage and Key Vault. Flex routes Function outbound traffic through the integration subnet, then reaches the Power Automate HTTP trigger over public HTTPS because no private endpoint exists between them.</desc>
+            <defs>
+              <marker id="arrowPublic" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="var(--cp-link)"/></marker>
+              <marker id="arrowPrivate" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="var(--cp-success)"/></marker>
+              <marker id="arrowSecret" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="var(--cp-warning)"/></marker>
+              <marker id="arrowManaged" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="var(--cp-border-strong)"/></marker>
+            </defs>
+
+            <rect class="node" x="14" y="78" width="158" height="64" rx="10"/>
+            <text class="node-title" x="93" y="104">Workshop browser</text>
+            <text class="node-copy" x="93" y="123">GitHub Pages / local Vite</text>
+
+            <rect class="zone" x="198" y="14" width="686" height="372" rx="14"/>
+            <text class="zone-label" x="216" y="38">Azure subscription &middot; West US 3</text>
+
+            <rect class="node" x="220" y="70" width="172" height="80" rx="10"/>
+            <text class="node-title" x="306" y="94">Azure Function</text>
+            <text class="node-copy" x="306" y="111">FC1 / Node.js 22</text>
+            <text class="node-copy" x="306" y="127">Public ingress + UAMI</text>
+            <text class="node-copy" x="306" y="143">Validation + rate limit</text>
+
+            <rect class="node" x="236" y="175" width="140" height="45" rx="10"/>
+            <text class="node-title" x="306" y="194">Managed identity</text>
+            <text class="node-copy" x="306" y="210">RBAC, no account keys</text>
+
+            <rect class="private-zone" x="414" y="175" width="286" height="174" rx="14"/>
+            <text class="zone-label" x="430" y="198">VNet 10.42.0.0/16</text>
+            <rect class="private-zone" x="432" y="210" width="114" height="110" rx="10"/>
+            <text class="node-title" x="489" y="229">Integration subnet</text>
+            <text class="node-copy" x="489" y="243">10.42.1.0/24</text>
+            <rect class="private-node" x="446" y="252" width="86" height="50" rx="9"/>
+            <text class="node-title" x="489" y="273">Function</text>
+            <text class="node-copy" x="489" y="289">VNet egress</text>
+
+            <rect class="private-zone" x="562" y="210" width="120" height="110" rx="10"/>
+            <text class="node-title" x="622" y="229">PE subnet</text>
+            <text class="node-copy" x="622" y="243">10.42.2.0/24</text>
+            <rect class="private-node" x="576" y="251" width="92" height="14" rx="5"/><text class="node-copy" x="622" y="262">Blob PE</text>
+            <rect class="private-node" x="576" y="269" width="92" height="14" rx="5"/><text class="node-copy" x="622" y="280">Queue PE</text>
+            <rect class="private-node" x="576" y="287" width="92" height="14" rx="5"/><text class="node-copy" x="622" y="298">Table PE</text>
+            <rect class="private-node" x="576" y="305" width="92" height="14" rx="5"/><text class="node-copy" x="622" y="316">Vault PE</text>
+            <text class="node-copy" x="557" y="339">Private DNS: blob / queue / table / vaultcore</text>
+
+            <rect class="private-node" x="722" y="192" width="138" height="68" rx="10"/>
+            <text class="node-title" x="791" y="216">Storage account</text>
+            <text class="node-copy" x="791" y="234">Public access disabled</text>
+            <text class="node-copy" x="791" y="249">Host + limiter table</text>
+            <rect class="secret-node" x="722" y="282" width="138" height="64" rx="10"/>
+            <text class="node-title" x="791" y="305">Key Vault</text>
+            <text class="node-copy" x="791" y="323">Flow URL + HMAC secret</text>
+            <text class="node-copy" x="791" y="338">Public access disabled</text>
+
+            <rect class="zone" x="908" y="14" width="258" height="372" rx="14"/>
+            <text class="zone-label" x="926" y="38">Power Platform managed boundary</text>
+            <rect class="node" x="932" y="70" width="210" height="64" rx="10"/>
+            <text class="node-title" x="1037" y="95">Power Automate Flow</text>
+            <text class="node-copy" x="1037" y="113">HTTP Request trigger</text>
+            <rect class="node" x="932" y="190" width="210" height="56" rx="10"/>
+            <text class="node-title" x="1037" y="214">Dataverse connector</text>
+            <text class="node-copy" x="1037" y="231">Solution connection reference</text>
+            <rect class="node" x="932" y="292" width="210" height="60" rx="10"/>
+            <text class="node-title" x="1037" y="317">Dataverse</text>
+            <text class="node-copy" x="1037" y="335">Workshop + Survey Response</text>
+
+            <path class="public-edge" marker-end="url(#arrowPublic)" d="M172 110 L220 110"/>
+            <text class="edge-copy" x="196" y="97">Public HTTPS</text>
+            <path class="managed-edge" marker-end="url(#arrowManaged)" d="M306 175 L306 150"/>
+            <path class="private-edge" marker-end="url(#arrowPrivate)" d="M330 150 C350 222 405 267 446 277"/>
+            <path class="private-edge" marker-end="url(#arrowPrivate)" d="M532 263 L576 258"/>
+            <path class="private-edge" marker-end="url(#arrowPrivate)" d="M532 271 L576 276"/>
+            <path class="private-edge" marker-end="url(#arrowPrivate)" d="M532 280 L576 294"/>
+            <path class="private-edge" marker-end="url(#arrowPrivate)" d="M532 289 L576 312"/>
+            <path class="private-edge" marker-end="url(#arrowPrivate)" d="M668 258 L722 213"/>
+            <path class="private-edge" marker-end="url(#arrowPrivate)" d="M668 276 L722 236"/>
+            <path class="private-edge" marker-end="url(#arrowPrivate)" d="M668 294 L722 247"/>
+            <path class="private-edge" marker-end="url(#arrowPrivate)" d="M668 312 L722 314"/>
+
+            <path class="secret-edge" marker-end="url(#arrowSecret)" d="M722 334 C620 382 330 382 280 150"/>
+            <text class="edge-copy" x="520" y="376">Key Vault reference injects secrets</text>
+
+            <path class="public-edge" marker-end="url(#arrowPublic)" d="M392 98 L932 98"/>
+            <text class="edge-copy" x="662" y="84">Public HTTPS via VNet-integrated egress to signed Flow URL</text>
+            <text class="warning-copy" x="662" y="119">NO PRIVATE ENDPOINT BETWEEN FUNCTION AND FLOW</text>
+            <path class="public-edge" marker-end="url(#arrowPublic)" d="M932 129 C810 157 515 157 392 129"/>
+            <text class="edge-copy" x="662" y="153">HTTP 200 / 500 response</text>
+
+            <path class="managed-edge" marker-end="url(#arrowManaged)" d="M1037 140 L1037 190"/>
+            <text class="edge-copy" x="1090" y="169">Managed call</text>
+            <path class="managed-edge" marker-end="url(#arrowManaged)" d="M1037 246 L1037 292"/>
+            <text class="edge-copy" x="1084" y="274">Upserts</text>
+          </svg>
+        </div>
+        <div class="network-legend" aria-label="Network path legend">
+          <span><i class="legend-line public"></i>Public HTTPS</span>
+          <span><i class="legend-line private"></i>Private endpoint path</span>
+          <span><i class="legend-line secret"></i>Secret/configuration path</span>
+          <span><i class="legend-line"></i>Power Platform managed connector</span>
+        </div>
+        <div class="callout warning"><strong>Key distinction:</strong> the Flow URL is secret, but not a private endpoint. Flex routes outbound through the integration subnet, then reaches the Flow's public HTTPS trigger. Private Link here covers Storage and Key Vault only.</div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Step 1 - Capture and consent">
+      <span class="slide-no">04 / 17</span>
+      <div class="slide-inner">
+        <div class="eyebrow">Step 1 &middot; Workshop browser</div>
+        <h2>Capture useful feedback without <span class="accent">silently collecting identity</span></h2>
+        <div class="grid-2">
+          <div class="card accent-card">
+            <div class="card-head"><span class="icon">A</span><h3>All labs complete modal</h3></div>
+            <ul class="clean">
+              <li>Three independent 0-5 ratings: overall, effort, recommend</li>
+              <li>Free-text comment, capped later at 10,000 characters</li>
+              <li>At least one rating or a non-empty comment enables submit</li>
+              <li>Answers remain in React state when a submission fails</li>
+            </ul>
+          </div>
+          <div class="card success-card">
+            <div class="card-head"><span class="icon">B</span><h3>Explicit email consent</h3></div>
+            <ul class="clean">
+              <li>Email starts excluded, even after workshop access verification</li>
+              <li>Participant must select "Include my email"</li>
+              <li>Without consent the outgoing email is an empty string</li>
+              <li>Privacy copy states the 24-month retention period</li>
+            </ul>
+          </div>
+          <div class="card flat">
+            <h3>Progress snapshot</h3>
+            <p>Each public lab contributes its visible step IDs, completed count, and total count. Private labs and hidden steps are excluded.</p>
+            <div class="chip-row"><span class="chip">completedSteps</span><span class="chip">totalSteps</span><span class="chip">labStatus[]</span></div>
+          </div>
+          <div class="card flat">
+            <h3>Deliberately not submitted</h3>
+            <p>Lab usernames, access codes, attendee allow-list, facilitator contacts, and maker credentials never enter the survey payload.</p>
+            <div class="callout warning"><strong>Boundary:</strong> survey collection is separate from workshop access validation.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Step 2 - Build the request">
+      <span class="slide-no">05 / 17</span>
+      <div class="slide-inner">
+        <div class="eyebrow">Step 2 &middot; Browser request</div>
+        <h2>Resolve public configuration, then build a <span class="accent">retry-safe contract</span></h2>
+        <div class="grid-2">
+          <div>
+            <div class="card flat">
+              <h3>Endpoint discovery</h3>
+              <div class="payload">GET /content/feedback.json
+{
+  "enabled": true,
+  "endpoint": "https://...azurewebsites.net/api/feedback"
+}</div>
+              <p class="small muted" style="margin-top:.7rem">The client rejects disabled, empty, or non-HTTPS remote endpoints. The Power Automate callback is never published.</p>
+            </div>
+            <div class="card flat" style="margin-top:1rem">
+              <h3>Stable idempotency key</h3>
+              <p><code>crypto.randomUUID()</code> runs once when the modal mounts. Every click of Retry reuses that same <code>submissionId</code>.</p>
+            </div>
+          </div>
+          <div class="payload">POST /api/feedback
+Content-Type: application/json
+
+schemaVersion: 1
+submissionId: UUID
+workshopId: UUID
+workshopKey: "workshop:&lt;UUID&gt;"
+customerName / hostName
+workshopStart / workshopEnd
+surveyToken: signed workshop claim
+attendeeEmail / emailConsent
+locale: one of 9 values
+overall / effort / recommend: 0..5
+comments
+completedSteps / totalSteps
+labStatus[]
+sourcePageUrl</div>
+        </div>
+        <div class="callout"><strong>Client timeout:</strong> the browser aborts after 30 seconds. It accepts success only when HTTP is OK and the ACK contains the exact same <code>submissionId</code>.</div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Step 3 - Azure ingress">
+      <span class="slide-no">06 / 17</span>
+      <div class="slide-inner">
+        <div class="eyebrow">Step 3 &middot; Azure ingress boundary</div>
+        <h2>Public HTTPS ingress with <span class="accent">two explicit Origin checks</span></h2>
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-head"><span class="icon">1</span><h3>Azure platform CORS</h3></div>
+            <p>App Service answers browser preflight only for the configured origins.</p>
+            <ul class="clean"><li>GitHub Pages origin</li><li>localhost:5173</li><li>127.0.0.1:5173</li></ul>
+          </div>
+          <div class="card">
+            <div class="card-head"><span class="icon">2</span><h3>Application Origin check</h3></div>
+            <p>The Function reads <code>Origin</code> and rejects any non-allowlisted value with <code>403 ORIGIN_NOT_ALLOWED</code>.</p>
+          </div>
+          <div class="card">
+            <div class="card-head"><span class="icon">3</span><h3>Method boundary</h3></div>
+            <p><code>OPTIONS</code> returns 204, <code>POST</code> enters processing, all other methods return 405.</p>
+          </div>
+        </div>
+        <div class="grid-2" style="margin-top:1rem">
+          <div class="card accent-card">
+            <h3>Why the HTTP trigger is anonymous</h3>
+            <p>GitHub Pages has no server identity. The endpoint therefore uses anonymous Function auth and compensating controls: exact CORS allowlist, signed workshop claim, strict schema validation, request size cap, durable rate limiting, and no direct database credential.</p>
+          </div>
+          <div class="card warning-card">
+            <h3>Security nuance</h3>
+            <p>CORS is a browser control, not authentication; callers without an Origin header are not blocked by it. The survey token proves workshop-claim integrity, not participant identity. Abuse resistance comes from validation, managed-identity service boundaries, and rate limiting.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Step 4 - Validate the payload">
+      <span class="slide-no">07 / 17</span>
+      <div class="slide-inner">
+        <div class="eyebrow">Step 4 &middot; Gateway validation</div>
+        <h2>Reject early; forward only a <span class="accent">normalized survey</span></h2>
+        <div class="decision-chain">
+          <div class="decision"><span class="step-badge">A</span><h3 style="margin-top:.65rem">Envelope</h3><small>Maximum 128 KiB, valid JSON object, no malformed transport.</small></div>
+          <div class="decision"><span class="step-badge">B</span><h3 style="margin-top:.65rem">Identity</h3><small>UUIDs, workshop key, customer/host text, YYYY-MM-DD dates.</small></div>
+          <div class="decision"><span class="step-badge">C</span><h3 style="margin-top:.65rem">HMAC claim</h3><small>Timing-safe comparison over workshop ID, key, names, and dates.</small></div>
+          <div class="decision"><span class="step-badge">D</span><h3 style="margin-top:.65rem">Survey</h3><small>Consent/email, locale, ratings, comments, counts, lab status consistency.</small></div>
+        </div>
+        <div class="grid-3" style="margin-top:1rem">
+          <div class="card flat"><div class="metric">9</div><div class="metric-label">supported locales</div></div>
+          <div class="card flat"><div class="metric">100</div><div class="metric-label">maximum lab-status items</div></div>
+          <div class="card flat"><div class="metric">100 KB</div><div class="metric-label">serialized lab-status cap</div></div>
+        </div>
+        <div class="callout danger"><strong>Cross-field invariant:</strong> the sum of per-lab completed and total steps must exactly match the top-level counts. This prevents a client from sending contradictory progress.</div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Step 4b - Normalize and enrich">
+      <span class="slide-no">08 / 17</span>
+      <div class="slide-inner">
+        <div class="eyebrow">Step 4b &middot; Server-owned data</div>
+        <h2>The gateway removes trust-sensitive input and <span class="accent">adds authoritative fields</span></h2>
+        <div class="field-map">
+          <div class="field-box"><b>Browser input</b><span>surveyToken</span><span>emailConsent + candidate email</span><span>labStatus[]</span><span>sourcePageUrl</span><span>progress counts</span></div>
+          <div class="arrow">&rarr;</div>
+          <div class="field-box"><b>Normalized Flow payload</b><span>token removed after verification</span><span>email blank unless consent = true</span><span>labStatusJson serialized</span><span>URL constrained to allowlisted origin</span><span>completionPercent derived</span></div>
+        </div>
+        <div class="grid-4" style="margin-top:1.2rem">
+          <div class="card flat"><h3>submittedAt</h3><p>Generated from server UTC time, never trusted from the browser.</p></div>
+          <div class="card flat"><h3>retentionExpiresAt</h3><p>Server time plus 24 months.</p></div>
+          <div class="card flat"><h3>userAgent</h3><p>Captured from the HTTP request, maximum 500 characters.</p></div>
+          <div class="card flat"><h3>processingVersion</h3><p>Stamped as <code>gateway-v1</code>.</p></div>
+        </div>
+        <div class="callout"><strong>Canonical source:</strong> <code>sourceSiteUrl</code> comes from Function configuration. A submitted page URL is retained only when its Origin is allowlisted.</div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Step 5 - Durable rate limit">
+      <span class="slide-no">09 / 17</span>
+      <div class="slide-inner">
+        <div class="eyebrow">Step 5 &middot; Azure Table rate limiter</div>
+        <h2>Count distinct submissions without storing <span class="accent">raw client IP</span></h2>
+        <div class="grid-2">
+          <div class="card accent-card">
+            <h3>Entity key design</h3>
+            <div class="payload">PartitionKey = YYYYMMDDHH + "-" +
+  base64url(HMAC-SHA256(clientAddress, signingSecret))[0:32]
+
+RowKey = submissionId</div>
+            <p class="small muted" style="margin-top:.7rem">A user-assigned managed identity authenticates to the private Table endpoint; no storage key is used.</p>
+          </div>
+          <div class="card">
+            <h3>Decision algorithm</h3>
+            <ul class="clean">
+              <li>Create an entity for this client-hour + submission ID</li>
+              <li>A 409 conflict means this is the same retry; continue</li>
+              <li>Count rows in the partition</li>
+              <li>Allow up to 120 distinct submissions per hour</li>
+              <li>Return 429 + <code>Retry-After: 3600</code> above the limit</li>
+            </ul>
+          </div>
+        </div>
+        <div class="grid-3" style="margin-top:1rem">
+          <div class="card flat"><div class="metric">120</div><div class="metric-label">distinct IDs / client / hour</div></div>
+          <div class="card flat"><div class="metric">48 h</div><div class="metric-label">limiter row retention</div></div>
+          <div class="card flat"><div class="metric">04:15</div><div class="metric-label">UTC cleanup timer, daily</div></div>
+        </div>
+        <div class="callout"><strong>Fail closed:</strong> if the limiter cannot reach Table Storage, the gateway returns 503 and does not call Power Automate.</div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Step 6 - Handoff to Power Automate">
+      <span class="slide-no">10 / 17</span>
+      <div class="slide-inner">
+        <div class="eyebrow">Step 6 &middot; Service-to-service handoff</div>
+        <h2>Forward normalized JSON to a <span class="accent">protected HTTPS callback</span></h2>
+        <div class="timeline">
+          <div class="time-step"><span class="time-dot">1</span><b>Prepare</b><span>Normalized body only</span></div>
+          <div class="time-step"><span class="time-dot">2</span><b>Correlate</b><span>X-Correlation-ID = submissionId</span></div>
+          <div class="time-step"><span class="time-dot">3</span><b>Attempt 1</b><span>20-second timeout</span></div>
+          <div class="time-step"><span class="time-dot">4</span><b>Wait 250 ms</b><span>Only transient failures</span></div>
+          <div class="time-step"><span class="time-dot">5</span><b>Attempt 2</b><span>Then wait 500 ms</span></div>
+          <div class="time-step"><span class="time-dot">6</span><b>Attempt 3</b><span>Final outcome</span></div>
+        </div>
+        <div class="grid-2" style="margin-top:1.5rem">
+          <div class="card success-card"><h3>Retry</h3><p>Network/timeout exceptions, HTTP 429, and HTTP 5xx responses. Every attempt carries the same submission ID.</p></div>
+          <div class="card danger-card"><h3>Do not retry</h3><p>Other HTTP 4xx responses indicate a contract or authorization problem. The loop stops immediately.</p></div>
+        </div>
+        <div class="callout"><strong>Secret, not Private Link:</strong> <code>SURVEY_FLOW_URL</code> is a Key Vault reference and never reaches the browser, source, or logs. Flex routes the runtime call through VNet-integrated egress to the Power Automate trigger's public HTTPS endpoint; no Function-to-Flow Private Endpoint exists.</div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Step 7 - Capture flow">
+      <span class="slide-no">11 / 17</span>
+      <div class="slide-inner">
+        <div class="eyebrow">Step 7 &middot; Power Automate capture flow</div>
+        <h2>One trigger, two ordered upserts, <span class="accent">one deterministic response</span></h2>
+        <div class="decision-chain">
+          <div class="decision"><span class="step-badge">1</span><h3 style="margin-top:.65rem">Receive Survey Response</h3><small>HTTP Request trigger validates the normalized schema; additional properties are disallowed.</small></div>
+          <div class="decision"><span class="step-badge">2</span><h3 style="margin-top:.65rem">Upsert Workshop</h3><small>Dataverse UpdateRecord using <code>workshopId</code> as the deterministic row ID.</small></div>
+          <div class="decision"><span class="step-badge">3</span><h3 style="margin-top:.65rem">Upsert Survey Response</h3><small>Uses <code>submissionId</code>; binds <code>mjsrc_WorkshopId</code> to the parent.</small></div>
+          <div class="decision"><span class="step-badge">4</span><h3 style="margin-top:.65rem">Return</h3><small>200 with matching ID after both writes; 500 when the response write fails, times out, or is skipped.</small></div>
+        </div>
+        <div class="grid-3" style="margin-top:1rem">
+          <div class="card flat"><h3>Connection</h3><p><code>shared_commondataserviceforapps</code> through a solution connection reference.</p></div>
+          <div class="card flat"><h3>Order</h3><p>Response write runs only after Workshop succeeds, ensuring the lookup target exists.</p></div>
+          <div class="card flat"><h3>Replay</h3><p>Deterministic row IDs make Function retries update the same records instead of appending duplicates.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Step 8 - Dataverse model">
+      <span class="slide-no">12 / 17</span>
+      <div class="slide-inner">
+        <div class="eyebrow">Step 8 &middot; Dataverse record model</div>
+        <h2>Workshop metadata once; <span class="accent">responses as the durable survey log</span></h2>
+        <div class="entity-model">
+          <div class="entity">
+            <div class="entity-title"><strong>Workshop</strong><code>mjsrc_workshop</code></div>
+            <div class="entity-fields"><span>workshopid (PK)</span><span>workshopkey (AK)</span><span>customername</span><span>hostname</span><span>workshopstart</span><span>workshopend</span><span>sourcesiteurl</span><span>retentionmonths</span><span>privacynoticeversion</span><span>name</span></div>
+          </div>
+          <div class="relationship"><strong>1 : N</strong><span>mjsrc_WorkshopId lookup</span></div>
+          <div class="entity">
+            <div class="entity-title"><strong>Survey Response</strong><code>mjsrc_surveyresponse</code></div>
+            <div class="entity-fields"><span>surveyresponseid (PK)</span><span>submissionid (AK)</span><span>workshopkey</span><span>customername</span><span>attendeeemail*</span><span>emailconsent</span><span>submittedat</span><span>retentionexpiresat</span><span>locale</span><span>overall / effort / recommend</span><span>comments</span><span>completionpercent</span><span>completedsteps / totalsteps</span><span>labstatusjson</span><span>sourcepageurl</span><span>useragent</span><span>schemaversion</span><span>processingversion</span></div>
+          </div>
+        </div>
+        <div class="callout"><strong>* PII rule:</strong> <code>attendeeemail</code> is populated only when <code>emailConsent = true</code>; otherwise Flow writes an empty string. Workshop rows contain no participant PII.</div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Step 9 - Acknowledgement and idempotency">
+      <span class="slide-no">13 / 17</span>
+      <div class="slide-inner">
+        <div class="eyebrow">Step 9 &middot; Return path</div>
+        <h2>Success means <span class="accent">Dataverse finished</span>, not merely "request accepted"</h2>
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-head"><span class="icon">1</span><h3>Flow ACK</h3></div>
+            <p>After both upserts, Flow returns:</p>
+            <div class="payload">HTTP 200
+{
+  "ok": true,
+  "submissionId": "..."
+}</div>
+          </div>
+          <div class="card">
+            <div class="card-head"><span class="icon">2</span><h3>Gateway ACK</h3></div>
+            <p>The Function treats any HTTP 2xx Flow response as stored, logs the submission ID, and returns its own matching 200 ACK.</p>
+          </div>
+          <div class="card">
+            <div class="card-head"><span class="icon">3</span><h3>Browser commit</h3></div>
+            <p>The UI shows Thanks and saves a local feedback receipt only after <code>ok = true</code> and exact ID equality.</p>
+          </div>
+        </div>
+        <div class="grid-3" style="margin-top:1rem">
+          <div class="card accent-card"><h3>Browser layer</h3><p>One UUID per modal session; retry reuses it.</p></div>
+          <div class="card accent-card"><h3>Limiter layer</h3><p>Duplicate RowKey conflict is accepted and not counted twice.</p></div>
+          <div class="card accent-card"><h3>Persistence layer</h3><p>GUID row IDs update the same Workshop and Survey Response.</p></div>
+        </div>
+        <div class="callout"><strong>Net effect:</strong> retries can safely cross browser, Function, and Flow boundaries without creating duplicate survey rows.</div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Retention and deletion">
+      <span class="slide-no">14 / 17</span>
+      <div class="slide-inner">
+        <div class="eyebrow">Lifecycle &middot; Retention flow</div>
+        <h2>Expiry is assigned at ingestion and <span class="accent">enforced every day</span></h2>
+        <div class="timeline">
+          <div class="time-step"><span class="time-dot">1</span><b>Submit</b><span>Gateway server UTC</span></div>
+          <div class="time-step"><span class="time-dot">2</span><b>Derive</b><span>+24 calendar months</span></div>
+          <div class="time-step"><span class="time-dot">3</span><b>Store</b><span>retentionexpiresat</span></div>
+          <div class="time-step"><span class="time-dot">4</span><b>03:15 UTC</b><span>Daily recurrence</span></div>
+          <div class="time-step"><span class="time-dot">5</span><b>List</b><span>expiry &lt;= utcNow()</span></div>
+          <div class="time-step"><span class="time-dot">6</span><b>Delete</b><span>Each expired response</span></div>
+        </div>
+        <div class="grid-3" style="margin-top:1.4rem">
+          <div class="card flat"><div class="metric">24</div><div class="metric-label">months per response</div></div>
+          <div class="card flat"><div class="metric">5,000</div><div class="metric-label">rows selected per daily run</div></div>
+          <div class="card flat"><div class="metric">0</div><div class="metric-label">participant fields on Workshop rows</div></div>
+        </div>
+        <div class="callout warning"><strong>Operational consideration:</strong> the current Flow selects at most 5,000 expired rows per run. If expiry volume can exceed that daily capacity, add pagination or repeated batches.</div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Failure matrix">
+      <span class="slide-no">15 / 17</span>
+      <div class="slide-inner">
+        <div class="eyebrow">Failure semantics</div>
+        <h2>Every rejection has a layer, code, and <span class="accent">write guarantee</span></h2>
+        <table class="matrix">
+          <thead><tr><th>HTTP</th><th>Code</th><th>Where</th><th>Meaning / persistence outcome</th></tr></thead>
+          <tbody>
+            <tr><td>400</td><td>INVALID_JSON</td><td>Function</td><td>Body cannot be parsed; Flow is not called.</td></tr>
+            <tr><td>400</td><td>INVALID_SURVEY</td><td>Function</td><td>Field, consent, rating, date, locale, or progress invariant failed; no write.</td></tr>
+            <tr><td>403</td><td>ORIGIN_NOT_ALLOWED</td><td>Function</td><td>Application Origin allowlist rejected the caller; no write.</td></tr>
+            <tr><td>403</td><td>INVALID_WORKSHOP_TOKEN</td><td>Function</td><td>Signed workshop claim mismatch; no write.</td></tr>
+            <tr><td>413</td><td>SURVEY_TOO_LARGE</td><td>Function</td><td>Request exceeds 128 KiB; no write.</td></tr>
+            <tr><td>429</td><td>SURVEY_RATE_LIMITED</td><td>Function</td><td>More than 120 distinct IDs in the client-hour partition; no Flow call.</td></tr>
+            <tr><td>503</td><td>SURVEY_UNAVAILABLE</td><td>Function</td><td>Required configuration or rate limiter unavailable; fail closed.</td></tr>
+            <tr><td>502</td><td>SURVEY_FORWARD_FAILED</td><td>Function</td><td>Flow still failed after retry policy; browser keeps answers for retry.</td></tr>
+            <tr><td>500</td><td>SURVEY_STORAGE_FAILED</td><td>Flow</td><td>Dataverse response write failed/timed out/skipped; surfaced to Function and retried when transient.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Trace one submission">
+      <span class="slide-no">16 / 17</span>
+      <div class="slide-inner">
+        <div class="eyebrow">Operations &middot; Correlation</div>
+        <h2>Trace one response end to end with <span class="accent">submissionId</span></h2>
+        <div class="trace-line">
+          <div class="trace-step"><b>1. Browser</b><code>submissionId generated once</code><code>local receipt only after ACK</code></div>
+          <div class="trace-step"><b>2. Function</b><code>X-Correlation-ID</code><code>"Survey response stored" trace</code></div>
+          <div class="trace-step"><b>3. Flow</b><code>Run history trigger body</code><code>action outputs / failure branch</code></div>
+          <div class="trace-step"><b>4. Dataverse</b><code>mjsrc_submissionid</code><code>response PK = submissionId</code></div>
+          <div class="trace-step"><b>5. Parent</b><code>mjsrc_WorkshopId</code><code>workshop PK = workshopId</code></div>
+        </div>
+        <div class="grid-3" style="margin-top:1.2rem">
+          <div class="card flat"><h3>Function health</h3><p><code>GET /api/health</code> reports presence of Flow, signing, and rate-limit configuration.</p></div>
+          <div class="card flat"><h3>Azure telemetry</h3><p>Application Insights receives traces through public Azure Monitor ingestion via VNet-integrated egress; no AMPLS/private endpoint is configured.</p></div>
+          <div class="card flat"><h3>Data verification</h3><p>Query Survey Response by <code>mjsrc_submissionid</code>, then follow the Workshop lookup.</p></div>
+        </div>
+        <div class="callout"><strong>Do not search by email first:</strong> email may be intentionally absent. The submission ID is the stable correlation key across every layer.</div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Deployment inventory and validation">
+      <span class="slide-no">17 / 17</span>
+      <div class="slide-inner">
+        <div class="eyebrow">Reference inventory</div>
+        <h2>Deployed services, ownership boundaries, and <span class="accent">repeatable checks</span></h2>
+        <div class="grid-2">
+          <div class="card">
+            <h3>Azure / Power Platform inventory</h3>
+            <ul class="clean">
+              <li>Resource group <code>azrge6s5zfqajgpoo</code>, West US 3</li>
+              <li>Function <code>azfnuhqsqqzypov3s</code>, FC1, Node.js 22</li>
+              <li>User-assigned identity; private Storage + Key Vault endpoints</li>
+              <li>Application Insights + Log Analytics diagnostics</li>
+              <li>Solution <code>AgentJumpStartSurvey</code></li>
+              <li>Capture Flow + daily retention Flow</li>
+              <li>Tables <code>mjsrc_workshop</code> and <code>mjsrc_surveyresponse</code></li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Validation sequence</h3>
+            <div class="payload">npm run build
+npm test --prefix feedback/azure-function
+az deployment sub validate ...
+node scripts/test_survey_gateway.mjs
+node scripts/test_survey_gateway.mjs --invalid-token</div>
+            <p class="small muted" style="margin-top:.7rem">Positive smoke records use deterministic synthetic IDs and must be removed after validation. Negative-HMAC tests must leave Dataverse unchanged.</p>
+          </div>
+        </div>
+        <div class="grid-3" style="margin-top:1rem">
+          <div class="card success-card"><h3>Secrets</h3><p>Flow URL + HMAC secret remain in Key Vault references.</p></div>
+          <div class="card success-card"><h3>Credentials</h3><p>Managed identity accesses Azure data services; Flow owns the Dataverse connector.</p></div>
+          <div class="card success-card"><h3>Source of truth</h3><p>Bicep, Flow definitions, solution XML, and tests live in this repository.</p></div>
+        </div>
+        <div class="callout"><strong>Design principle:</strong> the public client can submit a narrowly defined survey, but it cannot discover the Flow callback, authenticate to Storage, or write Dataverse directly.</div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="controls" aria-label="Deck controls">
+    <button id="prev" type="button" title="Previous slide" aria-label="Previous slide">&larr;</button>
+    <span class="counter" id="counter">01 / 17</span>
+    <button id="next" type="button" title="Next slide" aria-label="Next slide">&rarr;</button>
+    <button id="theme" type="button" title="Toggle color theme" aria-label="Toggle color theme">&#9680;</button>
+    <button id="print" type="button" title="Print or save as PDF">Print</button>
+  </nav>
+
+  <script>
+    const slides = [...document.querySelectorAll('.slide')];
+    const counter = document.getElementById('counter');
+    const progressBar = document.getElementById('progressBar');
+    let activeIndex = 0;
+
+    const update = (index) => {
+      activeIndex = Math.max(0, Math.min(slides.length - 1, index));
+      counter.textContent = `${String(activeIndex + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+      progressBar.style.width = `${((activeIndex + 1) / slides.length) * 100}%`;
+    };
+    const go = (index) => {
+      const target = Math.max(0, Math.min(slides.length - 1, index));
+      slides[target].scrollIntoView({ behavior: 'smooth', block: 'start' });
+      update(target);
+    };
+
+    document.getElementById('prev').addEventListener('click', () => go(activeIndex - 1));
+    document.getElementById('next').addEventListener('click', () => go(activeIndex + 1));
+    document.getElementById('print').addEventListener('click', () => window.print());
+    document.getElementById('theme').addEventListener('click', () => {
+      const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.dataset.theme = next;
+    });
+    document.addEventListener('keydown', (event) => {
+      if (['ArrowRight', 'PageDown', ' '].includes(event.key)) { event.preventDefault(); go(activeIndex + 1); }
+      if (['ArrowLeft', 'PageUp'].includes(event.key)) { event.preventDefault(); go(activeIndex - 1); }
+      if (event.key === 'Home') { event.preventDefault(); go(0); }
+      if (event.key === 'End') { event.preventDefault(); go(slides.length - 1); }
+    });
+    let scrollFrame;
+    const syncToScroll = () => {
+      cancelAnimationFrame(scrollFrame);
+      scrollFrame = requestAnimationFrame(() => {
+        const viewportCenter = window.scrollY + window.innerHeight / 2;
+        const nearest = slides.reduce((best, slide, index) => {
+          const center = slide.offsetTop + slide.offsetHeight / 2;
+          const distance = Math.abs(center - viewportCenter);
+          return distance < best.distance ? { index, distance } : best;
+        }, { index: 0, distance: Number.POSITIVE_INFINITY });
+        update(nearest.index);
+      });
+    };
+    window.addEventListener('scroll', syncToScroll, { passive: true });
+    update(0);
+  </script>
+</body>
+</html>

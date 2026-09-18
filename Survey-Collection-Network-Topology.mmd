@@ -1,0 +1,82 @@
+---
+config:
+  flowchart:
+    curve: basis
+    htmlLabels: true
+    nodeSpacing: 28
+    rankSpacing: 42
+---
+flowchart LR
+  BROWSER["Workshop browser<br/>GitHub Pages or local Vite"]
+
+  subgraph AZURE["Azure subscription - West US 3"]
+    direction LR
+    FUNC["Azure Function gateway<br/>Flex Consumption / Node.js 22<br/>Public ingress enabled"]
+    UAMI(("User-assigned<br/>managed identity"))
+    APPI["Application Insights<br/>and Log Analytics"]
+
+    subgraph VNET["Virtual network 10.42.0.0/16"]
+      direction LR
+      subgraph APP_SUBNET["Integration subnet 10.42.1.0/24<br/>Delegated to Microsoft.App/environments"]
+        VNET_EGRESS["Function outbound<br/>VNet integration"]
+      end
+      subgraph PE_SUBNET["Private endpoint subnet 10.42.2.0/24"]
+        PE_BLOB["Blob PE"]
+        PE_QUEUE["Queue PE"]
+        PE_TABLE["Table PE"]
+        PE_VAULT["Vault PE"]
+      end
+      DNS["Private DNS zones linked to VNet<br/>blob / queue / table / vaultcore"]
+    end
+
+    STORAGE["Storage account<br/>Public network access disabled<br/>Function host + rate-limit table"]
+    KV["Key Vault<br/>Public network access disabled<br/>Flow URL + HMAC secret"]
+  end
+
+  subgraph POWER_PLATFORM["Power Platform managed service boundary"]
+    direction TB
+    FLOW["Power Automate capture flow<br/>HTTP Request trigger"]
+    CONNECTOR["Dataverse connector<br/>Solution connection reference"]
+    DATAVERSE[("Dataverse<br/>Workshop + Survey Response")]
+    RETENTION["Daily retention flow"]
+  end
+
+  BROWSER -->|"1. Public anonymous HTTPS POST<br/>Browser CORS + reject non-allowlisted Origin when present"| FUNC
+  FUNC --- UAMI
+  FUNC -->|"2. Outbound VNet integration"| VNET_EGRESS
+  VNET_EGRESS -->|"3a. Private DNS + private IP<br/>Managed identity"| PE_BLOB
+  VNET_EGRESS --> PE_QUEUE
+  VNET_EGRESS --> PE_TABLE
+  VNET_EGRESS -->|"3b. Key Vault reference<br/>Managed identity"| PE_VAULT
+  PE_BLOB --> STORAGE
+  PE_QUEUE --> STORAGE
+  PE_TABLE --> STORAGE
+  PE_VAULT --> KV
+  DNS -.-> PE_BLOB
+  DNS -.-> PE_QUEUE
+  DNS -.-> PE_TABLE
+  DNS -.-> PE_VAULT
+  KV -.->|"4. Inject SURVEY_FLOW_URL<br/>and signing secret"| FUNC
+  FUNC -.->|"Public Azure Monitor ingestion<br/>via VNet-integrated egress; no AMPLS"| APPI
+
+  VNET_EGRESS ==>|"5. Public HTTPS POST to signed callback URL<br/>NO Private Endpoint in this solution"| FLOW
+  FLOW ==>|"6. HTTP 200 or 500 response<br/>over the same public HTTPS connection"| VNET_EGRESS
+  FLOW -->|"7. Managed connector call"| CONNECTOR
+  CONNECTOR -->|"8. Deterministic upserts"| DATAVERSE
+  RETENTION -->|"Delete expired responses"| CONNECTOR
+
+  classDef publicPath fill:#e8f1fb,stroke:#0078d4,stroke-width:2px,color:#242424;
+  classDef privatePath fill:#eaf7ee,stroke:#16a34a,stroke-width:2px,color:#242424;
+  classDef secretPath fill:#fff7df,stroke:#f59e0b,stroke-width:2px,color:#242424;
+  classDef managed fill:#f5f5f5,stroke:#919191,stroke-width:1.5px,color:#242424;
+  classDef warning fill:#fff1f2,stroke:#dc2626,stroke-width:2px,color:#242424;
+
+  class BROWSER,FLOW publicPath;
+  class VNET_EGRESS,PE_BLOB,PE_QUEUE,PE_TABLE,PE_VAULT,STORAGE privatePath;
+  class KV secretPath;
+  class FUNC,UAMI,APPI,CONNECTOR,DATAVERSE,RETENTION managed;
+
+  linkStyle 0,17,18 stroke:#0078d4,stroke-width:3px;
+  linkStyle 2,3,4,5,6,7,8,9,10 stroke:#16a34a,stroke-width:2.5px;
+  linkStyle 15 stroke:#f59e0b,stroke-width:2.5px,stroke-dasharray:6 4;
+  linkStyle 19,20,21 stroke:#919191,stroke-width:2px;
