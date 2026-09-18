@@ -1,5 +1,6 @@
 import type { Lab } from '../../types'
 import { applyLab07Locale, lab07Ja } from './locales.ts'
+import { lab07Ko } from './ko.ts'
 
 const mrmAppPrompt = `Build a Marketing Resource Management (MRM) app, inspired by Siebel Marketing Resource Management, that lets a marketing team manage the full lifecycle of their work in one place: budget & planning, expense tracking, marketing tactics, and time & resource management.`
 
@@ -255,3 +256,4 @@ export const lab07: Lab = {
 }
 
 applyLab07Locale(lab07, 'ja', lab07Ja)
+applyLab07Locale(lab07, 'ko', lab07Ko)
