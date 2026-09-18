@@ -3,6 +3,7 @@ import { applyLab07Locale, lab07Ja } from './locales.ts'
 import { lab07Ko } from './ko.ts'
 import { lab07Th } from './th.ts'
 import { lab07Hi } from './hi.ts'
+import { lab07Vi } from './vi.ts'
 
 const mrmAppPrompt = `Build a Marketing Resource Management (MRM) app, inspired by Siebel Marketing Resource Management, that lets a marketing team manage the full lifecycle of their work in one place: budget & planning, expense tracking, marketing tactics, and time & resource management.`
 
@@ -261,3 +262,4 @@ applyLab07Locale(lab07, 'ja', lab07Ja)
 applyLab07Locale(lab07, 'ko', lab07Ko)
 applyLab07Locale(lab07, 'th', lab07Th)
 applyLab07Locale(lab07, 'hi', lab07Hi)
+applyLab07Locale(lab07, 'vi', lab07Vi)
