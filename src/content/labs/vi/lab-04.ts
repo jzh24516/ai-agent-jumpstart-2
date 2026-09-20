@@ -31,7 +31,7 @@ const beforeCreateVietnamese = [
 const serviceNowKnowledgeEnglish = [
   "1. On the **Build** tab, in the components panel, select **Knowledge** → **Add knowledge**.",
   "2. Choose **ServiceNow** (the ServiceNow Knowledge Copilot Connection) as the source.",
-  "3. Select **mjCopilotSNOW27** from the connection list, and then clicked **Add**.",
+  "3. Select **ServiceNowKBFY27** from the connection list, and then clicked **Add**.",
   "4. Go to the **Preview** tab, to test using example prompt to check and result.",
   " > *How to setup the out of office auto reply in outlook?*",
   "5. Click **Save** in the top right toolbar.",
@@ -40,7 +40,7 @@ const serviceNowKnowledgeEnglish = [
 const serviceNowKnowledgeVietnamese = [
   "1. Trên tab **Build**, trong bảng components, chọn **Knowledge** → **Add knowledge**.",
   "2. Chọn **ServiceNow** (ServiceNow Knowledge Copilot Connection) làm nguồn.",
-  "3. Chọn **mjCopilotSNOW27** trong danh sách connection, sau đó bấm **Add**.",
+  "3. Chọn **ServiceNowKBFY27** trong danh sách connection, sau đó bấm **Add**.",
   "4. Chuyển đến tab **Preview** và dùng prompt mẫu để kiểm thử rồi xem kết quả.",
   " > *How to setup the out of office auto reply in outlook?*",
   "5. Bấm **Save** trên thanh công cụ ở góc trên bên phải.",
@@ -68,8 +68,8 @@ const incidentWorkflowEnglish = [
   "## Test in the Preview tab",
   "1. Open the **Preview** tab.",
   "2. Enter the test prompt:",
-  "   > *\"I want to check the current status of my ticket with number INC0010053\"*",
-  "3. **Expected result:** the agent recognizes \"ticket … number,\" calls **JumpStart - Get SNOW Incident Status and Description by Number**, passes **INC0010053** into the Incident Number input, and returns the incident's **status and description** from ServiceNow.",
+  "   > *\"I want to check the current status of my ticket with number INC0000015\"*",
+  "3. **Expected result:** the agent recognizes \"ticket … number,\" calls **JumpStart - Get SNOW Incident Status and Description by Number**, passes **INC0000015** into the Incident Number input, and returns the incident's **status and description** from ServiceNow.",
   "4. Click **Save** and then **Publish** the agent.",
 ].join('\n')
 
@@ -95,8 +95,8 @@ const incidentWorkflowVietnamese = [
   "## Kiểm thử trong tab Preview",
   "1. Mở tab **Preview**.",
   "2. Nhập prompt kiểm thử:",
-  "   > *\"I want to check the current status of my ticket with number INC0010053\"*",
-  "3. **Kết quả mong đợi:** Agent nhận diện \"ticket … number,\" gọi **JumpStart - Get SNOW Incident Status and Description by Number**, truyền **INC0010053** vào đầu vào Incident Number và trả về **status and description** của incident từ ServiceNow.",
+  "   > *\"I want to check the current status of my ticket with number INC0000015\"*",
+  "3. **Kết quả mong đợi:** Agent nhận diện \"ticket … number,\" gọi **JumpStart - Get SNOW Incident Status and Description by Number**, truyền **INC0000015** vào đầu vào Incident Number và trả về **status and description** của incident từ ServiceNow.",
   "4. Bấm **Save**, sau đó bấm **Publish** để phát hành Agent.",
 ].join('\n')
 
@@ -197,7 +197,7 @@ const publishWorkflowEnglish = [
   "| # | Area | Sample prompt | Pass criteria |",
   "|---|------|---------------|---------------|",
   "| 1 | Routing (KB) | \"Top 5 reason to select Copilot Studio?\" | handled by the **primary** agent; answer comes from the **Microsoft Website**  |",
-  "| 2 | Routing (ticket) | \"What's the status of my ticket INC0010053?\" | Routes to the IT agent; **JumpStart - Get SNOW Incident Status and Description by Number** is called; status + description returned |",
+  "| 2 | Routing (ticket) | \"What's the status of my ticket INC0000015?\" | Routes to the IT agent; **JumpStart - Get SNOW Incident Status and Description by Number** is called; status + description returned |",
   "| 3 | Routing (negative) | \"Customer insights for My Big Bet Account\" | Handled by the **primary** agent — **not** routed to the IT agent |",
   "",
   "**For each run, log:** the channel, whether routing was correct, the identity the ticket call resolved to, whether a citation appeared, and how links/cards rendered.",
@@ -236,7 +236,7 @@ const publishWorkflowVietnamese = [
   "| # | Khu vực | Prompt mẫu | Tiêu chí đạt |",
   "|---|------|---------------|---------------|",
   "| 1 | Định tuyến (KB) | \"Top 5 reason to select Copilot Studio?\" | Do **Agent chính** xử lý; câu trả lời đến từ **Microsoft Website** |",
-  "| 2 | Định tuyến (ticket) | \"What's the status of my ticket INC0010053?\" | Định tuyến đến IT Agent; **JumpStart - Get SNOW Incident Status and Description by Number** được gọi; trả về status + description |",
+  "| 2 | Định tuyến (ticket) | \"What's the status of my ticket INC0000015?\" | Định tuyến đến IT Agent; **JumpStart - Get SNOW Incident Status and Description by Number** được gọi; trả về status + description |",
   "| 3 | Định tuyến (trường hợp phủ định) | \"Customer insights for My Big Bet Account\" | Do **Agent chính** xử lý — **không** định tuyến đến IT Agent |",
   "",
   "**Với mỗi lượt chạy, hãy ghi lại:** kênh, định tuyến có chính xác hay không, danh tính người dùng mà lệnh gọi ticket thực tế sử dụng, trích dẫn có xuất hiện hay không và cách liên kết/card được hiển thị.",
