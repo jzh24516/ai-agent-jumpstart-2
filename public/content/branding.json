@@ -6,7 +6,7 @@
   "preparedBy": "Microsoft Agent GBB Team x Lenovo IDG Services Support",
   "preparedDate": "Sep 23rd, 2026",
   "workshopStart": "2026-08-18",
-  "workshopEnd": "2026-09-26",
+  "workshopEnd": "2026-09-23",
   "contacts": [
     {
       "name": "Michael Jiang",
@@ -25,6 +25,7 @@
     "wangxb21@lenovo.com",
     "lijy20@lenovo.com",
     "moxn1@lenovo.com",
+    "wangxi11@lenovo.com",
     "dongjj6@lenovo.com",
     "yuxy10@lenovo.com",
     "mahj10@lenovo.com",
@@ -42,9 +43,8 @@
     "leosun@lenovo.com",
     "lisyz@dcclouds.com",
     "yinjta@dcclouds.com",
-    "zhangqq14@lenovo.com",
-    "liuyq8@lenovo.com",
-    "zhangqt2@lenovo.com"
+    "zhangqt2@lenovo.com",
+    "liuyq8@lenovo.com"
   ],
   "labUsers": [
     {
@@ -69,5 +69,5 @@
     }
   ],
   "workshopId": "db66ca84-b023-4696-9d54-c179b2a167e1",
-  "surveyToken": "6TpW3k-O13ZMUUP0rqYxcgEHxoYprzAP9J_WMzmKV2U"
+  "surveyToken": "VnqzbQfxIpyVGFwzQjp0Llqlv58Mz08oV55_KkUYjbk"
 }
