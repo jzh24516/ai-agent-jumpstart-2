@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react'
 import {
   ArrowDown, ArrowUp, ChevronDown, ChevronRight, Copy, Lock, Plus, Save, Trash2, UploadCloud, X,
 } from 'lucide-react'
-import { localeNames, text, ui } from '../content/ui'
+import { localeNames, prepareLocale, text, ui } from '../content/ui'
 import { applyNumbers, authenticateMaker, cloneStep, emptyText, newLab, newPage, newPrompt, newStep, publishLabs, saveLabs } from '../content/store'
 import type { Lab, LabIconName, Locale, LocalizedText } from '../content/types'
 
 const editLocales = Object.keys(localeNames) as Locale[]
 const iconOptions: LabIconName[] = ['sparkles', 'database', 'file', 'network', 'mail', 'mic']
+const isRegionalChinese = (locale: Locale) => locale === 'zh-HK' || locale === 'zh-TW'
 
 function moveItem<T>(list: T[], from: number, direction: -1 | 1) {
   const to = from + direction
@@ -25,6 +26,8 @@ function LocalizedField({
   rows?: number
   onChange: (next: LocalizedText) => void
 }) {
+  const storedValue = value[locale] ?? ''
+  const displayedValue = storedValue.trim() || !isRegionalChinese(locale) ? storedValue : text(value, locale)
   return (
     <label className="editor-field">
       <span className="editor-field-label">
@@ -37,7 +40,7 @@ function LocalizedField({
       </span>
       <textarea
         rows={rows}
-        value={value[locale] ?? ''}
+        value={displayedValue}
         placeholder={locale === 'en' ? '' : value.en}
         onChange={(event) => onChange({ ...value, [locale]: event.target.value })}
       />
@@ -75,6 +78,15 @@ export default function MakerEditor({
   useEffect(() => {
     localStorage.setItem('jumpstart-editor-collapsed-steps', JSON.stringify([...collapsedSteps]))
   }, [collapsedSteps])
+
+  const [, setRegionalLocaleVersion] = useState(0)
+  useEffect(() => {
+    let cancelled = false
+    prepareLocale(editLocale).then(() => {
+      if (!cancelled) setRegionalLocaleVersion((version) => version + 1)
+    })
+    return () => { cancelled = true }
+  }, [editLocale])
 
   const toggleStep = (id: string) => setCollapsedSteps((current) => {
     const next = new Set(current)

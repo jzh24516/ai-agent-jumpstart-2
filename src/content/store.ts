@@ -14,8 +14,21 @@ const uid = (prefix: string) => {
 
 export const emptyText = (): LocalizedText => ({ en: '', zh: '', ja: '', ko: '', th: '', hi: '', vi: '' })
 
-const cloneText = (value?: LocalizedText): LocalizedText =>
-  value ? { en: value.en ?? '', zh: value.zh ?? '', ja: value.ja ?? '', ko: value.ko ?? '', th: value.th ?? '', hi: value.hi ?? '', vi: value.vi ?? vietnameseLabText[value.en] ?? '' } : emptyText()
+const cloneText = (value?: LocalizedText): LocalizedText => {
+  if (!value) return emptyText()
+  const cloned: LocalizedText = {
+    en: value.en ?? '',
+    zh: value.zh ?? '',
+    ja: value.ja ?? '',
+    ko: value.ko ?? '',
+    th: value.th ?? '',
+    hi: value.hi ?? '',
+    vi: value.vi ?? vietnameseLabText[value.en] ?? '',
+  }
+  if (value['zh-HK'] !== undefined) cloned['zh-HK'] = value['zh-HK']
+  if (value['zh-TW'] !== undefined) cloned['zh-TW'] = value['zh-TW']
+  return cloned
+}
 
 // Every step is normalized so the editor and reader only work with `pages`.
 const normalizePrompt = (prompt: LabPrompt): LabPrompt => ({
