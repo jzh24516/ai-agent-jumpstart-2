@@ -256,13 +256,13 @@
                 }
               ],
               "highlight": {
-                "en": "Make sure you pick a unique name for your custom copilot.   Like the following naming pattern:  \"**Ask Me Anything Agent v2 – <Your Alias>**\", examine the following agent instruction, and copy and paste as the new agent's instruction.   Then click \"**Save**\" to save the agent.",
-                "zh": "请确保为你的自定义 copilot 取一个唯一的名称。例如采用以下命名模式：“**Ask Me Anything Agent v2 – [Your Alias]**”。查看下面的 Agent 指令，将其复制并粘贴为新 Agent 的指令。然后点击“**Save**”保存 Agent。",
-                "ja": "カスタム copilot には必ず一意の名前を付けてください。例えば次の命名パターンです：「**Ask Me Anything Agent v2 – [Your Alias]**」。以下の Agent の指示を確認し、コピーして新しい Agent の指示として貼り付けます。その後「**Save**」をクリックして Agent を保存します。",
-                "ko": "사용자 지정 copilot에는 반드시 고유한 이름을 지정하세요. 예를 들어 다음 명명 패턴을 사용합니다: \"**Ask Me Anything Agent v2 – [Your Alias]**\". 아래 Agent 지침을 살펴보고 복사하여 새 Agent의 지침으로 붙여넣으세요. 그런 다음 \"**Save**\"를 클릭하여 Agent를 저장합니다.",
-                "th": "ตรวจสอบให้แน่ใจว่าคุณตั้งชื่อที่ไม่ซ้ำกันสำหรับ custom copilot ของคุณ เช่น รูปแบบการตั้งชื่อต่อไปนี้: \"**Ask Me Anything Agent v2 – [Your Alias]**\" ตรวจสอบคำสั่ง agent ต่อไปนี้ แล้วคัดลอกและวางเป็นคำสั่งของ agent ใหม่ จากนั้นคลิก \"**Save**\" เพื่อบันทึก agent",
-                "hi": "सुनिश्चित करें कि आप अपने custom copilot के लिए एक अद्वितीय नाम चुनें। जैसे निम्नलिखित नामकरण पैटर्न: \"**Ask Me Anything Agent v2 – [Your Alias]**\", निम्नलिखित agent निर्देश की जाँच करें, और नए agent के निर्देश के रूप में कॉपी और पेस्ट करें। फिर agent को सहेजने के लिए \"**Save**\" पर क्लिक करें।",
-                "vi": "Hãy bảo đảm bạn chọn tên duy nhất cho custom copilot, theo mẫu: \"**Ask Me Anything Agent v2 – <Your Alias>**\". Xem hướng dẫn Agent bên dưới, sao chép rồi dán làm hướng dẫn cho Agent mới. Sau đó bấm \"**Save**\" để lưu Agent."
+                "en": "Make sure you pick a unique name for your custom copilot.   Like the following naming pattern:  \"**Ask Me Anything Agent v2 – <Your Alias>**\", examine the following agent instruction, and copy and paste as the new agent's instruction.   Then click \"**Save**\" to save the agent.\n\n**Model availability:** If Claude models are not accessible from your region, use **GPT 5.6 Sol** instead.",
+                "zh": "请确保为你的自定义 copilot 取一个唯一的名称。例如采用以下命名模式：“**Ask Me Anything Agent v2 – [Your Alias]**”。查看下面的 Agent 指令，将其复制并粘贴为新 Agent 的指令。然后点击“**Save**”保存 Agent。\n\n**模型可用性：** 如果你所在的地区无法访问 Claude 模型，请改用 **GPT 5.6 Sol**。",
+                "ja": "カスタム copilot には必ず一意の名前を付けてください。例えば次の命名パターンです：「**Ask Me Anything Agent v2 – [Your Alias]**」。以下の Agent の指示を確認し、コピーして新しい Agent の指示として貼り付けます。その後「**Save**」をクリックして Agent を保存します。\n\n**モデルの可用性:** お住まいの地域から Claude モデルにアクセスできない場合は、代わりに **GPT 5.6 Sol** を使用してください。",
+                "ko": "사용자 지정 copilot에는 반드시 고유한 이름을 지정하세요. 예를 들어 다음 명명 패턴을 사용합니다: \"**Ask Me Anything Agent v2 – [Your Alias]**\". 아래 Agent 지침을 살펴보고 복사하여 새 Agent의 지침으로 붙여넣으세요. 그런 다음 \"**Save**\"를 클릭하여 Agent를 저장합니다.\n\n**모델 가용성:** 해당 지역에서 Claude 모델에 액세스할 수 없는 경우 **GPT 5.6 Sol**을 대신 사용하세요.",
+                "th": "ตรวจสอบให้แน่ใจว่าคุณตั้งชื่อที่ไม่ซ้ำกันสำหรับ custom copilot ของคุณ เช่น รูปแบบการตั้งชื่อต่อไปนี้: \"**Ask Me Anything Agent v2 – [Your Alias]**\" ตรวจสอบคำสั่ง agent ต่อไปนี้ แล้วคัดลอกและวางเป็นคำสั่งของ agent ใหม่ จากนั้นคลิก \"**Save**\" เพื่อบันทึก agent\n\n**ความพร้อมใช้งานของโมเดล:** หากไม่สามารถเข้าถึงโมเดล Claude จากภูมิภาคของคุณได้ ให้ใช้ **GPT 5.6 Sol** แทน",
+                "hi": "सुनिश्चित करें कि आप अपने custom copilot के लिए एक अद्वितीय नाम चुनें। जैसे निम्नलिखित नामकरण पैटर्न: \"**Ask Me Anything Agent v2 – [Your Alias]**\", निम्नलिखित agent निर्देश की जाँच करें, और नए agent के निर्देश के रूप में कॉपी और पेस्ट करें। फिर agent को सहेजने के लिए \"**Save**\" पर क्लिक करें।\n\n**मॉडल उपलब्धता:** यदि आपके क्षेत्र में Claude मॉडल उपलब्ध नहीं हैं, तो इसके बजाय **GPT 5.6 Sol** का उपयोग करें।",
+                "vi": "Hãy bảo đảm bạn chọn tên duy nhất cho custom copilot, theo mẫu: \"**Ask Me Anything Agent v2 – <Your Alias>**\". Xem hướng dẫn Agent bên dưới, sao chép rồi dán làm hướng dẫn cho Agent mới. Sau đó bấm \"**Save**\" để lưu Agent.\n\n**Khả năng cung cấp mô hình:** Nếu không thể truy cập các mô hình Claude từ khu vực của bạn, hãy sử dụng **GPT 5.6 Sol** thay thế."
               },
               "prompts": [
                 {
@@ -1403,8 +1403,8 @@
               ],
               "imageKeys": [
                 "04-workflow-customer-enrichment-3",
-                "04-workflow-customer-enrichment-4",
-                "04-workflow-customer-enrichment-5"
+                "04-workflow-customer-enrichment-4v2",
+                "04-workflow-customer-enrichment-5v2"
               ]
             },
             {
