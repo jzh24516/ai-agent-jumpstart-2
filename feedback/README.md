@@ -42,6 +42,26 @@ The verified attendee email is excluded by default. A participant must explicitl
 The daily retention Flow deletes expired Survey Response rows; Workshop rows contain no
 participant PII and remain available for aggregate analysis.
 
+## Maker feedback dashboard
+
+Branding Settings shows a chart action for saved engagements that have a `workshopId`.
+The dashboard is dev-only and requires the same signed Maker session as workshop history.
+Its local `/api/workshop-feedback` route invokes `scripts/query_workshop_feedback.py`,
+which uses `scripts/auth.py` and the Python Dataverse SDK to read only Survey Response
+rows whose `mjsrc_workshopkey` matches the selected engagement.
+
+The browser receives normalized ratings, progress, locale, comments, per-lab completion,
+and an attendee email only when consent was recorded. It never receives Dataverse access
+tokens, the workshop survey token, attendee allow-lists, or lab credentials. KPI cards and
+distribution rows filter the detailed response list in place. Response details can switch
+between cards and a wrapped table; the dashboard has its own light/dark theme preference.
+
+**Export to HTML** downloads a self-contained interactive snapshot containing the currently
+loaded response set. Filters, search, KPI drill-down, card/table switching, and theme
+switching continue to work in the downloaded file. The export tries to embed the customer
+logo and falls back to the engagement-name initial when the logo cannot be fetched. Because
+the file can contain comments and consented email addresses, handle it as survey data.
+
 See [payload.example.json](payload.example.json) for the browser-to-gateway contract.
 The gateway removes `surveyToken` and adds `submittedAt`, `retentionExpiresAt`,
 `completionPercent`, serialized `labStatusJson`, and a processing version before calling
@@ -51,6 +71,7 @@ Power Automate.
 
 ```powershell
 npm run build
+npm run test:feedback-dashboard
 npm --prefix feedback/azure-function test
 node scripts/test_survey_gateway.mjs
 ```

@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import {
-  ArrowRight, BookOpenCheck, CalendarDays, Check, ChevronDown, ChevronLeft, ChevronRight, ChevronUp,
+  ArrowRight, BarChart3, BookOpenCheck, CalendarDays, Check, ChevronDown, ChevronLeft, ChevronRight, ChevronUp,
   Clipboard, Copy, Database, FileDown, FileSpreadsheet, Languages, Lock, Mail, MailCheck, Menu, Mic2,
   ExternalLink, KeyRound, Maximize2, Moon, Network, PanelLeft, PanelLeftClose, PencilLine, Printer, Save, Search, Settings, Sparkles, Star, Sun, ThumbsUp, Trash2, Users, X,
 } from 'lucide-react'
@@ -12,6 +12,7 @@ import { authenticateMaker, defaultContent, isLabPublic, isStepVisible, loadLabs
 import { downloadWorkshopInvitation } from './content/invitation'
 import { newSurveySubmissionId, submitWorkshopSurvey } from './content/feedback'
 import MakerEditor from './editor/MakerEditor'
+import FeedbackDashboard from './editor/FeedbackDashboard'
 import Fireworks from './Fireworks'
 import { localeNames, prepareLocale, text, ui } from './content/ui'
 import type { Lab, LabStep, Locale, LocalizedText } from './content/types'
@@ -529,12 +530,16 @@ function BrandingSettings({ value, locale, initialWorkshopIdentity, onApply, onA
   const [cloneSource, setCloneSource] = useState<Workshop | null>(null)
   const [cloneName, setCloneName] = useState('')
   const [cloneError, setCloneError] = useState('')
+  const [feedbackWorkshop, setFeedbackWorkshop] = useState<Workshop | null>(null)
+  const [feedbackReloadKey, setFeedbackReloadKey] = useState(0)
+  const [feedbackAuthRetry, setFeedbackAuthRetry] = useState(false)
   const historySyncId = useRef(0)
   const reauthAttemptId = useRef(0)
   const reauthInFlight = useRef(false)
   const cloneDialogRef = useRef<HTMLDivElement>(null)
   const cloneNameInputRef = useRef<HTMLInputElement>(null)
   const cloneTriggerRef = useRef<HTMLButtonElement>(null)
+  const feedbackTriggerRef = useRef<HTMLButtonElement>(null)
   const activeRef = useRef(true)
   const windowValid = isWorkshopWindowValid(draft)
 
@@ -544,6 +549,20 @@ function BrandingSettings({ value, locale, initialWorkshopIdentity, onApply, onA
     setCloneName('')
     setCloneError('')
     window.requestAnimationFrame(() => trigger?.focus())
+  }, [])
+
+  const closeFeedbackDashboard = useCallback(() => {
+    const trigger = feedbackTriggerRef.current
+    setFeedbackWorkshop(null)
+    setFeedbackAuthRetry(false)
+    window.requestAnimationFrame(() => trigger?.focus())
+  }, [])
+
+  const requestFeedbackAuth = useCallback(() => {
+    setFeedbackAuthRetry(true)
+    setReauthPassword('')
+    setReauthError(false)
+    setReauth(true)
   }, [])
 
   useEffect(() => {
@@ -761,14 +780,17 @@ function BrandingSettings({ value, locale, initialWorkshopIdentity, onApply, onA
     const historyOperation = pendingHistoryMutation
     const cloneOperation = pendingWorkshopClone
     const shouldReloadHistory = reloadHistoryAfterAuth
+    const shouldReloadFeedback = feedbackAuthRetry
     setPendingSave(null)
     setPendingHistoryMutation(null)
     setPendingWorkshopClone(null)
     setReloadHistoryAfterAuth(false)
+    setFeedbackAuthRetry(false)
     if (completed) await persistBranding(completed)
     if (historyOperation) await runHistoryMutation(historyOperation.mutation, historyOperation.rollback)
     if (cloneOperation) await persistWorkshopClone(cloneOperation.workshop, cloneOperation.sourceName)
     if (shouldReloadHistory) await syncHistoryFromServer()
+    if (shouldReloadFeedback) setFeedbackReloadKey((version) => version + 1)
   }
   const clearAllAttendees = () => {
     setDraft((current) => ({ ...current, attendees: [] }))
@@ -940,11 +962,16 @@ function BrandingSettings({ value, locale, initialWorkshopIdentity, onApply, onA
     const rollback = history
     persist(history.filter((w) => w.id !== id), { action: 'delete', id }, rollback)
   }
+  const openFeedbackDashboard = (workshop: Workshop, trigger: HTMLButtonElement) => {
+    if (!workshop.workshopId) return
+    feedbackTriggerRef.current = trigger
+    setFeedbackWorkshop(workshop)
+  }
   const q = canonicalWorkshopName(query)
   const filtered = [...history].sort((a, b) => b.savedAt - a.savedAt).filter((w) => !q || canonicalWorkshopName(w.name).includes(q) || canonicalWorkshopName(w.customerName).includes(q) || canonicalWorkshopName(w.hostName).includes(q))
   return (
     <div className="settings-scrim" role="dialog" aria-label={text(ui.workshopBranding, locale)}>
-      <div className="settings-card" inert={cloneSource || reauth ? true : undefined}>
+      <div className="settings-card" inert={cloneSource || feedbackWorkshop || reauth ? true : undefined}>
         <div className="settings-head"><strong>{text(ui.workshopBranding, locale)}</strong><button className="icon-button" type="button" onClick={onClose} aria-label={text(ui.closeDialog, locale)}><X size={18} /></button></div>
         <p className="settings-hint">{text(ui.brandingHint, locale)}</p>
         <div className="settings-body">
@@ -1044,6 +1071,7 @@ function BrandingSettings({ value, locale, initialWorkshopIdentity, onApply, onA
                   <span className="history-logo">{(w.customerLogo || w.hostLogo) ? <img src={w.customerLogo || w.hostLogo} alt="" /> : <span className="history-initial">{(w.name[0] || '?').toUpperCase()}</span>}</span>
                   <span className="history-info"><strong>{w.name}</strong><small>{w.customerName ? `${w.hostName || 'Microsoft'} × ${w.customerName}` : (w.hostName || 'Microsoft')} · {new Date(w.savedAt).toLocaleDateString()}</small></span>
                 </button>
+                <button className="history-feedback" type="button" disabled={!historyReady || historySaving || !w.workshopId} onClick={(event) => openFeedbackDashboard(w, event.currentTarget)} aria-label={text(ui.viewFeedbackDashboard, locale).replace('{name}', () => w.name)} title={w.workshopId ? text(ui.viewFeedbackDashboard, locale).replace('{name}', () => w.name) : text(ui.feedbackDashboardUnavailable, locale)}><BarChart3 size={15} /></button>
                 <button className="history-clone" type="button" disabled={!historyReady || historySaving} onClick={(event) => openCloneWorkshop(w, event.currentTarget)} aria-label={text(ui.cloneWorkshop, locale).replace('{name}', () => w.name)} title={text(ui.cloneWorkshop, locale).replace('{name}', () => w.name)}><Copy size={15} /></button>
                 <button className="history-del" type="button" disabled={!historyReady || historySaving} onClick={() => removeWorkshop(w.id)} aria-label={text(ui.deleteWorkshop, locale).replace('{name}', w.name)} title={text(ui.deleteWorkshop, locale).replace('{name}', w.name)}><Trash2 size={15} /></button>
               </div>
@@ -1068,6 +1096,7 @@ function BrandingSettings({ value, locale, initialWorkshopIdentity, onApply, onA
           </div>
         </div>
       </div>}
+      {feedbackWorkshop && <FeedbackDashboard workshop={feedbackWorkshop} locale={locale} reloadKey={feedbackReloadKey} onAuthRequired={requestFeedbackAuth} onClose={closeFeedbackDashboard} />}
       {reauth && <div className="password-scrim" role="dialog" aria-label={text(ui.makerUnlock, locale)}>
         <div className="password-card">
           <div className="password-icon"><Lock size={22} /></div>
@@ -1090,6 +1119,7 @@ function BrandingSettings({ value, locale, initialWorkshopIdentity, onApply, onA
               setPendingHistoryMutation(null)
               setPendingWorkshopClone(null)
               setReloadHistoryAfterAuth(false)
+              setFeedbackAuthRetry(false)
               setReauthSubmitting(false)
               if (pendingWorkshopClone && cloneSource) window.requestAnimationFrame(() => cloneNameInputRef.current?.focus())
             }}>{text(ui.close, locale)}</button>

@@ -46,6 +46,14 @@ const run = (command: string, args: string[]) =>
     })
   })
 
+const runChecked = (command: string, args: string[], timeout = 60_000) =>
+  new Promise<string>((res, rej) => {
+    execFile(command, args, { cwd: rootDir, maxBuffer: 10_000_000, timeout }, (error, stdout, stderr) => {
+      if (error) rej(new Error([stderr, stdout, error.message].filter(Boolean).join('\n').trim()))
+      else res(stdout)
+    })
+  })
+
 const runGit = (args: string[]) =>
   new Promise<string>((res, rej) => {
     execFile('git', args, { cwd: rootDir, maxBuffer: 10_000_000 }, (error, stdout) => {
@@ -380,6 +388,14 @@ const passwordMatches = (password: string, passwordHash: string) => {
 }
 
 const workshopIdPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+const feedbackOutputPrefix = 'AGENT_JUMPSTART_FEEDBACK_JSON='
+
+const readWorkshopFeedback = async (workshopId: string) => {
+  const output = await runChecked('python', ['scripts/query_workshop_feedback.py', '--workshop-id', workshopId], 90_000)
+  const payloadLine = output.split(/\r?\n/).find((line) => line.startsWith(feedbackOutputPrefix))
+  if (!payloadLine) throw new Error('Feedback query returned no structured payload.')
+  return JSON.parse(payloadLine.slice(feedbackOutputPrefix.length)) as unknown
+}
 
 const signPublishedBranding = (value: unknown, signingSecret: string): Record<string, unknown> => {
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('Branding must be an object.')
@@ -497,6 +513,20 @@ function makerContentApi(env: Record<string, string>): Plugin {
         } catch (error) {
           if (error instanceof WorkshopConflictError) return json(res, 409, error.message)
           json(res, 500, 'Workshop history storage failed.')
+        }
+      })
+
+      server.middlewares.use('/api/workshop-feedback', async (req, res, next) => {
+        if (req.method !== 'GET') return next()
+        if (!requireMakerSession(req, res)) return
+        const requestUrl = new URL(req.url || '/', 'http://127.0.0.1')
+        const workshopId = requestUrl.searchParams.get('workshopId')?.trim() || ''
+        if (!workshopIdPattern.test(workshopId)) return json(res, 400, 'A valid workshopId is required.')
+        try {
+          jsonData(res, 200, await readWorkshopFeedback(workshopId))
+        } catch (error) {
+          console.error('Workshop feedback query failed.', error)
+          json(res, 502, 'Workshop feedback could not be loaded from Dataverse.')
         }
       })
 
