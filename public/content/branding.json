@@ -17,27 +17,30 @@
       "email": "scberr@microsoft.com"
     }
   ],
-  "attendees": [],
+  "attendees": [
+    "oscarchan@microsoft.com",
+    "howard.li@microsoft.com"
+  ],
   "labUsers": [
     {
       "userName": "student01@D365DemoTSCE02668770.onmicrosoft.com",
-      "accessCode": "Y$+AqUfq"
+      "accessCode": "6z$#xk@e"
     },
     {
       "userName": "student02@D365DemoTSCE02668770.onmicrosoft.com",
-      "accessCode": "H2#H&%YL"
+      "accessCode": "hYy^eaQX"
     },
     {
       "userName": "student03@D365DemoTSCE02668770.onmicrosoft.com",
-      "accessCode": "$t=HD+-="
+      "accessCode": "cz&GRKm="
     },
     {
       "userName": "student04@D365DemoTSCE02668770.onmicrosoft.com",
-      "accessCode": "+$8hsmw@"
+      "accessCode": "$Ve%#E$b"
     },
     {
       "userName": "student05@D365DemoTSCE02668770.onmicrosoft.com",
-      "accessCode": "7dz-$g=%"
+      "accessCode": "$H38T$&E"
     }
   ],
   "workshopId": "ac18d92b-6142-4e2c-bbb0-174554831edb",
