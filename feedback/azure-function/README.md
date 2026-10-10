@@ -7,6 +7,8 @@ public workshop and Power Automate. It does not store survey data itself.
 
 - `POST /api/feedback`: validates origin, UUIDs, ratings, workshop dates, progress,
   lab status, optional email consent, and the workshop HMAC token.
+- `POST /api/access`: verifies an attendee email against private configuration and
+  returns only that attendee's assigned lab credentials plus a short workshop token.
 - `OPTIONS /api/feedback`: answers CORS preflight for the configured workshop origin.
 - `GET /api/health`: reports whether Flow and signing configuration references resolve.
 - Server time controls `submittedAt`; the gateway derives the retention expiry.
@@ -14,7 +16,8 @@ public workshop and Power Automate. It does not store survey data itself.
 - A private Azure Table limits each HMAC client bucket to 120 distinct submissions per
   hour. Retrying the same submission ID is not counted twice; a daily timer removes
   limiter rows after 48 hours. Raw client IP addresses are never stored.
-- The Flow callback URL and signing secret are never returned to the browser or logged.
+- The Flow callback URL, signing secret, attendee list, and unassigned credentials are
+  never returned to the browser or logged.
 
 ## Local validation
 
@@ -26,7 +29,8 @@ Copy-Item local.settings.json.example local.settings.json
 npm start
 ```
 
-Fill `local.settings.json` locally only. Never commit a real Flow URL or signing secret.
+Fill `local.settings.json` locally only. Never commit a real Flow URL, signing secret,
+or `WORKSHOP_ACCESS_CONFIG`.
 
 ## Infrastructure
 
@@ -61,6 +65,23 @@ az deployment sub create `
 func azure functionapp publish azfnuhqsqqzypov3s --javascript
 ```
 
-`infra/secrets.bicep` accepts secure ARM parameters for the callback URL and signing
-secret. Use an ephemeral local parameter file and delete it immediately after deployment.
-Do not place secret values in parameter files tracked by Git.
+`infra/secrets.bicep` accepts secure ARM parameters for the callback URL, signing
+secret, and workshop access JSON. The access JSON has this shape:
+
+```json
+{
+  "workshop": {
+    "workshopId": "<UUID>",
+    "customerName": "<customer>",
+    "hostName": "Microsoft",
+    "workshopStart": "YYYY-MM-DD",
+    "workshopEnd": "YYYY-MM-DD"
+  },
+  "attendees": ["attendee@example.com"],
+  "labUsers": [{ "userName": "student@example.com", "accessCode": "<code>" }]
+}
+```
+
+Use an ephemeral local parameter file and delete it immediately after deployment. Do
+not place secret values in parameter files tracked by Git. After updating the Key Vault
+secret, restart the Function App so its Key Vault reference refreshes.

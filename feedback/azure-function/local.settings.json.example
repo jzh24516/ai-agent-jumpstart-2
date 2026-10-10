@@ -5,6 +5,7 @@
     "FUNCTIONS_WORKER_RUNTIME": "node",
     "SURVEY_FLOW_URL": "<Power Automate callback URL; never commit a real value>",
     "SURVEY_WORKSHOP_SIGNING_SECRET": "<base64url signing secret; never commit a real value>",
+    "WORKSHOP_ACCESS_CONFIG": "<single-line JSON containing workshop, attendees, and labUsers; never commit a real value>",
     "SURVEY_ALLOWED_ORIGINS": "http://localhost:5173,http://127.0.0.1:5173",
     "SURVEY_SOURCE_SITE_URL": "http://localhost:5173/",
     "SURVEY_RETENTION_MONTHS": "24",

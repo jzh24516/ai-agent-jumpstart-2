@@ -1,15 +1,24 @@
 import { app } from '@azure/functions'
 import { createFeedbackHandler } from '../survey.js'
 import { createAzureTableRateLimiter } from '../rateLimit.js'
+import { createAccessHandler } from '../access.js'
 
 const rateLimiter = createAzureTableRateLimiter(process.env)
 const feedbackHandler = createFeedbackHandler({ env: process.env, rateLimiter })
+const accessHandler = createAccessHandler({ env: process.env })
 
 app.http('feedback', {
   methods: ['POST', 'OPTIONS'],
   authLevel: 'anonymous',
   route: 'feedback',
   handler: feedbackHandler,
+})
+
+app.http('access', {
+  methods: ['POST', 'OPTIONS'],
+  authLevel: 'anonymous',
+  route: 'access',
+  handler: accessHandler,
 })
 
 app.http('health', {
@@ -22,6 +31,7 @@ app.http('health', {
       ok: true,
       flowConfigured: Boolean(process.env.SURVEY_FLOW_URL),
       signingConfigured: Boolean(process.env.SURVEY_WORKSHOP_SIGNING_SECRET),
+      accessConfigured: Boolean(process.env.WORKSHOP_ACCESS_CONFIG),
       rateLimitConfigured: Boolean(process.env.SURVEY_RATE_LIMIT_TABLE_ENDPOINT && process.env.SURVEY_RATE_LIMIT_TABLE_NAME),
     },
   }),

@@ -11,6 +11,8 @@ import {
 import { authenticateMaker, defaultContent, isLabPublic, isStepVisible, loadLabs } from './content/store'
 import { downloadWorkshopInvitation } from './content/invitation'
 import { newSurveySubmissionId, submitWorkshopSurvey } from './content/feedback'
+import { verifyWorkshopAccess, WorkshopAccessError } from './content/access'
+import type { WorkshopAccessGrant } from './content/access'
 import MakerEditor from './editor/MakerEditor'
 import FeedbackDashboard from './editor/FeedbackDashboard'
 import Fireworks from './Fireworks'
@@ -254,18 +256,6 @@ const defaultBranding: Branding = { hostName: 'Microsoft', hostLogo: '', custome
 const isEmail = (value: string): boolean => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())
 // Splits a pasted blob on commas, semicolons, or any whitespace (space/tab/newline).
 const parseEmails = (raw: string): string[] => raw.split(/[\s,;]+/).map((e) => e.trim().toLowerCase()).filter(Boolean)
-const brandingAccessEmails = ({ attendees, contacts }: Pick<Branding, 'attendees' | 'contacts'>): string[] => {
-  const seen = new Set<string>()
-  return [...attendees, ...contacts.map(({ email }) => email)]
-    .map((email) => email.trim().toLowerCase())
-    .filter((email) => isEmail(email) && !seen.has(email) && Boolean(seen.add(email)))
-}
-const labUserForEmail = (branding: Branding, email: string): LabUser | null => {
-  const labUsers = branding.labUsers.filter(({ userName, accessCode }) => userName.trim() && accessCode.trim())
-  if (!labUsers.length) return null
-  const emailIndex = brandingAccessEmails(branding).indexOf(email.trim().toLowerCase())
-  return emailIndex >= 0 ? labUsers[emailIndex % labUsers.length] : null
-}
 const isLabUserHeader = ([userName, accessCode]: string[]): boolean => {
   const first = userName.toLowerCase().replace(/[^a-z]/g, '')
   const second = accessCode.toLowerCase().replace(/[^a-z]/g, '')
@@ -356,6 +346,12 @@ async function saveBrandingToFile(branding: Branding): Promise<Branding> {
     if (response.status === 401 || response.status === 503) error.name = 'AuthRequired'
     throw error
   }
+  return { ...defaultBranding, ...(await response.json() as Partial<Branding>) }
+}
+
+async function loadMakerBranding(): Promise<Branding> {
+  const response = await fetch('/api/branding', { cache: 'no-store' })
+  if (!response.ok) throw new Error(await response.text() || `Branding load failed (${response.status})`)
   return { ...defaultBranding, ...(await response.json() as Partial<Branding>) }
 }
 
@@ -1177,25 +1173,33 @@ function WorkshopHeroTitle() {
   return <h1 className="cover-title">AI Agent Workshop<br /><span className="cover-title-byline">by Microsoft Agent GBB</span></h1>
 }
 
-function AccessWelcomePage({ dark, locale, attendees, contacts, workshopStart, workshopEnd, entryReady, canConfigure, onToggleTheme, onLocaleChange, onOpenSettings, onVerified }: {
-  dark: boolean; locale: Locale; attendees: string[]; contacts: BrandingContact[]; workshopStart: string; workshopEnd: string; entryReady: boolean; canConfigure: boolean;
-  onToggleTheme: () => void; onLocaleChange: (locale: Locale) => void; onOpenSettings: () => void; onVerified: (email: string) => void;
+function AccessWelcomePage({ dark, locale, workshopId, workshopStart, workshopEnd, entryReady, canConfigure, onToggleTheme, onLocaleChange, onOpenSettings, onVerified }: {
+  dark: boolean; locale: Locale; workshopId: string; workshopStart: string; workshopEnd: string; entryReady: boolean; canConfigure: boolean;
+  onToggleTheme: () => void; onLocaleChange: (locale: Locale) => void; onOpenSettings: () => void; onVerified: (grant: WorkshopAccessGrant) => void;
 }) {
   const [email, setEmail] = useState('')
-  const [error, setError] = useState<'invalid' | 'denied' | null>(null)
+  const [error, setError] = useState<'invalid' | 'denied' | 'unavailable' | null>(null)
+  const [verifying, setVerifying] = useState(false)
   const [now, setNow] = useState(Date.now())
   const status = workshopWindowStatus({ workshopStart, workshopEnd }, now)
   useEffect(() => {
     const timer = window.setInterval(() => setNow(Date.now()), 15_000)
     return () => window.clearInterval(timer)
   }, [])
-  const verify = () => {
+  const verify = async () => {
     if (!entryReady) return
     if (workshopWindowStatus({ workshopStart, workshopEnd }) !== 'open') { setNow(Date.now()); return }
     const value = email.trim().toLowerCase()
     if (!isEmail(value)) { setError('invalid'); return }
-    if (attendees.length > 0 && !brandingAccessEmails({ attendees, contacts }).includes(value)) { setError('denied'); return }
-    onVerified(value)
+    setVerifying(true)
+    setError(null)
+    try {
+      onVerified(await verifyWorkshopAccess(value, workshopId))
+    } catch (accessError) {
+      setError(accessError instanceof WorkshopAccessError ? accessError.code : 'unavailable')
+    } finally {
+      setVerifying(false)
+    }
   }
   const blockedTitle = status === 'not-started' ? ui.workshopNotStartedTitle : status === 'ended' ? ui.workshopEndedTitle : ui.workshopWindowUnavailableTitle
   const blockedIntro = status === 'not-started'
@@ -1220,11 +1224,11 @@ function AccessWelcomePage({ dark, locale, attendees, contacts, workshopStart, w
             <div className="access-email-row">
               <input type="email" autoFocus value={email} placeholder={text(ui.attendeeAddHint, locale)}
                 onChange={(event) => { setEmail(event.target.value); setError(null) }}
-                onKeyDown={(event) => { if (event.key === 'Enter') verify() }} />
-              <button type="button" className="cover-cta access-verify" disabled={!entryReady} onClick={verify}>{text(ui.attendeeGateContinue, locale)} <ArrowRight size={18} /></button>
+                onKeyDown={(event) => { if (event.key === 'Enter') void verify() }} />
+              <button type="button" className="cover-cta access-verify" disabled={!entryReady || verifying} onClick={() => void verify()}>{text(ui.attendeeGateContinue, locale)} <ArrowRight size={18} /></button>
             </div>
           </label>
-          {error && <span className="access-error" role="alert">{text(error === 'invalid' ? ui.attendeeGateInvalid : ui.attendeeGateDenied, locale)}</span>}
+          {error && <span className="access-error" role="alert">{text(error === 'invalid' ? ui.attendeeGateInvalid : error === 'denied' ? ui.attendeeGateDenied : ui.attendeeGateUnavailable, locale)}</span>}
         </div> : <div className="access-blocked">
           <span className="access-blocked-icon"><CalendarDays size={22} /></span>
           <h2>{text(blockedTitle, locale)}</h2>
@@ -1273,11 +1277,10 @@ function CoverPage({ onEnter, dark, onToggleTheme, locale, onLocaleChange, brand
   )
 }
 
-function LabCredentialsFlyout({ email, branding, locale }: { email: string; branding: Branding; locale: Locale }) {
+function LabCredentialsFlyout({ email, labUser, locale }: { email: string; labUser: LabUser | null; locale: Locale }) {
   const [open, setOpen] = useState(false)
   const [copied, setCopied] = useState<keyof LabUser | null>(null)
   const menuRef = useRef<HTMLDivElement>(null)
-  const labUser = labUserForEmail(branding, email)
   useEffect(() => {
     if (!open) return
     const onPointerDown = (event: PointerEvent) => {
@@ -1438,8 +1441,9 @@ function App() {
   const [celebrateIntensity, setCelebrateIntensity] = useState(1)
   const [labDoneTitle, setLabDoneTitle] = useState<string | null>(null)
   const [allDoneOpen, setAllDoneOpen] = useState(false)
-  const [verifiedEmail, setVerifiedEmail] = useState<string | null>(null)
-  const accessVerified = verifiedEmail !== null
+  const [accessGrant, setAccessGrant] = useState<WorkshopAccessGrant | null>(null)
+  const verifiedEmail = accessGrant?.email ?? null
+  const accessVerified = accessGrant !== null
   const [showCover, setShowCover] = useState(true)
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [pendingUnlock, setPendingUnlock] = useState<'editor' | 'settings' | null>(null)
@@ -1527,16 +1531,24 @@ function App() {
     if (makerUnlocked) { setEditorOpen(true); return }
     setPendingUnlock('editor'); setAskPassword(true); setPasswordValue(''); setPasswordError(false)
   }
+  const showSettings = async () => {
+    try {
+      setBranding(await loadMakerBranding())
+      setSettingsOpen(true)
+    } catch (error) {
+      window.alert((error as Error).message)
+    }
+  }
   const openSettings = () => {
     if (!makerEnabled) return
-    if (makerUnlocked) { setSettingsOpen(true); return }
+    if (makerUnlocked) { void showSettings(); return }
     setPendingUnlock('settings'); setAskPassword(true); setPasswordValue(''); setPasswordError(false)
   }
   const submitPassword = async () => {
     if (await authenticateMaker(passwordValue)) {
       sessionStorage.setItem('jumpstart-maker', '1')
       setMakerUnlocked(true); setAskPassword(false)
-      if (pendingUnlock === 'settings') setSettingsOpen(true)
+      if (pendingUnlock === 'settings') await showSettings()
       else setEditorOpen(true)
       setPendingUnlock(null)
     } else setPasswordError(true)
@@ -1597,7 +1609,7 @@ function App() {
   const enterWorkshop = () => { if (brandingReady) setShowCover(false) }
   const submitFeedback = async (data: { submissionId: string; overall: number; effort: number; recommend: number; comments: string; emailConsent: boolean }) => {
     const workshopId = branding.workshopId.trim()
-    const surveyToken = branding.surveyToken.trim()
+    const surveyToken = accessGrant?.surveyToken.trim() ?? ''
     if (!workshopId || !surveyToken || !branding.customerName.trim()) throw new Error('Workshop survey identity is unavailable.')
     const labStatus = publicLabs.map((item) => {
       const steps = item.steps.filter(isStepVisible)
@@ -1632,7 +1644,7 @@ function App() {
 
   return <div className={collapsed ? 'app-shell sidebar-collapsed' : 'app-shell'}>
     <Fireworks trigger={celebrate} intensity={celebrateIntensity} />
-    {!accessVerified && <AccessWelcomePage dark={dark} locale={locale} attendees={branding.attendees ?? []} contacts={branding.contacts ?? []} workshopStart={branding.workshopStart} workshopEnd={branding.workshopEnd} entryReady={brandingReady} canConfigure={makerEnabled} onToggleTheme={toggleTheme} onLocaleChange={setLocale} onOpenSettings={openSettings} onVerified={setVerifiedEmail} />}
+    {!accessVerified && <AccessWelcomePage dark={dark} locale={locale} workshopId={branding.workshopId} workshopStart={branding.workshopStart} workshopEnd={branding.workshopEnd} entryReady={brandingReady} canConfigure={makerEnabled} onToggleTheme={toggleTheme} onLocaleChange={setLocale} onOpenSettings={openSettings} onVerified={setAccessGrant} />}
     {accessVerified && showCover && <CoverPage onEnter={enterWorkshop} dark={dark} onToggleTheme={toggleTheme} locale={locale} onLocaleChange={setLocale} branding={branding} entryReady={brandingReady} canConfigure={makerEnabled} onOpenSettings={openSettings} />}
     {settingsOpen && <BrandingSettings value={branding} locale={locale} initialWorkshopIdentity={brandingWorkshopIdentity} onApply={applyBranding} onAppliedIdentity={setBrandingWorkshopIdentity} onClose={() => setSettingsOpen(false)} />}
     <button className="mobile-menu" type="button" onClick={() => setMenuOpen(true)} title={text(ui.menu, locale)} aria-label={text(ui.menu, locale)}><Menu /></button>
@@ -1671,7 +1683,7 @@ function App() {
             </div>
           </div>
         </div>
-        <div className="top-actions"><label className="language-select"><Languages size={17} /><select value={locale} onChange={(event) => setLocale(event.target.value as Locale)} aria-label={text(ui.language, locale)}>{locales.map((item) => <option value={item} key={item}>{localeNames[item]}</option>)}</select></label>{verifiedEmail && <LabCredentialsFlyout email={verifiedEmail} branding={branding} locale={locale} />}<button className="icon-button" type="button" onClick={exportLabPdf} title={text(ui.exportPdf, locale)} aria-label={text(ui.exportPdf, locale)}><Printer size={18} /></button>{makerEnabled && <button className="icon-button" type="button" onClick={openMaker} title={text(ui.maker, locale)} aria-label={text(ui.maker, locale)}>{makerUnlocked ? <PencilLine size={19} /> : <Lock size={18} />}</button>}<button className="icon-button" type="button" onClick={toggleTheme} title={text(ui.theme, locale)} aria-label={text(ui.theme, locale)}>{dark ? <Sun size={19} /> : <Moon size={19} />}</button></div>
+        <div className="top-actions"><label className="language-select"><Languages size={17} /><select value={locale} onChange={(event) => setLocale(event.target.value as Locale)} aria-label={text(ui.language, locale)}>{locales.map((item) => <option value={item} key={item}>{localeNames[item]}</option>)}</select></label>{verifiedEmail && <LabCredentialsFlyout email={verifiedEmail} labUser={accessGrant?.labUser ?? null} locale={locale} />}<button className="icon-button" type="button" onClick={exportLabPdf} title={text(ui.exportPdf, locale)} aria-label={text(ui.exportPdf, locale)}><Printer size={18} /></button>{makerEnabled && <button className="icon-button" type="button" onClick={openMaker} title={text(ui.maker, locale)} aria-label={text(ui.maker, locale)}>{makerUnlocked ? <PencilLine size={19} /> : <Lock size={18} />}</button>}<button className="icon-button" type="button" onClick={toggleTheme} title={text(ui.theme, locale)} aria-label={text(ui.theme, locale)}>{dark ? <Sun size={19} /> : <Moon size={19} />}</button></div>
       </header>
 
       <article className="lab-document">

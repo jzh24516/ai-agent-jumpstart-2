@@ -583,6 +583,10 @@ resource functionApp 'Microsoft.Web/sites@2024-11-01' = {
           value: '@Microsoft.KeyVault(VaultName=${keyVault.name};SecretName=survey-workshop-signing-secret)'
         }
         {
+          name: 'WORKSHOP_ACCESS_CONFIG'
+          value: '@Microsoft.KeyVault(VaultName=${keyVault.name};SecretName=workshop-access-config)'
+        }
+        {
           name: 'SURVEY_ALLOWED_ORIGINS'
           value: join(allowedOrigins, ',')
         }

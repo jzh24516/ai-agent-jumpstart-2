@@ -1,4 +1,5 @@
 {
   "enabled": true,
-  "endpoint": "https://azfnuhqsqqzypov3s.azurewebsites.net/api/feedback"
+  "endpoint": "https://azfnuhqsqqzypov3s.azurewebsites.net/api/feedback",
+  "accessEndpoint": "https://azfnuhqsqqzypov3s.azurewebsites.net/api/access"
 }

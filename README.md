@@ -69,7 +69,11 @@ Maker mode and the branding settings are **dev-only** — they are not rendered 
 
 ### Workshop history persistence
 
-**Save to history** stores engagement configurations outside the project in the current user's local application-data directory through the authenticated local API. Browser `localStorage` is retained only as a fast cache and one-time migration source, so switching between `localhost` and `127.0.0.1`, clearing site data, or using another browser profile no longer removes the primary history. If the private file is missing, the development server rebuilds the latest named customer configurations from committed versions of `public/content/branding.json`. The private history may include attendee and lab credential data; it is never committed, copied to `dist`, or published to GitHub Pages.
+**Save to history** stores engagement configurations outside the project in the current user's local application-data directory through the authenticated local API. Browser `localStorage` is retained only as a fast cache and one-time migration source, so switching between `localhost` and `127.0.0.1`, clearing site data, or using another browser profile no longer removes the primary history. If the private file is missing, the development server rebuilds the latest named customer configurations from committed versions of `public/content/branding.json`. The private history and active `workshop-access.json` may include attendee and lab credential data; they are never committed, copied to `dist`, or published to GitHub Pages.
+
+Published attendee verification uses the Azure Function `/api/access` endpoint. The
+tracked `public/content/branding.json` contains only public workshop branding; attendee
+emails, lab access codes, and the survey token remain in private server configuration.
 
 Use the clone action beside a saved configuration to create an independently named history record containing the same branding, dates, contacts, attendees, and lab credentials. The clone is loaded into the form for editing; select **Apply** separately when it should become the active published branding.
 
@@ -100,4 +104,3 @@ In Branding Settings, **Clear all** removes every attendee email plus any pendin
 ### Translation model
 
 English is the default language. When editing another language, empty fields automatically **fall back to English** for learners, and each field has a **Copy from English** helper to seed a translation. `prompt` / input blocks are shared across all languages.
-

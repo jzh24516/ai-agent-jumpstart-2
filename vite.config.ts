@@ -14,6 +14,7 @@ const brandingFile = resolve(rootDir, 'public/content/branding.json')
 const localDataRoot = process.env.LOCALAPPDATA || resolve(homedir(), '.local', 'share')
 const workshopHistoryFile = resolve(localDataRoot, 'Agent JumpStart 2', 'workshop-history.json')
 const workshopHistoryBackupFile = `${workshopHistoryFile}.bak`
+const workshopAccessFile = resolve(localDataRoot, 'Agent JumpStart 2', 'workshop-access.json')
 const legacyWorkshopHistoryFile = resolve(rootDir, '.data/workshop-history.json')
 const MAX_REQUEST_BYTES = 25_000_000
 
@@ -78,6 +79,17 @@ const jsonData = (res: ServerResponse, status: number, value: unknown) => {
 
 type StoredContact = { name: string; email: string }
 type StoredLabUser = { userName: string; accessCode: string }
+type WorkshopAccessConfig = {
+  workshop: {
+    workshopId: string
+    customerName: string
+    hostName: string
+    workshopStart: string
+    workshopEnd: string
+  }
+  attendees: string[]
+  labUsers: StoredLabUser[]
+}
 
 type StoredWorkshop = {
   id: string
@@ -416,6 +428,54 @@ const signPublishedBranding = (value: unknown, signingSecret: string): Record<st
   return { ...branding, workshopId, surveyToken }
 }
 
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+const accessConfigFromBranding = (branding: Record<string, unknown>): WorkshopAccessConfig => {
+  const workshopId = typeof branding.workshopId === 'string' ? branding.workshopId.trim() : ''
+  const customerName = typeof branding.customerName === 'string' ? branding.customerName.trim() : ''
+  const hostName = typeof branding.hostName === 'string' ? branding.hostName.trim() : ''
+  if (!workshopIdPattern.test(workshopId) || !customerName || !hostName) {
+    throw new Error('Workshop access needs a valid workshop identity.')
+  }
+  const attendeeCandidates = [
+    ...(Array.isArray(branding.attendees) ? branding.attendees : []),
+    ...(Array.isArray(branding.contacts)
+      ? branding.contacts.map((contact) => contact && typeof contact === 'object' ? (contact as Record<string, unknown>).email : '')
+      : []),
+  ]
+  const attendees = [...new Set(attendeeCandidates
+    .filter((email): email is string => typeof email === 'string')
+    .map((email) => email.trim().toLowerCase())
+    .filter((email) => emailPattern.test(email)))]
+  const labUsers = Array.isArray(branding.labUsers)
+    ? branding.labUsers.filter((value): value is StoredLabUser => isStringRecord(value, ['userName', 'accessCode']))
+      .map(({ userName, accessCode }) => ({ userName: userName.trim(), accessCode: accessCode.trim() }))
+      .filter(({ userName, accessCode }) => Boolean(userName && accessCode))
+    : []
+  if (!attendees.length || !labUsers.length) throw new Error('Workshop access needs attendees and complete lab users.')
+  return {
+    workshop: {
+      workshopId,
+      customerName,
+      hostName,
+      workshopStart: typeof branding.workshopStart === 'string' ? branding.workshopStart.trim() : '',
+      workshopEnd: typeof branding.workshopEnd === 'string' ? branding.workshopEnd.trim() : '',
+    },
+    attendees,
+    labUsers,
+  }
+}
+
+const publicBranding = (branding: Record<string, unknown>) => ({
+  ...branding,
+  attendees: [],
+  labUsers: [],
+  surveyToken: '',
+})
+
+const readWorkshopAccess = async () =>
+  JSON.parse(await readFile(workshopAccessFile, 'utf8')) as WorkshopAccessConfig
+
 // Dev-only content API: persists edits from maker mode to public/content/labs.json
 // and (on publish) commits + pushes that file to the git remote.
 function makerContentApi(env: Record<string, string>): Plugin {
@@ -470,16 +530,66 @@ function makerContentApi(env: Record<string, string>): Plugin {
         }
       })
 
-      // Persists the applied workshop branding to public/content/branding.json so it
-      // ships with the site and is visible to every visitor once committed + pushed.
-      server.middlewares.use('/api/branding', async (req, res, next) => {
+      server.middlewares.use('/api/access', async (req, res, next) => {
         if (req.method !== 'POST') return next()
+        try {
+          const body = JSON.parse(await readBody(req)) as { email?: unknown; workshopId?: unknown }
+          const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : ''
+          const workshopId = typeof body.workshopId === 'string' ? body.workshopId.trim() : ''
+          if (!emailPattern.test(email) || !workshopIdPattern.test(workshopId)) {
+            return jsonData(res, 400, { ok: false, code: 'INVALID_ACCESS_REQUEST' })
+          }
+          const access = await readWorkshopAccess()
+          const attendeeIndex = access.attendees.indexOf(email)
+          if (workshopId !== access.workshop.workshopId || attendeeIndex < 0) {
+            return jsonData(res, 403, { ok: false, code: 'ACCESS_DENIED' })
+          }
+          if (!surveySigningSecret) return jsonData(res, 503, { ok: false, code: 'ACCESS_UNAVAILABLE' })
+          const claim = [
+            access.workshop.workshopId,
+            `workshop:${access.workshop.workshopId}`,
+            access.workshop.customerName,
+            access.workshop.hostName,
+            access.workshop.workshopStart,
+            access.workshop.workshopEnd,
+          ]
+          jsonData(res, 200, {
+            ok: true,
+            email,
+            labUser: access.labUsers[attendeeIndex % access.labUsers.length],
+            surveyToken: createHmac('sha256', surveySigningSecret).update(JSON.stringify(claim)).digest('base64url'),
+          })
+        } catch (error) {
+          if (error instanceof PayloadTooLargeError) return jsonData(res, 413, { ok: false, code: 'ACCESS_REQUEST_TOO_LARGE' })
+          console.error('Workshop access verification failed.', error)
+          jsonData(res, 503, { ok: false, code: 'ACCESS_UNAVAILABLE' })
+        }
+      })
+
+      server.middlewares.use('/api/branding', async (req, res, next) => {
+        if (req.method !== 'GET' && req.method !== 'POST') return next()
         if (!requireMakerSession(req, res)) return
+        if (req.method === 'GET') {
+          try {
+            const branding = JSON.parse(await readFile(brandingFile, 'utf8')) as Record<string, unknown>
+            const access = await readWorkshopAccess()
+            return jsonData(res, 200, signPublishedBranding({
+              ...branding,
+              attendees: access.attendees,
+              labUsers: access.labUsers,
+            }, surveySigningSecret))
+          } catch (error) {
+            return json(res, 500, `Branding load failed: ${(error as Error).message}`)
+          }
+        }
         try {
           const body = await readBody(req)
           const branding = signPublishedBranding(JSON.parse(body), surveySigningSecret)
+          const access = accessConfigFromBranding(branding)
+          await mkdir(dirname(workshopAccessFile), { recursive: true })
+          await writeFile(workshopAccessFile, `${JSON.stringify(access, null, 2)}\n`, 'utf8')
           await mkdir(dirname(brandingFile), { recursive: true })
-          await writeFile(brandingFile, `${JSON.stringify(branding, null, 2)}\n`, 'utf8')
+          await writeFile(brandingFile, `${JSON.stringify(publicBranding(branding), null, 2)}\n`, 'utf8')
           jsonData(res, 200, branding)
         } catch (error) {
           if (error instanceof PayloadTooLargeError) return json(res, 413, error.message)

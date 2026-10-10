@@ -6,7 +6,7 @@
   "preparedBy": "Microsoft Global Solution Advisory Agent - Asia Team",
   "preparedDate": "July 16, 2026",
   "workshopStart": "2026-09-28",
-  "workshopEnd": "2026-10-16",
+  "workshopEnd": "2026-10-15",
   "contacts": [
     {
       "name": "Michael Jiang",
@@ -17,32 +17,8 @@
       "email": "scberr@microsoft.com"
     }
   ],
-  "attendees": [
-    "oscarchan@microsoft.com",
-    "howard.li@microsoft.com"
-  ],
-  "labUsers": [
-    {
-      "userName": "student01@D365DemoTSCE02668770.onmicrosoft.com",
-      "accessCode": "6z$#xk@e"
-    },
-    {
-      "userName": "student02@D365DemoTSCE02668770.onmicrosoft.com",
-      "accessCode": "hYy^eaQX"
-    },
-    {
-      "userName": "student03@D365DemoTSCE02668770.onmicrosoft.com",
-      "accessCode": "cz&GRKm="
-    },
-    {
-      "userName": "student04@D365DemoTSCE02668770.onmicrosoft.com",
-      "accessCode": "$Ve%#E$b"
-    },
-    {
-      "userName": "student05@D365DemoTSCE02668770.onmicrosoft.com",
-      "accessCode": "$H38T$&E"
-    }
-  ],
+  "attendees": [],
+  "labUsers": [],
   "workshopId": "ac18d92b-6142-4e2c-bbb0-174554831edb",
-  "surveyToken": "i9CWPaH4xqPpc_zHxjnvVUkijefhwLD6ZGoPjQdWgeU"
+  "surveyToken": ""
 }
