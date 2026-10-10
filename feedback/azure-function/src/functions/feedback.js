@@ -5,7 +5,7 @@ import { createAccessHandler } from '../access.js'
 
 const rateLimiter = createAzureTableRateLimiter(process.env)
 const feedbackHandler = createFeedbackHandler({ env: process.env, rateLimiter })
-const accessHandler = createAccessHandler({ env: process.env })
+const accessHandler = createAccessHandler({ env: process.env, rateLimiter })
 
 app.http('feedback', {
   methods: ['POST', 'OPTIONS'],

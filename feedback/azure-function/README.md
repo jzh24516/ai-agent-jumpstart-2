@@ -8,7 +8,7 @@ public workshop and Power Automate. It does not store survey data itself.
 - `POST /api/feedback`: validates origin, UUIDs, ratings, workshop dates, progress,
   lab status, optional email consent, and the workshop HMAC token.
 - `POST /api/access`: verifies an attendee email against private configuration and
-  returns only that attendee's assigned lab credentials plus a short workshop token.
+  returns only that attendee's assigned lab credentials plus a workshop token.
 - `OPTIONS /api/feedback`: answers CORS preflight for the configured workshop origin.
 - `GET /api/health`: reports whether Flow and signing configuration references resolve.
 - Server time controls `submittedAt`; the gateway derives the retention expiry.
@@ -16,6 +16,9 @@ public workshop and Power Automate. It does not store survey data itself.
 - A private Azure Table limits each HMAC client bucket to 120 distinct submissions per
   hour. Retrying the same submission ID is not counted twice; a daily timer removes
   limiter rows after 48 hours. Raw client IP addresses are never stored.
+- Access attempts use a separate rate-limit bucket in the same table and fail closed
+  if the limiter is unavailable. The email allowlist checks eligibility, not mailbox
+  ownership; it is not a replacement for identity authentication.
 - The Flow callback URL, signing secret, attendee list, and unassigned credentials are
   never returned to the browser or logged.
 
@@ -85,3 +88,8 @@ secret, and workshop access JSON. The access JSON has this shape:
 Use an ephemeral local parameter file and delete it immediately after deployment. Do
 not place secret values in parameter files tracked by Git. After updating the Key Vault
 secret, restart the Function App so its Key Vault reference refreshes.
+
+To update only workshop access, use `infra/workshop-access.bicep` with secure parameters
+`keyVaultName` and `workshopAccessConfig`. This leaves the existing survey callback and
+signing secrets untouched. Set `WORKSHOP_ACCESS_CONFIG` to the
+`workshop-access-config` Key Vault reference while preserving all other app settings.

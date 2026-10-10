@@ -1,4 +1,5 @@
 import { signWorkshopClaim } from './survey.js'
+import { randomUUID } from 'node:crypto'
 
 const MAX_REQUEST_BYTES = 4 * 1024
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -50,7 +51,7 @@ export const parseAccessConfig = (raw) => {
   return { workshop: normalizedWorkshop, attendees, labUsers }
 }
 
-export const createAccessHandler = ({ env }) => async (request, context) => {
+export const createAccessHandler = ({ env, rateLimiter = { consume: async () => true } }) => async (request, context) => {
   const allowedOrigins = parseAllowedOrigins(env.SURVEY_ALLOWED_ORIGINS)
   const origin = request.headers.get('origin') ?? ''
   const headers = corsHeaders(origin, allowedOrigins)
@@ -78,10 +79,23 @@ export const createAccessHandler = ({ env }) => async (request, context) => {
     } catch {
       return { status: 400, headers, jsonBody: { ok: false, code: 'INVALID_JSON' } }
     }
+    if (!body || typeof body !== 'object' || Array.isArray(body)) {
+      return { status: 400, headers, jsonBody: { ok: false, code: 'INVALID_ACCESS_REQUEST' } }
+    }
     const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : ''
     const workshopId = typeof body.workshopId === 'string' ? body.workshopId.trim() : ''
-    if (!EMAIL_PATTERN.test(email) || !UUID_PATTERN.test(workshopId)) {
+    if (email.length > 320 || !EMAIL_PATTERN.test(email) || !UUID_PATTERN.test(workshopId)) {
       return { status: 400, headers, jsonBody: { ok: false, code: 'INVALID_ACCESS_REQUEST' } }
+    }
+    const clientAddress = (request.headers.get('x-forwarded-for') ?? request.headers.get('x-azure-clientip') ?? 'unknown')
+      .split(',')[0]
+      .trim()
+    if (!await rateLimiter.consume({ clientAddress: `access:${clientAddress}`, submissionId: randomUUID() })) {
+      return {
+        status: 429,
+        headers: { ...headers, 'Retry-After': '3600' },
+        jsonBody: { ok: false, code: 'ACCESS_RATE_LIMITED' },
+      }
     }
     const config = parseAccessConfig(rawConfig)
     const attendeeIndex = config.attendees.indexOf(email)

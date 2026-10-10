@@ -80,3 +80,58 @@ test('fails closed when private access configuration is invalid', async () => {
   assert.equal(response.status, 503)
   assert.equal(response.jsonBody.code, 'ACCESS_UNAVAILABLE')
 })
+
+test('rejects non-object JSON as an invalid request', async () => {
+  const handler = createAccessHandler({ env })
+  for (const body of [null, [], 'email']) {
+    const response = await handler(request(body), context)
+    assert.equal(response.status, 400)
+    assert.equal(response.jsonBody.code, 'INVALID_ACCESS_REQUEST')
+  }
+})
+
+test('returns no other attendees or credentials in an access grant', async () => {
+  const handler = createAccessHandler({ env })
+  const response = await handler(request({ email: 'first@example.com', workshopId: workshop.workshopId }), context)
+  assert.deepEqual(Object.keys(response.jsonBody).sort(), ['email', 'labUser', 'ok', 'surveyToken'])
+  assert.deepEqual(Object.keys(response.jsonBody.labUser).sort(), ['accessCode', 'userName'])
+  assert.equal(JSON.stringify(response.jsonBody).includes('second@example.com'), false)
+  assert.equal(JSON.stringify(response.jsonBody).includes('second-code'), false)
+})
+
+test('answers CORS preflight without needing private configuration', async () => {
+  const handler = createAccessHandler({ env: { SURVEY_ALLOWED_ORIGINS: env.SURVEY_ALLOWED_ORIGINS } })
+  const response = await handler(request({}, 'OPTIONS'), context)
+  assert.equal(response.status, 204)
+  assert.equal(response.headers['Access-Control-Allow-Origin'], 'https://jzh24516.github.io')
+})
+
+test('rejects oversized requests', async () => {
+  const handler = createAccessHandler({ env })
+  const response = await handler(request({ email: 'a'.repeat(4096), workshopId: workshop.workshopId }), context)
+  assert.equal(response.status, 413)
+})
+
+test('rate limits access requests before returning credentials', async () => {
+  const attempts = []
+  const handler = createAccessHandler({
+    env,
+    rateLimiter: { consume: async (attempt) => { attempts.push(attempt); return false } },
+  })
+  const response = await handler(request({ email: 'first@example.com', workshopId: workshop.workshopId }), context)
+  assert.equal(response.status, 429)
+  assert.equal(response.jsonBody.code, 'ACCESS_RATE_LIMITED')
+  assert.equal(response.headers['Retry-After'], '3600')
+  assert.equal(response.jsonBody.labUser, undefined)
+  assert.equal(attempts[0].clientAddress.startsWith('access:'), true)
+})
+
+test('fails closed if the access rate limiter is unavailable', async () => {
+  const handler = createAccessHandler({
+    env,
+    rateLimiter: { consume: async () => { throw new Error('Storage unavailable') } },
+  })
+  const response = await handler(request({ email: 'first@example.com', workshopId: workshop.workshopId }), context)
+  assert.equal(response.status, 503)
+  assert.equal(response.jsonBody.labUser, undefined)
+})
