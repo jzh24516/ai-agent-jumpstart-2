@@ -67,6 +67,11 @@ Content authors can edit every lab directly in the browser — no code changes r
 
 Maker mode and the branding settings are **dev-only** — they are not rendered or reachable in the built (GitHub Pages) site. The password is **never** stored in the codebase or the client bundle. It lives only in a git-ignored `.env` file as a salted scrypt hash, and the dev server verifies it server-side, issuing a short-lived signed `HttpOnly` session cookie. Every private endpoint (`/api/content`, `/api/branding`, `/api/workshops`, `/api/workshop-feedback`, `/api/publish`) requires that session.
 
+If the server session expires while the browser still shows maker mode as unlocked,
+clicking **Workshop branding** clears the stale unlock hint and opens the maker
+password prompt. Successful reauthentication returns to the requested branding
+settings rather than the lab editor.
+
 ### Workshop history persistence
 
 **Save to history** stores engagement configurations outside the project in the current user's local application-data directory through the authenticated local API. Browser `localStorage` is retained only as a fast cache and one-time migration source, so switching between `localhost` and `127.0.0.1`, clearing site data, or using another browser profile no longer removes the primary history. If the private file is missing, the development server rebuilds the latest named customer configurations from committed versions of `public/content/branding.json`. The private history and active `workshop-access.json` may include attendee and lab credential data; they are never committed, copied to `dist`, or published to GitHub Pages.
@@ -83,7 +88,7 @@ Feedback reads run server-side through `scripts/query_workshop_feedback.py`, usi
 
 In Branding Settings, **Clear all** removes every attendee email plus any pending single or pasted-list input from the current draft. **Create invitation** downloads a responsive, self-contained customer-facing HTML program overview using the current customer name, branding, workshop dates, and contacts. Attendee addresses, lab users, and access codes are deliberately excluded. Uploaded data-URL logos are embedded; remote logos that cannot be embedded within the timeout fall back to text wordmarks and are reported in the status message.
 
-**Apply** is separate from **Save to history**: it writes the active configuration to `public/content/branding.json` for the static workshop runtime. Everything in that active file is published with GitHub Pages, including attendee or lab-user fields. Use only temporary training credentials there, never production secrets, and rotate them after the engagement.
+**Apply** is separate from **Save to history**: it writes only public branding to `public/content/branding.json` and keeps active attendee and lab-account settings in the private local application-data store. **Publish to GitHub** updates the public site only; it does not synchronize Azure. Publish private engagement changes to the existing `workshop-access-config` Key Vault secret and refresh the Function App reference before pushing matching public changes. Never commit attendee lists, lab credentials, or survey tokens.
 
 ### Configure the maker password (local, one time)
 

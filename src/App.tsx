@@ -351,7 +351,11 @@ async function saveBrandingToFile(branding: Branding): Promise<Branding> {
 
 async function loadMakerBranding(): Promise<Branding> {
   const response = await fetch('/api/branding', { cache: 'no-store' })
-  if (!response.ok) throw new Error(await response.text() || `Branding load failed (${response.status})`)
+  if (!response.ok) {
+    const error = new Error(await response.text() || `Branding load failed (${response.status})`)
+    if (response.status === 401) error.name = 'AuthRequired'
+    throw error
+  }
   return { ...defaultBranding, ...(await response.json() as Partial<Branding>) }
 }
 
@@ -1526,31 +1530,38 @@ function App() {
     return () => observer.disconnect()
   }, [lab])
 
+  const requestMakerUnlock = (target: 'editor' | 'settings') => {
+    sessionStorage.removeItem('jumpstart-maker')
+    setMakerUnlocked(false)
+    setPendingUnlock(target); setAskPassword(true); setPasswordValue(''); setPasswordError(false)
+  }
   const openMaker = () => {
     if (!makerEnabled) return
     if (makerUnlocked) { setEditorOpen(true); return }
-    setPendingUnlock('editor'); setAskPassword(true); setPasswordValue(''); setPasswordError(false)
+    requestMakerUnlock('editor')
   }
   const showSettings = async () => {
     try {
       setBranding(await loadMakerBranding())
       setSettingsOpen(true)
     } catch (error) {
-      window.alert((error as Error).message)
+      if (error instanceof Error && error.name === 'AuthRequired') requestMakerUnlock('settings')
+      else window.alert(error instanceof Error ? error.message : String(error))
     }
   }
   const openSettings = () => {
     if (!makerEnabled) return
     if (makerUnlocked) { void showSettings(); return }
-    setPendingUnlock('settings'); setAskPassword(true); setPasswordValue(''); setPasswordError(false)
+    requestMakerUnlock('settings')
   }
   const submitPassword = async () => {
     if (await authenticateMaker(passwordValue)) {
       sessionStorage.setItem('jumpstart-maker', '1')
       setMakerUnlocked(true); setAskPassword(false)
-      if (pendingUnlock === 'settings') await showSettings()
-      else setEditorOpen(true)
+      const target = pendingUnlock
       setPendingUnlock(null)
+      if (target === 'settings') await showSettings()
+      else setEditorOpen(true)
     } else setPasswordError(true)
   }
 
