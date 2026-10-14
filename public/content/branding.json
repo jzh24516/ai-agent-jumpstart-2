@@ -1,24 +1,24 @@
 {
   "hostName": "Microsoft",
   "hostLogo": "https://uhf.microsoft.com/images/microsoft/RE1Mu3b.png",
-  "customerName": "Kerry Properties Limited (KPL)",
-  "customerLogo": "https://www.kuokgroup.com/sites/default/files/2018-09/Kerry_properties_en_0.png",
-  "preparedBy": "Microsoft Global Solution Advisory Agent - Asia Team",
+  "customerName": "HKJC",
+  "customerLogo": "https://consvc.hkjc.com/-/media/Sites/JCEW/Homepage/icon/logo/hkjc-logo-tc-black.svg?rev=51af8053f5364823b724afe738492553&sc_lang=en-US",
+  "preparedBy": "Microsoft HKJC Account Team & CoWork / Agents GBB Team",
   "preparedDate": "July 16, 2026",
-  "workshopStart": "2026-10-12",
+  "workshopStart": "2026-10-14",
   "workshopEnd": "2026-10-15",
   "contacts": [
     {
-      "name": "Michael Jiang",
-      "email": "zhijian@microsoft.com"
+      "name": "Charles Tiu",
+      "email": "ctiu@microsoft.com"
     },
     {
-      "name": "Scott Berry",
-      "email": "scberr@microsoft.com"
+      "name": "Michael Jiang",
+      "email": "zhijian@microsoft.com"
     }
   ],
   "attendees": [],
   "labUsers": [],
-  "workshopId": "ac18d92b-6142-4e2c-bbb0-174554831edb",
+  "workshopId": "e4535e6e-180b-4efe-97a8-6a13f2cc9bdd",
   "surveyToken": ""
 }
