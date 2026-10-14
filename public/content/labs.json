@@ -433,7 +433,7 @@
                 }
               ],
               "markdown": {
-                "en": "## Step by step guidance\n\n1. In the agent authoring experience, navigate to the **Tools** section.\n2. Click **+ Add tool**. \n3. In the search box, enter **Microsoft Learn Docs MCP**. \n4. Select **Microsoft Learn Docs MCP Server** from the search results.\n5. Click **Create a new connection** and **Add**.\n\n## Create the MCP Connection\n\n6. Click **Open connection manager**. \n7. A new browser tab opens automatically.\n8. Click **Connect**.\n9. Review any permission prompts if presented.\n10. Click **Submit** to create the connection. \n11. Click **Save** before closing the connection manager tab. \n12. Return to Copilot Studio and click **Microsoft Learn Docs MCP Server**.\n13. Click **Maker** in Authentication Mode section.\n14. Click **Confirm** button to close the form.\n\n## Configure Agent Instructions\n\n15. Navigate to the **Overview** page of the agent. \n16. In the **Instructions** section, append the following instruction to the end:\n\n   ```text\n   When users ask questions about Microsoft products, services, licensing,\n   architecture, APIs, or documentation, use the Microsoft Learn MCP Server\n   to search for answers and provide referenced responses.\n   ```",
+                "en": "## Step by step guidance\n\n1. In the agent authoring experience, navigate to the **Tools** section.\n2. Click **+ Add tool**. \n3. In the search box, enter **Microsoft Learn Docs MCP**. \n4. Select **Microsoft Learn Docs MCP Server** from the search results.\n5. Click **Create a new connection** and **Add**.\n\n## Create the MCP Connection\n\n6. Click **Open connection manager**. \n7. A new browser tab opens automatically.\n8. Click **Connect**.\n9. Review any permission prompts if presented.\n10. Click **Submit** to create the connection. \n11. Click **Save** before closing the connection manager tab. \n12. Return to Copilot Studio and click **Microsoft Learn Docs MCP Server**.\n13. Click **Shared Account** in Authentication section.\n14. Click **Confirm** button to close the form.\n\n## Configure Agent Instructions\n\n15. Navigate to the **Overview** page of the agent. \n16. In the **Instructions** section, append the following instruction to the end:\n\n   ```text\n   When users ask questions about Microsoft products, services, licensing,\n   architecture, APIs, or documentation, use the Microsoft Learn MCP Server\n   to search for answers and provide referenced responses.\n   ```",
                 "zh": "## 分步指南\n\n1. 在 Agent 创作体验中，导航到 **Tools** 部分。\n2. 点击 **+ Add tool**。\n3. 在搜索框中输入 **Microsoft Learn Docs MCP**。\n4. 从搜索结果中选择 **Microsoft Learn Docs MCP Server**。\n5. 点击 **Create a new connection**。\n\n## 创建 MCP 连接\n\n6. 点击 **Open connection manager**。\n7. 点击 **Connect**。\n8. 如出现权限提示，请予以查看。\n9. 点击 **Submit** 以创建连接。\n10. 关闭连接管理器标签页之前，先点击 **Save**。\n11. 点击 **Add** 添加新建的 **Microsoft Learn Docs MCP Server**。\n12. 返回 Copilot Studio 并点击 **Microsoft Learn Docs MCP Server**。\n13. 在 Authentication Mode 部分点击 **Maker**。\n14. 点击 **Confirm** 按钮关闭表单。\n\n## 配置 Agent 指令\n\n15. 导航到 Agent 的 **Overview** 页面。\n16. 在 **Instructions** 部分，将以下指令追加到末尾：\n\n   ```text\n   When users ask questions about Microsoft products, services, licensing,\n   architecture, APIs, or documentation, use the Microsoft Learn MCP Server\n   to search for answers and provide referenced responses.\n   ```\n",
                 "ja": "## ステップ バイ ステップ ガイド\n\n1. Agent オーサリング エクスペリエンスで **Tools** セクションに移動します。\n2. **+ Add tool** をクリックします。\n3. 検索ボックスに **Microsoft Learn Docs MCP** と入力します。\n4. 検索結果から **Microsoft Learn Docs MCP Server** を選択します。\n5. **Add and Configure** をクリックします。\n\n## MCP 接続を作成する\n\n6. **Open connection manager** をクリックします。\n7. 新しいブラウザー タブが自動的に開きます。\n8. **Connect** をクリックします。\n9. アクセス許可の確認が表示された場合は確認します。\n10. **Submit** をクリックして接続を作成します。\n11. 接続マネージャーのタブを閉じる前に **Save** をクリックします。\n12. Copilot Studio に戻り、**Microsoft Learn Docs MCP Server** をクリックします。\n13. Authentication Mode セクションで **Maker** をクリックします。\n14. **Confirm** ボタンをクリックしてフォームを閉じます。\n\n## Agent の指示を構成する\n\n15. Agent の **Overview** ページに移動します。\n16. **Instructions** セクションの末尾に、次の指示を追加します。\n\n   ```text\n   When users ask questions about Microsoft products, services, licensing,\n   architecture, APIs, or documentation, use the Microsoft Learn MCP Server\n   to search for answers and provide referenced responses.\n   ```\n",
                 "ko": "## 단계별 안내\n\n1. Agent 작성 환경에서 **Tools** 섹션으로 이동합니다.\n2. **+ Add tool**을 클릭합니다.\n3. 검색 상자에 **Microsoft Learn Docs MCP**를 입력합니다.\n4. 검색 결과에서 **Microsoft Learn Docs MCP Server**를 선택합니다.\n5. **Add and Configure**를 클릭합니다.\n\n## MCP 연결 만들기\n\n6. **Open connection manager**를 클릭합니다.\n7. 새 브라우저 탭�� 자동으로 열립니다.\n8. **Connect**를 클릭합니다.\n9. 권한 프롬프트가 표시되면 검토합니다.\n10. **Submit**을 클릭하여 연결을 만듭니다.\n11. 연결 관리자 탭을 닫����� 전에 **Save**를 클릭합니다.\n12. Copilot Studio로 돌아가 **Microsoft Learn Docs MCP Server**를 클릭합니다.\n13. Authentication Mode 섹션에서 **Maker**를 클릭합니다.\n14. **Confirm** 버튼을 클릭하여 양식을 닫습니다.\n\n## Agent 지침 구성\n\n15. Agent의 **Overview** 페이지로 이동합니다.\n16. **Instructions** 섹션 끝에 다음 지침을 추가합니다.\n\n   ```text\n   When users ask questions about Microsoft products, services, licensing,\n   architecture, APIs, or documentation, use the Microsoft Learn MCP Server\n   to search for answers and provide referenced responses.\n   ```",
@@ -473,9 +473,9 @@
               ],
               "imageKeys": [
                 "02-add-trusted-mcp-msftlearn-1",
-                "02-add-trusted-mcp-msftlearn-2",
-                "02-add-trusted-mcp-msftlearn-3",
-                "02-add-trusted-mcp-msftlearn-4",
+                "02-add-trusted-mcp-msftlearn-2v2",
+                "02-add-trusted-mcp-msftlearn-3v2",
+                "02-add-trusted-mcp-msftlearn-4v2",
                 "02-add-trusted-mcp-msftlearn-5"
               ]
             }
@@ -728,8 +728,9 @@
               "prompts": [],
               "imageKeys": [
                 "01-dataverse-mcp-create-1",
-                "01-dataverse-mcp-create-2",
-                "01-dataverse-mcp-configure-1"
+                "01-dataverse-mcp-create-2v2",
+                "01-dataverse-mcp-create-2v2-1",
+                "01-dataverse-mcp-create-2v2-2"
               ]
             },
             {
