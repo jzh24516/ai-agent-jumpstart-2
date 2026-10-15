@@ -1497,6 +1497,17 @@
               },
               "paragraphs": [
                 {
+                  "en": "> ⚠️ **Examination only:** This step is only for examining how the workflow is designed to enrich external customer insights using Microsoft 365 Copilot or Cowork. **Do not make any changes, save, or publish this workflow.**",
+                  "zh": "> ⚠️ **仅供查看：** 本步骤仅用于了解此工作流如何使用 Microsoft 365 Copilot 或 Cowork 丰富外部客户洞察。**请勿进行任何更改，也不要保存或发布此工作流。**",
+                  "ja": "> ⚠️ **確認のみ：** このステップは、Microsoft 365 Copilot または Cowork を使用して外部の顧客インサイトを補強するワークフローの設計を確認するためだけのものです。**このワークフローを変更、保存、公開しないでください。**",
+                  "ko": "> ⚠️ **검토 전용:** 이 단계는 Microsoft 365 Copilot 또는 Cowork를 사용하여 외부 고객 인사이트를 보강하도록 워크플로가 설계된 방식을 살펴보기 위한 것입니다. **이 워크플로를 변경하거나 저장하거나 게시하지 마세요.**",
+                  "th": "> ⚠️ **สำหรับตรวจสอบเท่านั้น:** ขั้นตอนนี้มีไว้เพื่อศึกษาวิธีออกแบบ Workflow ให้เสริมข้อมูลเชิงลึกเกี่ยวกับลูกค้าจากภายนอกโดยใช้ Microsoft 365 Copilot หรือ Cowork เท่านั้น **ห้ามแก้ไข บันทึก หรือเผยแพร่ Workflow นี้**",
+                  "hi": "> ⚠️ **केवल जाँच के लिए:** यह चरण केवल यह देखने के लिए है कि Microsoft 365 Copilot या Cowork का उपयोग करके बाहरी ग्राहक इनसाइट्स को समृद्ध करने हेतु workflow कैसे डिज़ाइन किया गया है। **इस workflow में कोई बदलाव न करें, इसे सेव न करें और प्रकाशित न करें।**",
+                  "vi": "> ⚠️ **Chỉ để xem xét:** Bước này chỉ nhằm xem cách Workflow được thiết kế để làm phong phú thông tin chuyên sâu bên ngoài về khách hàng bằng Microsoft 365 Copilot hoặc Cowork. **Không thay đổi, lưu hoặc phát hành Workflow này.**",
+                  "zh-HK": "> ⚠️ **僅供查看：** 此步驟只用於了解此工作流程如何使用 Microsoft 365 Copilot 或 Cowork 豐富外部客戶洞察。**請勿作出任何變更，也不要儲存或發佈此工作流程。**",
+                  "zh-TW": "> ⚠️ **僅供查看：** 此步驟只用於了解此工作流程如何使用 Microsoft 365 Copilot 或 Cowork 豐富外部客戶洞察。**請勿進行任何變更，也不要儲存或發佈此工作流程。**"
+                },
+                {
                   "en": "Create a workflow tool that passes the mentioned account name to Microsoft Copilot 365 for public customer insights to enrich the account / customer 360.   Return structured findings and sources to the agent, then compare them with CRM facts.",
                   "zh": "创建工作流工具，将所选 CRM 客户传给 M365 Copilot 进行公开信息调研，以结构化结果和来源返回 Agent，并与 CRM 事实比较。",
                   "ja": "選択した CRM アカウントを Researcher に渡して公開情報を調査し、構造化した結果と出典を Agent に返すワークフローを作成します。",
