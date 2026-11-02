@@ -1,12 +1,12 @@
 {
   "hostName": "Microsoft",
   "hostLogo": "https://uhf.microsoft.com/images/microsoft/RE1Mu3b.png",
-  "customerName": "HKJC",
-  "customerLogo": "https://consvc.hkjc.com/-/media/Sites/JCEW/Homepage/icon/logo/hkjc-logo-tc-black.svg?rev=51af8053f5364823b724afe738492553&sc_lang=en-US",
-  "preparedBy": "Microsoft HKJC Account Team & CoWork / Agents GBB Team",
-  "preparedDate": "July 16, 2026",
-  "workshopStart": "2026-10-14",
-  "workshopEnd": "2026-10-15",
+  "customerName": "Wharf Hotel",
+  "customerLogo": "https://www.wharfholdings.com/images/header/logo-en.140.png",
+  "preparedBy": "Microsoft Wharf Hotel Team & CoWork / Agents GBB Team",
+  "preparedDate": "Nov 2, 2026",
+  "workshopStart": "2026-11-01",
+  "workshopEnd": "2026-11-30",
   "contacts": [
     {
       "name": "Charles Tiu",
@@ -19,6 +19,6 @@
   ],
   "attendees": [],
   "labUsers": [],
-  "workshopId": "e4535e6e-180b-4efe-97a8-6a13f2cc9bdd",
+  "workshopId": "86ae69a0-6928-4520-9308-969a9f352d92",
   "surveyToken": ""
 }
