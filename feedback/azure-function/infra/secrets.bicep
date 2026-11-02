@@ -29,12 +29,12 @@ resource signingSecret 'Microsoft.KeyVault/vaults/secrets@2023-07-01' = {
   properties: {
     value: workshopSigningSecret
   }
+}
 
-  resource accessConfigSecret 'Microsoft.KeyVault/vaults/secrets@2023-07-01' = {
-    parent: keyVault
-    name: 'workshop-access-config'
-    properties: {
-      value: workshopAccessConfig
-    }
+resource accessConfigSecret 'Microsoft.KeyVault/vaults/secrets@2023-07-01' = {
+  parent: keyVault
+  name: 'workshop-access-config'
+  properties: {
+    value: workshopAccessConfig
   }
 }
